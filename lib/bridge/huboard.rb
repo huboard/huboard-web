@@ -50,8 +50,9 @@ class Huboard
                                 ]
           conn.use ClientId, params unless token || access_token
           conn.use Mimetype
-          conn.response :logger
+          #conn.response :logger
           # disable cache because github api is broken
+          conn.use Bridge::Middleware::Postgres
           conn.use Caching
 
         end
