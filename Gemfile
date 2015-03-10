@@ -36,6 +36,8 @@ gem 'memcachier'
 gem 'solid_use_case'
 gem 'faye'
 gem 'faye-redis'
+gem 'redis'
+gem 'sucker_punch'
 
 # BUNDLE_WITHOUT="development:test:saas"
 gem 'saas', require: nil, path: "vendor/engines/saas"
@@ -51,5 +53,9 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'pry'
+  gem 'annotate'
+  gem 'rspec'
+  gem 'couchrest'
+  gem 'httparty'
 end
 

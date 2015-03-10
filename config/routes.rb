@@ -21,6 +21,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     scope '/:user/:repo' do
+      resources :integrations, only: [:index, :create, :destroy]
+      resources :milestones, only: [:create, :update]
+      resources :links, only: [:index, :create]
+      delete 'links' => 'links#destroy'
+      put 'columns' => 'columns#update'
+      get 'settings' => 'settings#index'
       get 'board' => 'board#index', as: 'board'
       get 'link_labels' => 'board#link_labels', as: 'link_labels'
       get 'linked/:linked_user/:linked_repo' => 'board#linked', as: 'linked_board'
@@ -29,18 +35,26 @@ Rails.application.routes.draw do
       get 'issues/:number/details' => 'issues#details'
       post 'issues' => 'issues#create_issue'
       post 'issues/:number/comment' => 'issues#create_comment'
-      put 'issues/comments/:id' => 'issues#update_issue'
-      put 'issues/:number' => 'issues#update_comment'
+      put 'issues/comments/:id' => 'issues#update_comment'
+      put 'issues/:number' => 'issues#update_issue'
       post 'close' => 'issues#close_issue'
-      put 'issues/:number/blocked' => 'issues#block_issue'
-      delete 'issues/:number/blocked' => 'issues#unblock_issue'
-      put 'issues/:number/ready' => 'issues#issue_ready'
-      delete 'issues/:number/ready' => 'issues#issue_unready'
+      put 'issues/:number/blocked' => 'issues#block'
+      delete 'issues/:number/blocked' => 'issues#unblock'
+      put 'issues/:number/ready' => 'issues#ready'
+      delete 'issues/:number/ready' => 'issues#unready'
       post 'dragcard' => 'issues#drag_card'
       post 'archiveissue' => 'issues#archive_issue'
       post 'reordermilestone' => 'issues#reorder_milestone'
       post 'assigncard' => 'issues#assign_card'
       post 'assignmilestone' => 'issues#assign_milestone'
+    end
+
+    #Webhooks
+    get '/:user/:repo/hooks' => 'webhooks#hooks'
+    post '/api/site/webhook/issue' => 'webhooks#publish_issue_event'
+    post '/api/site/webhook/comment' => 'webhooks#log_comment'
+    post '/api/site/stripe/webhook' => 'webhooks#stripe'
+      
     end
   end
 
