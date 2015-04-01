@@ -1,24 +1,25 @@
 module HealthChecker
   module HealthChecks
-    class GitHubRepoWebhooks
+    class IssueCommentable
       include HealthCheck
 
-      name 'github_repo_webhooks'
-      weight :warning
-      authorization :collaborator
-      message "Click <a href='/some/place'> Here </a> to fix"
+      name 'issue_comment_check'
+      weight :info
+      authorization :all
+      message 'Login if you want to comment on this boards issues'
 
       ## deps
       # {
       #   repo: repo object,
-      #   authorization: :all, :collaborator or :admin
+      #   authorization: :all, :collaborator or :admin,
       #   logged_in: bool
       # }
       ##
       
       def self.perform(deps)
         return not_authorized unless authorized?(deps)
-        #Perform the actual Health Check
+        return pass if deps[:logged_in]
+        return failure
       end
 
       :private
@@ -44,7 +45,6 @@ module HealthChecker
             message: 'Not Authorized'
           }
         end
-
     end
   end
 end

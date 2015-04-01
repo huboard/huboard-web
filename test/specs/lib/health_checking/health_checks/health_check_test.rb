@@ -7,8 +7,10 @@ describe HealthChecking::HealthChecks::HealthCheck do
   class TestMixin
     include HealthCheck
 
+    name "Test"
     weight :heavy
     authorization :all
+    message "Test Message"
 
     def self.perform(deps); end
 
@@ -18,6 +20,12 @@ describe HealthChecking::HealthChecks::HealthCheck do
     end
     def self.check_authorization
       @authorization
+    end
+    def self.check_name
+      @name
+    end
+    def self.check_message
+      @message
     end
   end
 
@@ -39,6 +47,14 @@ describe HealthChecking::HealthChecks::HealthCheck do
 
     it "sets an authorization level on the parent class" do
       assert_equal(TestMixin.check_authorization, :all)
+    end
+
+    it "sets a name on the parent class" do
+      assert_equal(TestMixin.check_name, "Test")
+    end
+
+    it "sets a message on the parent class" do
+      assert_equal(TestMixin.check_message, "Test Message")
     end
   end
 

@@ -17,6 +17,14 @@ module HealthChecking
           @authorization = authorization
         end
 
+        def name(name)
+          @name = name
+        end
+
+        def message(message)
+          @message = message
+        end
+
         :private
           def authorized(deps)
             auth_levels = {
