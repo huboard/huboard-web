@@ -9,16 +9,6 @@ module HealthChecking
       module ClassMethods
         extend self
 
-        def authorize!
-          old_perform = class_method(:perform)
-          class_eval do 
-            define_singleton_method :perform do |*args|
-              return old_perform.bind(self).call(args) if authorized
-              {message: "Not Authorized"}
-            end
-          end
-        end
-
         def weight(weight)
           @weight = weight
         end
@@ -28,9 +18,15 @@ module HealthChecking
         end
 
         :private
-
-          def authorized
-            ##authorize based on the current authorization
+          def authorized(deps)
+            auth_levels = {
+              all: 0,
+              collaborator: 1,
+              admin: 2
+            }
+            current = auth_levels[deps[:authorization]]
+            required = auth_levels[@authorization]
+            deps[:logged_in] && current >= required
           end
       end
     end

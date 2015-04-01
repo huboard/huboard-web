@@ -25,9 +25,9 @@ describe HealthChecking::Checker do
   #Setup
   before do
     @dependencies = {
-      board: "Board",
-      current_user: "User",
-      repo: "Repo"
+      repo: "Repo",
+      logged_in: true,
+      authorization: :collaborator
     }
     @health_checks = [HealthChecks::TestCheck1, HealthChecks::TestCheck2]
     @board_check = BoardCheck.new(@dependencies)

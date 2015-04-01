@@ -10,8 +10,7 @@ describe HealthChecking::HealthChecks::HealthCheck do
     weight :heavy
     authorization :all
 
-    authorize!
-    def perform(deps); end
+    def self.perform(deps); end
 
     #purely test fixture methods to expose underlying private vars
     def self.check_weight
@@ -25,9 +24,9 @@ describe HealthChecking::HealthChecks::HealthCheck do
   #Setup
   before do
     @dependencies = {
-      board: "Board",
-      current_user: "User",
-      repo: "Repo"
+      repo: "Repo",
+      logged_in: true,
+      authorization: :collaborator
     }
   end
 
@@ -43,11 +42,21 @@ describe HealthChecking::HealthChecks::HealthCheck do
     end
   end
 
-  describe "Authorizing" do
+  describe "github authorizing" do
 
-    it "authorizes before performing" do
-      TestMixin.perform(@dependencies)
+    describe "is authorized" do
+      it "is true" do
+        auth = TestMixin.send(:authorized, @dependencies)
+        assert_equal(auth, true)
+      end
     end
 
+    describe "is not authorized" do
+      it "is false" do
+        @dependencies[:authorization] = :all
+        auth = TestMixin.send(:authorized, @dependencies)
+        assert_equal(auth, true)
+      end
+    end
   end
 end

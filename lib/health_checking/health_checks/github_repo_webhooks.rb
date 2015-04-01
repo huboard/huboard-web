@@ -5,10 +5,16 @@ module HealthChecker
 
       weight :warning
       authorization :collaborator
-      
-      authorize!
-      def self.perform(deps)
 
+      ## deps
+      # {
+      #   repo: repo object,
+      #   authorization: (:all, :collaborator, :admin),
+      #   logged_in: bool
+      # }
+      
+      def self.perform(deps)
+        return {message: "Not Authorized"} unless authorized?(deps)
       end
 
     end
