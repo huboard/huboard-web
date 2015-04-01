@@ -64,5 +64,6 @@ group :development, :test do
   gem 'rspec'
   gem 'couchrest'
   gem 'httparty'
+  gem 'mocha'
 end
 
