@@ -1,14 +1,18 @@
 module HealthChecks
-  module HealthCheck
+ module HealthCheck
 
     def self.included(base)
       base.extend ClassMethods
+      base.class_attribute :_weight
+      base.class_attribute :_authorization
+      base.class_attribute :_name
+      base.class_attribute :_message
     end
 
     #Supports carrying over DSL attributes to the instantiated
     #parent class
     def initialize
-      @weight = self.class.instance_variable_get('@weight')
+      #@weight = self.class.instance_variable_get('@weight')
       @authorization = self.class.instance_variable_get('@authorization')
       @name = self.class.instance_variable_get('@name')
       @message = self.class.instance_variable_get('@message')
@@ -23,7 +27,7 @@ module HealthChecks
           admin: 2
         }
         current = auth_levels[deps[:authorization]]
-        required = auth_levels[@authorization]
+        required = auth_levels[_authorization]
         deps[:logged_in] && current >= required
       end
 
@@ -31,19 +35,19 @@ module HealthChecks
       extend self
 
       def weight(weight)
-        @weight = weight
+        self._weight = weight
       end
 
       def authorization(authorization)
-        @authorization = authorization
+        self._authorization = authorization
       end
 
       def name(name)
-        @name = name
+        self._name = name
       end
 
       def message(message)
-        @message = message
+        self._message = message
       end
 
     end

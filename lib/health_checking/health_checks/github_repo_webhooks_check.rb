@@ -1,5 +1,5 @@
 module HealthChecks
-  class GitHubRepoWebhooksCheck
+  class GithubRepoWebhooksCheck
     include HealthCheck
 
     name 'github_repo_webhooks'

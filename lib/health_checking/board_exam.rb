@@ -11,7 +11,7 @@ module HealthChecking
     end
 
     @@checks = [
-      HealthChecks::GitHubRepoWebhooksCheck,
+      HealthChecks::GithubRepoWebhooksCheck,
       HealthChecks::IssueCommentableCheck,
     ]
 

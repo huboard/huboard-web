@@ -13,20 +13,6 @@ describe HealthChecks::HealthCheck do
     message "Test Message"
 
     def perform(deps); end
-
-    #purely test fixture methods to expose underlying private vars
-    def check_weight
-      @weight
-    end
-    def check_authorization
-      @authorization
-    end
-    def check_name
-      @name
-    end
-    def check_message
-      @message
-    end
   end
 
   #Setup
@@ -43,19 +29,19 @@ describe HealthChecks::HealthCheck do
   describe "On Mixin" do
 
     it "sets a weight on the parent class" do
-      assert_equal(:heavy, @sut.check_weight)
+      assert_equal(:heavy, @sut._weight)
     end
 
     it "sets an authorization level on the parent class" do
-      assert_equal(:all, @sut.check_authorization)
+      assert_equal(:all, @sut._authorization)
     end
 
     it "sets a name on the parent class" do
-      assert_equal("Test", @sut.check_name)
+      assert_equal("Test", @sut._name)
     end
 
     it "sets a message on the parent class" do
-      assert_equal("Test Message", @sut.check_message)
+      assert_equal("Test Message", @sut._message)
     end
   end
 
