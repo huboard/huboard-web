@@ -1,7 +1,7 @@
 require 'test_helper'
 
 include HealthChecking::HealthChecks
-describe HealthChecking::HealthChecks::HealthCheck do
+describe HealthChecks::HealthCheck do
 
   #Mock the Dependencies
   class TestMixin

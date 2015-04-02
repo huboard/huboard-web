@@ -1,5 +1,5 @@
 module HealthChecker
-  class DashBoardCheck
+  class DashBoardExam
 
     attr_reader :deps
     def initialize(deps)

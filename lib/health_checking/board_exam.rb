@@ -1,5 +1,5 @@
 module HealthChecking
-  class BoardCheck
+  class BoardExam
 
     attr_reader :deps
     def initialize(deps)
@@ -11,8 +11,8 @@ module HealthChecking
     end
 
     @@checks = [
-      HealthChecks::GitHubRepoWebhooks,
-      HealthChecks::IssueCommentable,
+      HealthChecks::GitHubRepoWebhooksCheck,
+      HealthChecks::IssueCommentableCheck,
     ]
 
   end
