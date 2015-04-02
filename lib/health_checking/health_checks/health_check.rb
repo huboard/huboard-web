@@ -9,16 +9,6 @@ module HealthChecks
       base.class_attribute :_message
     end
 
-    #Supports carrying over DSL attributes to the instantiated
-    #parent class
-    def initialize
-      #@weight = self.class.instance_variable_get('@weight')
-      @authorization = self.class.instance_variable_get('@authorization')
-      @name = self.class.instance_variable_get('@name')
-      @message = self.class.instance_variable_get('@message')
-      super
-    end
-
     :private
       def authorized(deps)
         auth_levels = {
