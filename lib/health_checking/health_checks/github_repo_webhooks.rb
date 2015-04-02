@@ -15,7 +15,7 @@ module HealthChecks
     # }
     ##
     
-    def self.perform(deps)
+    def perform(deps)
       return not_authorized unless authorized?(deps)
       #Perform the actual Health Check
     end

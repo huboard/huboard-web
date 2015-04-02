@@ -15,7 +15,7 @@ module HealthChecks
     # }
     ##
     
-    def self.perform(deps)
+    def perform(deps)
       return not_authorized unless authorized?(deps)
       return pass if deps[:logged_in]
       return failure

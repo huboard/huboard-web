@@ -43,9 +43,9 @@ describe HealthChecking::Doctor do
   describe "Performing Checks" do
     it "performs a health check based on the exam" do
       @board_exam.expects(:checks).returns(@health_checks)
-      TestCheck1.expects(:perform).with(@dependencies)
+      TestCheck1.any_instance.expects(:perform).with(@dependencies)
         .returns({payload: 'payload1'})
-      TestCheck2.expects(:perform).with(@dependencies)
+      TestCheck2.any_instance.expects(:perform).with(@dependencies)
         .returns({payload: 'payload2'})
 
       @payload = @health_checker.check

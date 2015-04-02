@@ -9,7 +9,7 @@ module HealthChecking
 
     def check
       checks.each do |check|
-        @payload << check.perform(@exam.deps)
+        @payload << check.new.perform(@exam.deps)
       end
       @payload
     end
