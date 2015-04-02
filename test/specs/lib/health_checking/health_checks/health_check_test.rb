@@ -44,22 +44,4 @@ describe HealthChecks::HealthCheck do
       assert_equal("Test Message", @sut._message)
     end
   end
-
-  describe "github authorizing" do
-
-    describe "is authorized" do
-      it "is true" do
-        auth = @sut.send(:authorized, @dependencies)
-        assert_equal(auth, true)
-      end
-    end
-
-    describe "is not authorized" do
-      it "is false" do
-        @dependencies[:authorization] = :all
-        auth = @sut.send(:authorized, @dependencies)
-        assert_equal(auth, true)
-      end
-    end
-  end
 end

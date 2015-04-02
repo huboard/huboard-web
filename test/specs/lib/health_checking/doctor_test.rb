@@ -6,9 +6,17 @@ describe HealthChecking::Doctor do
   #Mock Dependencies
   module HealthChecking
     class TestCheck1
+      def _authorization; :collaborator; end
+      def _name; 'Test1'; end
+      def _message; 'TestMessage1'; end
+      def _weight; :feather; end
       def perform(deps); end
     end
     class TestCheck2
+      def _authorization; :collaborator; end
+      def _name; 'Test2'; end
+      def _message; 'TestMessage2'; end
+      def _weight; :lead; end
       def perform(deps); end
     end
     class BoardExam
@@ -16,47 +24,88 @@ describe HealthChecking::Doctor do
       def initialize(deps)
         @deps = deps
       end
-      def checks; end
+      def checks
+        [TestCheck1, TestCheck2]
+      end
     end
   end
 
   #Setup
+
+
   before do
     @dependencies = {
       repo: "Repo",
       logged_in: true,
       authorization: :collaborator
     }
-    @health_checks = [TestCheck1, TestCheck2]
-    @board_exam = BoardExam.new(@dependencies)
-    @health_checker = Doctor.new(@board_exam)
   end
+
+  let(:board_exam){ BoardExam.new(@dependencies) }
+  let(:sut){ Doctor.new(board_exam) }
 
   #Assert
   describe "On Init" do
     it "it sets an exam" do
-      assert_equal(@health_checker.exam, @board_exam)
-      assert_equal(@health_checker.payload, [])
+      assert_equal(sut.exam, board_exam)
+      assert_equal(sut.payload, [])
     end
   end
 
-  describe "Performing Checks" do
-    it "performs a health check based on the exam" do
-      @board_exam.expects(:checks).returns(@health_checks)
-      TestCheck1.any_instance.expects(:perform).with(@dependencies)
-        .returns({payload: 'payload1'})
-      TestCheck2.any_instance.expects(:perform).with(@dependencies)
-        .returns({payload: 'payload2'})
+  describe "Performing All Checks" do
 
-      @payload = @health_checker.check
-      assert_equal({payload: 'payload1'}, @payload[0])
-      assert_equal({payload: 'payload2'}, @payload[1])
+    it "should perform on all the checks" do
+      TestCheck1.any_instance.expects(:perform).with(@dependencies)
+      TestCheck2.any_instance.expects(:perform).with(@dependencies)
+
+      sut.check
     end
 
     it "returns the exams health checks" do
-      @board_exam.expects(:checks).returns(@health_checks)
+      board_exam.expects(:checks).returns(@health_checks)
+      assert_equal(sut.checks, @health_checks)
+    end
 
-      assert_equal(@health_checker.checks, @health_checks)
+    before do
+      sut.instance_variable_set('@current_check', TestCheck1.new)
+      @pass_payload = sut.send(:pass_payload)
+      @fail_payload = sut.send(:fail_payload)
+      @not_authorized_payload = sut.send(:not_authorized_payload)
+    end
+
+    describe "Check is Authorized and Passes" do
+      it "performs a successful health check based on the exam" do
+        TestCheck1.any_instance.expects(:perform).with(@dependencies)
+          .returns(true)
+
+        payload = sut.check
+        assert_equal(@pass_payload, payload.first)
+      end
+    end
+
+    describe "Check is Authorized and Fails" do
+      it "performs a failed health check based on the exam" do
+        TestCheck1.any_instance.expects(:perform).with(@dependencies)
+          .returns(false)
+
+        payload = sut.check
+        assert_equal(@fail_payload, payload.first)
+      end
+    end
+
+    describe "Check is not Authorized" do
+      it "performs no health check" do
+        deps = {
+          repo: "Repo",
+          logged_in: true,
+          authorization: :all
+        }
+        board_exam = BoardExam.new(deps)
+        sut = Doctor.new(board_exam)
+
+        payload = sut.check
+        assert_equal(@not_authorized_payload, payload.first)
+      end
     end
   end
 end
