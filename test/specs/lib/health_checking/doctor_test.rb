@@ -80,6 +80,7 @@ describe HealthChecking::Doctor do
 
         payload = sut.check
         assert_equal(@pass_payload, payload.first)
+        assert_equal(2, sut.payload.size)
       end
     end
 
@@ -90,6 +91,7 @@ describe HealthChecking::Doctor do
 
         payload = sut.check
         assert_equal(@fail_payload, payload.first)
+        assert_equal(2, sut.payload.size)
       end
     end
 
@@ -105,6 +107,7 @@ describe HealthChecking::Doctor do
 
         payload = sut.check
         assert_equal(@not_authorized_payload, payload.first)
+        assert_equal(2, sut.payload.size)
       end
     end
   end

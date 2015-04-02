@@ -46,7 +46,7 @@ module HealthChecking
         {
           name: @current_check._name,
           weight: @current_check._weight,
-          message: @current_check.message,
+          message: @current_check._message,
           success: false
         }
       end
