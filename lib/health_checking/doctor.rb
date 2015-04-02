@@ -35,15 +35,29 @@ module HealthChecking
       end
 
       def pass_payload
-        "PASS"
+        {
+          name: @current_check._name,
+          weight: @current_check._weight,
+          success: true
+        }
       end
 
       def fail_payload
-        "FAIL"
+        {
+          name: @current_check._name,
+          weight: @current_check._weight,
+          message: @current_check.message,
+          success: false
+        }
       end
 
       def not_authorized_payload
-        "NOT AUTHORIZED"
+        {
+          name: @current_check._name,
+          weight: @current_check._weight,
+          message: 'Not Authorized',
+          success: false
+        }
       end
   end
 end

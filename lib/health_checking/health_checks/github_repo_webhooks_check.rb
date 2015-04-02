@@ -16,33 +16,7 @@ module HealthChecks
     ##
     
     def perform(deps)
-      return not_authorized unless authorized?(deps)
-      #Perform the actual Health Check
+
     end
-
-    :private
-      def self.pass
-        {
-          name: @name,
-          pass: true
-        }
-      end
-
-      def self.failure
-        {
-          name: @name,
-          weight: @weight,
-          message: @message,
-          pass: false
-        }
-      end
-
-      def self.not_authorized
-        {
-          name: @name,
-          message: 'Not Authorized'
-        }
-      end
-
   end
 end
