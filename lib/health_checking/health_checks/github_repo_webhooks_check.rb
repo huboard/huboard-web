@@ -9,14 +9,14 @@ module HealthChecks
 
     ## deps
     # {
-    #   repo: repo object,
+    #   board: board object,
     #   authorization: :all, :collaborator or :admin
     #   logged_in: bool
     # }
     ##
     
     def perform(deps)
-
+      deps[:board].hook_exists?
     end
   end
 end

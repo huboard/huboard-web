@@ -9,14 +9,14 @@ module HealthChecks
 
     ## deps
     # {
-    #   repo: repo object,
     #   authorization: :all, :collaborator or :admin,
     #   logged_in: bool
     # }
     ##
     
+    #Passing authorization implicity states that the user passes
     def perform(deps)
-
+      true
     end
   end
 end

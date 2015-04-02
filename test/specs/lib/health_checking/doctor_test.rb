@@ -35,7 +35,7 @@ describe HealthChecking::Doctor do
 
   before do
     @dependencies = {
-      repo: "Repo",
+      board: "board",
       logged_in: true,
       authorization: :collaborator
     }
@@ -98,7 +98,7 @@ describe HealthChecking::Doctor do
     describe "Check is not Authorized" do
       it "performs no health check" do
         deps = {
-          repo: "Repo",
+          board: "board",
           logged_in: true,
           authorization: :all
         }

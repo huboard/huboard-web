@@ -18,7 +18,7 @@ describe HealthChecks::HealthCheck do
   #Setup
   before do
     @dependencies = {
-      repo: "Repo",
+      board: "board",
       logged_in: true,
       authorization: :collaborator
     }
