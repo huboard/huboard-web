@@ -54,6 +54,21 @@ module ApplicationHelper
   def is_collaborator?(repo)
     repo['permissions'] && repo['permissions']['push'] && logged_in?
   end
+  def authorization_level
+    return :all if !logged_in?
+    is_admin?(params[:user]) ? :admin : :collaborator
+  end
+  def is_admin?(user)
+    account_type = gh.users(user)["type"]
+    if account_type == "User"
+      is_admin = gh.user["login"] == user
+    elsif account_type == "Organization"
+      orgs = gh.user.memberships
+      orgs_list = orgs.select{|org| org["role"] == "admin"}
+      is_admin = orgs_list.any?{|org| org["organization"]["login"] == @user }
+    end
+    is_admin
+  end
   def markdown(text)
    Redcarpet::Markdown.new(Redcarpet::Render::Safe).render(text).html_safe
   end

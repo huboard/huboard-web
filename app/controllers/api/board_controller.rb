@@ -20,5 +20,14 @@ module Api
         render  json: response
       end
     end
+
+    def health_check
+      exam = HealthChecking::BoardExam.new({
+        board: huboard.board(params[:user], params[:repo]),
+        authorization: authorization_level,
+        logged_in: logged_in? })
+      payload = HealthChecking::Doctor.new(exam).check
+      render json: payload
+    end
   end
 end
