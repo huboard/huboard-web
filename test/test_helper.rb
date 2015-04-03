@@ -11,3 +11,13 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+ApplicationController.class_eval do
+  #Skips authorization on controller test by
+  #overwriting Saas::BeforeAction.check_account
+  def check_account; end
+
+  #Don't attempt to queue a job during controller test
+  def queue_job; end
+end
+
