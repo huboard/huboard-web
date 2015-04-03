@@ -1,11 +1,10 @@
 require 'test_helper'
 
-include HealthChecking::HealthChecks
-describe HealthChecks::HealthCheck do
+describe HealthChecking::HealthChecks::HealthCheck do
 
   #Mock the Dependencies
   class TestMixin
-    include HealthCheck
+    include HealthChecking::HealthChecks::HealthCheck
 
     name "Test"
     weight :heavy

@@ -1,32 +1,29 @@
 require 'test_helper'
 
-include HealthChecking
 describe HealthChecking::Doctor do
 
   #Mock Dependencies
-  module HealthChecking
-    class TestCheck1
-      def _authorization; :collaborator; end
-      def _name; 'Test1'; end
-      def _message; 'TestMessage1'; end
-      def _weight; :feather; end
-      def perform(deps); end
+  class TestCheck1
+    def _authorization; :collaborator; end
+    def _name; 'Test1'; end
+    def _message; 'TestMessage1'; end
+    def _weight; :feather; end
+    def perform(deps); end
+  end
+  class TestCheck2
+    def _authorization; :collaborator; end
+    def _name; 'Test2'; end
+    def _message; 'TestMessage2'; end
+    def _weight; :lead; end
+    def perform(deps); end
+  end
+  class MockBoardExam
+    attr_reader :deps
+    def initialize(deps)
+      @deps = deps
     end
-    class TestCheck2
-      def _authorization; :collaborator; end
-      def _name; 'Test2'; end
-      def _message; 'TestMessage2'; end
-      def _weight; :lead; end
-      def perform(deps); end
-    end
-    class BoardExam
-      attr_reader :deps
-      def initialize(deps)
-        @deps = deps
-      end
-      def checks
-        [TestCheck1, TestCheck2]
-      end
+    def checks
+      [TestCheck1, TestCheck2]
     end
   end
 
@@ -41,8 +38,8 @@ describe HealthChecking::Doctor do
     }
   end
 
-  let(:board_exam){ BoardExam.new(@dependencies) }
-  let(:sut){ Doctor.new(board_exam) }
+  let(:board_exam){ MockBoardExam.new(@dependencies) }
+  let(:sut){ HealthChecking::Doctor.new(board_exam) }
 
   #Assert
   describe "On Init" do
@@ -102,8 +99,8 @@ describe HealthChecking::Doctor do
           logged_in: true,
           authorization: :all
         }
-        board_exam = BoardExam.new(deps)
-        sut = Doctor.new(board_exam)
+        board_exam = MockBoardExam.new(deps)
+        sut = HealthChecking::Doctor.new(board_exam)
 
         payload = sut.check
         assert_equal(@not_authorized_payload, payload.first)
