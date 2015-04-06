@@ -1,0 +1,7 @@
+<div class='health_checks'>
+  <ul>
+{{#each healthcheck in model}}
+  {{hb-health-check message=healthcheck.message weight=healthcheck.weight}}
+{{/each}}
+  </ul>
+</div>

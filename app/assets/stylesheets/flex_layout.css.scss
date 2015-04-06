@@ -517,3 +517,46 @@
 .breadcrumb {
   margin: -43px 0 7px 0; 
 }
+
+.health_checks {
+  margin-left: auto;
+  padding-right: 10px;
+  padding-top: 6px;
+  ul {
+    list-style-type: none;
+    li {
+      padding: 6px;
+      float: right;
+      display: inline;
+    }
+  }
+}
+
+.health_check {
+  position: relative;
+
+  .message-icon {
+    font-size: 20px;
+    .ui-icon-alert {
+      color: orange;
+    }
+    .ui-icon-x {
+      color: red;
+    }
+  }
+  .message-tooltip {
+    display: none;
+  }
+  &:hover {
+    .message-tooltip{
+      min-width: 100px;
+      position: absolute;
+      display: block;
+      z-index: 10;
+      padding: 6px;
+      margin: 0px;
+      font-size: smaller;
+      right: 0px;
+    }
+  }
+}
