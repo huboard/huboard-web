@@ -31,7 +31,7 @@ module HealthChecking
         }
         current = auth_levels[@exam.deps[:authorization]]
         required = auth_levels[@current_check._authorization]
-        @exam.deps[:logged_in] && current >= required
+        current >= required
       end
 
       def pass_payload

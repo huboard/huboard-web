@@ -15,9 +15,8 @@ module HealthChecking
       # }
       ##
       
-      #Passing authorization implicity states that the user passes
       def perform(deps)
-        true
+        deps[:logged_in]
       end
     end
   end
