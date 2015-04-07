@@ -12,6 +12,7 @@
   </div>
   {{/if}}
 
+  {{outlet healthCheck}}
   {{#if App.repo.is_collaborator}}
   <div class="create-button">
     {{#link-to 'settings' class='hb-icon-link' }}

@@ -1,0 +1,14 @@
+<div class='health_checks'>
+  {{#if processing}}
+  <div class="spinner">
+    {{hb-spinner}}
+  </div>
+  {{/if}}
+
+  <ul>
+  {{#each check in failedHealthChecks}}
+    {{hb-health-check message=check.message weight=check.weight}}
+  {{/each}}
+  </ul>
+</div>
+
