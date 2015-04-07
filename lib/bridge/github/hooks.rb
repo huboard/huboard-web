@@ -5,6 +5,10 @@ class Huboard
       gh.hooks.any? { |x| x['name'] == 'huboard' }
     end
 
+    def hook
+      gh.hooks.select{|h| h['name'] == 'huboard' }.first
+    end
+
     def delete_hook(id)
       gh.hooks(id).destroy
     end
