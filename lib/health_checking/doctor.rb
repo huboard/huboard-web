@@ -17,6 +17,14 @@ module HealthChecking
       @payload
     end
 
+    def check_only(health_check)
+      @current_check = health_check.to_s.classify.constantize.new
+      return @payload << not_authorized_payload if !authorized
+      @payload << (@current_check.perform(@exam.deps) ?
+        pass_payload : fail_payload)
+      @payload
+    end
+
     def checks
       @exam.checks
     end
