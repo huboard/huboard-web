@@ -32,6 +32,6 @@ class Api::BoardControllerTest < ActionController::TestCase
 
     #Assert
     assert_response :success
-    assert_equal(payload, JSON.parse(response.body))
+    assert_equal({'data' => payload}, JSON.parse(response.body))
   end
 end

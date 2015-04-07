@@ -27,7 +27,7 @@ module Api
         authorization: authorization_level,
         logged_in: logged_in? })
       payload = HealthChecking::Doctor.new(exam).check
-      render json: payload
+      render json: {data: payload}
     end
   end
 end
