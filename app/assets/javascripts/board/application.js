@@ -169,8 +169,13 @@ module.exports = HbColumnCrumbComponent;
 
 
 },{}],6:[function(require,module,exports){
+var Markdown = require("../vendor/marked");
+
 var HbHealthCheckComponent = Ember.Component.extend({
   message: null,
+  messageMarkdown: function(){
+    return Markdown(this.get('message'));
+  }.property('message'),
   weight: null,
   tagName: 'li',
   classNames: ['health_check'],
@@ -194,7 +199,7 @@ var HbHealthCheckComponent = Ember.Component.extend({
 
 module.exports = HbHealthCheckComponent;
 
-},{}],7:[function(require,module,exports){
+},{"../vendor/marked":83}],7:[function(require,module,exports){
 var HbLabelComponent = Ember.Component.extend({
   tagName: "div",
   classNameBindings: [":hb-menu-item", "colorClass", "selected:active"],
@@ -1368,23 +1373,23 @@ module.exports = FiltersController;
 
 },{}],26:[function(require,module,exports){
 var HealthCheckController = Ember.ArrayController.extend({
-  model: [
-    {
-     name: 'health_check_1',
-     message: 'This is a warning about something',
-     weight: 'warning'
-    },
-    {
-     name: 'health_check_1',
-     message: 'This is a very long warning about something to test what a real long message would look like',
-     weight: 'warning'
-    },
-    {
-     name: 'health_check_2',
-     message: 'This is an Error',
-     weight: 'error'
-    }
-  ]
+  model: [],
+  fetchHealthChecks: function(){
+    var self = this;
+    var repo = App.get("repo.full_name");
+    self.set("processing", true);
+    Ember.$.getJSON("/api/" + repo + "/healthcheck")
+      .success(function(response){
+        self.set("processing", false);
+        self.set("model", response.data);
+      });
+  }.on("init"),
+  failedHealthChecks: function(){
+   return this.get("model").filter(function(h){
+     return h.success === false && h.message !== "Not Authorized";
+   });
+  }.property("model.each"),
+  processing: false,
 });
 
 module.exports = HealthCheckController
@@ -4128,29 +4133,45 @@ function program7(depth0,data) {
 Ember.TEMPLATES['health_check'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
 
 function program1(depth0,data) {
   
-  var buffer = '', stack1, hashContexts, hashTypes, options;
-  data.buffer.push("\n  ");
-  hashContexts = {'message': depth0,'weight': depth0};
-  hashTypes = {'message': "ID",'weight': "ID"};
-  options = {hash:{
-    'message': ("healthcheck.message"),
-    'weight': ("healthcheck.weight")
-  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers['hb-health-check'] || depth0['hb-health-check']),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "hb-health-check", options))));
-  data.buffer.push("\n");
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("\n  <div class=\"spinner\">\n    ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "hb-spinner", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n  </div>\n  ");
   return buffer;
   }
 
-  data.buffer.push("<div class='health_checks'>\n  <ul>\n");
+function program3(depth0,data) {
+  
+  var buffer = '', stack1, hashContexts, hashTypes, options;
+  data.buffer.push("\n    ");
+  hashContexts = {'message': depth0,'weight': depth0};
+  hashTypes = {'message': "ID",'weight': "ID"};
+  options = {hash:{
+    'message': ("check.message"),
+    'weight': ("check.weight")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['hb-health-check'] || depth0['hb-health-check']),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "hb-health-check", options))));
+  data.buffer.push("\n  ");
+  return buffer;
+  }
+
+  data.buffer.push("<div class='health_checks'>\n  ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "healthcheck", "in", "model", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "processing", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n  </ul>\n</div>\n");
+  data.buffer.push("\n\n  <ul>\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers.each.call(depth0, "check", "in", "failedHealthChecks", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n  </ul>\n</div>\n\n");
   return buffer;
   
 });
@@ -6318,7 +6339,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 Ember.TEMPLATES['components/hb-health-check'] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', hashContexts, hashTypes, escapeExpression=this.escapeExpression;
+  var buffer = '', stack1, hashContexts, hashTypes, escapeExpression=this.escapeExpression;
 
 
   data.buffer.push("<div class='message-icon'>\n  <span ");
@@ -6333,11 +6354,14 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
     'class': (":message-tooltip messageWeight")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n  <p> ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "message", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" </p>\n</div>\n");
+  data.buffer.push(">\n  ");
+  hashContexts = {'unescaped': depth0};
+  hashTypes = {'unescaped': "STRING"};
+  stack1 = helpers._triageMustache.call(depth0, "messageMarkdown", {hash:{
+    'unescaped': ("true")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n</div>\n");
   return buffer;
   
 });

@@ -1,21 +1,21 @@
 var HealthCheckController = Ember.ArrayController.extend({
-  model: [
-    {
-     name: 'health_check_1',
-     message: 'This is a warning about something',
-     weight: 'warning'
-    },
-    {
-     name: 'health_check_1',
-     message: 'This is a very long warning about something to test what a real long message would look like',
-     weight: 'warning'
-    },
-    {
-     name: 'health_check_2',
-     message: 'This is an Error',
-     weight: 'error'
-    }
-  ]
+  model: [],
+  fetchHealthChecks: function(){
+    var self = this;
+    var repo = App.get("repo.full_name");
+    self.set("processing", true);
+    Ember.$.getJSON("/api/" + repo + "/healthcheck")
+      .success(function(response){
+        self.set("processing", false);
+        self.set("model", response.data);
+      });
+  }.on("init"),
+  failedHealthChecks: function(){
+   return this.get("model").filter(function(h){
+     return h.success === false && h.message !== "Not Authorized";
+   });
+  }.property("model.each"),
+  processing: false,
 });
 
 module.exports = HealthCheckController

@@ -1,5 +1,10 @@
+var Markdown = require("../vendor/marked");
+
 var HbHealthCheckComponent = Ember.Component.extend({
   message: null,
+  messageMarkdown: function(){
+    return Markdown(this.get('message'));
+  }.property('message'),
   weight: null,
   tagName: 'li',
   classNames: ['health_check'],
