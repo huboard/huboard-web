@@ -7,8 +7,8 @@ module Api
     end
 
     def create_issue
-      @issue = huboard.board(params[:user],params[:repo]).create_issue params
-      render json: @issue
+      issue = huboard.board(params[:user],params[:repo]).create_issue params
+      render json: issue
     end
 
     def update_issue
@@ -19,14 +19,14 @@ module Api
 
     def close_issue
       user, repo, number = params[:user], params[:repo], params[:number]
-      @issue = huboard.board(user, repo).issue(number).close
-      render json: @issue
+      issue = huboard.board(user, repo).issue(number).close
+      render json: issue
     end
 
     def reopen_issue
       user, repo, number = params[:user], params[:repo], params[:number]
-      @issue = huboard.board(user, repo).issue(number).open
-      render json: @issue
+      issue = huboard.board(user, repo).issue(number).open
+      render json: issue
     end
 
     #TODO original api checks if comment['message'] exists
