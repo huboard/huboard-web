@@ -57,6 +57,14 @@ var AssigneeController = Ember.ObjectController.extend({
       return Ember.get(f, "mode") !== 0;
     });
   }.property("filters.@each.mode"),
+  resetMembersFilter: function(){
+    var self = this;
+    Ember.run.once(function(){
+      if(!self.get("filtersActive")){
+        App.set("memberFilter", null);
+      }
+    });
+  }.observes("filtersActive")
 });
 
 export default AssigneeController;
