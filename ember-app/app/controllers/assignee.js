@@ -9,7 +9,7 @@ var AssigneeController = Ember.ObjectController.extend({
     clearFilters: function(){
       var self = this;
       Ember.run.once(function(){
-        var params = ["assignee"];
+        var params = ["member"];
         _.each(params, function(p){ self.get(p).clear(); });
         var allFilters = self.get("filters");
         _.each(allFilters, function(f){
@@ -19,7 +19,7 @@ var AssigneeController = Ember.ObjectController.extend({
     }
   },
   assigneesBinding: "controllers.application.model.board.assignees",
-  assigneeBinding: "controllers.application.assignee",
+  memberBinding: "controllers.application.member",
   issuesBinding: "controllers.application.model.board.issues",
   memberFilterBinding: "App.memberFilter",
   lastClicked: null,

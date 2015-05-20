@@ -6,7 +6,7 @@ var AssigneeFilterView = Ember.View.extend({
   classNameBindings: ["modeClass"],
   attributeBindings: ["draggable"],
   draggable: true,
-  queryParam: "assignee",
+  queryParam: "member",
   dragStart: function(ev){
     ev.dataTransfer.effectAllowed = "copy";
     ev.dataTransfer.setData("text/huboard-assignee", this.get("assignee"));
