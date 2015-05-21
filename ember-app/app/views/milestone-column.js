@@ -88,7 +88,13 @@ var ColumnView = Ember.ContainerView.extend({
   classNameBindings:[":milestone","controller.cssClass",":column","isCollapsed:hb-state-collapsed","isHovering:hovering"],
   isCollapsed: Ember.computed.alias("controller.isCollapsed"),
   isHovering: Ember.computed.alias("controller.isHovering"),
-  childViews: ["headerView","quickIssueView", CollectionView, "collapsedView"],
+  init: function(){
+    this._super();
+    this.pushObject(this.createChildView(this.headerView));
+    this.pushObject(this.createChildView(this.quickIssueView));
+    this.pushObject(this.createChildView(CollectionView));
+    this.pushObject(this.createChildView(this.collapsedView));
+  },
   headerView: Ember.View.extend({
     tagName: "h3",
     templateName: "milestoneColumnHeader",
