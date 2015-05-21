@@ -16,7 +16,7 @@
       </div>
       {{/if}}
       <ul class="unstyled links">
-        {{#each link in controller itemViewClass='settings.link'}}
+        {{#each controller itemViewClass='settings.link' as |link|}}
             <div class="link-states">
               <i class="ui-icon ui-icon-link"></i>
               <i class="ui-icon ui-icon-unlink"></i>
@@ -53,7 +53,7 @@
                   </div>
                 </div>
                 <div class='flex-right'>
-                  <button class="hb-button hb-button-grey" {{bind-attr disabled=link.isDisabled  }} {{action 'copy' model}}>
+                  <button class="hb-button hb-button-grey" {{attr disabled=link.isDisabled  }} {{action 'copy' model}}>
                     Copy parent HuBoard
                   </button>
                 </div>

@@ -34,8 +34,8 @@
       </div>
     </div>
     {{/if}}
-    {{#each listItem in listItems}}
-    <div {{bind-attr class=":hb-menu-item listItem.selected:checked"}} >
+    {{#each listItems as |listItems|}}
+    <div {{attr class=":hb-menu-item listItem.selected:checked"}} >
       <div {{action "assignTo" listItem.item}} >
         <i class="ui-icon ui-icon-checkmark"></i>
         {{listItem.item.title}}

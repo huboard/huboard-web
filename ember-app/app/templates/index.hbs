@@ -1,6 +1,6 @@
 <div class="main-toolbar">
   <div class="sidebar-toggle">
-    <a href="#" {{action "toggleSidebar" }}>Filters <i {{bind-attr class=":ui-icon isSidebarOpen:ui-icon-triangle-1-w:ui-icon-triangle-1-e"}} ></i></a>
+    <a href="#" {{action "toggleSidebar" }}>Filters <i {{attr class=":ui-icon isSidebarOpen:ui-icon-triangle-1-w:ui-icon-triangle-1-e"}} ></i></a>
 
   </div>
   {{#if filtersActive}}
@@ -21,7 +21,7 @@
   {{/if}}
 
 </div>
-<div id="main-stage" {{bind-attr class=":main-content isSidebarOpen:sidebar-open"}}>
+<div id="main-stage" {{attr class=":main-content isSidebarOpen:sidebar-open"}}>
   <div class="sidebar left">
     <div class="sidebar-wrapper">
       {{outlet "sidebarTop"}}
@@ -31,7 +31,7 @@
 
   <div id="content" class="content">
     <div class="board board-not-dragging">
-      {{#each column in board_columns }}
+      {{#each model.board_columns as |column|}}
       {{ render "column" column }}
       {{/each}}
     </div>

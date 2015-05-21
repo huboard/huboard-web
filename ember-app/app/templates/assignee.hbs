@@ -4,7 +4,7 @@
 {{/if}}
 
 <div class="assignees filters">
-  {{#each filter in filters}}
+  {{#each filters as |filter|}}
     {{view "assignee-filter" lastClicked=controller.lastClicked assignee=filter.avatar.login data-assignee=filter.avatar.login  gravatarUser=filter.avatar content=filter mode=filter.mode }}
   {{/each}}
 </div>

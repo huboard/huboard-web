@@ -1,20 +1,20 @@
 <ul class='filters'>
   <h5>Repos</h5>
-  {{#each filter in boardFilters }}
+  {{#each boardFilters as |filter|}}
     {{view "filter" lastClicked=lastBoardFilterClicked name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="repo"}}
   {{/each}}
 
   <h5>Assignment</h5>
-  {{#each filter in userFilters }}
+  {{#each userFilters as |filter|}}
     {{view "filter" lastClicked=lastUserFilterClicked name=filter.name mode=filter.mode color=filter.color queryParam="assignee"}}
   {{/each}}
 
   <h5>Milestones</h5>
-  {{#each filter in milestoneFilters }}
+  {{#each milestoneFilters as |filter|}}
     {{view "filter" lastClicked=lastMilestoneFilterClicked name=filter.name mode=filter.mode color=filter.color queryParam="milestone"}}
   {{/each}}
   <h5>Labels</h5>
-  {{#each filter in labelFilters }}
+  {{#each filter as |filter|}}
     {{view "filter" lastClicked=lastLabelFilterClicked name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="label"}}
   {{/each}}
 
