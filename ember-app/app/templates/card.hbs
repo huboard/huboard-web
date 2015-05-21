@@ -1,18 +1,18 @@
 <div class="card-header">
   <div class="title" {{attr title=title }}>
-    {{title}}
+    {{model.title}}
   </div>
   <div class="number">
     <small>#</small>
     <a class="xnumber" {{attr href=html_url}} target="_blank" title="View issue on github.com">
       {{number}}
     </a>
-    {{#if pull_request}} {{#if pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
+    {{#if model.pull_request}} {{#if model.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
   </div>
 </div>
 
-{{#if assignee }}
-  {{hb-avatar-tooltip user=assignee width="24" height="24" }}
+{{#if model.assignee }}
+  {{hb-avatar-tooltip user=model.assignee width="24" height="24" }}
 {{/if}}
 
 <div class="card-labels">
