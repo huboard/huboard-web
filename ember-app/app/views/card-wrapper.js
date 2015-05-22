@@ -4,6 +4,28 @@ var CardWrapperView = Ember.View.extend({
     templateName: "cardItem",
     classNames: ["card"],
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "colorLabel", "content.color:border"],
+    cardController: function(){
+      var model = this.get('content'),
+        container = this.get('container');
+
+      var controllerFullName = 'controller:card',
+      factory = container.lookupFactory(controllerFullName),
+      parentController = this.get('controller');
+
+      // let ember generate controller if needed
+      if (factory === undefined) {
+        factory = Ember.generateControllerFactory(container, "card", model);
+
+        Ember.Logger.warn('ember-cloaking: can\'t lookup controller by name "' + controllerFullName + '".');
+      }
+
+      var controller = factory.create({
+        model: model,
+        parentController: parentController,
+        target: parentController
+      });
+      this.set('cardController', controller);
+    }.on("init"),
     colorLabel: function () {
       return "-x" + this.get("content.color");
     }.property("content.color"),
@@ -70,8 +92,7 @@ var CardWrapperView = Ember.View.extend({
 
     }.property("App.memberFilter.mode", "App.dimFilters", "App.hideFilters", "App.searchFilter", "App.eventReceived"),
     click: function(){
-      var view = Ember.View.views[this.$().find("> div").attr("id")];
-      view.get("controller").send("fullscreen");
+      this.get("cardController").send("fullscreen");
     },
     dragAuthorized: function(ev){
       var contains_type = ev.dataTransfer.types.contains("text/huboard-assignee");
