@@ -8,9 +8,9 @@ var Repo = Ember.Object.extend({
   //repo: json of repo 
   //labels: []
   //parent: //Repo
-  baseUrl: Ember.computed('repo.full_name', function () {
-    return `/api/${this.get('repo.full_name')}`;
-  }),
+  //baseUrl: Ember.computed('repo.full_name', function () {
+  //  return `/api/${this.get('repo.full_name')}`;
+  //}),
   fetchLinks: function(){
     var self = this;
     var urls = this.get('linked_repos').map(function(l) {
