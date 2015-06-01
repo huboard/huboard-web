@@ -7,6 +7,7 @@ var CardWrapperView = Ember.View.extend({
     colorLabel: function () {
       return "-x" + this.get("content.color");
     }.property("content.color"),
+    combinedRepos: Ember.computed.alias("controller.parentController.model.combinedRepos"),
     isCollaborator: function(){
       return this.get("content.repo.is_collaborator");
     }.property("content.repo.is_collaborator"),
@@ -31,8 +32,10 @@ var CardWrapperView = Ember.View.extend({
       }.bind(this));
     }.observes("content.isArchived"),
     isDraggable: function( ){
-      return App.get("loggedIn") && this.get("isCollaborator");
-    }.property("loggedIn","content.state"),
+      return App.get("loggedIn") 
+        && this.get("isCollaborator")
+        && this.get('isFiltered') !== 'filter-hidden';
+    }.property("loggedIn","content.state", 'isFiltered'),
     isFiltered: function() {
       var dimFilters = App.get("dimFilters"),
           hideFilters = App.get("hideFilters"),
@@ -77,12 +80,27 @@ var CardWrapperView = Ember.View.extend({
 
     }.property("App.memberFilter.mode", "App.dimFilters", "App.hideFilters", "App.searchFilter", "App.eventReceived"),
     click: function(){
+      if(this.get('isFiltered') === 'filter-hidden'){
+        return;
+      }
       var view = Ember.View.views[this.$().find("> div").attr("id")];
       view.get("controller").send("fullscreen");
     },
     dragAuthorized: function(ev){
-      var contains_type =  ev.dataTransfer.types.contains("text/huboard-assignee");
-      return contains_type && this.get("isCollaborator");
+      var contains_type = ev.dataTransfer.types.contains("text/huboard-assignee");
+      return contains_type  && this.isAssignable();
+    },
+    isAssignable: function(){
+      var self = this;
+      var login = $("#application").find(".assignees .is-flying")
+        .data("assignee");
+      var repo = _.find(this.get("combinedRepos"), function(r){
+        return r.full_name === self.get("content.repo.full_name");
+      });
+      if(repo === null){ return false; }
+      return repo.get("assignees").any(function(assignee){
+        return assignee.login === login;
+      });
     },
     dragEnter: function(ev) {
       ev.preventDefault();
