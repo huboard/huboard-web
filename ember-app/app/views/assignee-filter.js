@@ -6,7 +6,7 @@ var AssigneeFilterView = Ember.View.extend({
   classNameBindings: ["modeClass", "isFlying"],
   attributeBindings: ["draggable", "data-assignee"],
   draggable: true,
-  queryParam: "assignee",
+  queryParam: "member",
   isFlying: false,
   dragStart: function(ev){
     this.set("isFlying", true);
@@ -61,7 +61,7 @@ var AssigneeFilterView = Ember.View.extend({
   }.property("lastClicked.mode"),
   queryParamsHandler: function(params, formattedParam){
     if(this.get("mode") === 0 || this.get("mode") === 1) {
-      params.clear();
+      params.removeObject(formattedParam);
       return;
     }
     if (this.get("mode") === 2 && !params.contains(formattedParam)){

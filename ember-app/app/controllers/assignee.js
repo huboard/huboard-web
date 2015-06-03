@@ -9,7 +9,7 @@ var AssigneeController = Ember.ObjectController.extend({
     clearFilters: function(){
       var self = this;
       Ember.run.once(function(){
-        var params = ["assignee"];
+        var params = ["member"];
         _.each(params, function(p){ self.get(p).clear(); });
         var allFilters = self.get("filters");
         _.each(allFilters, function(f){
@@ -19,9 +19,9 @@ var AssigneeController = Ember.ObjectController.extend({
     }
   },
   assigneesBinding: "controllers.application.model.board.assignees",
+  memberBinding: "controllers.application.member",
   combinedBinding: "controllers.application.model.board.combinedAssignees",
   combinedIssuesBinding: "controllers.application.model.board.combinedIssues",
-  assigneeBinding: "controllers.application.assignee",
   issuesBinding: "controllers.application.model.board.issues",
   memberFilterBinding: "App.memberFilter",
   lastClicked: null,
@@ -30,6 +30,7 @@ var AssigneeController = Ember.ObjectController.extend({
       this.get("lastClicked").get("content");
       this.set("memberFilter", {
         mode: this.get("lastClicked.mode"),
+        strategy: "inclusive",
         condition: this.get("lastClicked.content.condition")
       });
     }.bind(this));
@@ -48,6 +49,7 @@ var AssigneeController = Ember.ObjectController.extend({
          return Ember.Object.create({
            avatar : a,
            mode: 0,
+           strategy: "inclusive",
            condition: function (i) {
               return i.assignee && i.assignee.login === a.login;
            }
@@ -59,6 +61,14 @@ var AssigneeController = Ember.ObjectController.extend({
       return Ember.get(f, "mode") !== 0;
     });
   }.property("filters.@each.mode"),
+  resetMembersFilter: function(){
+    var self = this;
+    Ember.run.once(function(){
+      if(!self.get("filtersActive")){
+        App.set("memberFilter", null);
+      }
+    });
+  }.observes("filtersActive")
 });
 
 export default AssigneeController;

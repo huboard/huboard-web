@@ -2,7 +2,7 @@ import Ember from 'ember';
 import CreateIssue from 'app/models/forms/create-issue';
 
 var ColumnController = Ember.ObjectController.extend({
-  needs: ["index", "application"],
+  needs: ["index", "application", "filters"],
   style: Ember.computed.alias("controllers.index.column_style"),
   isLastColumn: function(){
     return this.get("controllers.index.columns.lastObject.name") === this.get("model.name");
@@ -55,7 +55,10 @@ var ColumnController = Ember.ObjectController.extend({
   }.property("issues.@each", "controllers.index.forceRedraw"),
   newIssue: function(){
     return CreateIssue.createNew();
-  }.property()
+  }.property(),
+
+  hideFilters: Ember.computed.alias("controllers.filters.hideFiltersUnion"),
+  dimFilters: Ember.computed.alias("controllers.filters.dimFiltersUnion")
 });
 
 export default ColumnController;

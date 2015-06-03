@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import IssueFiltersMixin from 'app/mixins/issue-filters';
 
-var CardWrapperView = Ember.View.extend({
+var CardWrapperView = Ember.View.extend(IssueFiltersMixin, {
     templateName: "cardItem",
     classNames: ["card"],
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "colorLabel", "content.color:border"],
@@ -36,41 +37,15 @@ var CardWrapperView = Ember.View.extend({
         && this.get("isCollaborator")
         && this.get('isFiltered') !== 'filter-hidden';
     }.property("loggedIn","content.state", 'isFiltered'),
-    isFiltered: function() {
-      var dimFilters = App.get("dimFilters"),
-          hideFilters = App.get("hideFilters"),
-          searchFilter = App.get("searchFilter"),
-          memberFilter = App.get("memberFilter"),
-          that = this;
+    isFiltered: function(){
+      var item = this.get("content");
+      var dimmed = this.get("controller.dimFilters");
+      var hidden = this.get("controller.hideFilters");
 
-      if(searchFilter) {
-         hideFilters = hideFilters.concat([searchFilter]);
-      }
-
-      if(memberFilter) {
-        if(memberFilter.mode === 1) {
-           (dimFilters = dimFilters.concat([memberFilter]));
-        }
-        if(memberFilter.mode === 2) {
-          (hideFilters = hideFilters.concat([memberFilter]));
-        }
-      }
-
-      if(hideFilters.any(function(f){
-        return !f.condition(that.get("content"));
-      })){
-        return "filter-hidden";
-      }
-
-      if(dimFilters.any(function(f){
-        return !f.condition(that.get("content"));
-      })){
-        return "dim";
-      }
-
+      if(this.matchesFilter(item, dimmed)){return "dim";}
+      if(this.matchesFilter(item, hidden)){return "filter-hidden";}
       return "";
-
-    }.property("App.memberFilter.mode", "App.dimFilters", "App.hideFilters", "App.searchFilter", "App.eventReceived"),
+    }.property("controller.hideFilters", "controller.dimFilters", "App.eventReceived"),
     click: function(){
       if(this.get('isFiltered') === 'filter-hidden'){
         return;

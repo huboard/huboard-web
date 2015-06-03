@@ -1,58 +1,30 @@
 import Ember from 'ember';
 
 var FiltersController = Ember.ObjectController.extend({
-  needs: ["application"],
+  needs: ["application", "assignee"],
 
   queryParamsBinding: "controllers.application.queryParams",
   repoBinding: "controllers.application.repo",
-  assigneeBinding: "controllers.application.assignee",
+  memberBinding: "controllers.application.member",
   milestoneBinding: "controllers.application.milestone",
   labelBinding: "controllers.application.label",
 
   milestonesBinding: "controllers.application.model.board.filterMilestones",
   otherLabelsBinding: "controllers.application.model.board.filterLabels",
   linkLabelsBinding: "controllers.application.model.board.link_labels",
-  lastUserFilterClicked: null,
-  lastUserFilterClickedChanged: function(){
-    Ember.run.once(function(){
-      var self = this;
-      this.get("userFilters").filter(function(f){
-        return f.name !== self.get("lastUserFilterClicked");
-      }).forEach(function(f){
-        Ember.set(f,"mode", 0);
-      });
-    }.bind(this));
-  }.observes("lastUserFilterClicked"),
+
   userFilters: null,
   milestoneFilters: null,
   boardFilters: null,
-  lastBoardFilterClickedChanged: function(){
-    Ember.run.once(function(){
-      var self = this;
-      this.get("boardFilters").filter(function(f){
-        return f.name !== self.get("lastBoardFilterClicked");
-      }).forEach(function(f){
-        Ember.set(f,"mode", 0);
-      });
-    }.bind(this));
-  }.observes("lastBoardFilterClicked"),
-  lastMilestoneFilterClickedChanged: function(){
-    Ember.run.once(function(){
-      var self = this;
-      this.get("milestoneFilters").filter(function(f){
-        return f.name !== self.get("lastMilestoneFilterClicked");
-      }).forEach(function(f){
-        Ember.set(f,"mode", 0);
-      });
-    }.bind(this));
-  }.observes("lastMilestoneFilterClicked"),
+
   init: function(){
     if(App.get("loggedIn")){
       this.set("userFilters", [
         {
           name: "Assigned to me",
-          queryParam: "assignee",
+          queryParam: "member",
           mode: 0,
+          strategy: "inclusive",
           condition: function(i){
             return i.assignee && i.assignee.login === App.get("currentUser").login;
           }
@@ -60,16 +32,18 @@ var FiltersController = Ember.ObjectController.extend({
 
         {
           name: "Assigned to others",
-          queryParam: "assignee",
+          queryParam: "member",
           mode: 0,
+          strategy: "inclusive",
           condition: function(i){
             return i.assignee && i.assignee.login !== App.get("currentUser").login;
           }
         },
         {
           name: "Unassigned issues",
-          queryParam: "assignee",
+          queryParam: "member",
           mode: 0,
+          strategy: "inclusive",
           condition: function(i){
             return !i.assignee;
           }
@@ -79,11 +53,12 @@ var FiltersController = Ember.ObjectController.extend({
       this.set("userFilters", [
         {
           name: "Unassigned issues",
-          queryParam: "assignee",
+          queryParam: "member",
           mode: 0,
+          strategy: "inclusive",
           condition: function(i){
             return !i.assignee;
-          }
+          },
         }
       ]);
     
@@ -93,6 +68,7 @@ var FiltersController = Ember.ObjectController.extend({
         name: m.title,
         queryParam: "milestone",
         mode:0,
+        strategy: "inclusive",
         condition:function(i){
          return i.milestone && i.milestone.title.toLocaleLowerCase() === m.title.toLocaleLowerCase();
         }
@@ -102,10 +78,10 @@ var FiltersController = Ember.ObjectController.extend({
       name: 'No milestone',
       queryParam: "milestone",
       mode:0,
+      strategy: "inclusive",
       condition:function(i){
         return i.milestone == null;
       }
-
     }));
     this.set("labelFilters", this.get("otherLabels").map(function(l){
        return Ember.Object.create({
@@ -113,6 +89,7 @@ var FiltersController = Ember.ObjectController.extend({
         queryParam: "label",
         mode:0,
         color: l.color,
+        strategy: "grouping",
         condition:function(i){
           return _.union(i.labels, i.other_labels).any(function(label){ 
              return l.name.toLocaleLowerCase() === label.name.toLocaleLowerCase();
@@ -128,9 +105,10 @@ var FiltersController = Ember.ObjectController.extend({
         queryParam: "repo",
         mode:0,
         color: l.color,
+        strategy: "inclusive",
         condition:function(i){
           return i.repo.name === l.repo && i.repo.owner.login === l.user;
-        }
+        },
        });
     }));
     this.get("boardFilters").insertAt(0, Ember.Object.create({
@@ -138,21 +116,19 @@ var FiltersController = Ember.ObjectController.extend({
       queryParam: "repo",
       mode:0,
       color: "7965cc",
+      strategy: "inclusive",
       condition:function(i){
         return i.repo.name === App.get('repo.name');
-      }
+      },
     }));
   },
-  lastMilestoneFilterClicked: null,
-  lastLabelFilterClicked: null,
-  lastBoardFilterClicked: null,
   allFilters: function(){
       return this.get("milestoneFilters")
               .concat(this.get("userFilters"))
               .concat(this.get("boardFilters"))
               .concat(this.get("labelFilters"));
   }.property("milestoneFilters.@each.mode", "userFilters.@each.mode","labelFilters.@each.mode", "boardFilters.@each.mode"),
-  dimFiltersChanged: function(){
+  allFiltersChanged: function(){
     var self = this;
     Ember.run.once(function(){
       var allFilters = self.get("allFilters");
@@ -183,15 +159,85 @@ var FiltersController = Ember.ObjectController.extend({
     clearFilters: function(){
       var self = this;
       Ember.run.once(function(){
-        var params = ["repo", "assignee", "milestone", "label"];
+        var params = ["repo", "member", "milestone", "label"];
         _.each(params, function(p){ self.get(p).clear(); });
-        var allFilters = self.get("allFilters");
-        _.each(allFilters, function(f){
+        self.get("allFilters").forEach(function(f){
           Ember.set(f,"mode",0);
         });
       });
     }
-  }
+  },
+
+  forceDimsToActive: function(){
+    if (this.get("anyFiltersActive") && this.get("anyFiltersDim")){
+      this.setDimFiltersToActive();
+      this.setMemberFilterToActive();
+    }
+  }.observes("anyFiltersActive", "anyFiltersDim", "App.hideFilters.[]", "App.searchFilter", "App.memberFilter"),
+  anyFiltersActive: function(){
+    return App.get("hideFilters.length") ||
+      App.get("searchFilter") ||
+      (App.get("memberFilter") &&
+       App.get("memberFilter.mode") === 2);
+  }.property("App.hideFilters", "App.searchFilter", "App.memberFilter"),
+  anyFiltersDim: function(){
+    var member_filter = App.get("memberFilter");
+    return App.get("dimFilters") || 
+      (member_filter && member_filter.get("mode") === 1);
+  }.property("App.dimFilters", "App.memberFilter"),
+  setDimFiltersToActive: function(){
+    var self = this;
+    if (App.get("dimFilters")){
+      App.get("dimFilters").forEach(function(f){
+        var formattedParam = f.name.replace(/\s+/g, '');
+        if (!self.get(f.queryParam).contains(formattedParam)){
+          self.get(f.queryParam).pushObject(formattedParam);
+        }
+        Ember.set(f, "mode", 2);
+      });
+    }
+  },
+  setMemberFilterToActive: function(){
+    var member_filter = App.get("memberFilter");
+    var controller = this.get("controllers.assignee");
+    if(member_filter && App.get("memberFilter.mode") === 1){
+      controller.set("lastClicked.mode", 2);
+      var login = controller.get("lastClicked.content.avatar.login");
+      var formattedLogin = login.replace(/\s+/g, '');
+      if (!this.get("member").contains(formattedLogin)){
+        this.get("member").pushObject(formattedLogin);
+      }
+    }
+  },
+
+
+  //Returns Concated filters list for card wrapper view
+  dimFiltersUnion: function(){
+    var filters = App.get("dimFilters");
+    if(this.get("memberFilterDim")){
+      filters = filters.concat([App.get("memberFilter")]);
+    }
+    return filters;
+  }.property("App.dimFilters", "memberFilterDim"),
+  hideFiltersUnion: function(){
+    var filters = App.get("hideFilters");
+    if(App.get("searchFilter")){
+      filters = filters.concat([App.get("searchFilter")]);
+    }
+    if(this.get("memberFilterHidden")){
+      filters = filters.concat([App.get("memberFilter")]);
+    }
+    return filters;
+  }.property("App.hideFilters", "App.searchFilter", "memberFilterHidden"),
+
+  memberFilterDim: function(){
+    return App.get("memberFilter") && 
+      App.get("memberFilter.mode") === 1;
+  }.property("App.memberFilter"),
+  memberFilterHidden: function(){
+    return App.get("memberFilter") && 
+      App.get("memberFilter.mode") === 2;
+  }.property("App.memberFilter")
 });
 
 export default FiltersController;
