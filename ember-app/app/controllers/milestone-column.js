@@ -2,7 +2,7 @@ import Ember from 'ember';
 import CreateIssue from 'app/models/forms/create-issue';
 
 var MilestoneColumnController = Ember.ObjectController.extend({
-  needs: ["milestones", "application", "index"],
+  needs: ["milestones", "application", "index", "filters"],
   getIssues: function () {
     var issues = this.get("controllers.milestones.model.combinedIssues")
       .filter(function(i) {
@@ -88,7 +88,10 @@ var MilestoneColumnController = Ember.ObjectController.extend({
         }
       });
     }
-  }
+  },
+
+  hideFilters: Ember.computed.alias("controllers.filters.hideFiltersUnion"),
+  dimFilters: Ember.computed.alias("controllers.filters.dimFiltersUnion")
 });
 
 export default MilestoneColumnController;
