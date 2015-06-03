@@ -1,6 +1,8 @@
 import CssView from 'app/views/css';
 import Board from 'app/models/board';
+import CreateIssue from 'app/models/forms/create-issue';
 import Issue from 'app/models/issue';
+import Milestone from 'app/models/milestone';
 import Ember from 'ember';
 
 var MilestonesRoute = Ember.Route.extend({
@@ -15,11 +17,6 @@ var MilestonesRoute = Ember.Route.extend({
       return;
     }
 
-    var cssView = CssView.create({
-      content: model
-    });
-
-    cssView.appendTo("head");
 
     return model.linkedBoardsPreload.done(function(linkedBoardsPromise) {
       App.set("isLoaded", true);
@@ -45,6 +42,12 @@ var MilestonesRoute = Ember.Route.extend({
           socket.subscribeTo(b.full_name);
         });
 
+        var cssView = CssView.create({
+          content: model
+        });
+
+        cssView.appendTo("head");
+
         return boards;
       });
     }.bind(this));
@@ -66,9 +69,21 @@ var MilestonesRoute = Ember.Route.extend({
 
   actions: {
     createNewIssue: function(model, order) {
-      this.controllerFor("issue.create").set("model", model || Issue.createNew());
+      this.controllerFor("issue.create").set("model", model || CreateIssue.createNew());
       this.controllerFor("issue.create").set("order", order || {});
       this.send("openModal", "issue.create");
+    },
+
+    createNewMilestone : function () {
+      this.controllerFor("milestones.create").set("model", Milestone.createNew());
+      this.send("openModal","milestones.create");
+    },
+
+    editMilestone : function (milestone) {
+      milestone.originalTitle = milestone.title;
+      this.controllerFor("milestones");
+      this.controllerFor("milestones.edit").set("model", Milestone.create(milestone));
+      this.send("openModal","milestones.edit");
     },
 
     archive: function(issue) {
@@ -102,6 +117,44 @@ var MilestonesRoute = Ember.Route.extend({
       issues.pushObject(issue);
 
       Ember.run.schedule("afterRender", controller, function() {
+        controller.incrementProperty("forceRedraw");
+        this.send("closeModal");
+      }.bind(this));
+    },
+
+    milestoneCreated: function(milestone){
+      var controller = this.controllerFor("milestones");
+      var milestones = controller.get("model.milestones");
+      milestones.pushObject(milestone);
+      Ember.run.schedule('afterRender', controller, function () {
+        controller.incrementProperty("forceRedraw");
+        this.send("closeModal");
+      }.bind(this));
+    },
+
+    milestoneUpdated: function(milestone){
+      var controller = this.controllerFor("milestones");
+
+      //Replace old milestone data with new
+      var milestones = controller.get("model.milestones");
+      milestones = milestones.map(m => {
+        if (m.title === milestone.originalTitle){ return milestone;}
+        return m;
+      });
+      controller.set("model.milestones", milestones);
+
+      //Remap issues to new milestone title (if changed)
+      var issues = controller.get("model.combinedIssues");
+      issues = issues.map(issue => {
+        if (issue.milestone && (issue.milestone.title === milestone.originalTitle)){
+          issue.milestone.title = milestone.title;
+          return issue;
+        }
+        return issue;
+      });
+      controller.set("model.issues", issues);
+
+      Ember.run.schedule('afterRender', controller, function () {
         controller.incrementProperty("forceRedraw");
         this.send("closeModal");
       }.bind(this));

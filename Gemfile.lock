@@ -4,6 +4,12 @@ PATH
     saas (0.0.1)
       rails (~> 4.2.0)
 
+PATH
+  remote: vendor/gems/faye_extensions
+  specs:
+    faye_extensions (0.0.1)
+      rails (~> 4.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -276,7 +282,6 @@ GEM
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
     pdfkit (0.6.2)
-    pg (0.18.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -371,8 +376,6 @@ GEM
     sinatra_auth_github (1.2.0)
       sinatra (~> 1.0)
       warden-github (~> 1.2.0)
-    skylight (0.6.0)
-      activesupport (>= 3.0.0)
     slop (3.6.0)
     solid_use_case (2.1.1)
       deterministic (~> 0.6.0)
@@ -439,6 +442,7 @@ DEPENDENCIES
   faraday-http-cache
   faye
   faye-redis
+  faye_extensions!
   foreman
   ghee
   hashie
@@ -450,7 +454,6 @@ DEPENDENCIES
   memcachier
   meta_request
   pdfkit
-  pg
   pry-byebug
   puma
   rack-attack
@@ -465,7 +468,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sinatra_auth_github
-  skylight
   solid_use_case
   spring
   sprockets-rails (= 3.0.0.beta1)

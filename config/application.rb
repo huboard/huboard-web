@@ -1,6 +1,9 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "sprockets/railtie"
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -9,7 +12,6 @@ Dotenv::Railtie.load
 
 if ENV["HUBOARD_ENV"] == 'production'
   require 'saas'
-  require 'skylight'
 end
 
 module HuboardWeb
@@ -31,22 +33,28 @@ module HuboardWeb
     end
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    #config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths << Rails.root.join('lib')
 
     # Configure dalli to use a connection pool
     config.cache_store = :dalli_store, nil, { :pool_size => 5 }
 
-    if ENV["SELF_HOST_FAYE"]
+    if ENV["SELF_HOST_FAYE"] && ENV['SOCKET_BACKEND'] == '/site/pubsub'
       #config.middleware.delete Rack::Lock
       config.middleware.use Faye::RackAdapter, 
-        mount: '/site/pubsub', 
+        mount: (ENV['SOCKET_BACKEND']), 
         timeout: 25,
         ping: 20,
         engine: {
           type: Faye::Redis,
           uri: (ENV['REDIS_URL'] || 'redis://localhost:6379')
         }
+    elsif !ENV['SELF_HOST_FAYE'] && ENV['HUBOARD_ENV'] == "production"
+      config.middleware.use Faye::RackAdapter, 
+        mount:"/site/pubsub", 
+        timeout: 25,
+        ping: 20,
+        extensions: [FayeExtensions::Disconnect.new]
     end
 
     Faraday::Response::RaiseGheeError.const_get("ERROR_MAP").each do |status, exception|
