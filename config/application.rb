@@ -36,6 +36,10 @@ module HuboardWeb
       config.railties_order = [Saas::Engine, :all]
     end
 
+    if ENV["HUBOARD_ENV"] == 'enterprise'
+      config.railties_order = [Enterprise::Engine, :all]
+    end
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     #config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths << Rails.root.join('lib')
