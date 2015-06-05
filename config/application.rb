@@ -14,6 +14,10 @@ if ENV["HUBOARD_ENV"] == 'production'
   require 'saas'
 end
 
+if ENV["HUBOARD_ENV"] == 'enterprise'
+  require 'enterprise'
+end
+
 module HuboardWeb
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

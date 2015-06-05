@@ -1,4 +1,10 @@
 PATH
+  remote: vendor/engines/enterprise
+  specs:
+    enterprise (0.0.1)
+      rails (~> 4.2.0)
+
+PATH
   remote: vendor/engines/saas
   specs:
     saas (0.0.1)
@@ -438,6 +444,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.0.0)
   ember-cli-rails
   ember-rails-assets
+  enterprise!
   faraday
   faraday-http-cache
   faye

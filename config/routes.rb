@@ -3,7 +3,11 @@ Rails.application.routes.draw do
       get ':any', to: redirect(subdomain: nil, path: '/%{any}'), any: /.*/
   end
   root to: 'dashboard#index', constraints: LoggedInConstraint.new 
-  root to: 'marketing#index', as: 'marketing_root'
+  if ENV['HUBOARD_ENV'] != 'enterprise'
+    root to: 'marketing#index', as: 'marketing_root'
+  else
+    root to: redirect('/login'), as: 'marketing_root'
+  end
 
   get '/site/terms' => 'site#terms'
   get '/site/privacy' => 'site#privacy'
