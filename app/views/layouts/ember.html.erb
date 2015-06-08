@@ -12,7 +12,7 @@
 
 
   </head>
-  <body class="flex-body">
+  <body class="<%= ENV['HUBOARD_ENV'] %> flex-body">
      <div id="application">
      </div>
      <%= content_for :overlay %>

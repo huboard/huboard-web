@@ -24,7 +24,7 @@
 	<![endif]-->
 
 </head>
-<body>
+<body class="<%= ENV['HUBOARD_ENV'] %>">
 <!-- top container -->
 <div class="top top--<%= params[:action] %> <%= params[:action] == "integrations" ? "top--stars" : "" %>"> <div class="top-inner">
   <%= render partial: 'shared/header' %>

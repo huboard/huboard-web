@@ -10,7 +10,7 @@
      <%= stylesheet_link_tag 'bootstrap' %>
      <%= stylesheet_link_tag 'application' %>
    </head>
-   <body>
+   <body class="<%= ENV['HUBOARD_ENV'] %>">
      <div id="wrapper">
        <div class="navbar navbar-static-top">
          <div class="navbar-inner">

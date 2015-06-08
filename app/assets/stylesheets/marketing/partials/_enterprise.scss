@@ -1,0 +1,18 @@
+body.enterprise {
+  .top {
+    .nav__item {
+      display:none;
+    }
+    .nav__button {
+      display: list-item !important;
+      &:before {
+        display: none;
+      }
+    }
+  }
+  .footer {
+    .footer-nav {
+      display: none;
+    }
+  }
+}
