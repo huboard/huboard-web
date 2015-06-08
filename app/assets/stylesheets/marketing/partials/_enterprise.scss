@@ -5,6 +5,8 @@ body.enterprise {
     }
     .nav__item--btn {
       display: list-item !important;
+    }
+    .nav__btn {
       &:before {
         display: none;
       }
