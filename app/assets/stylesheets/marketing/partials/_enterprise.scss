@@ -3,7 +3,7 @@ body.enterprise {
     .nav__item {
       display:none;
     }
-    .nav__button {
+    .nav__item--btn {
       display: list-item !important;
       &:before {
         display: none;
