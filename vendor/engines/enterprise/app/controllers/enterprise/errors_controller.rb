@@ -3,7 +3,7 @@ module Enterprise
     layout false
     def unauthenticated_enterprise
       respond_to do |format|
-        format.html { redirect_to "/setup/start", status: 403}
+        format.html { redirect_to "/setup/start" }
         format.json { render json: { error: "Unauthenticated" }, status: 403}
       end
     end
