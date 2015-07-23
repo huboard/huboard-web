@@ -4,8 +4,11 @@ import CreateIssue from 'app/models/forms/create-issue';
 import Issue from 'app/models/issue';
 import Milestone from 'app/models/milestone';
 import Ember from 'ember';
+import animateModalClose from 'app/config/animate-modal-close';
 
 var MilestonesRoute = Ember.Route.extend({
+  qps: Ember.inject.service("query-params"),
+
   model: function() {
     var repo = this.modelFor("application");
     var linked_boards = repo.fetchLinkedBoards();
@@ -66,15 +69,21 @@ var MilestonesRoute = Ember.Route.extend({
       outlet: "sidebarMiddle"
     });
   },
+  setupController: function(controller, model){
+   this._super(controller, model);
+   this.get("qps").applyFilterBuffer();
+   this.get("qps").applySearchBuffer();
+  },
 
   actions: {
-    createNewIssue: function(model, order) {
+    createNewIssue: function(issue){
+      var issues = this.modelFor("milestones").get("issues");
+      issues.pushObject(issue);
+    },
+    createFullscreenIssue : function (model, order) {
       this.controllerFor("issue.create").set("model", model || CreateIssue.createNew());
       this.controllerFor("issue.create").set("order", order || {});
-      this.render("issue.create", {
-        into: "application",
-        outlet: "modal"
-      });
+      this.send("openModal","issue.create");
     },
 
     createNewMilestone : function () {
@@ -99,7 +108,7 @@ var MilestonesRoute = Ember.Route.extend({
       issue.archive();
     },
 
-    openIssueFullscreen: function(model) {
+    openFullscreenIssue: function(model) {
       this.transitionTo("milestones.issue", model);
     },
 
@@ -112,31 +121,18 @@ var MilestonesRoute = Ember.Route.extend({
       });
     },
 
-    closeModal: function(){
-      this.disconnectOutlet({
-        outlet: 'modal',
-        parentView: 'application'
+    openModal: function (view){
+      this.render(view, {
+        into: "application",
+        outlet: "modal"
       });
-      return true;
     },
-
-    forceRepaint: function(target) {
-      if (target === "index") {
-        return;
-      }
-
-      var controller = this.controllerFor("milestones");
-      controller.incrementProperty("forceRedraw");
-    },
-
-    issueCreated: function(issue) {
-      var controller = this.controllerFor("milestones");
-      var issues = controller.get("model.issues");
-      issues.pushObject(issue);
-
-      Ember.run.schedule("afterRender", controller, function() {
-        controller.incrementProperty("forceRedraw");
-        this.send("closeModal");
+    closeModal: function() {
+      animateModalClose().then(function() {
+        this.render('empty', {
+          into: 'application',
+          outlet: 'modal'
+        });
       }.bind(this));
     },
 
@@ -145,7 +141,6 @@ var MilestonesRoute = Ember.Route.extend({
       var milestones = controller.get("model.milestones");
       milestones.pushObject(milestone);
       Ember.run.schedule('afterRender', controller, function () {
-        controller.incrementProperty("forceRedraw");
         this.send("closeModal");
       }.bind(this));
     },
@@ -153,29 +148,26 @@ var MilestonesRoute = Ember.Route.extend({
     milestoneUpdated: function(milestone){
       var controller = this.controllerFor("milestones");
 
-      //Replace old milestone data with new
-      var milestones = controller.get("model.milestones");
-      milestones = milestones.map(m => {
-        if (m.title === milestone.originalTitle){ return milestone;}
-        return m;
-      });
-      controller.set("model.milestones", milestones);
+      var self = this;
+      Ember.run.once(function(){
+        var milestones = controller.get("model.milestones");
+        var old_milestone = milestones.find(m => {
+          return m.title === milestone.originalTitle;
+        });
+        milestones.removeObject(old_milestone);
+        milestones.addObject(milestone);
 
-      //Remap issues to new milestone title (if changed)
-      var issues = controller.get("model.combinedIssues");
-      issues = issues.map(issue => {
-        if (issue.milestone && (issue.milestone.title === milestone.originalTitle)){
-          issue.milestone.title = milestone.title;
+        //Remap issues to new milestone title (if changed)
+        var issues = controller.get("model.combinedIssues");
+        issues = issues.forEach(issue => {
+          if (issue.milestone && (issue.milestone.title === milestone.originalTitle)){
+            issue.set("milestone.title", milestone.title);
+            return issue;
+          }
           return issue;
-        }
-        return issue;
+        });
+        self.send("closeModal");
       });
-      controller.set("model.issues", issues);
-
-      Ember.run.schedule('afterRender', controller, function () {
-        controller.incrementProperty("forceRedraw");
-        this.send("closeModal");
-      }.bind(this));
     }
   }
 });

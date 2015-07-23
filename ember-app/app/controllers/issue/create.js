@@ -36,12 +36,15 @@ var IssuesCreateController = Ember.Controller.extend({
     var controller = this;
     this.set("processing",true);
     this.get("model").save(order).then(function(issue){
-       if(controller.get("issueIsLinked")){
-         controller.colorIssue(issue);
-         controller.send("assignRepo", controller.get("controllers.application.model.board"));
-       }
-       controller.send("issueCreated", issue);
-       controller.set("processing",false);
+      Ember.run.once(function(){
+        if(controller.get("issueIsLinked")){
+          controller.colorIssue(issue);
+          controller.send("assignRepo", controller.get("controllers.application.model.board"));
+        }
+        controller.get("target").send("createNewIssue", issue);
+        controller.get("target").send("closeModal");
+        controller.set("processing", false);
+      });
     });
   },
   allRepos: function(){
@@ -77,7 +80,7 @@ var IssuesCreateController = Ember.Controller.extend({
         selectedLabels = this.get('model.labels.length') ?
           this.get('model.labels') : [];
       var commonLabels = labels.filter(function(label){
-        let name = get(label, 'name').toLowerCase();
+        let name = get(label, 'name').toLowerCase();// jshint ignore:line
         return selectedLabels.any(function(selected){
           return get(selected,'name').toLowerCase() === name;
         });

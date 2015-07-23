@@ -1,11 +1,10 @@
 import SocketMixin from 'app/mixins/socket';
 import Ember from 'ember';
 import Repo from 'app/models/repo';
-import animateModalClose from 'app/config/animate-modal-close';
-
-
 
 var ApplicationRoute = Ember.Route.extend({
+  filters: Ember.inject.service(),
+
   actions: {
     sessionErrorHandler: function(){
       this.transitionTo("unauthorized");
@@ -13,24 +12,8 @@ var ApplicationRoute = Ember.Route.extend({
     toggleSidebar: function(){
       this.controllerFor("application").toggleProperty("isSidebarOpen");
     },
-    openModal: function (view){
-      this.render(view, {
-        into: "application",
-        outlet: "modal"
-      });
-    },
-    closeModal: function() {
-      animateModalClose().then(function() {
-        this.render('empty', {
-          into: 'application',
-          outlet: 'modal'
-        });
-      }.bind(this));
-    },
     clearFilters: function(){
-      this.controllerFor("filters").send("clearFilters");
-      this.controllerFor("assignee").send("clearFilters");
-      this.controllerFor("search").send("clearFilters");
+      this.get("filters").clear();
     }
   },
   model: function () {
@@ -56,7 +39,7 @@ var ApplicationRoute = Ember.Route.extend({
 
         if(isJson) {
           var message = JSON.parse(xhr.responseText);
-          if(message.error === "CSRF token is expired") {
+          if(message.error === "CSRF token is expired" || message.error === "GitHub token is expired") {
             this.send("sessionErrorHandler");
           }
         }

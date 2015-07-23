@@ -2,13 +2,15 @@ import Ember from 'ember';
 import Issue from 'app/models/issue';
 
 var ApplicationController = Ember.Controller.extend({
+  qps: Ember.inject.service("query-params"),
   isSidebarOpen: false,
-  queryParams: ["assignee", "repo", "milestone", "label", "search"],
-  search: null,
-  repo: [],
-  assignee: [],
-  milestone: [],
-  label: [],
+  filters: Ember.inject.service(),
+  setFilters: function(){
+    if(this.get("model.board")){
+      this.get("filters.filterGroups").setGroups(this.get("model.board"));
+    }
+  }.observes("model.board"),
+
   sockets: {
     config: {
       messagePath: "issueNumber",
@@ -21,7 +23,6 @@ var ApplicationController = Ember.Controller.extend({
         issue.set("state", "closed");
       } else {
         this.get("model.board.issues").pushObject(Issue.create(message.issue));
-        this.send("forceRepaint");
       }
     },
     issue_opened: function(message) {
@@ -40,7 +41,6 @@ var ApplicationController = Ember.Controller.extend({
           model.set("current_state", column);
         }
         this.get("model.board.issues").pushObject(model);
-        this.send("forceRepaint");
       }
     },
     issue_reopened: function(message) {
@@ -50,7 +50,6 @@ var ApplicationController = Ember.Controller.extend({
         issue.set("state", "open");
       } else {
         this.get("model.board.issues").pushObject(Issue.create(message.issue));
-        this.send("forceRepaint");
       }
     }
   },
