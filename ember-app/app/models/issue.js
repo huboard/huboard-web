@@ -132,8 +132,9 @@ var Issue = Ember.Object.extend(Serializable,{
     Ember.$.post("/api/" + full_name + "/close", {
       number : this.get("number"),
       correlationId: this.get("correlationId")
-    }, function(){}, "json").then(function() {
+    }, function(){}, "json").then(function(response) {
       this.set("state","closed");
+      this.set("activities", response.activities);
       this.set("processing", false);
     }.bind(this)).fail(function(){
       this.set("processing", false);
@@ -149,8 +150,9 @@ var Issue = Ember.Object.extend(Serializable,{
     Ember.$.post("/api/" + full_name + "/open", {
       number : this.get("number"),
       correlationId: this.get("correlationId")
-    }, function(){}, "json").then(function() {
+    }, function(){}, "json").then(function(response) {
       this.set("state","open");
+      this.set("activities", response.activities);
       this.set("processing", false);
     }.bind(this)).fail(function(){
       this.set("processing", false);
