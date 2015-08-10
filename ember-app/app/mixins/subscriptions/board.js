@@ -22,7 +22,21 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           });
           model.set("current_state", column);
         }
+        this.hbsubscribers._colorLinkedIssue(model);
         this.get("model.board.issues").pushObject(model);
+      },
+
+      _colorLinkedIssue: function(model){
+        var parent_repo = this.get("model.board.repo.full_name");
+        var model_repo = model.repo.full_name;
+        if(parent_repo.toLowerCase() !== model_repo.toLowerCase()){
+          var linked_labels = this.get("model.board.link_labels");
+          var label = _.find(linked_labels, function(l){
+            var name = l.user + "/" + l.repo;
+            return name.toLowerCase() === model.repo.full_name.toLowerCase();
+          });
+          model.color = label.color;
+        }
       }
     }
   }
