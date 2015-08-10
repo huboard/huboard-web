@@ -1,0 +1,10 @@
+<h5>Active members</h5>
+{{#if noActiveMembers}}
+<p><small> (none) </small></p>
+{{/if}}
+
+<div class="assignees filters">
+  {{#each filter in memberFilters}}
+    {{view "assignee-filter" assignee=filter.avatar.login data-assignee=filter.avatar.login gravatarUser=filter.avatar content=filter mode=filter.mode}}
+  {{/each}}
+</div>

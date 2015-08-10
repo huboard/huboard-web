@@ -1,4 +1,5 @@
 @import "bourbon/bourbon";
+@import "css3/filters";
 @import "mixins";
 @import "colors";
 @import "font";
@@ -23,6 +24,8 @@
 @import 'textcomplete';
 @import "tooltips";
 @import "markdown";
+@import "milestone";
+@import "date_picker";
 
 #application > .ember-view {
    @include display(flex);
@@ -99,10 +102,6 @@
       &:hover {
         color: #666;
       }
-    }
-    a{
-      line-height: 20px;
-      vertical-align: middle;
     }
   }
    height: 40px;
@@ -214,10 +213,20 @@
   > h3 {
 
     line-height: 16px;
+    position: relative;
 
     .ui-icon {
       float:left;
       padding-right: 6px !important;
+      &.ui-icon-gear {
+        display:none;
+        color: $hb-purple;
+        position: absolute;
+        top: 11px;
+        right: 2px;
+        opacity: 1;
+      }
+
     }
 
     .text {
@@ -226,7 +235,14 @@
       overflow: hidden;
       display: inline-block;
       max-width: calc(100% - 30px);
-
+    }
+    &:hover {
+      .ui-icon.ui-icon-gear {
+        display: block;
+      }
+      .text {
+        max-width: calc(100% - 40px);
+      }
     }
   }
 }
@@ -235,6 +251,9 @@
   @include display(flex);
   @include flex(0 0 230px);
   border: 1px dotted #ccc;
+  &.hb-state-collapsed {
+    @include flex(0 0 90px);
+  }
 }
 
 .milestones {
@@ -336,7 +355,7 @@
     .collapsed {
       display: block;
     }
-    > h3 span, > h3 .ui-icon-minus, > h3 small {
+    > h3 span, > h3 .ui-icon-minus, > h3 small,  > h3 .ui-icon-gear {
       display:none;
     }
   }

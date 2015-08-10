@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  constraints subdomain: 'www' do
+      get ':any', to: redirect(subdomain: nil, path: '/%{any}'), any: /.*/
+  end
   root to: 'dashboard#index', constraints: LoggedInConstraint.new 
   root to: 'marketing#index', as: 'marketing_root'
 
@@ -38,6 +41,8 @@ Rails.application.routes.draw do
         get 'settings' => 'settings#index'
         get 'board' => 'board#index', as: 'board'
         get 'healthcheck' => 'board#health_check'
+        get 'commits' => 'board#commits', as: 'commits'
+        get 'commit/:commit' => 'board#commit', as: 'commit'
         get 'link_labels' => 'board#link_labels', as: 'link_labels'
         constraints(:linked_user => /[^\/]+/, :linked_repo => /[^\/]+/) do
           get 'linked/:linked_user/:linked_repo' => 'board#linked', as: 'linked_board'
@@ -57,9 +62,10 @@ Rails.application.routes.draw do
         delete 'issues/:number/ready' => 'issues#unready'
         post 'dragcard' => 'issues#drag_card'
         post 'archiveissue' => 'issues#archive_issue'
-        post 'reordermilestone' => 'issues#reorder_milestone'
         post 'assigncard' => 'issues#assign_card'
         post 'assignmilestone' => 'issues#assign_milestone'
+
+        post 'milestones/reorder_milestone' => 'milestones#reorder_milestone'
       end
     end
 

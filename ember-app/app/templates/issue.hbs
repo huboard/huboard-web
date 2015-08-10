@@ -1,0 +1,79 @@
+<div class="fullscreen-card">
+  <div class="fullscreen-card-preamble clearfix">
+    {{issue/hb-title
+      model=model
+      content=model
+      isClosed=isClosed
+    }}
+      <div class="flex-crumbs">
+        {{view "issue.selected-column" content=columns}}
+      </div>
+  </div>
+  <div class="fullscreen-card-right">
+    {{#if controllers.application.loggedIn }}
+      {{#if isCollaborator }}
+      <div>
+        <label>
+          {{input type="checkbox" name="isReady" checked=isReady }} Ready for next stage
+        </label>
+        <label>
+          {{input type="checkbox" name="isBlock" checked=isBlocked }} Mark as blocked
+        </label>
+      </div>
+      {{/if}}
+    {{/if}}
+          {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=controller.model.other_labels selected=controller.model.other_labels title="Labels" labels=controller.repository.other_labels}}
+      {{hb-assignee editable=isCollaborator assign="assignUser" selected=controller.model.assignee assignees=controller.repository.assignees}}
+      {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=controller.model.milestone milestones=controller.repository.milestones}}
+  </div>
+<div class="fullscreen-card-left">
+  {{issue/hb-body
+    model=model
+    content=model
+    mentions=mentions
+  }}
+  <div class="fullscreen-card-activity">
+    <div class="fullscreen-header">
+      <h4> Activity </h4>
+    </div>
+    <div class="card-events">
+    {{#each sortedActivities as |activity| }}
+      {{#if activity.event}}
+        {{component "issue/activities/issue-activity" 
+          model=activity 
+          issue=model
+          layoutName=(concat "issue/events/" activity.event)
+        }}
+      {{else}}
+        {{component "issue/activities/issue-comment" 
+          model=activity
+          issue=model
+        }}
+      {{/if}}
+    {{/each}}
+    </div>
+  </div>
+
+  {{#if controllers.application.loggedIn }}
+  <hr>
+  <form {{action "submitComment" on="submit"}} class="flex-form">
+    {{hb-markdown-editor markdown=controller.commentBody mentions=mentions}}
+    <div class="submit-comment-buttons">
+      {{#if isCollaborator}}
+        {{#if isClosed}}
+          <button class="hb-button hb-button-grey" {{action "reopenCard" on="click"}} disabled={{processing}}>Reopen issue </button>
+        {{else}}
+          <button class="hb-button hb-button-grey" {{action "close" on="click"}} disabled={{processing}}>Close issue </button>
+        {{/if}}
+      {{/if}}
+      <button disabled={{disabled}} class="hb-button">Submit comment</button>
+      {{#if processing}}
+      <div class="spinner">
+        {{hb-spinner}}
+      </div>
+      {{/if}}
+    </div>
+  </form>
+  {{/if}}
+</div>
+</div>

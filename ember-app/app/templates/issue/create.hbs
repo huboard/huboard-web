@@ -1,0 +1,23 @@
+<div class="fullscreen-card">
+  <div class="fullscreen-card-preamble clearfix">
+    <h3> New Issue </h3>
+  </div>
+  <form {{action "submit" on="submit"}} class="flex-form split-form">
+    <div class="flex-form-left"> 
+      <label>
+        {{input value=model.title placeholder="Title" }}
+      </label>
+      {{hb-markdown-editor markdown=model.body mentions=mentions}}
+      <button disabled={{disabled}} class="hb-button">Submit issue</button>
+    </div>
+    <div class="flex-form-right">
+      {{hb-repo-selector editable=true selected=model.repo repos=allRepos assignRepo="assignRepo"}}
+      {{#if isCollaborator}}
+        {{hb-label-selector values=model.labels selected=model.labels title="Labels" labels=otherLabels}}
+        {{hb-assignee editable=true  selected=model.assignee assignees=controller.assignees}}
+        {{hb-milestone editable=true selected=model.milestone milestones=controller.milestones}}
+      {{/if}}
+    </div>
+  </form>
+</div>
+

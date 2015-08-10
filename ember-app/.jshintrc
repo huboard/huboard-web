@@ -2,7 +2,15 @@
   "predef": [
     "document",
     "window",
-    "-Promise"
+    "-Promise",
+    "Faye",
+    "HUBOARD_ENV",
+    "_",
+    "marked",
+    "App",
+    "Spinner",
+    "Fuse",
+    "ajax"
   ],
   "browser": true,
   "boss": true,

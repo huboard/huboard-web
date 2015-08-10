@@ -22,13 +22,14 @@ module Saas
       customer = account_exists?(plan_doc) ? plan_doc[:rows].first.value : false
       return render json: default_user_mapping(user) unless customer
 
+      stripe_email = customer[:stripe][:customer][:email]
       plan = plan_for("User", customer[:stripe][:customer])
       data = {
         org: user.to_hash,
         plans: [plan],
         card: plan[:card],
         discount: customer[:stripe][:customer][:discount] || {discount: { coupon: {id: ''} }},
-        account_email: customer["billing_email"],
+        account_email: customer["billing_email"] || stripe_email,
         trial: customer[:trial],
         has_plan: plan[:purchased],
         non_profit: non_profit?(customer)
@@ -76,13 +77,14 @@ module Saas
       customer = account_exists?(plan_doc) ? plan_doc[:rows].first.value : false
       return render json: default_org_mapping(org) unless customer
 
+      stripe_email = customer[:stripe][:customer][:email]
       plan = plan_for("Organization", customer[:stripe][:customer])
       data = {
         org: org.to_hash,
         plans: [plan],
         card: plan[:card],
         discount: customer[:stripe][:customer][:discount] || {discount: { coupon: {id: ''} }},
-        account_email: customer["billing_email"],
+        account_email: customer["billing_email"] || stripe_email,
         trial: customer[:trial],
         has_plan: plan[:purchased],
         non_profit: non_profit?(customer)
@@ -100,6 +102,26 @@ module Saas
         render json: {success: true, message: "Info updated"}
       else
         render json: {success: false, message: "Unable to find customer"}
+      end
+    end
+
+    def update_email
+      query = Queries::CouchCustomer.get_cust(params[:id], couch)
+      doc = QueryHandler.exec(&query)
+      return render json: {success: false, message: "Couldn't find couch record: #{params[:id]}"} unless doc
+
+      begin
+        customer = Stripe::Customer.retrieve(params[:id])
+        customer.email = params[:billing_email]
+        saved = customer.save
+
+        doc.stripe.customer = customer
+        doc['billing_email'] = params[:billing_email]
+        couch.customers.save doc
+
+        render json: saved
+      rescue Stripe::InvalidRequestError => e
+        render json: e.json_body, status: 422
       end
     end
 

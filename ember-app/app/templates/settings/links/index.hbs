@@ -1,0 +1,19 @@
+<form class="flex-form" {{action 'submit'  on='submit'}}>
+  <div class="{{if shouldDisplayError 'error'}} control-group">
+  <label>
+    {{input value=repoFullName placeholder='owner/repo'}}
+    
+  </label>
+    {{#if shouldDisplayError }}
+    <span class="help-block">
+      {{errorMessage}}
+    </span>
+    {{/if}}
+  </div>
+  <button disabled={{isDisabled}} class="hb-button {{if shouldDisplayWarning 'hb-button-danger'}}">Create link</button>
+</form>
+{{#if shouldDisplayWarning }}
+<div class="alert alert-error">
+  <strong>Warning</strong>: Linking more than 5 repositories together can seriously degrade performance. We suggest breaking them up into smaller groups, ie; back end vs. front end services.
+</div>
+{{/if}}

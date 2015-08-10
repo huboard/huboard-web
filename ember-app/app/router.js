@@ -6,6 +6,28 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource("index",{path: "/"},function(){
+    this.resource("index.issue",{path:"/issues/:issue_id"});
+  });
+
+  this.resource("milestones", function(){
+    this.resource("milestones.issue",{path:"/issues/:issue_id"});
+  });
+  this.route("milestones.missing");
+
+  this.resource("settings", function(){
+
+    this.resource('settings.integrations', {path: '/integrations'}, function(){
+      this.route('new', {path: '/new/:name'});
+    });
+
+    this.resource('settings.links', {path: '/links'}, function(){
+      this.route('new', {path: '/new/:name'});
+    });
+
+  });
+
+  this.route("unauthorized");
 });
 
 export default Router;

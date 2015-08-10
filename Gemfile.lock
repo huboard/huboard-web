@@ -4,6 +4,12 @@ PATH
     saas (0.0.1)
       rails (~> 4.2.0)
 
+PATH
+  remote: vendor/gems/faye_extensions
+  specs:
+    faye_extensions (0.0.1)
+      rails (~> 4.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -55,6 +61,8 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
     callsite (0.0.11)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -75,6 +83,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1)
+    columnize (0.9.0)
     connection_pool (2.1.3)
     cookiejar (0.3.2)
     couchrest (1.0.1)
@@ -99,6 +108,9 @@ GEM
       http_parser.rb (>= 0.6.0)
     em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
+    ember-cli-rails (0.3.5)
+      railties (>= 3.1, < 5)
+      sprockets (>= 2.0)
     ember-rails-assets (0.1.1)
     erubis (2.7.0)
     ethon (0.7.3)
@@ -273,11 +285,13 @@ GEM
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
     pdfkit (0.6.2)
-    pg (0.18.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.2.0)
+      byebug (~> 5.0)
+      pry (~> 0.10)
     puma (2.11.1)
       rack (>= 1.1, < 2.0)
     rack (1.6.0)
@@ -425,11 +439,13 @@ DEPENDENCIES
   couchrest
   dalli
   dotenv-rails (~> 2.0.0)
+  ember-cli-rails
   ember-rails-assets
   faraday
   faraday-http-cache
   faye
   faye-redis
+  faye_extensions!
   foreman
   ghee
   hashie
@@ -442,8 +458,7 @@ DEPENDENCIES
   meta_request
   mocha
   pdfkit
-  pg
-  pry
+  pry-byebug
   puma
   rack-attack
   rails (= 4.2.0)

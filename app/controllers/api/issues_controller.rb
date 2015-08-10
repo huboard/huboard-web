@@ -32,9 +32,11 @@ module Api
     #TODO original api checks if comment['message'] exists
     def create_comment
       data = {body: params['markdown']}
-      comment = gh.repos(params[:user], params[:repo]).
+      @issue =  huboard.board(params[:user], params[:repo]).
+        issue(params[:number])
+      @comment = gh.repos(params[:user], params[:repo]).
         issues(params[:number]).comments.create(data)
-      render json: comment
+      render json: @comment
     end
 
     def update_comment
@@ -82,12 +84,6 @@ module Api
       user, repo, number = params[:user], params[:repo], params[:number]
       @issue = huboard.board(user, repo).archive_issue(number)
       render json: @issue
-    end
-
-    def reorder_milestone
-      user, repo, number, index = params[:user], params[:repo], params[:number], params[:index]
-      milestone =  huboard.board(user, repo).milestone number
-      render json: milestone.reorder(index)
     end
 
     def assign_card
