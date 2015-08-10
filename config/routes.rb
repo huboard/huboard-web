@@ -40,7 +40,7 @@ Rails.application.routes.draw do
         put 'columns' => 'columns#update'
         get 'settings' => 'settings#index'
         get 'board' => 'board#index', as: 'board'
-        get 'healthcheck' => 'board#health_check'
+        get 'health/board' => 'health#board'
         get 'commits' => 'board#commits', as: 'commits'
         get 'commit/:commit' => 'board#commit', as: 'commit'
         get 'link_labels' => 'board#link_labels', as: 'link_labels'
