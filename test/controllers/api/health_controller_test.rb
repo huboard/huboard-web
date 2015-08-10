@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class Api::BoardControllerTest < ActionController::TestCase
+class Api::HealthControllerTest < ActionController::TestCase
 
   #One of the hazards of relying too heavily on helpers..
-  Api::BoardController.class_eval do
+  Api::HealthController.class_eval do
     def huboard
       board = Object.new()
       board.class_eval do
@@ -15,7 +15,7 @@ class Api::BoardControllerTest < ActionController::TestCase
     def logged_in?; end
   end
 
-  test 'health_check' do
+  test 'board' do
     #Setup
     payload = [{
       'name' => 'some_health_check',
@@ -28,7 +28,7 @@ class Api::BoardControllerTest < ActionController::TestCase
     HealthChecking::Doctor.stubs(:new).returns(mock_doctor)
 
     #Run
-    get :health_check, user: 'test_user', repo: 'test_repo'
+    get :board, user: 'test_user', repo: 'test_repo'
 
     #Assert
     assert_response :success
