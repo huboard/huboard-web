@@ -3,17 +3,18 @@ import Ember from 'ember';
 var MilestoneSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
     channel: "{model.milestone.repo.full_name}",
+    "milestones.*.milestone_created": "created",
+    "milestones.{model.milestone.number}.milestone_reordered": "reordered"
   },
   hbsubscribers: {
-    milestone_reordered: function(message){
-      this.get('model.milestone').setProperties({
-        description: message.milestone.description,
-        _data: message.milestone._data
-      });
+    created: function(message){
+      this.sendAction("milestoneCreated", message.milestone);
     },
-    _socketDisabled: function(){
-      return !!this.get('model.noMilestone');
-    }.property('model.noMilestone')
+    reordered: function(message){
+      var old_ms = this.get("model.milestone");
+      var new_ms = message.milestone;
+      this.sendAction("milestoneReordered", old_ms, new_ms);
+    },
   }
 });
 
