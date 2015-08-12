@@ -106,9 +106,10 @@ var MilestonesController = Ember.Controller.extend({
       this.get("target").send("editMilestone", milestone);
     },
     milestoneReordered: function(old_ms, new_ms){
-      this.get("model.milestones").removeObject(old_ms);
-      Ember.run.schedule("afterRender", this,  function(){
-        this.get("model.milestones").pushObject(new_ms);
+      var _self = this;
+      Ember.run.once(function(){
+        _self.get("model.milestones").removeObject(old_ms);
+        _self.get("model.milestones").pushObject(new_ms);
       });
     }
   }
