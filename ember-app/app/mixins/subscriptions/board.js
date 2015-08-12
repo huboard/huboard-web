@@ -4,7 +4,8 @@ import Issue from 'app/models/issue';
 var BoardSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
     channel: "{model.full_name}",
-    "issues.*.issue_opened": "newIssue"
+    "issues.*.issue_opened": "newIssue",
+    "milestones.*.milestone_created": "newMilestone"
   },
   hbsubscribers: {
     newIssue: function(message) {
@@ -25,6 +26,10 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         this.hbsubscribers._colorLinkedIssue.call(this, model);
         this.get("model.board.issues").pushObject(model);
       }
+    },
+    newMilestone: function(message){
+      var milestones = this.get("model.board.milestones");
+      milestones.pushObject(message.milestone);
     },
 
     _colorLinkedIssue: function(model){
