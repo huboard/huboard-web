@@ -11,7 +11,7 @@ describe 'GithubRepoWebhookHealthyCheck' do
 
       deps = {board: mock_board}
       result = sut.perform(deps)
-      assert_equal(true, result)
+      assert_equal(false, result)
     end
 
     let(:mock_board){ mock('Board Object') }

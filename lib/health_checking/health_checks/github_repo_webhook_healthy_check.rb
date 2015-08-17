@@ -17,7 +17,7 @@ module HealthChecking
       ##
       
       def perform(deps)
-        return true unless deps[:board].hook_exists?
+        return false unless deps[:board].hook_exists?
 
         huboard_hook = deps[:board].hook
         return huboard_hook['last_response'] == healthy_response || 
