@@ -67,7 +67,7 @@ Ember.onLoad("Ember.Application", function ($app) {
             this.get("sockets")[channel].callbacks.remove(callback);
           },
           _processMessageQueue() {
-             const maxPerRun = 3, delay = 50, self = this;
+             const maxPerRun = 1, delay = 50, self = this;
              let processed = 0;
              if(this._messages){
                while(processed < maxPerRun && this._messages.length>0){
