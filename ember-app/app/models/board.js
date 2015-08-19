@@ -35,7 +35,7 @@ var Board = Ember.Object.extend({
             }).value().sort(function (a,b){
                return a.name.localeCompare(b.name);
             });
-  }.property(),
+  }.property("combinedLabels", "combinedLabels.[]"),
   filterMilestones: function () {
     return _.chain(this.get("combinedMilestones"))
             .map(function (g) {

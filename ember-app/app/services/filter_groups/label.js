@@ -1,11 +1,26 @@
 import Ember from 'ember';
 
+function attr(modelProp, map) {
+  return Ember.computed("model." + modelProp, "model." + modelProp + ".[]", {
+    get: function(key){
+
+      var filters = this.get("model." + modelProp).map(map);
+
+      return filters;
+    },
+    set: function(key, value){
+      this.set("model." + key, value);
+      return value;
+    }
+  });
+}
+
 var LabelFilters = Ember.Service.extend({
   filters: [],
   strategy: "grouping",
 
   create: function(model){
-    this.set("filters", model.get("filterLabels").map(function(l){
+    this.set("filters", attr("filterLabels", function(l){
        return Ember.Object.create({
         name: l.name,
         queryParam: "label",
