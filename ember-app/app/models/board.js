@@ -42,14 +42,14 @@ var Board = Ember.Object.extend({
               return _.first(g);
             })
             .value();
-  }.property("combinedMilestones"),
+  }.property("combinedMilestones.[]"),
   combinedMilestones: function(){
     var milestones = _.union.apply(_,[this.milestones]
                     .concat(this.linkedRepos.map(function (r){return r.milestones; })));
     return _.chain(milestones)
             .groupBy(function(l){return l.title.toLocaleLowerCase(); })
             .value();
-  }.property("milestones.length","linkedRepos.@each.milestones.length"),
+  }.property("milestones.[]","linkedRepos.[].milestones.[]"),
   combinedAssignees: function(){
     var assignees = this.get("assignees");
     var linked = this.get("linkedRepos").map(function(repo){

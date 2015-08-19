@@ -12,7 +12,9 @@ var FilterGroups = Ember.Service.extend({
   setGroups: function(model){
     var self = this;
     this.get("groups").forEach(function(group){
-      self.get(group).create(model);
+      var group = self.get(group);
+      group.set('model', model);
+      group.create(model);
     });
     this.set("created", true);
   },
