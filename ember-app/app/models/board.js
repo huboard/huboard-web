@@ -24,7 +24,7 @@ var Board = Ember.Object.extend({
     return _.union.apply(_,[this.other_labels]
                     .concat(this.linkedRepos.map(function (r){return r.other_labels; })));
 
-  }.property("linkedRepos.@each.issues.length", "issues.length"),
+  }.property("linkedRepos.@each.issues.[]", "issues.[]"),
   filterLabels: function () {
     var labels = this.get("combinedLabels");
 
@@ -49,7 +49,7 @@ var Board = Ember.Object.extend({
     return _.chain(milestones)
             .groupBy(function(l){return l.title.toLocaleLowerCase(); })
             .value();
-  }.property("milestones.[]","linkedRepos.[].milestones.[]"),
+  }.property("milestones.[]","linkedRepos.@each.milestones.[]"),
   combinedAssignees: function(){
     var assignees = this.get("assignees");
     var linked = this.get("linkedRepos").map(function(repo){

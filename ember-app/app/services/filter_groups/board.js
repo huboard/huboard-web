@@ -1,25 +1,13 @@
 import Ember from 'ember';
 
-var BoardFilters = Ember.Service.extend({
-  filters: [],
-  strategy: "inclusive",
+function attr(modelProp, map) {
+  return Ember.computed("model." + modelProp, "model." + modelProp + ".[]", {
+    get: function(key){
+      var model = this.get('model');
 
-  create: function(model){
-    var owner = model.get("full_name").split("/")[0];
+      var filters = this.get("model." + modelProp).map(map);
 
-    this.set("filters", model.get("link_labels").map(function(l){
-       var name = owner === l.user ? l.repo : l.user + "/" + l.repo;
-       return Ember.Object.create({
-        name: name,
-        queryParam: "repo",
-        mode:0,
-        color: l.color,
-        condition:function(i){
-          return i.repo.name === l.repo && i.repo.owner.login === l.user;
-        }
-       });
-    }));
-    this.get("filters").insertAt(0, Ember.Object.create({
+      filters.insertAt(0, Ember.Object.create({
       name: model.get('repo.name'),
       queryParam: "repo",
       mode:0,
@@ -27,6 +15,35 @@ var BoardFilters = Ember.Service.extend({
       condition:function(i){
         return i.repo.name === model.get('repo.name');
       }
+    }));
+
+      return filters;
+    },
+    set: function(key, value){
+      this.set("model." + key, value);
+      return value;
+    }
+  });
+}
+
+var BoardFilters = Ember.Service.extend({
+  filters: [],
+  strategy: "inclusive",
+
+  create: function(model){
+    var owner = model.get("full_name").split("/")[0];
+
+    this.set("filters", attr("linkedRepos", function(l){
+       var name = owner === l.repo.owner.login ? l.repo.name : l.repo.full_name;
+       return Ember.Object.create({
+        name: name,
+        queryParam: "repo",
+        mode:0,
+        color: l.repo.color,
+        condition:function(i){
+          return i.repo.name === l.repo.name && i.repo.owner.login === l.repo.owner.login;
+        }
+       });
     }));
 
     return this.get("filters");
