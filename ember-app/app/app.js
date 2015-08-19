@@ -47,11 +47,15 @@ Ember.onLoad("Ember.Application", function ($app) {
           sockets: {},
           client: new Faye.Client(application.get('socketBackend')),
           publish: function(message){
-            var channel = message.meta.channel.toLowerCase();
-            this.get('sockets')[channel].callbacks.fire(message);
+            const channel = message.meta.channel.toLowerCase();
+            if(self._messages){
+              self._messages.push({channel: channel, message: message});
+            }              
+            if(self._nextProcess){ Ember.run.cancel(self._nextProcess); }
+            self._nextProcess = Ember.run.later(self, self._processMessageQueue, 50);
           },
           subscribe: function (channel, callback) {
-            channel = channel.toLowerCase();
+            const channel = channel.toLowerCase();
             if(!this.get("sockets")[channel]){
               this.subscribeTo(channel);
             }
@@ -59,16 +63,53 @@ Ember.onLoad("Ember.Application", function ($app) {
             return callback;
           },
           unsubscribe: function(channel, callback) {
-            channel = channel.toLowerCase();
+            const channel = channel.toLowerCase();
             this.get("sockets")[channel].callbacks.remove(callback);
           },
+          _processMessageQueue() {
+             const maxPerRun = 1, delay = 50, self = this;
+             let processed = 0;
+             if(this._messages){
+               while(processed < maxPerRun && this._messages.length>0){
+                 var message = this._messages.shift();
+                 if(message){
+                   Ember.run.schedule('afterRender', this, function(){
+                      self.get("sockets")[message.channel].callbacks.fire(message.message);
+                   });
+                   processed++;
+                 }
+               }
+
+               if(this._messages.length === 0){
+                 //queue is empty
+                 console.log("processed:", processed, "max:", maxPerRun);
+               } else {
+                 if(self._nextProcess){
+                   Ember.run.cancel(self._nextProcess);
+                 }
+                 self._nextProcess = Ember.run.next(self, function(){
+                   if(self._nextProcess){
+                     Ember.run.cancel(self._nextProcess);
+                   }
+                   self._nextProcess = Ember.run.later(self, self._processMessageQueue, delay);
+                 });
+               }
+             }
+          },
+          _messages: [],
           subscribeTo: function(channel) {
-            channel = channel.toLowerCase();
+            const channel = channel.toLowerCase(), self = this;
             var client = this.get('client'), 
-            callbacks = Ember.$.Callbacks();
+              callbacks = Ember.$.Callbacks();
+
             client.disable("eventsource");
-            var source = client.subscribe("/" + channel, function(event){
-              callbacks.fire(event);
+            var source = client.subscribe("/" + channel, function(message){
+              if(self._messages){
+                self._messages.push({channel: channel, message: message});
+              }              
+              if(self._nextProcess){ Ember.run.cancel(self._nextProcess); }
+              self._nextProcess = Ember.run.later(self, self._processMessageQueue, 50);
+              //callbacks.fire(event);
             });
             this.get("sockets")[channel] = {
               source: source,

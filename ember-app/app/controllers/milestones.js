@@ -65,6 +65,7 @@ var MilestonesController = Ember.Controller.extend({
 
   milestoneMoved: function(milestoneController, index) {
     var milestone = milestoneController.get("model.milestone"), owner = milestone.repo.owner.login, name = milestone.repo.name;
+    milestoneController.set("model.milestone._data.order", index);
 
     Ember.$.ajax({
       url: "/api/" + owner + "/" + name + "/milestones/reorder_milestone",
@@ -78,7 +79,6 @@ var MilestonesController = Ember.Controller.extend({
 
       success: function(response) {
         milestoneController.set("model.milestone.description", response.description);
-        milestoneController.set("model.milestone._data", response._data);
       }
     });
   },
@@ -104,6 +104,13 @@ var MilestonesController = Ember.Controller.extend({
     },
     editMilestone: function(milestone){
       this.get("target").send("editMilestone", milestone);
+    },
+    milestoneReordered: function(old_ms, new_ms){
+      var _self = this;
+      Ember.run.once(function(){
+        _self.get("model.milestones").removeObject(old_ms);
+        _self.get("model.milestones").pushObject(new_ms);
+      });
     }
   }
 });

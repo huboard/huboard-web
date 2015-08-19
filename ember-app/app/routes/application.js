@@ -26,8 +26,6 @@ var ApplicationRoute = Ember.Route.extend({
   },
   setupController: function(controller){
     this._super.apply(this, arguments);
-    controller.unsubscribeFromMessages();
-    controller.subscribeToMessages();
 
     Ember.$(document).ajaxError(function(event, xhr){
       if(App.get('loggedIn') && xhr.status === 404){

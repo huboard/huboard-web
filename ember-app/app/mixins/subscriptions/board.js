@@ -4,7 +4,8 @@ import Issue from 'app/models/issue';
 var BoardSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
     channel: "{model.full_name}",
-    "issues.*.issue_opened": "newIssue"
+    "issues.*.issue_opened": "newIssue",
+    "milestones.*.milestone_created": "newMilestone"
   },
   hbsubscribers: {
     newIssue: function(message) {
@@ -22,7 +23,25 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           });
           model.set("current_state", column);
         }
+        this.hbsubscribers._colorLinkedIssue.call(this, model);
         this.get("model.board.issues").pushObject(model);
+      }
+    },
+    newMilestone: function(message){
+      var milestones = this.get("model.board.milestones");
+      milestones.pushObject(message.milestone);
+    },
+
+    _colorLinkedIssue: function(model){
+      var parent_repo = this.get("model.board.repo.full_name");
+      var model_repo = model.repo.full_name;
+      if(parent_repo.toLowerCase() !== model_repo.toLowerCase()){
+        var linked_labels = this.get("model.board.link_labels");
+        var label = _.find(linked_labels, function(l){
+          var name = l.user + "/" + l.repo;
+          return name.toLowerCase() === model.repo.full_name.toLowerCase();
+        });
+        model.color = label.color;
       }
     }
   }
