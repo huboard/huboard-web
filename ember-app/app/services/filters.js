@@ -19,7 +19,7 @@ var FiltersService = Ember.Service.extend({
     if (!this.get("filterGroups.created")){ return; }
     key = key.replace("Filters", "");
     if (this.get("filterGroups." + key + ".filters")){
-      return this.set(key+ "Filters", attr(key));
+      this.set(key+ "Filters", attr(key));
       return this.get(key + "Filters");
     }
   },
