@@ -33,10 +33,10 @@ var IssuesCreateView = ModalView.extend(KeyPressHandlingMixin, {
     return false;
   },
   focusTitleField: function(){
-      Ember.run.schedule("afterRender", this, "focusTextbox");
+    Ember.run.schedule("afterRender", this, "focusTextbox");
   }.on("init"),
   focusTextbox: function(){
-    var input = this.$("input");
+    var input = this.$("input").first();
     input.focus();
   }
 });
