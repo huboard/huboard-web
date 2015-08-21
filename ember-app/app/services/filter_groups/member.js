@@ -16,7 +16,7 @@ var MemberFilters = Ember.Service.extend({
   },
 
   filters : function () {
-     return this.get("avatars").map(function(a){
+     var filters = this.get("avatars").map(function(a){
        return Ember.Object.create({
          name: a.login,
          avatar : a,
@@ -26,6 +26,16 @@ var MemberFilters = Ember.Service.extend({
          }
        });
      });
+      if(this._filters){
+        this._filters.forEach(function(f){
+          var newOne = filters.findBy('name', f.name);
+          if(newOne){
+            newOne.set('mode', f.mode);
+          }
+        });
+      }
+      this._filters = filters;
+      return filters;
   }.property("avatars"),
 
   avatars : function () {

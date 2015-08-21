@@ -6,6 +6,16 @@ function attr(modelProp, map) {
 
       var filters = this.get("model." + modelProp).map(map);
 
+      if(this._filters){
+        this._filters.forEach(function(f){
+          var newOne = filters.findBy('name', f.name);
+          if(newOne){
+            newOne.set('mode', f.mode);
+          }
+        });
+      }
+      this._filters = filters;
+
       return filters;
     },
     set: function(key, value){

@@ -16,6 +16,15 @@ function attr(modelProp, map) {
         return i.repo.name === model.get('repo.name');
       }
     }));
+      if(this._filters){
+        this._filters.forEach(function(f){
+          var newOne = filters.findBy('name', f.name);
+          if(newOne){
+            newOne.set('mode', f.mode);
+          }
+        });
+      }
+      this._filters = filters;
 
       return filters;
     },
