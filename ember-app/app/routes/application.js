@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import Repo from 'app/models/repo';
+import NRepo from 'app/models/new/repo';
+import ajax from 'ic-ajax';
 
 var ApplicationRoute = Ember.Route.extend({
   filters: Ember.inject.service(),
@@ -16,6 +18,10 @@ var ApplicationRoute = Ember.Route.extend({
     }
   },
   model: function () {
+    return ajax(`/api/v2/${App.get('repo.full_name')}`).then(function(response){
+      return NRepo.create(response);
+      
+    });
     return new Ember.RSVP.Promise(function(resolve){
        Ember.run.once(function(){
         console.log("TODO: fix this call to App");

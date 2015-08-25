@@ -1,5 +1,6 @@
 import CssView from 'app/views/css';
 import Board from 'app/models/board';
+import NBoard from 'app/models/new/board';
 import Ember from 'ember';
 import CreateIssue from 'app/models/forms/create-issue';
 import Issue from 'app/models/issue';
@@ -10,10 +11,12 @@ var IndexRoute = Ember.Route.extend({
 
   model: function(){
     var repo = this.modelFor("application");
-    var linked_boards = repo.fetchLinkedBoards();
-    return repo.fetchBoard(linked_boards);
+    return NBoard.fetch(repo);
+    //var linked_boards = repo.fetchLinkedBoards();
+    //return repo.fetchBoard(linked_boards);
   },
   afterModel: function (model){
+    return;
     if(App.get("isLoaded")) {
       return;
     }
@@ -40,13 +43,13 @@ var IndexRoute = Ember.Route.extend({
   renderTemplate: function() {
 
     this._super.apply(this, arguments);
-    this.render('assignee', {into: 'index', outlet: 'sidebarTop'});
-    this.render('filters', {into: 'index', outlet: 'sidebarMiddle'});
+    //this.render('assignee', {into: 'index', outlet: 'sidebarTop'});
+    //this.render('filters', {into: 'index', outlet: 'sidebarMiddle'});
   },
   setupController: function(controller, model){
    this._super(controller, model);
-   this.get("qps").applyFilterBuffer();
-   this.get("qps").applySearchBuffer();
+   //this.get("qps").applyFilterBuffer();
+   //this.get("qps").applySearchBuffer();
   },
 
   actions : {

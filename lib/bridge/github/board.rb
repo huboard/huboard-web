@@ -52,6 +52,16 @@ class Huboard
       board
     end
 
+    def fetch
+      gh_repos = gh
+      columns = column_labels
+      {
+        "id" => gh_repos['id'],
+        full_name: gh_repos['full_name'],
+        columns: columns
+      }
+    end
+
     def meta
       gh_repos = gh
       columns = column_labels

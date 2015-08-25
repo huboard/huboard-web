@@ -10,6 +10,7 @@ require_relative "github/board"
 require_relative "github/user"
 require_relative "github/comments"
 require_relative "github/commits"
+require_relative "github/repo"
 require_relative "middleware"
 require "addressable/uri"
 
@@ -65,6 +66,10 @@ class Huboard
 
     def board(user, repo)
       Board.new(user, repo, @connection_factory)
+    end
+
+    def repo(user, repo)
+      Repo.new(user, repo, connection)
     end
   end
 

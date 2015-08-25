@@ -9,7 +9,7 @@ var ApplicationController = Ember.Controller.extend(
   filters: Ember.inject.service(),
   setFilters: function(){
     if(this.get("model.board")){
-      this.get("filters.filterGroups").setGroups(this.get("model.board"));
+      //this.get("filters.filterGroups").setGroups(this.get("model.board"));
     }
   }.observes("model.board"),
 
