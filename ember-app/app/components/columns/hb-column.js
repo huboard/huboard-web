@@ -14,21 +14,21 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   }.property("columnComponents.[]"),
   sortedIssues: function(){
     var column = this.get("model");
-    var issues = this.get("issues").filter(function(i){
-      return i.current_state.index === column.index;
+    var issues = this.get("model.board.issues").filter(function(i){
+      return i.data.current_state.index === column.data.index;
     }).filter(function(i) {
       return !i.get("isArchived");
     }).sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{columnIndex,order}"),
   sortStrategy: function(a,b){
-    if(a._data.order === b._data.order){
+    if(a.data._data.order === b.data._data.order){
       if(a.repo.full_name === b.repo.full_name){
         return a.number - b.number;
       }
       return a.repo.full_name - b.repo.full_name;
     }
-    return a._data.order - b._data.order;
+    return a.data._data.order - b.data._data.order;
   },
   moveIssue: function(issue, order){
     var self = this;

@@ -43,13 +43,13 @@ var IndexRoute = Ember.Route.extend({
   renderTemplate: function() {
 
     this._super.apply(this, arguments);
-    //this.render('assignee', {into: 'index', outlet: 'sidebarTop'});
-    //this.render('filters', {into: 'index', outlet: 'sidebarMiddle'});
+    this.render('assignee', {into: 'index', outlet: 'sidebarTop'});
+    this.render('filters', {into: 'index', outlet: 'sidebarMiddle'});
   },
   setupController: function(controller, model){
    this._super(controller, model);
-   //this.get("qps").applyFilterBuffer();
-   //this.get("qps").applySearchBuffer();
+   this.get("qps").applyFilterBuffer();
+   this.get("qps").applySearchBuffer();
   },
 
   actions : {

@@ -2,8 +2,7 @@
 import Ember from 'ember';
 import Model from '../model';
 import Board from './board';
-//import Issue from './issue';
-var Issue = Ember.Object.extend();
+import Issue from './issue';
 
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 var Repo = Model.extend({

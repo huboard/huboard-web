@@ -39,6 +39,7 @@ var MemberFilters = Ember.Service.extend({
   }.property("avatars"),
 
   avatars : function () {
+    return [];
     var issues = this.get("combinedIssues");
     return this.get("combinedAssignees").filter(function(assignee){
       return _.find(issues, function(issue){
