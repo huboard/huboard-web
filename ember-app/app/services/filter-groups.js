@@ -7,8 +7,9 @@ var FilterGroups = Ember.Service.extend({
   user: Ember.inject.service("filter_groups/user"),
   member: Ember.inject.service("filter_groups/member"),
   search: Ember.inject.service("filter_groups/search"),
+  card: Ember.inject.service("filter_groups/card"),
 
-  groups: ["board", "milestone", "label", "user", "member", "search"],
+  groups: ["board", "milestone", "label", "user", "member", "search", "card"],
   setGroups: function(model){
     var self = this;
     this.get("groups").forEach(function(group){
@@ -26,8 +27,9 @@ var FilterGroups = Ember.Service.extend({
             .concat(this.get("board.filters"))
             .concat(this.get("label.filters"))
             .concat(this.get("member.filters"))
-            .concat(this.get("search.filters"));
-  }.property("{board,milestone,label,user,member,search}.filters.@each.mode"),
+            .concat(this.get("search.filters"))
+            .concat(this.get("card.filters"));
+  }.property("{board,milestone,label,user,member,search,card}.filters.@each.mode"),
 
   active: function(){
     return this.get("allFilters").any(function(f){
