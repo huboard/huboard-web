@@ -136,7 +136,7 @@ var FiltersService = Ember.Service.extend({
       });
     }
   }.observes("filterGroups.milestone.filters.@each.mode"),
-  forceCardToActive: function(){
+  forceOnlyOneActiveCard: function(){
     var filters = this.get("cardFilters");
     if (filters && filters.length){
       var active = filters.filter(function(f){
