@@ -29,10 +29,7 @@ class Huboard
     def fetch(with_links=true)
       repo = {
         owner: @connection.users(@user),
-        repo: gh.to_h,
-        labels: other_labels.sort_by {|l| l['name'].downcase },
-        assignees: assignees,
-        milestones: milestones,
+        repo: gh.to_h
       }
 
       repo.merge!({links: links}) if with_links

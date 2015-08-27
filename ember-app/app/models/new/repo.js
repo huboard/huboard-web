@@ -11,7 +11,7 @@ var Repo = Model.extend({
     return this.get('data.repo.permissions.admin') || this.get('data.repo.permissions.push');
   }),
   isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
-  baseUrl: Ember.computed('data.full_name', function () {
+  baseUrl: Ember.computed('data.repo.full_name', function () {
     return `/api/v2/${this.get('data.repo.full_name')}`;
   }),
   userUrl :function () {
