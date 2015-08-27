@@ -29,11 +29,12 @@ var IssueFiltersMixin = Ember.Mixin.create({
 
     this.mergeUserAndMemberGroups(filter_groups, strategy);
 
-    _.each(filter_groups[strategy], (function(value){
-      filters_active.push(value.length);
-      results.push(strategy_function(value, item));
+    _.each(filter_groups[strategy], (function(group){
+      if(group.length){
+        filters_active.push(group.length);
+        results.push(strategy_function(group, item));
+      }
     }));
-    filters_active = filters_active.filter(function(count){ return count > 0;});
 
     return this.compareFilterResults(results, filters_active);
   },
