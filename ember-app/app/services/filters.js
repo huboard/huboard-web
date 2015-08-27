@@ -136,6 +136,15 @@ var FiltersService = Ember.Service.extend({
       });
     }
   }.observes("filterGroups.milestone.filters.@each.mode"),
+  forceCardToActive: function(){
+    var filters = this.get("cardFilters");
+    if (filters && filters.length){
+      var active = filters.filter(function(f){
+        return f.mode === 1 || f.mode === 2;
+      });
+      if(active.length > 1){ filters.setEach("mode", 0); }
+    }
+  }.observes("filterGroups.card.filters.@each.mode"),
   groupActive: function(filters){
     if (!filters || !filters.length){ return false;}
     return filters.any(function(f){
