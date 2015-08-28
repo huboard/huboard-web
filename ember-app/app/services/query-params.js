@@ -5,35 +5,40 @@ var queryParamsService = Ember.Service.extend({
 
   clear: function(){
     var self = this;
-    var params = ["repo", "assignee", "milestone", "label"];
-    params.forEach(function(param){
+    this.get("filterNames").forEach(function(param){
       return self.set(`${param}Params`, []);
     });
     this.set("filterParamsBuffer", {});
     this.set("searchParams", "");
     this.set("searchParamsBuffer", "");
   },
+  clearOnEmpty: function(){
+    if(!this.get("filters.hideFilters.length")){
+      this.clear();
+    };
+  }.observes("filters.hideFilters.[]"),
 
   ////Query Params for Filters
   repoParams: [],
   assigneeParams: [],
   milestoneParams: [],
   labelParams: [],
-  filterNames: ["repo", "assignee", "milestone", "label"],
+  cardParams: [],
+  filterNames: ["repo", "assignee", "milestone", "label", "card"],
   allFilterParams: function(){
     var self = this;
     var filters = this.get("filterNames").map(function(param){
       return self.get(`${param}Params`);
     });
     return _.flatten(filters);
-  }.property("{repo,assignee,milestone,label}Params"),
+  }.property("{repo,assignee,milestone,label,card}Params"),
 
-  //Push board, label and milestone filters to the URL
+  //Push board, label, card and milestone filters to the URL
   updateFilterParams: function(){
     if(!this.get("filters.filterGroups.created")){return;}
     var self = this;
     var filters_object = this.get("filters.allFiltersObject");
-    ["board", "label", "milestone"].forEach(function(param){
+    ["board", "label", "milestone", "card"].forEach(function(param){
       var hidden_filters = filters_object[param].filter(function(f){
         return f.mode === 2;
       }).map(function(f){return f.name; });
@@ -74,7 +79,8 @@ var queryParamsService = Ember.Service.extend({
         repo: this.get("repoParams"),
         assignee: this.get("assigneeParams"),
         milestone: this.get("milestoneParams"),
-        label: this.get("labelParams")
+        label: this.get("labelParams"),
+        card: this.get("cardParams")
       });
     }
   }.observes("allFilterParams.[]"),
@@ -86,6 +92,7 @@ var queryParamsService = Ember.Service.extend({
       this.set("assigneeParams", buffer.assignee);
       this.set("milestoneParams", buffer.milestone);
       this.set("labelParams", buffer.label);
+      this.set("cardParams", buffer.card);
       this.set("filterParamsBuffer", {});
     }
   },
