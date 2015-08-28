@@ -3,7 +3,6 @@ import Model from '../model';
 import Column from './column';
 import ajax from 'ic-ajax';
 
-var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 
 var Board = Model.extend({
   repo: null,

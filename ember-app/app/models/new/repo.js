@@ -49,10 +49,6 @@ var Repo = Model.extend({
     });
     return response;
   }),
-  xboard: Ember.computed(function(){
-    //fetch links first? ... no load them with the repo
-    return Board.fetch(this);
-  })
 });
 
 export default Repo;
