@@ -7,7 +7,7 @@ var CardFilters = Ember.Service.extend({
   create: function(){
     this.set("filters", [
       Ember.Object.create({
-        name: "Issues Only",
+        name: "Issues only",
         queryParam: "card",
         mode: 0,
         condition: function(i){
@@ -15,7 +15,7 @@ var CardFilters = Ember.Service.extend({
         }
       }),
       Ember.Object.create({
-        name: "Pull Requests Only",
+        name: "Pull requests only",
         queryParam: "card",
         mode: 0,
         condition: function(i){
