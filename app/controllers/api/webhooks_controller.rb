@@ -17,7 +17,8 @@ module Api
       repo = {
         repo: {
           owner: { login: payload[:repository][:owner][:login] },
-          name: payload[:repository][:name]
+          name: payload[:repository][:name],
+          full_name: payload[:repository][:full_name]
         }
       }
       payload[:issue].extend(Huboard::Issues::Card).merge!(repo)
