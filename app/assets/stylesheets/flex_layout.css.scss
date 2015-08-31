@@ -467,18 +467,22 @@
       
       }
     }
-
+    .hover-border-top {
+      > a {
+        padding-top: 12px;
+      }
+    }
     > li {
       > a {
         &:hover {
           border-top: 3px solid $hb-purple-dark;
-          padding-top: 7px;
+          padding-top: 9px;
         }
       }
       &.active, &.dropdown.open {
         > a, > a:hover, > .dropdown-toggle, > .dropdown-toggle:hover  {
             border-top: 3px solid $hb-purple;
-            padding-top: 7px;
+            padding-top: 9px;
             background:none;
             @include box-shadow(none);
             &.avatar {

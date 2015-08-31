@@ -67,16 +67,19 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     } else {
       return {};
     }
-  }.property("sortedIssues.@each"),
+  }.property("sortedIssues.[]"),
 
   registerWithController: function(){
-    var self = this;
+    var _self = this;
     Ember.run.schedule("afterRender", this, function(){
-      self.attrs.registerColumn(self);
+      _self.attrs.registerColumn(_self);
     });
   }.on("didInsertElement"),
   unregisterWithController: function(){
-    this.attrs.unregisterColumn(this);
+    var _self = this;
+    Ember.run.schedule("afterRender", this, function(){
+      _self.attrs.unregisterColumn(_self);
+    });
   }.on("willDestroyElement"),
   wireupIsCollapsed: function(){
     var self = this;
