@@ -12,39 +12,24 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var issue = this.get("model.board.issues").findBy('number', message.issue.number);
       if(issue) { return issue.set("state", "open"); }
 
-      var model = Issue.create(message.issue);
-      if(model.repo.is_collaborator === undefined){
-        return this.hbsubscribers._webhookIssue.call(this, model);
-      } else if(message.issue.current_state.name === "__nil__") {
-        model.set("current_state", this.get("model.board.columns.firstObject"));
-      } else {
-        var column = this.get("model.board.columns").find(function(c) {
-          return c.name === message.issue.current_state.name;
-        });
-        model.set("current_state", column);
-      }
-      this.hbsubscribers._colorLinkedIssue.call(this, model);
-      this.get("model.board.issues").pushObject(model);
+      var _self = this;
+      var number = message.issue.number;
+      var repo = message.issue.repo.full_name;
+      this.get("model").fetchIssue(number, repo).then(function(issue){
+        var model = Issue.create(issue);
+        if(model.current_state.name === "__nil__") {
+          model.set("current_state", _self.get("model.board.columns.firstObject"));
+        }
+
+        _self.hbsubscribers._colorLinkedIssue.call(_self, model);
+        _self.get("model.board.issues").pushObject(model);
+      });
     },
     newMilestone: function(message){
       var milestones = this.get("model.board.milestones");
       milestones.pushObject(message.milestone);
     },
 
-    _webhookIssue: function(model){
-      var _self = this;
-      var board = this.get("model");
-      var repo = model.repo.full_name;
-      board.fetchIssue(model.number, repo).then(function(issue){
-        var newModel = Issue.create(issue);
-        if(newModel.current_state.name === "__nil__") {
-          newModel.set("current_state", _self.get("model.board.columns.firstObject"));
-        }
-
-        _self.hbsubscribers._colorLinkedIssue.call(_self, newModel);
-        _self.get("model.board.issues").pushObject(newModel);
-      });
-    },
     _colorLinkedIssue: function(model){
       var parent_repo = this.get("model.board.repo.full_name");
       var model_repo = model.repo.full_name;
