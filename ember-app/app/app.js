@@ -54,7 +54,7 @@ Ember.onLoad("Ember.Application", function ($app) {
               _self._messages.push({channel: channel, message: message});
             }              
             if(_self._nextProcess){ Ember.run.cancel(_self._nextProcess); }
-            _self._nextProcess = Ember.run.later(self, _self._processMessageQueue, 50);
+            _self._nextProcess = Ember.run.later(_self, _self._processMessageQueue, 50);
           },
           subscribe: function (channel, callback) {
             const channel = channel.toLowerCase();
