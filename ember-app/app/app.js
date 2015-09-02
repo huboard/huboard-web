@@ -48,11 +48,13 @@ Ember.onLoad("Ember.Application", function ($app) {
           client: new Faye.Client(application.get('socketBackend')),
           publish: function(message){
             const channel = message.meta.channel.toLowerCase();
-            if(self._messages){
-              self._messages.push({channel: channel, message: message});
+            var _self = this;
+
+            if(_self._messages){
+              _self._messages.push({channel: channel, message: message});
             }              
-            if(self._nextProcess){ Ember.run.cancel(self._nextProcess); }
-            self._nextProcess = Ember.run.later(self, self._processMessageQueue, 50);
+            if(_self._nextProcess){ Ember.run.cancel(_self._nextProcess); }
+            _self._nextProcess = Ember.run.later(_self, _self._processMessageQueue, 50);
           },
           subscribe: function (channel, callback) {
             const channel = channel.toLowerCase();
