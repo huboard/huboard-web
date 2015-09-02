@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Repo from 'app/models/repo';
+import ajax from 'ic-ajax';
 
 var ApplicationRoute = Ember.Route.extend({
   filters: Ember.inject.service(),
