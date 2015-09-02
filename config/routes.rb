@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         end
 
         #Issues
+        get 'issues/:number' => 'issues#issue'
         get 'issues/:number/details' => 'issues#details'
         post 'issues' => 'issues#create_issue'
         post 'issues/:number/comment' => 'issues#create_comment'
