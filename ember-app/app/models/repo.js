@@ -121,6 +121,10 @@ var Repo = Ember.Object.extend(Serializable,{
       .then(function(commits){
         return commits;
       }.bind(this));
+  },
+  fetchIssue: function(number, repoName){
+    var repoName = repoName ? repoName : this.get("full_name");
+    return Ember.$.getJSON(`/api/${repoName}/issues/${number}`);
   }
 });
 

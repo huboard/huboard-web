@@ -1,6 +1,11 @@
 module Api
   class IssuesController < ApplicationController
 
+    def issue
+      api = huboard.board(params[:user], params[:repo])
+      render json: api.issue(params[:number])
+    end
+
     def details
       api = huboard.board(params[:user], params[:repo])
       render json: api.issue(params[:number]).activities
