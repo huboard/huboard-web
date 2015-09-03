@@ -107,5 +107,12 @@ module Api
       render json: @issue
     end
 
+    def status
+      repo = gh.repos(params[:user], params[:repo])
+      sha = repo.pulls(params[:number]).commits.first['sha']
+
+      render json: repo.commits(sha).status
+    end
+
   end
 end

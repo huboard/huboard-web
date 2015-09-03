@@ -1,0 +1,23 @@
+<div class="current-state">
+  <label>
+    Build {{stateInflection}}: {{status.state}}
+  </label>
+  <label>
+    {{#each commitStates as |state|}}
+      {{object-value stateCounts state}} {{state}}
+    {{/each}}
+  </label>
+</div>
+
+<div class="all-states">
+  <ul>
+    {{#each status.statuses as |status|}}
+      <li>
+        {{status.context}}:  {{status.state}}
+        {{#if status.description}}
+          {{status.description}}
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
