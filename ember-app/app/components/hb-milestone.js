@@ -11,12 +11,12 @@ var HbMilestoneComponent = Ember.Component.extend({
     return this.get("milestones")
     .filter(function(item) {
       var term = this.get("filterMilestones") || "";
-      return item.title.toLowerCase().indexOf(term.toLowerCase() || item.title.toLowerCase()) !== -1;
+      return item.data.title.toLowerCase().indexOf(term.toLowerCase() || item.data.title.toLowerCase()) !== -1;
     }.bind(this))
     .map(function(item) {
 
       return this.ListItem.create({
-        selected: item.id === this.get("selected.id"),
+        selected: item.data.id === this.get("data.selected.id"),
         item: item
       });
 

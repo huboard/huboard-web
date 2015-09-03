@@ -47,6 +47,11 @@ var Repo = Model.extend({
       var milestones = details.data.milestones.map((x) => Milestone.create({data: x, repo: repo}));
       repo.set('milestones', milestones);
 
+      repo.set('other_labels', details.data.other_labels);
+      repo.set('assignees', details.data.assignees);
+
+
+
       return repo;
     });
   },

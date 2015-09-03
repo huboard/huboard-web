@@ -8,14 +8,14 @@ var IssuesCreateController = Ember.Controller.extend({
   }.property('model.repo', 'allRepos.[]'),
   findBoard: function(repo){
       var selectedBoard = this.get('allRepos').find(function(board){
-        return Ember.get(repo, 'full_name').toLowerCase() ===
-          Ember.get(board, 'full_name').toLowerCase();
+        return Ember.get(repo, 'repo.full_name').toLowerCase() ===
+          Ember.get(board, 'repo.full_name').toLowerCase();
       });
       return selectedBoard;
   },
-  otherLabels: Ember.computed.alias("selectedBoard.other_labels"),
-  assignees: Ember.computed.alias("selectedBoard.assignees"),
-  milestones: Ember.computed.alias("selectedBoard.milestones"),
+  otherLabels: Ember.computed.alias("selectedBoard.data.other_labels"),
+  assignees: Ember.computed.alias("selectedBoard.data.assignees"),
+  milestones: Ember.computed.alias("selectedBoard.data.milestones"),
   columns: "selectedBoard.columns",
   disabled: function () {
     return this.get("processing") || !this.get("isValid");
@@ -47,11 +47,7 @@ var IssuesCreateController = Ember.Controller.extend({
       });
     });
   },
-  allRepos: function(){
-    var linked = this.get("controllers.application.model.board.linkedRepos");
-    var board = this.get("controllers.application.model.board");
-    return _.union([_.clone(board)], linked);
-  }.property("controllers.application.model.board.linkedRepos"),
+  allRepos: Ember.computed.alias('controllers.application.model.repos'),
   issueIsLinked: function(){
     return this.get("model.repo.full_name").toLowerCase() !== this.get("controllers.application.model.board.full_name").toLowerCase();
   }.property("controllers.application.model.board.full_name","model.repo", "model.repo.full_name"),

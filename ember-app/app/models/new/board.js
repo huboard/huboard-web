@@ -10,6 +10,7 @@ var Board = Model.extend({
   // these need to be real 
   filterMilestones: [],
   filterLabels: [],
+  // kill kill kill!
   linkedRepos: [],
   combinedAssignees:[],
   combinedIssues: [],
