@@ -9,7 +9,7 @@ function attr(modelProp, map) {
         queryParam: "milestone",
         mode:0,
         condition:function(i){
-          return i.milestone == null;
+          return i.data.milestone == null;
         }
       }));
       if(this._filters){
@@ -35,13 +35,13 @@ var MilestoneFilters = Ember.Service.extend({
   strategy: "inclusive",
 
   create: function(model){
-    this.set("filters", attr("filterMilestones", function(m){
+    this.set("filters", attr("milestones", function(m){
       return Ember.Object.create({
-        name: m.title,
+        name: m.milestone.data.title,
         queryParam: "milestone",
         mode:0,
         condition:function(i){
-          return i.milestone && i.milestone.title.toLocaleLowerCase() === m.title.toLocaleLowerCase();
+          return i.data.milestone && i.data.milestone.title.toLocaleLowerCase() === m.milestone.data.title.toLocaleLowerCase();
         }
       });
     }));

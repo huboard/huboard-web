@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Model from '../model';
 import Board from './board';
 import Issue from './issue';
+import Milestone from './milestone';
 import ajax from 'ic-ajax';
 
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
@@ -24,9 +25,6 @@ var Repo = Model.extend({
   repoUrl :function () {
     return `${this.get('userUrl')}/${this.get("data.repo.name")}`;
   }.property("data.repo.name",'userUrl'),
-  milestonesLength: Ember.computed.alias('data.milestones.length'),
-  milestones: Ember.computed('data.milestones', 'data.milestones.length', function(){
-  }),
   links: Ember.computed('data.links', function(){
     var self = this, 
     links = this.get('data.links');
@@ -41,8 +39,14 @@ var Repo = Model.extend({
   load: function(){
     var repo = this;
     return this.get('ajax')(`${this.get('baseUrl')}/details`).then(function(details){
+      // map the issues
       var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
       repo.set('issues', issues);
+
+      //map the milestones
+      var milestones = details.data.milestones.map((x) => Milestone.create({data: x, repo: repo}));
+      repo.set('milestones', milestones);
+
       return repo;
     });
   },

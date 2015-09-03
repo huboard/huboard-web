@@ -24,6 +24,28 @@ var Board = Model.extend({
       sortProperties: ['_data.order']
     });
   }),
+
+  milestones: Ember.computed('repos.@each.milestones.[]', {
+    get: function(key){
+      
+      var combined = this.get('repos')
+        .map((x) => x.get('milestones'))
+        .reduce((l, r) => l.concat(r)); 
+
+      var groups = _.groupBy(combined, (x) => x.get('data.title').toLowerCase());
+
+      var mapped = _.map(groups, (val, key) => {
+        return Ember.Object.create({
+          milestone: val[0],
+          milestones: val
+        })
+      });
+
+      return mapped;
+
+    }
+  }),
+  
   columns: Ember.computed('data.columns', function(){
     var board = this,
     columns = this.get('data.columns');
@@ -34,6 +56,7 @@ var Board = Model.extend({
       return column;
     });
   }),
+
   issues: Ember.computed('repos.@each.issues.[]', {
     get: function(key){
       var combined = this.get('repos')
