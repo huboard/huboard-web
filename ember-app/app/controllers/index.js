@@ -28,9 +28,10 @@ var IndexController = Ember.Controller.extend({
   board_columns: function(){
      return this.get("model.columns");
   }.property("model.columns"),
+
   isCollaborator: function(){
-    return App.get("repo.is_collaborator");
-  }.property('App.repo.is_collaborator'),
+    return this.get("model.repo.isCollaborator");
+  }.property('model.repo.isCollaborator'),
 
   actions: {
     registerColumn: function(column_component){

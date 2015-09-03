@@ -45,6 +45,10 @@ var Repo = Model.extend({
       repo.set('issues', issues);
       return repo;
     });
+  },
+  fetchSettings: function(){
+    if(this._settings) {return this._settings;}
+    return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   }
 });
 

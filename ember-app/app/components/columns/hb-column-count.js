@@ -25,7 +25,7 @@ var HbColumnCountComponent = Ember.Component.extend(IssueFiltersMixin, {
     return issues.length - filteredCount;
   }.property("issues","filters.hideFilters"),
   isOverWip: function(){
-    var wip = this.get("column.wip");
+    var wip = this.get("column.data.wip");
     return wip && this.get("issuesCount") > wip;
   }.property("issuesCount")
 });
