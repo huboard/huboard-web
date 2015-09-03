@@ -19,26 +19,11 @@ var Repo = Model.extend({
     return `/api/v2/${this.get('data.repo.full_name')}`;
   }),
   userUrl :function () {
-    return "/" + this.get("data.owner.login");
-  }.property("owner.login"),
+    return "/" + this.get("data.repo.owner.login");
+  }.property("data.repo.owner.login"),
   repoUrl :function () {
     return `${this.get('userUrl')}/${this.get("data.repo.name")}`;
   }.property("data.repo.name",'userUrl'),
-  issues: Ember.computed(function(){
-    var self = this;
-    return PromiseObject.create({
-      promise: new Ember.RSVP.Promise(function(resolve, reject){
-        self.get('ajax')(`${self.get('baseUrl')}/issues`).then(function(issues){
-          var results = Ember.A();
-          issues.data.forEach(function(i){
-            var issue = Issue.create({data: i, repo: self}); 
-            results.pushObject(issue);
-          });
-          resolve(results);
-        }, reject);
-      })
-    });
-  }),
   milestonesLength: Ember.computed.alias('data.milestones.length'),
   milestones: Ember.computed('data.milestones', 'data.milestones.length', function(){
   }),
