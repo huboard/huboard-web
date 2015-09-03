@@ -3,6 +3,9 @@ module Api
     def show
       render json: { data: huboard.repo(params[:user], params[:repo]).fetch }
     end
+    def details
+      render json: { data: huboard.repo(params[:user], params[:repo]).details }
+    end
     def issues
       render json: { data: huboard.repo(params[:user], params[:repo]).fetch_issues }
     end

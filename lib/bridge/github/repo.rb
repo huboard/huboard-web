@@ -26,9 +26,29 @@ class Huboard
       end
     end
 
+    def details
+      gh_repos = gh
+      columns = column_labels
+      first_column = columns.first
+
+      issues = issues().concat(closed_issues(columns.last['name'])).map do |i|
+        i['current_state'] = first_column if i['current_state']['name'] == "__nil__"
+        i['current_state'] = columns.find { |c| c['name'] == i['current_state']['name'] }
+        i
+      end
+
+      {
+        columns: columns,
+        milestones: milestones,
+        other_labels: other_labels.sort_by {|l| l['name'].downcase },
+        link_labels: link_labels,
+        assignees: assignees,
+        issues: issues
+      }
+    end
+
     def fetch(with_links=true)
       repo = {
-        owner: @connection.users(@user),
         repo: gh.to_h
       }
 

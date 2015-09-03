@@ -20,7 +20,6 @@ var ApplicationRoute = Ember.Route.extend({
   model: function () {
     return new Ember.RSVP.Promise(function(resolve){
        Ember.run.once(function(){
-        console.log("TODO: fix this call to App");
         var repo = App.get("repo");
         resolve(NRepo.create({data:repo}));
        });

@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
         get '/' => 'repos#show'
         get 'issues' => 'repos#issues' 
+        get 'details' => 'repos#details' 
         get 'board' => 'repos#board', as: 'v2_board'
       end
     end

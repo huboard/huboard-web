@@ -1,12 +1,16 @@
-
 import Ember from 'ember';
 import Model from '../model';
 import Board from './board';
 import Issue from './issue';
+import ajax from 'ic-ajax';
 
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 var Repo = Model.extend({
   parent: null,
+  repos: Ember.computed('links.[]', function(){
+    var repos = [this].concat(this.get('links'));
+    return repos;
+  }),
   isCollaborator: Ember.computed('data.repo.permissions.{admin,push}', function(){
     return this.get('data.repo.permissions.admin') || this.get('data.repo.permissions.push');
   }),
@@ -49,6 +53,14 @@ var Repo = Model.extend({
     });
     return response;
   }),
+  load: function(){
+    var repo = this;
+    return this.get('ajax')(`${this.get('baseUrl')}/details`).then(function(details){
+      var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
+      repo.set('issues', issues);
+      return repo;
+    });
+  }
 });
 
 export default Repo;

@@ -6,10 +6,8 @@ import ajax from 'ic-ajax';
 
 var Board = Model.extend({
   repo: null,
-  repos: Ember.computed('repo.links.[]', function(){
-    var repos = [this.get('repo')].concat(this.get('repo.links'));
-    return repos;
-  }),
+  repos: Ember.computed.alias('repo.repos'),  
+  // these need to be real 
   filterMilestones: [],
   filterLabels: [],
   linkedRepos: [],
@@ -36,35 +34,30 @@ var Board = Model.extend({
       return column;
     });
   }),
-  fetchIssues:  function(board){
-    var self = this;
-    return new Ember.RSVP.Promise(function(resolve, reject){
-      var repos = [self.get('repo')].concat(self.get('repo.links'));
-
-      var promises = repos.map(function(repo){
-        return Ember.get(repo,'issues'); 
-      });
-
-      Ember.RSVP.all(promises).then(function(issues) {
-        var combined = issues.reduce((l, r) => l.concat(r)); 
-        self.set('issues', combined);
-        resolve(board);
-      },reject);
-    });
-  }
+  issues: Ember.computed('repos.@each.issues.[]', {
+    get: function(key){
+      var combined = this.get('repos')
+        .map((x) => x.get('issues'))
+        .reduce((l, r) => l.concat(r)); 
+      return combined;
+    }
+  })
 });
 
 Board.reopenClass({
   fetch: function(repo){
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      ajax(repo.get('baseUrl') + "/board").then(function(json){
+    var promises = repo.get('repos').map(function(r){
+      return r.load();
+    })
+    return ajax(repo.get('baseUrl') + "/board").then(function(json){
+      return Ember.RSVP.all(promises).then(function(repos){
         // could fetch issues here?
         var board = Board.create(json);
         board.set('repo', repo);
         repo.set('board', board);
-        return board.fetchIssues(board).then(resolve, reject);
-      }, reject);
-    })
+        return board;
+      });    
+    });
   }
 });
 
