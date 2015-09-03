@@ -10,22 +10,20 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
   hbsubscribers: {
     newIssue: function(message) {
       var issue = this.get("model.board.issues").findBy('number', message.issue.number);
+      if(issue) { return issue.set("state", "open"); }
 
-      if(issue) {
-        issue.set("state", "open");
-      } else {
-        var model = Issue.create(message.issue);
-        if(message.issue.current_state.name === "__nil__") {
-          model.set("current_state", this.get("model.board.columns.firstObject"));
-        }else {
-          var column = this.get("model.board.columns").find(function(c) {
-            return c.name === message.issue.current_state.name;
-          });
-          model.set("current_state", column);
+      var _self = this;
+      var number = message.issue.number;
+      var repo = message.issue.repo.full_name;
+      this.get("model").fetchIssue(number, repo).then(function(issue){
+        var model = Issue.create(issue);
+        if(model.current_state.name === "__nil__") {
+          model.set("current_state", _self.get("model.board.columns.firstObject"));
         }
-        this.hbsubscribers._colorLinkedIssue.call(this, model);
-        this.get("model.board.issues").pushObject(model);
-      }
+
+        _self.hbsubscribers._colorLinkedIssue.call(_self, model);
+        _self.get("model.board.issues").pushObject(model);
+      });
     },
     newMilestone: function(message){
       var milestones = this.get("model.board.milestones");
