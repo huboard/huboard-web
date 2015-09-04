@@ -6,17 +6,10 @@ var IssueRoute = Ember.Route.extend({
     controller.unsubscribeFromMessages();
     controller.subscribeToMessages();
 
-    var appModel = this.modelFor("application"),
-      board = appModel.fetchBoard(appModel);
-
-    var repo = board.get("allRepos").find(function (r){
-      return (r.full_name).toLowerCase() === model.repo.owner.login.toLowerCase() + "/" + model.repo.name.toLowerCase();
-    });
-
     controller.set("repository", { 
-      other_labels: Ember.get(repo, "other_labels"), 
-      assignees: Ember.get(repo, "assignees"), 
-      milestones: Ember.get(repo, "milestones"),
+      other_labels: model.get("repo.data.other_labels"),
+      assignees: model.get("repo.data.assignees"),
+      milestones: model.get("repo.data.milestones"),
     });
   },
   controllerFor: function(name, _skipAssert) {
