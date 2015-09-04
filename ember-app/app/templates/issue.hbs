@@ -22,9 +22,9 @@
       </div>
       {{/if}}
     {{/if}}
-          {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=controller.model.other_labels selected=controller.model.other_labels title="Labels" labels=controller.repository.other_labels}}
-      {{hb-assignee editable=isCollaborator assign="assignUser" selected=controller.model.assignee assignees=controller.repository.assignees}}
-      {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=controller.model.milestone milestones=controller.repository.milestones}}
+      {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=model.data.other_labels selected=model.data.other_labels title="Labels" labels=model.repo.data.other_labels}}
+      {{hb-assignee editable=isCollaborator assign="assignUser" selected=model.repo.data.assignee assignees=model.repo.data.assignees}}
+      {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=model.repo.data.milestone milestones=model.repo.data.milestones}}
   </div>
 <div class="fullscreen-card-left">
   {{issue/hb-body

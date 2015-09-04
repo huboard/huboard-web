@@ -5,12 +5,6 @@ var IssueRoute = Ember.Route.extend({
     controller.set("model", model);
     controller.unsubscribeFromMessages();
     controller.subscribeToMessages();
-
-    controller.set("repository", { 
-      other_labels: model.get("repo.data.other_labels"),
-      assignees: model.get("repo.data.assignees"),
-      milestones: model.get("repo.data.milestones"),
-    });
   },
   controllerFor: function(name, _skipAssert) {
     return this._super("issue", _skipAssert);
