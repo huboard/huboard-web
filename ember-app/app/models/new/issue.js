@@ -7,7 +7,8 @@ var Issue = Model.extend({
   order: Ember.computed.alias("data._data.order"),
   milestoneOrder: Ember.computed.alias("data._data.milestone_order"),
   milestoneTitle: Ember.computed.alias("milestone.title"),
-  correlationId: correlationId
+  correlationId: correlationId,
+  assignee: Ember.computed.alias("data.assignee")
 });
 
 export default Issue;

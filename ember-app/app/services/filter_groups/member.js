@@ -3,10 +3,8 @@ import Ember from 'ember';
 var MemberFilters = Ember.Service.extend({
   strategy: "inclusive",
 
-  assigneesBinding: "board.assignees",
-  combinedAssigneesBinding: "board.combinedAssignees",
-  issuesBinding: "board.issues",
-  combinedIssuesBinding: "board.combinedIssues",
+  assigneesBinding: "board.repo.assignees",
+  issuesBinding: "board.repo.issues",
 
   create: function(model){
     this.set("board", model);
@@ -22,7 +20,7 @@ var MemberFilters = Ember.Service.extend({
          avatar : a,
          mode: 0,
          condition: function (i) {
-            return i.assignee && i.assignee.login === a.login;
+            return i.data.assignee && i.data.assignee.login === a.login;
          }
        });
      });
@@ -39,15 +37,14 @@ var MemberFilters = Ember.Service.extend({
   }.property("avatars"),
 
   avatars : function () {
-    return [];
-    var issues = this.get("combinedIssues");
-    return this.get("combinedAssignees").filter(function(assignee){
+    var issues = this.get("issues");
+    return this.get("assignees").filter(function(assignee){
       return _.find(issues, function(issue){
-        return issue.assignee &&
-          issue.assignee.login === assignee.login;
+        return issue.data.assignee &&
+          issue.data.assignee.login === assignee.login;
       });
     });
-  }.property("assignees", "issues.@each.assignee", "combinedAssignees", "combinedIssues.@each.assignee"),
+  }.property("assignees.[]", "issues.@each.assignee"),
 });
 
 export default MemberFilters;
