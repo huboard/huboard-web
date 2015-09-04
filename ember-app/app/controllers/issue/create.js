@@ -49,7 +49,9 @@ var IssuesCreateController = Ember.Controller.extend({
   },
   allRepos: Ember.computed.alias('controllers.application.model.repos'),
   issueIsLinked: function(){
-    return this.get("model.repo.full_name").toLowerCase() !== this.get("controllers.application.model.board.full_name").toLowerCase();
+    var issueRepo = this.get("model.repo.repo.full_name");
+    var boardRepo = this.get("controllers.application.model.board.full_name");
+    return issueRepo.toLowerCase() !== boardRepo.toLowerCase();
   }.property("controllers.application.model.board.full_name","model.repo", "model.repo.full_name"),
   colorIssue: function(issue){
     var linked_labels = this.get("controllers.application.model.board.link_labels");

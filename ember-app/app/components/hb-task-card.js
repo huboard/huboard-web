@@ -66,10 +66,10 @@ var HbCardComponent = Ember.Component.extend(
         App.get("loggedIn") && this.get("isCollaborator");
     }.property("issue.state", "isCollaborator"),
     cardLabels: function () {
-        return this.get("issue.other_labels").map(function(l){
+        return this.get("issue.data.other_labels").map(function(l){
           return Ember.Object.create(_.extend(l,{customColor: "-x"+l.color}));
         });
-    }.property("issue.other_labels.[]"),
+    }.property("issue.data.other_labels.[]"),
     stateClass: function(){
        var github_state = this.get("issue.state");
        if(github_state === "closed"){

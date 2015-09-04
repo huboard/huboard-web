@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-function serialize() {
+function serialize(blacklist) {
     var result = {};
     for (var key in Ember.$.extend(true, {}, this))
     {
@@ -10,7 +10,8 @@ function serialize() {
         key === 'isDestroyed' ||
         key === 'isDestroying' ||
         key === 'concatenatedProperties' ||
-        typeof this[key] === 'function')
+        typeof this[key] === 'function' ||
+        (blacklist && blacklist.any((x) => key === x )))
         {
             continue;
         }
@@ -29,8 +30,8 @@ function serialize() {
 
 }
 var Serializable = Ember.Mixin.create({
-  serialize: function () {
-    return serialize.call(this);
+  serialize: function (blacklist) {
+    return serialize.call(this, blacklist);
   },
   
   //Date string to ISO string
