@@ -53,7 +53,9 @@ var Board = Model.extend({
     return columns.map(function(c, i){
       var column = Column.create({data: c});
       column.set('board', board);
-      if(i === 0) { column.set('isFirst', true); }
+      //Ricki: If we ever allow huboard created columns 
+      //this would hurt us
+      //if(i === 0) { column.set('isFirst', true); }
       return column;
     });
   }),

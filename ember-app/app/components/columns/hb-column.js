@@ -51,7 +51,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     return this.get("columns.lastObject.name") === this.get("model.name");
   }.property("columns.lastObject"),
   isFirstColumn: function(){
-    return this.get("columns.firstObject.name") === this.get("model.name");
+    return this.get("columns.firstObject.data.name") === this.get("model.data.name");
   }.property("columns.firstObject"),
   isCreateVisible: Ember.computed.alias("isFirstColumn"),
   topOrderNumber: function(){
