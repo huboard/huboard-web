@@ -5,10 +5,10 @@ var IssueSelectedColumnView = Ember.CollectionView.extend({
   classNames: ["nav","breadcrumbs"],
   classNameBindings: ["stateClass", "isEnabled:enabled:disabled"],
   isEnabled: function() {
-    return this.get("controller.model.repo.is_collaborator");
-  }.property("controller.model.repo.is_collaborator"),
+    return this.get("controller.model.repo.isCollaborator");
+  }.property("controller.model.repo.isCollaborator"),
   stateClass: function(){
-    var github_state = this.get("controller.model.state");
+    var github_state = this.get("controller.model.data.state");
     if(github_state === "closed"){
       return "hb-state-" + "closed";
     }
@@ -17,14 +17,14 @@ var IssueSelectedColumnView = Ember.CollectionView.extend({
       return "hb-state-" + custom_state;
     }
     return "hb-state-open";
-  }.property("controller.model.current_state", "controller.model.customState", "controller.model.state"),
+  }.property("controller.model.data.current_state", "controller.model.customState", "controller.model.data.state"),
   itemViewClass: Ember.View.extend({
     tagName: "li",
     templateName: "issue/selected_column",
     classNameBindings: ["isSelected:active", "stateClass"],
     isSelected: function(){
-      return this.get("controller.model.current_state.name") === this.get("content.name");
-    }.property("controller.model.current_state")
+      return this.get("controller.model.data.current_state.name") === this.get("content.data.name");
+    }.property("controller.model.data.current_state")
   })
 
 });

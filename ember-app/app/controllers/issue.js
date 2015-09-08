@@ -15,30 +15,30 @@ var IssueController = Ember.Controller.extend(
   isReady: function(key, value){
     if(value !== undefined) {
       if(value) {
-        this.set("model.data.customState", "ready");
+        this.set("model.customState", "ready");
         return true; 
       } else {
-        this.set("model.data.customState", "");
+        this.set("model.customState", "");
         return false;
       }
     } else {
-      return this.get("model.data.customState") === "ready";
+      return this.get("model.customState") === "ready";
     }
-  }.property("model.data.customState", "model.data._data.custom_state"),
+  }.property("model.customState", "model.data._data.custom_state"),
   isBlocked: function(key, value){
     if(value !== undefined) {
       if(value) {
-        this.set("model.data.customState", "blocked");
+        this.set("model.customState", "blocked");
         return true;
       } else {
-        this.set("model.data.customState", "");
+        this.set("model.customState", "");
         return false;
       }
       return;
     } else {
-      return this.get("model.data.customState") === "blocked";
+      return this.get("model.customState") === "blocked";
     }
-  }.property("model.data.customState", "model.data._data.custom_state"),
+  }.property("model.customState", "model.data._data.custom_state"),
   isClosed: function(){
     return this.get("model.data.state") === "closed";
   }.property("model.data.state"),
@@ -52,8 +52,7 @@ var IssueController = Ember.Controller.extend(
       if(!this.get("isCollaborator")) {
         return false;
       }
-      this.get("model").reorder(this.get("model.data._data.order"),column).then(function() {
-      }.bind(this));
+      this.get("model").reorder(this.get("model.data._data.order"), column)
     },
     assignUser: function(login){
       return this.get("model").assignUser(login);

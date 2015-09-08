@@ -17,8 +17,8 @@ var HbCardComponent = Ember.Component.extend(
       return this.get("issue.repo.is_collaborator");
     }.property("issue.repo.is_collaborator"),
     isClosable: function () {
-     return App.get("loggedIn") && this.get("isLast") && this.get("issue.state") === "open";
-    }.property("loggedIn", "isLast","issue.state"),
+     return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
+    }.property("loggedIn", "isLast","issue.data.state"),
     onDestroy: function (){
       if(!this.get("issue.isArchived")){ return; }
       var self = this;
@@ -35,7 +35,7 @@ var HbCardComponent = Ember.Component.extend(
       return App.get("loggedIn") &&
         this.get("isCollaborator") &&
         this.get("isFiltered") !== "filter-hidden";
-    }.property("loggedIn","issue.state", "isFiltered"),
+    }.property("loggedIn","issue.data.state", "isFiltered"),
     isFiltered: function(){
       var item = this.get("issue");
       if(this.isHidden(item)){return "filter-hidden";}
@@ -62,16 +62,16 @@ var HbCardComponent = Ember.Component.extend(
     }.property("isLastColumn", "isCollaborator"),
     canArchive: function () {
       this.get("isCollaborator");
-      return this.get("issue.state") === "closed" &&
+      return this.get("issue.data.state") === "closed" &&
         App.get("loggedIn") && this.get("isCollaborator");
-    }.property("issue.state", "isCollaborator"),
+    }.property("issue.data.state", "isCollaborator"),
     cardLabels: function () {
         return this.get("issue.data.other_labels").map(function(l){
           return Ember.Object.create(_.extend(l,{customColor: "-x"+l.color}));
         });
     }.property("issue.data.other_labels.[]"),
     stateClass: function(){
-       var github_state = this.get("issue.state");
+       var github_state = this.get("issue.data.state");
        if(github_state === "closed"){
          return "hb-state-" + "closed";
        }
@@ -80,7 +80,7 @@ var HbCardComponent = Ember.Component.extend(
          return "hb-state-" + custom_state;
        }
        return "hb-state-open";
-    }.property("issue.current_state", "issue.customState", "issue.state"),
+    }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
 
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));
