@@ -22,7 +22,17 @@ class Huboard
 
     def links
       link_labels.map do |link|
-        Repo.new(link['user'], link['repo'], @connection).fetch false
+        repo = Repo.new(link['user'], link['repo'], @connection)
+        payload = repo.fetch false
+        payload[:repo][:color] = link_color(repo, link)
+
+        payload
+      end
+    end
+
+    def link_color(repo, link)
+      return link_labels.find do |l|
+        link['user'] == repo.user && l['repo'] == repo.repo
       end
     end
 
