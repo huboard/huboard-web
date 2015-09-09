@@ -14,7 +14,7 @@ var HbCardComponent = Ember.Component.extend(
       return "-x" + this.get("issue.repo.data.repo.color.color");
     }.property("issue.color"),
     isCollaborator: function(){
-      return this.get("issue.repo.is_collaborator");
+      return this.get("issue.repo.isCollaborator");
     }.property("issue.repo.is_collaborator"),
     isClosable: function () {
      return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
