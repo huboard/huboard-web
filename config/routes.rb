@@ -70,10 +70,10 @@ Rails.application.routes.draw do
         delete 'issues/:number/blocked' => 'issues#unblock'
         put 'issues/:number/ready' => 'issues#ready'
         delete 'issues/:number/ready' => 'issues#unready'
-        post 'dragcard' => 'issues#drag_card'
+        post 'issues/:number/dragcard' => 'issues#drag_card'
         post 'issues/:number/archive' => 'issues#archive_issue'
-        post 'assigncard' => 'issues#assign_card'
-        post 'assignmilestone' => 'issues#assign_milestone'
+        post 'issues/:number/assigncard' => 'issues#assign_card'
+        post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
 
         post 'milestones/reorder_milestone' => 'milestones#reorder_milestone'
       end

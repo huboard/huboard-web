@@ -46,10 +46,7 @@ var Issue = Model.extend({
 
     this.set("data.current_state", column.data);
     this.set("data._data.order", index);
-
-    var full_name = this.get("repo.data.repo.full_name");
-    return Ember.$.post("/api/" + full_name + "/dragcard", {
-      number : this.get("data.number"),
+    return Ember.$.post(`${this.get("apiUrl")}/dragcard`, {
       order: index.toString(),
       column: column.data.index.toString(),
       moved_columns: changedColumns,
@@ -84,6 +81,15 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
+  assignUser: function(login){
+    return Ember.$.post(`${this.get("apiUrl")}/assigncard`, {
+      assignee: login, 
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function( response ){
+      this.set("assignee", response.assignee);
+      return this;
+    }.bind(this));
+  },
   archive: function() {
     this.set("processing", true);
     return Ember.$.post(`${this.get("apiUrl")}/archive`, {
@@ -94,6 +100,25 @@ var Issue = Model.extend({
     }.bind(this)).fail(function(){
       this.set("processing", false);
     }.bind(this));
+  },
+  assignMilestone: function(index, milestone){
+    var changedMilestones = false;
+    if(milestone && !this.get("milestone.data")){
+      changedMilestones = true;
+    } else if(!milestone && this.get("milestone.data")){
+      changedMilestones = true;
+    } else if (milestone) {
+      changedMilestones = this.get("milestone.data.number") !== milestone.number;
+    }
+    this.set("data._data.milestone_order", index);
+    this.set("milestone", milestone);
+    
+    return Ember.$.post(`${this.get("apiUrl")}/assignmilestone`, {
+      order: index.toString(),
+      milestone: milestone ? milestone.data.number : null,
+      changed_milestones: changedMilestones,
+      correlationId: this.get("correlationId")
+    }, function(){}, "json");
   },
   customState: Ember.computed("_data.custom_state", {
     get:function(){
