@@ -14,16 +14,25 @@ var Board = Model.extend({
   linkedRepos: [],
   combinedAssignees:[],
   combinedIssues: [],
-  combinedMilestones: Ember.computed('repos.[]', function(){
-    var milestones = this.get('repos')
-    .map((r) => r.get('data.milestones'))
-    .reduce((l,r) => l.concat(r));
+  labels: Ember.computed('repos.@each.labels.[]', {
+    get: function(key){
+      
+      var combined = this.get('repos')
+        .map((x) => x.get('other_labels'))
+        .reduce((l, r) => l.concat(r)); 
 
-    return Ember.ArrayProxy.extend(Ember.SortableMixin)
-    .create({
-      content: milestones,
-      sortProperties: ['_data.order']
-    });
+      var groups = _.groupBy(combined, (x) => Ember.get(x,'name').toLowerCase());
+
+      var mapped = _.map(groups, (val, key) => {
+        return Ember.Object.create({
+          label: val[0],
+          labels: val
+        })
+      });
+
+      return mapped;
+
+    }
   }),
 
   milestones: Ember.computed('repos.@each.milestones.[]', {
