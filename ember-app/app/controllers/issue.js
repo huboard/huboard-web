@@ -96,7 +96,7 @@ var IssueController = Ember.Controller.extend(
     },
     reopenCard: function(){
       var _self = this;
-      this.get("model").reopen().then(function(response){
+      this.get("model").reopenIssue().then(function(response){
         var channel = _self.hbsubscriptions.channel;
         var topic = "issues.{model.data.number}.issue_reopened";
         _self.publish(channel, topic, {issue: response});

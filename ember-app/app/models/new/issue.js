@@ -69,7 +69,7 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
-  reopen: function(){
+  reopenIssue: function(){
     this.set("processing", true);
     return Ember.$.post(`${this.get("apiUrl")}/open`, {
       correlationId: this.get("correlationId")
