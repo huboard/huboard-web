@@ -38,7 +38,7 @@ var BoardFilters = Ember.Service.extend({
         name: name,
         queryParam: "repo",
         mode:0,
-        color: l.data.repo.color || "7965cc",
+        color: l.data.repo.color ? l.data.repo.color.color : "7965cc",
         condition:function(i){
           return i.data.repo.name === l.data.repo.name && i.data.repo.owner.login === l.data.repo.owner.login;
         }

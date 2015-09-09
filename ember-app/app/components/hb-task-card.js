@@ -8,10 +8,10 @@ var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
     tagName: "li",
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "colorLabel", "issue.color:border", "stateClass"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "colorLabel", "issue.repo.data.repo.color:border", "stateClass"],
     filters: Ember.inject.service(),
     colorLabel: function () {
-      return "-x" + this.get("issue.color");
+      return "-x" + this.get("issue.repo.data.repo.color.color");
     }.property("issue.color"),
     isCollaborator: function(){
       return this.get("issue.repo.is_collaborator");

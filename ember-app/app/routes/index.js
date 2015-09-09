@@ -16,7 +16,6 @@ var IndexRoute = Ember.Route.extend({
     //return repo.fetchBoard(linked_boards);
   },
   afterModel: function (model){
-    return;
     if(App.get("isLoaded")) {
       return;
     }
