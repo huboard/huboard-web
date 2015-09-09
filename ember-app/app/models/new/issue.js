@@ -74,7 +74,7 @@ var Issue = Model.extend({
   },
   reopen: function(){
     this.set("processing", true);
-    return Ember.$.post(`${this.get("apiUrl")}/close`, {
+    return Ember.$.post(`${this.get("apiUrl")}/open`, {
       correlationId: this.get("correlationId")
     }, function(){}, "json").then(function(response) {
       this.set("data.state","open");
