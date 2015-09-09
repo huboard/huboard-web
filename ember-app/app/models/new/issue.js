@@ -72,6 +72,18 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
+  reopen: function(){
+    this.set("processing", true);
+    return Ember.$.post(`${this.get("apiUrl")}/close`, {
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function(response) {
+      this.set("data.state","open");
+      this.set("processing", false);
+      return response;
+    }.bind(this)).fail(function(){
+      this.set("processing", false);
+    }.bind(this));
+  },
   archive: function() {
     this.set("processing", true);
     return Ember.$.post(`${this.get("apiUrl")}/archive`, {
