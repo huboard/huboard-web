@@ -60,6 +60,29 @@ var Issue = Model.extend({
       return this;
     }.bind(this), "json");
   },
+  close: function () {
+    this.set("processing", true);
+    return Ember.$.post(`${this.get("apiUrl")}/close`, {
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function(response) {
+      this.set("data.state","closed");
+      this.set("processing", false);
+      return response;
+    }.bind(this)).fail(function(){
+      this.set("processing", false);
+    }.bind(this));
+  },
+  archive: function() {
+    this.set("processing", true);
+    return Ember.$.post(`${this.get("apiUrl")}/archive`, {
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function () {
+      this.set("processing", false);
+      this.set("isArchived", true);
+    }.bind(this)).fail(function(){
+      this.set("processing", false);
+    }.bind(this));
+  },
   customState: Ember.computed("_data.custom_state", {
     get:function(){
       return this.get("_data.custom_state");
