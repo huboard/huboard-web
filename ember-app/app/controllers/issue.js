@@ -7,9 +7,6 @@ var IssueController = Ember.Controller.extend(
   needs: ["application"],
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
-  blah: function(){
-    if(this.get("model.repo")){ debugger; }
-  }.observes("model"),
 
   isCollaborator: function(){
     return this.get("model.data.repo.is_collaborator");
