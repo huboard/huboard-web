@@ -1,5 +1,13 @@
 import Ember from "ember";
 
+function attr(group) {
+  return Ember.computed('filterGroups.' + group + ".filters", {
+    get: function(key){
+      return this.get('filterGroups.' + group + ".filters");
+    }
+  });
+}
+
 var FiltersService = Ember.Service.extend({
   //filterGroups requires setGroups(model) before it yields
   //anything meaningful to the FiltersService
@@ -11,7 +19,8 @@ var FiltersService = Ember.Service.extend({
     if (!this.get("filterGroups.created")){ return; }
     key = key.replace("Filters", "");
     if (this.get("filterGroups." + key + ".filters")){
-      return this.get("filterGroups." + key + ".filters");
+      this.set(key+ "Filters", attr(key));
+      return this.get(key + "Filters");
     }
   },
 
@@ -127,6 +136,15 @@ var FiltersService = Ember.Service.extend({
       });
     }
   }.observes("filterGroups.milestone.filters.@each.mode"),
+  forceOnlyOneActiveCard: function(){
+    var filters = this.get("cardFilters");
+    if (filters && filters.length){
+      var active = filters.filter(function(f){
+        return f.mode === 1 || f.mode === 2;
+      });
+      if(active.length > 1){ filters.setEach("mode", 0); }
+    }
+  }.observes("filterGroups.card.filters.@each.mode"),
   groupActive: function(filters){
     if (!filters || !filters.length){ return false;}
     return filters.any(function(f){

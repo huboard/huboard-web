@@ -1,11 +1,11 @@
 import Ember from "ember";
 import IssueFiltersMixin from "app/mixins/issue-filters";
 import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
-import IssueSocketMixin from "app/mixins/sockets/issue";
-import SocketMixin from "app/mixins/socket";
+import CardSubscriptions from "app/mixins/subscriptions/card";
+import Messaging from "app/mixins/messaging";
 
 var HbCardComponent = Ember.Component.extend(
-  SocketMixin, IssueFiltersMixin, MemberDragAndDropMixin, IssueSocketMixin, {
+  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
     tagName: "li",
     classNames: ["card"],
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "colorLabel", "issue.color:border", "stateClass"],
@@ -41,7 +41,7 @@ var HbCardComponent = Ember.Component.extend(
       if(this.isHidden(item)){return "filter-hidden";}
       if(this.isDim(item)){return "dim";}
       return "";
-    }.property("filters.hideFilters", "filters.dimFilters", "App.eventReceived"),
+    }.property("filters.hideFilters", "filters.dimFilters"),
     click: function(){
       if(this.get("isFiltered") === "filter-hidden"){
         return;
@@ -69,7 +69,7 @@ var HbCardComponent = Ember.Component.extend(
         return this.get("issue.other_labels").map(function(l){
           return Ember.Object.create(_.extend(l,{customColor: "-x"+l.color}));
         });
-    }.property("issue.other_labels.@each"),
+    }.property("issue.other_labels.[]"),
     stateClass: function(){
        var github_state = this.get("issue.state");
        if(github_state === "closed"){

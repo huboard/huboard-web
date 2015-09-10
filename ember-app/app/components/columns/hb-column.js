@@ -23,10 +23,10 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   }.property("issues.@each.{columnIndex,order}"),
   sortStrategy: function(a,b){
     if(a._data.order === b._data.order){
-      if(a.repo.fullname === b.repo.fullname){
+      if(a.repo.full_name === b.repo.full_name){
         return a.number - b.number;
       }
-      return a.repo.fullname - b.repo.fullname;
+      return a.repo.full_name - b.repo.full_name;
     }
     return a._data.order - b._data.order;
   },
@@ -67,16 +67,19 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     } else {
       return {};
     }
-  }.property("sortedIssues.@each"),
+  }.property("sortedIssues.[]"),
 
   registerWithController: function(){
-    var self = this;
+    var _self = this;
     Ember.run.schedule("afterRender", this, function(){
-      self.attrs.registerColumn(self);
+      _self.attrs.registerColumn(_self);
     });
   }.on("didInsertElement"),
   unregisterWithController: function(){
-    this.attrs.unregisterColumn(this);
+    var _self = this;
+    Ember.run.schedule("afterRender", this, function(){
+      _self.attrs.unregisterColumn(_self);
+    });
   }.on("willDestroyElement"),
   wireupIsCollapsed: function(){
     var self = this;

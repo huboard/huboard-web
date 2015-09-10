@@ -1,15 +1,14 @@
 import Ember from "ember";
 import HbColumn from "../columns/hb-column";
-import SocketMixin from 'app/mixins/socket';
-import MilestoneSocketMixin from 'app/mixins/sockets/milestone';
+import MilestoneSubscriptions from 'app/mixins/subscriptions/milestone';
+import Messaging from 'app/mixins/messaging';
 
 var HbMilestoneComponent = HbColumn.extend(
-  MilestoneSocketMixin, SocketMixin, {
+  MilestoneSubscriptions, Messaging, {
   classNames: ["milestone"],
   classNameBindings:["isFirstColumn:no-milestone"],
   isTaskColumn: false,
 
-  //Data
   sortedIssues: function () {
     var issues = this.get("issues").filter(function(i){
         return !i.get("isArchived");
@@ -20,11 +19,10 @@ var HbMilestoneComponent = HbColumn.extend(
   }.property("issues.@each.{milestoneOrder,milestoneTitle}"),
   sortStrategy: function(a,b){
     if(a._data.milestone_order === b._data.milestone_order){
-      if(a.repo.fullname === b.repo.fullname){
-        console.log("WARN: Duplicate Issues");
+      if(a.repo.full_name === b.repo.full_name){
         return a.number - b.number;
       }
-      return a.repo.fullname - b.repo.fullname;
+      return a.repo.full_name - b.repo.full_name;
     }
     return a._data.milestone_order - b._data.milestone_order;
   },

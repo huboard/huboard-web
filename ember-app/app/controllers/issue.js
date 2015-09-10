@@ -1,7 +1,13 @@
 import Ember from 'ember';
+import IssueSubscriptions from "app/mixins/subscriptions/issue";
+import Messaging from "app/mixins/messaging";
 
-var IssueController = Ember.Controller.extend({
+var IssueController = Ember.Controller.extend(
+  IssueSubscriptions, Messaging, {
   needs: ["application"],
+  //Fix the need to delay event subscriptions
+  subscribeDisabled: true,
+
   isCollaborator: function(){
     return this.get("model.repo.is_collaborator");
   }.property("model.repo.is_collaborator"),
@@ -76,17 +82,25 @@ var IssueController = Ember.Controller.extend({
          }.bind(this));
     },
     close: function(){
-      if (this.get("commentBody")){
-        this.send("submitComment");
-      }
-      this.get("model").close();
+      var _self = this;
+      this.get("model").close().then(function(response){
+        var channel = _self.hbsubscriptions.channel;
+        var topic = "issues.{model.number}.issue_closed";
+        _self.publish(channel, topic, {issue: response});
+      });
+
       this.send("moveToColumn", this.get("columns.lastObject"));
+      if (this.get("commentBody")){ this.send("submitComment"); }
     },
     reopenCard: function(){
-      if (this.get("commentBody")){
-        this.send("submitComment");
-      }
-      this.get("model").reopenCard();
+      var _self = this;
+      this.get("model").reopenCard().then(function(response){
+        var channel = _self.hbsubscriptions.channel;
+        var topic = "issues.{model.number}.issue_reopened";
+        _self.publish(channel, topic, {issue: response});
+      });
+
+      if (this.get("commentBody")){ this.send("submitComment"); }
     }
   },
   commentBody: null,
@@ -102,11 +116,11 @@ var IssueController = Ember.Controller.extend({
   _events : function () {
      var events = this.get("model.activities.events");
      return events.map(function (e){return _.extend(e, {type: "event" }); });
-  }.property("model.activities.events.@each"),
+  }.property("model.activities.events.[]"),
   _comments : function () {
      var comments = this.get("model.activities.comments");
      return comments.map(function (e){ return _.extend(e, {type: "comment" }); });
-  }.property("model.activities.comments.@each"),
+  }.property("model.activities.comments.[]"),
   allActivities: Ember.computed.union("model.activities.{comments,events}"),
   activitiesSort:["created_at"],
   sortedActivities: Ember.computed.sort("allActivities", "activitiesSort"),

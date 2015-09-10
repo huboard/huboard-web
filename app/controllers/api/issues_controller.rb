@@ -1,6 +1,11 @@
 module Api
   class IssuesController < ApplicationController
 
+    def issue
+      api = huboard.board(params[:user], params[:repo])
+      render json: api.issue(params[:number])
+    end
+
     def details
       api = huboard.board(params[:user], params[:repo])
       render json: api.issue(params[:number]).activities
@@ -32,9 +37,11 @@ module Api
     #TODO original api checks if comment['message'] exists
     def create_comment
       data = {body: params['markdown']}
-      comment = gh.repos(params[:user], params[:repo]).
+      @issue =  huboard.board(params[:user], params[:repo]).
+        issue(params[:number])
+      @comment = gh.repos(params[:user], params[:repo]).
         issues(params[:number]).comments.create(data)
-      render json: comment
+      render json: @comment
     end
 
     def update_comment

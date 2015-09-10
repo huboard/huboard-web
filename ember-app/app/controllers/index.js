@@ -10,7 +10,8 @@ var IndexController = Ember.Controller.extend({
     {"qps.repoParams": "repo"},
     {"qps.assigneeParams": "assignee"},
     {"qps.milestoneParams": "milestone"},
-    {"qps.labelParams": "label"}
+    {"qps.labelParams": "label"},
+    {"qps.cardParams": "card"}
   ],
   applyUrlFilters: function(){
     var self = this;
