@@ -38,6 +38,7 @@ var Repo = Model.extend({
     return response;
   }),
   issuesLength: Ember.computed.alias('issues.length'),
+  milestonesLength: Ember.computed.alias('milestones.length'),
   isLoaded: false,
   load: function(){
     var repo = this;

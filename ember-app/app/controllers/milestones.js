@@ -25,8 +25,8 @@ var MilestonesController = Ember.Controller.extend({
 
   filtersActive: Ember.computed.alias("filters.filterGroups.active"),
   isCollaborator: function(){
-    return this.get("controllers.application.model.is_collaborator");
-  }.property("controllers.application.model.is_collaborator"),
+    return this.get("model.repo.isCollaborator");
+  }.property('model.repo.isCollaborator'),
 
   isSidebarOpen: Ember.computed.alias("controllers.application.isSidebarOpen"),
 
@@ -43,6 +43,7 @@ var MilestonesController = Ember.Controller.extend({
   }.property(),
 
   milestone_columns: function() {
+    return this.get('model.milestones');
     var milestones = _.chain(this.get("model.combinedMilestones")).map(function(groups) {
       var m = _.first(groups);
 

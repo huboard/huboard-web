@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Model from '../model';
 import Column from './column';
+import MilestoneColumn from './milestone_column';
 import ajax from 'ic-ajax';
 
 
@@ -35,7 +36,7 @@ var Board = Model.extend({
     }
   }),
 
-  milestones: Ember.computed('repos.@each.milestones.[]', {
+  milestones: Ember.computed('repos.@each.milestonesLength', {
     get: function(key){
       
       var combined = this.get('repos')
@@ -45,7 +46,7 @@ var Board = Model.extend({
       var groups = _.groupBy(combined, (x) => x.get('data.title').toLowerCase());
 
       var mapped = _.map(groups, (val, key) => {
-        return Ember.Object.create({
+        return MilestoneColumn.create({
           milestone: val[0],
           milestones: val
         })
