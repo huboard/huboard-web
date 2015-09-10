@@ -56,7 +56,7 @@ var Board = Model.extend({
     }
   }),
   
-  columns: Ember.computed('data.columns', function(){
+  columns: Ember.computed('data.columns.[]', function(){
     var board = this,
     columns = this.get('data.columns');
     return columns.map(function(c, i){
