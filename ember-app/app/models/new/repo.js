@@ -36,6 +36,7 @@ var Repo = Model.extend({
     });
     return response;
   }),
+  issuesLength: Ember.computed.alias('issues.length'),
   load: function(){
     var repo = this;
     return this.get('ajax')(`${this.get('baseUrl')}/details`).then(function(details){
@@ -50,14 +51,33 @@ var Repo = Model.extend({
       repo.set('other_labels', details.data.other_labels);
       repo.set('assignees', details.data.assignees);
 
-
-
       return repo;
     });
   },
   fetchSettings: function(){
+    //TODO: move this to Settings.fetch(repo)
+    // also make it cache for realzies :P
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
+  },
+  createIssue: function(form, order){
+    var issue = form.serialize(["repo"]),
+      repo = this;
+    return ajax({
+      url: `/api/${this.get('data.repo.full_name')}/issues`,
+      dataType: 'json',
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({
+        issue: issue, 
+        order: order
+      })
+    }).then((response) => {
+      Ember.run.once(() => {
+        var issue = Issue.create({data: response, repo: repo});
+        repo.get('issues').pushObject(issue);
+      });
+    });
   }
 });
 

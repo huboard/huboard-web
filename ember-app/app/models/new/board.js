@@ -69,7 +69,7 @@ var Board = Model.extend({
     });
   }),
 
-  issues: Ember.computed('repos.@each.issues.[]', {
+  issues: Ember.computed('repos.@each.issuesLength', {
     get: function(key){
       var combined = this.get('repos')
         .map((x) => x.get('issues'))

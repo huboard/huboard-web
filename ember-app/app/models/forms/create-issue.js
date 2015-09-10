@@ -28,7 +28,6 @@ CreateIssue.reopenClass({
        body: "",
        assignee: null,
        milestone: null,
-       repo: App.get("repo"),
        labels: []
      });
   }
