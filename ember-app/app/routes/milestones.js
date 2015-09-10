@@ -1,5 +1,5 @@
 import CssView from 'app/views/css';
-import Board from 'app/models/board';
+import Board from 'app/models/new/board';
 import CreateIssue from 'app/models/forms/create-issue';
 import Issue from 'app/models/issue';
 import Milestone from 'app/models/milestone';
@@ -11,47 +11,17 @@ var MilestonesRoute = Ember.Route.extend({
 
   model: function() {
     var repo = this.modelFor("application");
-    var linked_boards = repo.fetchLinkedBoards();
-    return repo.fetchBoard(linked_boards);
+    return Board.fetch(repo);
   },
 
   afterModel: function(model) {
-    if (App.get("isLoaded")) {
+    if (model.get("isLoaded")) {
       return;
     }
-
-
-    return model.linkedBoardsPreload.done(function(linkedBoardsPromise) {
-      App.set("isLoaded", true);
-
-      return linkedBoardsPromise.then(function(boards) {
-        boards.forEach(function(b) {
-          if (b.failure) {
-            return;
-          }
-
-          var issues = Ember.A();
-
-          b.issues.forEach(function(i) {
-            issues.pushObject(Issue.create(i));
-          });
-
-          var board = Board.create(_.extend(b, {
-            issues: issues
-          }));
-
-          model.linkedRepos.pushObject(board);
-        });
-
-        var cssView = CssView.create({
-          content: model
-        });
-
-        cssView.appendTo("head");
-
-        return boards;
-      });
-    }.bind(this));
+    var cssView = CssView.create({
+      content: model
+    });
+    cssView.appendTo("head");
   },
 
   renderTemplate: function() {

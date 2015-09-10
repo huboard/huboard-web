@@ -1,6 +1,5 @@
 import CssView from 'app/views/css';
-import Board from 'app/models/board';
-import NBoard from 'app/models/new/board';
+import Board from 'app/models/new/board';
 import Ember from 'ember';
 import CreateIssue from 'app/models/forms/create-issue';
 import Issue from 'app/models/issue';
@@ -11,19 +10,16 @@ var IndexRoute = Ember.Route.extend({
 
   model: function(){
     var repo = this.modelFor("application");
-    return NBoard.fetch(repo);
-    //var linked_boards = repo.fetchLinkedBoards();
-    //return repo.fetchBoard(linked_boards);
+    return Board.fetch(repo);
   },
   afterModel: function (model){
-    if(App.get("isLoaded")) {
+    if (model.get("isLoaded")) {
       return;
     }
     var cssView = CssView.create({
       content: model
     });
     cssView.appendTo("head");
-    App.set("isLoaded", true); 
   },
   renderTemplate: function() {
     this._super.apply(this, arguments);
@@ -37,10 +33,6 @@ var IndexRoute = Ember.Route.extend({
   },
 
   actions : {
-    createNewIssue: function(issue){
-      var issues = this.modelFor("index").get("issues");
-      issues.pushObject(issue);
-    },
     createFullscreenIssue : function (model, order) {
       this.controllerFor("issue.create").set("model", model || CreateIssue.createNew());
       this.controllerFor("issue.create").set("order", order || {});

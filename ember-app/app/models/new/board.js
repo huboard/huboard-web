@@ -81,6 +81,9 @@ var Board = Model.extend({
 
 Board.reopenClass({
   fetch: function(repo){
+    if(repo.get('isLoaded')){
+      return Ember.RSVP.resolve(repo.get('board'));
+    }
     var promises = repo.get('repos').map(function(r){
       return r.load();
     })
@@ -90,6 +93,7 @@ Board.reopenClass({
         var board = Board.create(json);
         board.set('repo', repo);
         repo.set('board', board);
+        repo.set('isLoaded', true);
         return board;
       });    
     });

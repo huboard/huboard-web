@@ -38,6 +38,7 @@ var Repo = Model.extend({
     return response;
   }),
   issuesLength: Ember.computed.alias('issues.length'),
+  isLoaded: false,
   load: function(){
     var repo = this;
     return this.get('ajax')(`${this.get('baseUrl')}/details`).then(function(details){
