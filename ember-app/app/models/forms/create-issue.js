@@ -5,19 +5,7 @@ import Issue from 'app/models/new/issue';
 import Serializable from 'app/mixins/serializable';
 
 var CreateIssue = Ember.Object.extend(Serializable,{
-  correlationId: correlationId,
-  save: function(order) {
-    var _self = this;
-    return Ember.$.ajax( {
-      url: "/api/" + this.get("repo.repo.full_name") + "/issues",
-      data: JSON.stringify({issue: this.serialize(["repo"]), order: order, correlationId: this.get("correlationId") }),
-      dataType: 'json',
-      type: "POST",
-      contentType: "application/json"})
-      .then(function(response){
-        return Issue.create({data: response, repo: _self.repo});
-      });
-  }
+  correlationId: correlationId
 });
 
 CreateIssue.reopenClass({
