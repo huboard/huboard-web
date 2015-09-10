@@ -4,6 +4,7 @@ import Board from './board';
 import Issue from './issue';
 import Milestone from './milestone';
 import ajax from 'ic-ajax';
+import correlationId from 'app/utilities/correlation-id';
 
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 var Repo = Model.extend({
@@ -70,7 +71,8 @@ var Repo = Model.extend({
       contentType: "application/json",
       data: JSON.stringify({
         issue: issue, 
-        order: order
+        order: order,
+        correlationId: correlationId
       })
     }).then((response) => {
       Ember.run.once(() => {

@@ -3,6 +3,7 @@ import Model from '../model';
 import correlationId from 'app/utilities/correlation-id';
 
 var Issue = Model.extend({
+  blacklist: ["repo"],
   columnIndex: Ember.computed.alias("data.current_state.index"),
   order: Ember.computed.alias("data._data.order"),
   milestoneOrder: Ember.computed.alias("data._data.milestone_order"),
@@ -30,7 +31,7 @@ var Issue = Model.extend({
     return Ember.$.ajax( {
       url: `${this.get("apiUrl")}`,
       data: JSON.stringify({
-        labels: this.serialize(["repo"]).data.other_labels,
+        labels: this.data.other_labels,
         correlationId: this.get("correlationId")
       }),
       dataType: 'json',
