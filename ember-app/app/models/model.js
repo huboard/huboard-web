@@ -5,6 +5,7 @@ import Serializable from 'app/mixins/serializable';
 
 var HuBoardModel = Ember.Object.extend(
   Ember._ProxyMixin, Serializable, {
+  isHuboardModel: true,
   correlationId: correlationId,
   _onInit: function(){
     this.set('content', this.get('data'));
