@@ -73,17 +73,17 @@ var HbMilestoneComponent = HbColumn.extend(
     var first = this.get("issues")
       .filter(function(i) { return !i.get("isArchived");})
       .sort(function (a, b){
-        return a._data.order - b._data.order;
+        return a.data._data.order - b.data._data.order;
       }).get("firstObject");
     if(issues.length){
-      var order = { milestone_order: issues.get("firstObject._data.milestone_order") / 2};
+      var order = { milestone_order: issues.get("firstObject.data._data.milestone_order") / 2};
       if(first){
-        order.order = first._data.order / 2;
+        order.order = first.data._data.order / 2;
       }
       return order;
     } else {
       if(first){
-        return { order: first._data.order / 2 };
+        return { order: first.data._data.order / 2 };
       }
       return {};
     }

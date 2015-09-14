@@ -8,6 +8,7 @@
 {{#if isCreateVisible}}
   {{columns/hb-quick-issue
     column=model
+    repo=model.board.repo
     createFullscreenIssue=(action attrs.createFullscreenIssue)
   }}
 {{/if}}
