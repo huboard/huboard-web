@@ -2,9 +2,22 @@ import Ember from 'ember';
 import Issue from 'app/models/issue';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
+  initSubscribers: function(){
+    var _self = this;
+    Ember.run.next(() => {
+      var repos = _self.get("model.board.repos");
+      if(!repos) { return; }
+      repos.forEach(function(repo){
+        var newIssue = `${repo.data.repo.full_name} issues.*.issue_opened`;
+        _self.hbsubscriptions[newIssue] = "newIssue";
+      });
+
+      _self.unsubscribeFromMessages();
+      _self.subscribeToMessages();
+    });
+  }.observes("model.board.repos.[]"),
   hbsubscriptions: {
-    channel: "{model.full_name}",
-    "issues.*.issue_opened": "newIssue",
+    channel: "{model.repo.data.repo.full_name}",
     "milestones.*.milestone_created": "newMilestone"
   },
   hbsubscribers: {

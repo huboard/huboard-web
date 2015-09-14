@@ -9,8 +9,6 @@ var Board = Model.extend({
   repo: null,
   repos: Ember.computed.alias('repo.repos'),  
   // these need to be real 
-  filterMilestones: [],
-  filterLabels: [],
   // kill kill kill!
   linkedRepos: [],
   combinedAssignees:[],
