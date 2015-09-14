@@ -21,7 +21,7 @@ var HbMilestoneComponent = Ember.Component.extend({
 
       return this.ListItem.create({
         selected: item.data.id === this.get("data.selected.id"),
-        item: item
+        item: item.data
       });
 
     }.bind(this));

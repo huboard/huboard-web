@@ -104,19 +104,19 @@ var Issue = Model.extend({
   },
   assignMilestone: function(index, milestone){
     var changedMilestones = false;
-    if(milestone && !this.get("milestone.data")){
+    if(milestone && !this.get("milestone")){
       changedMilestones = true;
-    } else if(!milestone && this.get("milestone.data")){
+    } else if(!milestone && this.get("milestone")){
       changedMilestones = true;
     } else if (milestone) {
-      changedMilestones = this.get("milestone.data.number") !== milestone.number;
+      changedMilestones = this.get("milestone.number") !== milestone.number;
     }
-    this.set("data._data.milestone_order", index);
+    this.set("_data.milestone_order", index);
     this.set("milestone", milestone);
     
     return Ember.$.post(`${this.get("apiUrl")}/assignmilestone`, {
       order: index.toString(),
-      milestone: milestone ? milestone.data.number : null,
+      milestone: milestone ? milestone.number : null,
       changed_milestones: changedMilestones,
       correlationId: this.get("correlationId")
     }, function(){}, "json");
