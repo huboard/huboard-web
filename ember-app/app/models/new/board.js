@@ -44,7 +44,7 @@ var Board = Model.extend({
       var groups = _.groupBy(combined, (x) => x.get('data.title').toLowerCase());
 
       var mapped = _.map(groups, (val, key) => {
-        return MilestoneColumn.create({
+        return Ember.Object.create({
           milestone: val[0],
           milestones: val
         })
@@ -54,7 +54,18 @@ var Board = Model.extend({
 
     }
   }),
-  
+  milestone_columns: Ember.computed('milestones.[]',{
+    get: function(key){
+      var board = this;
+      var columns = this.get('milestones')
+        .map((x) => {
+          var column = MilestoneColumn.create(x)
+          column.set('board', board);
+          return column;
+        });
+      return columns;
+    }
+  }),
   columns: Ember.computed('data.columns.[]', function(){
     var board = this,
     columns = this.get('data.columns');

@@ -13,18 +13,18 @@ var HbMilestoneComponent = HbColumn.extend(
     var issues = this.get("issues").filter(function(i){
         return !i.get("isArchived");
       })
-      .filter(this.get("model.filterBy"))
+      .filter(this.get("model.filterBy").bind(this))
       .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{milestoneOrder,milestoneTitle}"),
   sortStrategy: function(a,b){
-    if(a._data.milestone_order === b._data.milestone_order){
-      if(a.repo.full_name === b.repo.full_name){
-        return a.number - b.number;
+    if(a.data._data.milestone_order === b.data._data.milestone_order){
+      if(a.repo.data.repo.full_name === b.repo.data.repo.full_name){
+        return a.data.number - b.data.number;
       }
-      return a.repo.full_name - b.repo.full_name;
+      return a.repo.data.repo.full_name - b.repo.data.repo.full_name;
     }
-    return a._data.milestone_order - b._data.milestone_order;
+    return a.data._data.milestone_order - b.data._data.milestone_order;
   },
   moveIssue: function(issue, order, cancelMove){
     if(this.get("model.noMilestone")){

@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+//TODO: Fix milestone selector to use the raw data attributes
+// because it causes a mismatch where issue.milestone starts
+// as raw json and moves to a milestone model
+
 var HbMilestoneComponent = Ember.Component.extend({
   classNames: ["hb-selector-component", "dropdown"],
   isOpen: function(){

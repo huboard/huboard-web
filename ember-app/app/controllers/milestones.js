@@ -43,7 +43,7 @@ var MilestonesController = Ember.Controller.extend({
   }.property(),
 
   milestone_columns: function() {
-    return this.get('model.milestones');
+    return this.get('model.milestone_columns');
     var milestones = _.chain(this.get("model.combinedMilestones")).map(function(groups) {
       var m = _.first(groups);
 
