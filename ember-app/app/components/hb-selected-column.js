@@ -24,7 +24,7 @@ var HbSelectedColumnComponent = Ember.Component.extend({
   selectedColumn: function () {
     var state = this.get("issue.data.current_state");
     return this.get("columns").find(function(column){
-      return column.index === state.index;
+      return column.data.index === state.index;
     });
   }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
   visibleColumns: function() {

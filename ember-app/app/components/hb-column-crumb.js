@@ -5,7 +5,7 @@ var HbColumnCrumbComponent = Ember.Component.extend({
   classNames: ['crumb'],
   classNameBindings: ["stateClass", "isSelected:active:inactive", "indexClass"],
   isSelected: function(){
-    return this.get("issue.data.current_state.name") === this.get("column.name");
+    return this.get("issue.data.current_state.name") === this.get("column.data.name");
   }.property("issue.data.current_state"),
   indexClass: function(){
     var index = this.get('visibleColumns').indexOf(this.get('column'));
