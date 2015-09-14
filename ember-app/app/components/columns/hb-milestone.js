@@ -28,7 +28,7 @@ var HbMilestoneComponent = HbColumn.extend(
   },
   moveIssue: function(issue, order, cancelMove){
     if(!this.get("model.milestone")){
-      return this.assignMilestone(issue, order, null);
+      return this.assignMilestone(issue, order, { data: null});
     }
 
     var findMilestone = this.findMilestone(issue.repo);
@@ -56,15 +56,17 @@ var HbMilestoneComponent = HbColumn.extend(
       card: issue,
       column: _self.get("model"),
       onAccept: function(milestone){
-        _self.get("model.group").pushObject(milestone);
-        _self.moveIssue(issue, order);
+        //FIXME: not real happy about mutating here
+        Ember.run.once(() => {
+          _self.get("model.milestones").pushObject(milestone);
+          _self.moveIssue(issue, order);
+        });
       },
       onReject: function(){
         cancelMove();
       }
     });
   },
-
   isCreateVisible: true,
   topOrderNumber: function(){
     var issues = this.get("issues")

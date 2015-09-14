@@ -36,6 +36,7 @@ var Board = Model.extend({
 
   milestones: Ember.computed('repos.@each.milestonesLength', {
     get: function(key){
+      var board = this;
       
       var combined = this.get('repos')
         .map((x) => x.get('milestones'))
@@ -46,7 +47,9 @@ var Board = Model.extend({
       var mapped = _.map(groups, (val, key) => {
         return Ember.Object.create({
           milestone: val[0],
-          milestones: val
+          milestones: val,
+          milestonesLength: Ember.computed.alias('milestones.length'),
+          board: board
         })
       });
 
@@ -54,15 +57,13 @@ var Board = Model.extend({
 
     }
   }),
-  milestone_columns: Ember.computed('milestones.[]',{
+  milestone_columns: Ember.computed('repos.@each.milestonesLength', {
     get: function(key){
       var board = this;
+
       var columns = this.get('milestones')
-        .map((x) => {
-          var column = MilestoneColumn.create(x)
-          column.set('board', board);
-          return column;
-        });
+        .map((x) => MilestoneColumn.create(x));
+
       columns.insertAt(0, MilestoneColumn.create({
         milestone: null, 
         milestones:[],

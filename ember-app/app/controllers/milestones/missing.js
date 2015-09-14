@@ -18,34 +18,22 @@ var MilestonesMissingController = Ember.Controller.extend({
       var controller = this,
         milestone = {
           title: this.get("column.title"),
-          description: this.get("column.milestone.description"),
-        },
-        owner = this.get("card.repo.owner.login"),
-        name = this.get("card.repo.name");
+          description: this.get("column.milestone.data.description"),
+        };
 
       // GH API freaks out if you send a null due_on date
-      if (this.get("column.milestone.due_on")) {
-        milestone.due_on = this.get("column.milestone.due_on");
+      if (this.get("column.milestone.data.due_on")) {
+        milestone.due_on = this.get("column.milestone.data.due_on");
       }
           
       controller.set("disabled", true);
 
-      Ember.$.ajax({
-        url: "/api/" + owner + "/" + name + "/milestones",
-        type: "POST",
-        dataType: 'json',
-        data: {milestone: milestone},
-        success: function(response) {
-          controller.get("linkedRepos").forEach(function(repo){
-            if (repo.full_name === controller.get("card.repo.full_name")){
-              repo.milestones.pushObject(response);
-            }
-          });
-          controller.get("model").onAccept(response);
-          controller.set("disabled", false);
-          controller.get('target').send('closeModal');
-        }
-      });
+      return this.get('card.repo').createMilestone(milestone, {}).then(function(response){
+        controller.get("model").onAccept(response);
+        controller.set("disabled", false);
+        controller.get('target').send('closeModal');
+      })
+
     }
   }
 

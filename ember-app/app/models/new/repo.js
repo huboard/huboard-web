@@ -63,6 +63,28 @@ var Repo = Model.extend({
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
+  createMilestone: function(milestone, order) {
+    var repo = this;
+    return ajax({
+      url: `/api/${this.get('data.repo.full_name')}/milestones`,
+      dataType: 'json',
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({
+        milestone: milestone, 
+        order: order,
+        correlationId: correlationId
+      })
+    }).then((response) => {
+      return new Ember.RSVP.Promise(function(accept, reject){
+        Ember.run.once(() => {
+          var milestone = Milestone.create({data: response, repo: repo});
+          repo.get('milestones').pushObject(milestone);
+          accept(milestone);
+        });
+      });
+    });
+  },
   createIssue: function(form, order){
     var issue = form.serialize(["repo"]),
       repo = this;
