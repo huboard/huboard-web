@@ -63,6 +63,11 @@ var Board = Model.extend({
           column.set('board', board);
           return column;
         });
+      columns.insertAt(0, MilestoneColumn.create({
+        milestone: null, 
+        milestones:[],
+        board: board
+      }));
       return columns;
     }
   }),

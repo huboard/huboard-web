@@ -89,7 +89,7 @@ var HbMilestoneComponent = HbColumn.extend(
     }
   }.property("sortedIssues.[]"),
   isFirstColumn: function(){
-    return this.get("columns.firstObject.title") === this.get("model.title");
+    return this.get("columns.firstObject.milestone.title") === this.get("model.milestone.title");
   }.property("columns.firstObject"),
   isCollapsed: Ember.computed({
     get: function(){
