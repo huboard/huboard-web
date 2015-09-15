@@ -2,7 +2,7 @@ import CssView from 'app/views/css';
 import Board from 'app/models/new/board';
 import CreateIssue from 'app/models/forms/create-issue';
 import Issue from 'app/models/issue';
-import Milestone from 'app/models/milestone';
+import Milestone from 'app/models/new/milestone';
 import Ember from 'ember';
 import animateModalClose from 'app/config/animate-modal-close';
 
@@ -51,7 +51,7 @@ var MilestonesRoute = Ember.Route.extend({
     },
 
     createNewMilestone : function () {
-      this.controllerFor("milestones.create").set("model", Milestone.createNew());
+      this.controllerFor("milestones.create").set("model", Milestone.create({data: {}, repo: this.currentModel.repo}));
       this.render("milestones.create", {
         into: "application",
         outlet: "modal"
@@ -97,15 +97,6 @@ var MilestonesRoute = Ember.Route.extend({
           into: 'application',
           outlet: 'modal'
         });
-      }.bind(this));
-    },
-
-    milestoneCreated: function(milestone){
-      var controller = this.controllerFor("milestones");
-      var milestones = controller.get("model.milestones");
-      milestones.pushObject(milestone);
-      Ember.run.schedule('afterRender', controller, function () {
-        this.send("closeModal");
       }.bind(this));
     },
 

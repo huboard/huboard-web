@@ -76,13 +76,13 @@ var Repo = Model.extend({
         correlationId: correlationId
       })
     }).then((response) => {
-      return new Ember.RSVP.Promise(function(accept, reject){
-        Ember.run.once(() => {
-          var milestone = Milestone.create({data: response, repo: repo});
-          repo.get('milestones').pushObject(milestone);
-          accept(milestone);
-        });
-      });
+       var milestone = Milestone.create({data: response, repo: repo});
+       repo.get('milestones').pushObject(milestone);
+
+       Ember.run.schedule("afterRender", () => {
+         repo.get("board.milestone_columns");
+       });
+       return milestone;
     });
   },
   createIssue: function(form, order){
