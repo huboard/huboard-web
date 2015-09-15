@@ -68,6 +68,28 @@ var Repo = Model.extend({
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
+  createLink(name) {
+    return ajax({
+      url: `/api/${this.get('data.repo.full_name')}/links/validate`,
+      dataType: 'json',
+      type: 'POST',
+      data: {
+        link: name
+      }
+    }).then(() => {
+      return ajax({
+        url: `/api/${this.get('data.repo.full_name')}/links`,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          link: name
+        }
+      }).then((response) => {
+        debugger;
+
+      });
+    });
+  },
   createMilestone: function(milestone, order) {
     var repo = this;
     return ajax({
