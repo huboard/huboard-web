@@ -9,8 +9,8 @@ import correlationId from 'app/utilities/correlation-id';
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 var Repo = Model.extend({
   parent: null,
-  repos: Ember.computed('links.[]', function(){
-    var repos = [this].concat(this.get('links'));
+  repos: Ember.computed('links.[]', 'links.@each.hasErrors', function(){
+    var repos = [this].concat(this.get('links').filter((r) => !r.get('hasErrors')));
     return repos;
   }),
   isCollaborator: Ember.computed('data.repo.permissions.{admin,push}', function(){
@@ -55,6 +55,10 @@ var Repo = Model.extend({
       repo.set('assignees', details.data.assignees);
       repo.set('columns', details.data.columns);
 
+      return repo;
+    }, function(jqxhr) {
+      repo.set('isLoaded', false);
+      repo.set('hasErrors', true);
       return repo;
     });
   },

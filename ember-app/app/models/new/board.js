@@ -11,7 +11,6 @@ var Board = Model.extend({
   // these need to be real 
   // kill kill kill!
   linkedRepos: [],
-  combinedAssignees:[],
   combinedIssues: [],
   labels: Ember.computed('repos.@each.labels.[]', {
     get: function(key){
@@ -106,9 +105,11 @@ Board.reopenClass({
     return Ember.RSVP.all(promises).then(function(repos){
       // could fetch issues here?
       repos.forEach((x) => {
-        var board = Board.create({repo: x});
-        x.set('board', board);
-        x.set('isLoaded', true);
+        if(!x.get('hasErrors')){
+          var board = Board.create({repo: x});
+          x.set('board', board);
+          x.set('isLoaded', true);
+        }
       });
       
       return repo.get('board');
