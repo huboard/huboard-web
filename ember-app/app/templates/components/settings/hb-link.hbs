@@ -4,7 +4,7 @@
 </div>
 <div class="link">
 
-  <h4>{{link.label.user}}/{{link.label.repo}}</h4>
+  <h4>{{link.data.repo.full_name}}</h4>
   {{#if isLinked }}
     <div class="flex-crumbs">
       {{hb-board-columns columns=link.columns }}
