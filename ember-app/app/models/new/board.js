@@ -72,9 +72,9 @@ var Board = Model.extend({
       return columns;
     }
   }),
-  columns: Ember.computed('data.columns.[]', function(){
+  columns: Ember.computed('repo.columns.[]', function(){
     var board = this,
-    columns = this.get('data.columns');
+    columns = this.get('repo.columns');
     return columns.map(function(c, i){
       var column = Column.create({data: c});
       column.set('board', board);
@@ -103,16 +103,16 @@ Board.reopenClass({
     var promises = repo.get('repos').map(function(r){
       return r.load();
     })
-    return ajax(repo.get('baseUrl') + "/board").then(function(json){
-      return Ember.RSVP.all(promises).then(function(repos){
-        // could fetch issues here?
-        var board = Board.create(json);
-        board.set('repo', repo);
-        repo.set('board', board);
-        repo.set('isLoaded', true);
-        return board;
-      });    
-    });
+    return Ember.RSVP.all(promises).then(function(repos){
+      // could fetch issues here?
+      repos.forEach((x) => {
+        var board = Board.create({repo: x});
+        x.set('board', board);
+        x.set('isLoaded', true);
+      });
+      
+      return repo.get('board');
+    });    
   }
 });
 

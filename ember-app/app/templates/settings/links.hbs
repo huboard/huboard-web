@@ -15,12 +15,12 @@
   </div>
   {{/if}}
   <ul class="unstyled links">
-    {{#each content as |link|}}
+    {{#each model.repo.links as |link|}}
       {{settings/hb-link
         link=link
         links=content
-        settings=controllers.settings
-        labels=controllers.settings.model.column_labels
+        settings=model.repo
+        labels=model.columns
       }}
     {{else}}
       <li class="hb-empty">

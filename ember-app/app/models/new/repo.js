@@ -53,6 +53,7 @@ var Repo = Model.extend({
 
       repo.set('other_labels', details.data.other_labels);
       repo.set('assignees', details.data.assignees);
+      repo.set('columns', details.data.columns);
 
       return repo;
     });
