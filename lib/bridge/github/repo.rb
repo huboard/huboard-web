@@ -21,13 +21,18 @@ class Huboard
     end
 
     def links
-      link_labels.map do |link|
+      labels = link_labels
+      links = []
+      labels.each do |link|
         repo = Repo.new(link['user'], link['repo'], @connection)
         payload = repo.fetch false
-        payload[:repo][:color] = link_color(repo, link)
+        payload[:repo][:color] = labels.find do |l|
+          link['user'] == repo.user && l['repo'] == repo.repo
+        end
 
-        payload
+        links << payload
       end
+      return links
     end
 
     def link_color(repo, link)
@@ -39,6 +44,7 @@ class Huboard
     def details
       gh_repos = gh
       columns = column_labels
+      raise "failed to load board" if columns.empty?
       first_column = columns.first
 
       issues = issues().concat(closed_issues(columns.last['name'])).map do |i|

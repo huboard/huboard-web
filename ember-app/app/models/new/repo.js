@@ -9,8 +9,8 @@ import correlationId from 'app/utilities/correlation-id';
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 var Repo = Model.extend({
   parent: null,
-  repos: Ember.computed('links.[]', function(){
-    var repos = [this].concat(this.get('links'));
+  repos: Ember.computed('links.[]', 'links.@each.hasErrors', function(){
+    var repos = [this].concat(this.get('links').filter((r) => !r.get('hasErrors')));
     return repos;
   }),
   isCollaborator: Ember.computed('data.repo.permissions.{admin,push}', function(){
@@ -56,6 +56,10 @@ var Repo = Model.extend({
       repo.set('columns', details.data.columns);
 
       return repo;
+    }, function(jqxhr) {
+      repo.set('isLoaded', false);
+      repo.set('hasErrors', true);
+      return repo;
     });
   },
   fetchSettings: function(){
@@ -63,6 +67,28 @@ var Repo = Model.extend({
     // also make it cache for realzies :P
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
+  },
+  createLink(name) {
+    return ajax({
+      url: `/api/${this.get('data.repo.full_name')}/links/validate`,
+      dataType: 'json',
+      type: 'POST',
+      data: {
+        link: name
+      }
+    }).then(() => {
+      return ajax({
+        url: `/api/${this.get('data.repo.full_name')}/links`,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          link: name
+        }
+      }).then((response) => {
+        debugger;
+
+      });
+    });
   },
   createMilestone: function(milestone, order) {
     var repo = this;
