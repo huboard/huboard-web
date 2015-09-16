@@ -128,6 +128,10 @@ var Repo = Model.extend({
         repo.get('issues').pushObject(issue);
       });
     });
+  },
+  fetchIssue: function(number){
+    var repo = this.data.repo.full_name;
+    return Ember.$.getJSON(`/api/${repo}/issues/${number}`);
   }
 });
 
