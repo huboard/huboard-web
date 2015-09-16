@@ -68,7 +68,7 @@ Rails.application.routes.draw do
         post 'issues/:number/assigncard' => 'issues#assign_card'
         post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
 
-        post 'milestones/reorder_milestone' => 'milestones#reorder_milestone'
+        post 'milestones/:number/reorder' => 'milestones#reorder'
       end
     end
 

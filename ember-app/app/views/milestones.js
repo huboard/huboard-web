@@ -47,21 +47,22 @@ var MilestonesView = Ember.View.extend({
         before = beforeData.get("model.milestone._data.order") || beforeData.get("model.milestone.number"),
         after = afterData.get("model.milestone._data.order") || afterData.get("model.milestone.number");
 
+        var milestone = currentData.get("model.milestone");
         if(first && last) {
-          that.get("controller").milestoneMoved(currentData, currentData.get("model.milestone.number"));
+          milestone.moved(milestone.get("number"));
           return;
         }
         
         if(first) {
-          that.get("controller").milestoneMoved(currentData, (after || 1)/2);
+          milestone.moved((after || 1)/2);
           // dragged it to the top
 
         } else if (last) {
           // dragged to the bottom
-          that.get("controller").milestoneMoved(currentData, (before + 1));
+          milestone.moved((before + 1));
 
         }  else {
-          that.get("controller").milestoneMoved(currentData, (((after + before) || 1)/2));
+          milestone.moved((((after + before) || 1)/2));
         }
       }
     });

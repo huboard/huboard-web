@@ -65,26 +65,6 @@ var MilestonesController = Ember.Controller.extend({
     //return milestones;
   }.property("model.milestone_columns.[]"),
 
-  milestoneMoved: function(milestoneController, index) {
-    var milestone = milestoneController.get("model.milestone"), owner = milestone.repo.owner.login, name = milestone.repo.name;
-    milestoneController.set("model.milestone._data.order", index);
-
-    Ember.$.ajax({
-      url: "/api/" + owner + "/" + name + "/milestones/reorder_milestone",
-      type: "POST",
-
-      data: {
-        number: milestone.number,
-        index: index,
-        correlationId: correlationId
-      },
-
-      success: function(response) {
-        milestoneController.set("model.milestone.description", response.description);
-      }
-    });
-  },
-
   actions: {
     registerColumn: function(column_component){
       this.get("registeredColumns").pushObject(column_component);

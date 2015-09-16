@@ -39,6 +39,7 @@ var Repo = Model.extend({
   }),
   issuesLength: Ember.computed.alias('issues.length'),
   milestonesLength: Ember.computed.alias('milestones.length'),
+  milestonesOrder: Ember.computed.alias('milestones.@each.order'),
   isLoaded: false,
   load: function(){
     var repo = this;
@@ -105,10 +106,6 @@ var Repo = Model.extend({
     }).then((response) => {
        var milestone = Milestone.create({data: response, repo: repo});
        repo.get('milestones').pushObject(milestone);
-
-       Ember.run.schedule("afterRender", () => {
-         repo.get("board.milestone_columns");
-       });
        return milestone;
     });
   },

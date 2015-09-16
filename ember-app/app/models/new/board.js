@@ -33,8 +33,7 @@ var Board = Model.extend({
     }
   }),
 
-  milestones: Ember.computed(
-    'repos.@each.milestonesLength', 'issues.@each.milestoneTitle', {
+  milestones: Ember.computed('repos.@each.{milestonesLength,milestonesOrder}', 'issues.@each.milestoneTitle', {
     get: function(key){
       var board = this;
       
@@ -53,8 +52,9 @@ var Board = Model.extend({
         })
       });
 
-      return mapped;
-
+      return mapped.sort((a,b) => {
+        return a.milestone.get("order") - b.milestone.get("order");
+      });
     }
   }),
   milestone_columns: Ember.computed(
