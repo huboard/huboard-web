@@ -24,7 +24,7 @@ var MilestonesCreateController = Ember.Controller.extend({
       });
     },
     clearDueDate: function(){
-      this.set("model.due_on", null);
+      this.set("model.data.due_on", null);
     }
   },
   isCollaboratorBinding: "App.repo.is_collaborator",

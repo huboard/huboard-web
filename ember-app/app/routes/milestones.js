@@ -58,10 +58,10 @@ var MilestonesRoute = Ember.Route.extend({
       });
     },
 
-    editMilestone : function (milestone) {
-      milestone.originalTitle = milestone.title;
+    editMilestone : function (column) {
       this.controllerFor("milestones");
-      this.controllerFor("milestones.edit").set("model", Milestone.create(milestone));
+      this.controllerFor("milestones.edit").set("model", Milestone.create(column.milestone));
+      this.controllerFor("milestones.edit").set("column", column);
       this.render("milestones.edit", {
         into: "application",
         outlet: "modal"
@@ -99,31 +99,6 @@ var MilestonesRoute = Ember.Route.extend({
         });
       }.bind(this));
     },
-
-    milestoneUpdated: function(milestone){
-      var controller = this.controllerFor("milestones");
-
-      var self = this;
-      Ember.run.once(function(){
-        var milestones = controller.get("model.milestones");
-        var old_milestone = milestones.find(m => {
-          return m.title === milestone.originalTitle;
-        });
-        milestones.removeObject(old_milestone);
-        milestones.addObject(milestone);
-
-        //Remap issues to new milestone title (if changed)
-        var issues = controller.get("model.combinedIssues");
-        issues = issues.forEach(issue => {
-          if (issue.milestone && (issue.milestone.title === milestone.originalTitle)){
-            issue.set("milestone.title", milestone.title);
-            return issue;
-          }
-          return issue;
-        });
-        self.send("closeModal");
-      });
-    }
   }
 });
 

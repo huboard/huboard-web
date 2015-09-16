@@ -14,7 +14,15 @@ var MilestoneColumn = Ember.Object.extend(Ember.PromiseProxyMixin, {
     return i.data.milestone && i.data.milestone.title.toLowerCase() === this.get('model.milestone.data.title').toLowerCase();
     }
     return !!!i.data.milestone;
-  }
+  },
+  issues: Ember.computed('board.issues.[]', {
+    get: function(){
+      var _self = this;
+      return this.get('board.issues').filter((i) => {
+        return i.get("milestone.id") === _self.get("milestone.id");
+      });
+    }
+  }),
 });
 
 export default MilestoneColumn;

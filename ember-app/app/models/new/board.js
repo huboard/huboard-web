@@ -34,7 +34,8 @@ var Board = Model.extend({
     }
   }),
 
-  milestones: Ember.computed('repos.@each.milestonesLength', {
+  milestones: Ember.computed(
+    'repos.@each.milestonesLength', 'issues.@each.milestoneTitle', {
     get: function(key){
       var board = this;
       
@@ -57,7 +58,8 @@ var Board = Model.extend({
 
     }
   }),
-  milestone_columns: Ember.computed('repos.@each.milestonesLength', {
+  milestone_columns: Ember.computed(
+    'repos.@each.milestonesLength', 'issues.@each.milestoneTitle', {
     get: function(key){
       var board = this;
 
