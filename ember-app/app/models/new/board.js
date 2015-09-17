@@ -57,8 +57,7 @@ var Board = Model.extend({
       });
     }
   }),
-  milestone_columns: Ember.computed(
-    'repos.@each.milestonesLength', 'issues.@each.milestoneTitle', {
+  milestone_columns: Ember.computed('repos.@each.{milestonesLength,milestonesOrder}', 'issues.@each.milestoneTitle', {
     get: function(key){
       var board = this;
 

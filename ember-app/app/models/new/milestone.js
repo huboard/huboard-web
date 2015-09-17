@@ -3,7 +3,7 @@ import Model from '../model';
 
 var Milestone = Model.extend({
   blacklist: ["board", "repo"],
-  order: Ember.computed.alias("_data.order"),
+  order: Ember.computed.alias("data._data.order"),
   apiUrl: function(){
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/milestones/${this.get("data.number")}`;

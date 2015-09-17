@@ -83,13 +83,6 @@ var MilestonesController = Ember.Controller.extend({
     },
     editMilestone: function(column){
       this.get("target").send("editMilestone", column);
-    },
-    milestoneReordered: function(old_ms, new_ms){
-      var _self = this;
-      Ember.run.once(function(){
-        _self.get("model.milestones").removeObject(old_ms);
-        _self.get("model.milestones").pushObject(new_ms);
-      });
     }
   }
 });

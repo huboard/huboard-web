@@ -1,5 +1,5 @@
 module Api
-  class MilestonesReorderMilestoneJob < MilestoneEventJob
+  class MilestonesReorderJob < MilestoneEventJob
     include IsPublishable
     action "milestone_reordered" 
     timestamp Proc.new { Time.now.utc.iso8601 }
