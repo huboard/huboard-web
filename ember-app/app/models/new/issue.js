@@ -166,6 +166,16 @@ var Issue = Model.extend({
       return value;
     },
   }),
+  submitComment : function (markdown) {
+    this.set("processing", true);
+    return Ember.$.post(`${this.get("apiUrl")}/comment`, {
+      markdown: markdown,
+      correlationId: this.get("correlationId")
+    }).then(function(response){
+        this.set("processing", false);
+        return response;
+      }.bind(this));
+  }
 });
 
 export default Issue;
