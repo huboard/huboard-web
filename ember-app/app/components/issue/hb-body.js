@@ -17,7 +17,7 @@ var IssueBodyComponent = Ember.Component.extend(BuffedMixin, KeyPressHandlingMix
   tearDownEvents: function(){
     this.$().off("keydown");
   }.on("willDestroyElement"),
-  isCollaboratorBinding: "model.repo.is_collaborator",
+  isCollaboratorBinding: "model.repo.isCollaborator",
   isLoggedInBinding: "App.loggedIn",
   currentUserBinding: "App.currentUser",
   isEditing: false,
@@ -43,34 +43,20 @@ var IssueBodyComponent = Ember.Component.extend(BuffedMixin, KeyPressHandlingMix
       }.bind(this));
     },
     save: function() {
-      if(this.get('isEmpty')){
-        return;
-      }
+      if(this.get('isEmpty')){ return }
 
-      var controller = this,
-        model = controller.get("model"),
-        url = "/api/" + this.get("model.repo.full_name") + "/issues/" + this.get("model.number");
-
+      var controller = this;
+      controller.set("disabled", true);
       this.get('bufferedContent').applyBufferedChanges();
 
-      controller.set("disabled", true);
-
       if(this._last) { this._last.abort(); }
-      this._last = Ember.$.ajax({
-        url: url,
-        type: "PUT",
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({body: this.get("model.body")}),
-        success: function(response){
-          model.set("body_html", response.body_html);
-          if(controller.isDestroyed || controller.isDestroying){
-            return;
-          }
-          controller.set("disabled", false);
-          controller.set("isEditing", false);
-          controller._last = null;
+      this._last = this.get("model").update().then(()=> {
+        if(controller.isDestroyed || controller.isDestroying){
+          return;
         }
+        controller.set("disabled", false);
+        controller.set("isEditing", false);
+        controller._last = null;
       });
     },
 

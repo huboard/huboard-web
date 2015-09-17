@@ -129,9 +129,23 @@ var Repo = Model.extend({
       });
     });
   },
-  fetchIssue: function(number){
+  fetchIssue: function(comment){
     var repo = this.data.repo.full_name;
     return Ember.$.getJSON(`/api/${repo}/issues/${number}`);
+  },
+  updateComment: function(comment){
+    var _self = this;
+    var full_name = this.get("data.repo.full_name");
+    return Ember.$.ajax({
+      url: `/api/${full_name}/issues/comments/${comment.id}`,
+      type: "PUT",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({comment: comment})
+    }).then((response)=> {
+      Ember.set(comment, "body_html", response.body_html);
+      return response;
+    });
   }
 });
 
