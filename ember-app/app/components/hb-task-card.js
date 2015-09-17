@@ -51,12 +51,6 @@ var HbCardComponent = Ember.Component.extend(
     issueNumber: function () {
        return this.get("issue.number");
     }.property(),
-    repositoryName: function () {
-       var repo = this.get("issue.repo.name"),
-          login = this.get("issue.repo.owner.login");
-
-      return login  + "/" + repo;
-    }.property(),
     isLast: function(){
       return this.get("isLastColumn") && this.get("isCollaborator");
     }.property("isLastColumn", "isCollaborator"),

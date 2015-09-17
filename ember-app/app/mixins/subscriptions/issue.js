@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 var IssueSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
-    channel: "{model.repo.full_name}",
+    channel: "{model.repo.data.repo.full_name}",
     "issues.{model.number}.issue_closed": "closed",
     "issues.{model.number}.issue_reopened": "opened",
     "issues.{model.number}.issue_commented": "commented"
