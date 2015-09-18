@@ -16,12 +16,15 @@
   {{/if}}
   <ul class="unstyled links">
     {{#each model.repo.links as |link|}}
-      {{settings/hb-link
-        link=link
-        links=content
-        settings=model.repo
-        labels=model.columns
-      }}
+      {{#if link.isLoaded }}
+        {{settings/hb-link
+          link=link
+          links=model.repo.links
+          settings=model.repo
+          parent=model.repo
+          labels=model.columns
+        }}
+      {{/if}}
     {{else}}
       <li class="hb-empty">
         <em> Links are totally rad, you should add one </em>

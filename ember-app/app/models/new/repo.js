@@ -6,6 +6,8 @@ import Milestone from './milestone';
 import ajax from 'ic-ajax';
 import correlationId from 'app/utilities/correlation-id';
 
+const get = Ember.get;
+
 var PromiseObject = Ember.Object.extend(Ember.PromiseProxyMixin);
 var Repo = Model.extend({
   parent: null,
@@ -16,6 +18,14 @@ var Repo = Model.extend({
   isCollaborator: Ember.computed('data.repo.permissions.{admin,push}', function(){
     return this.get('data.repo.permissions.admin') || this.get('data.repo.permissions.push');
   }),
+  hasErrors: Ember.computed('isLoaded', 'loadFailed', 'columns', 'columns.[]', {
+    get: function(key) {
+      return this.get('loadFailed') ||
+        (this.get('parent') &&
+         this.get('columns.length') !== this.get('parent.columns.length'));
+
+    }
+  }), 
   isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
   baseUrl: Ember.computed('data.repo.full_name', function () {
     return `/api/v2/${this.get('data.repo.full_name')}`;
@@ -26,15 +36,32 @@ var Repo = Model.extend({
   repoUrl :function () {
     return `${this.get('userUrl')}/${this.get("data.repo.name")}`;
   }.property("data.repo.name",'userUrl'),
-  links: Ember.computed('data.links', function(){
+  links: Ember.computed('data.links.[]', function(){
     var self = this, 
     links = this.get('data.links');
     var response = Ember.A();
+    if(!links) {
+      return response;
+    }
     links.forEach(function(link){
-      var repo = Repo.create({ data: link });
-      repo.set('parent', self);
-      response.pushObject(repo);
+      if(self.__links) {
+        var repo = self.__links.find((r) => {
+          return get(r, 'data.repo.full_name') === get(link, 'repo.full_name');
+        })
+        if(repo) {
+          response.pushObject(repo);
+        } else {
+          var repo = Repo.create({ data: link });
+          repo.set('parent', self);
+          response.pushObject(repo);
+        }
+      } else {
+        var repo = Repo.create({ data: link });
+        repo.set('parent', self);
+        response.pushObject(repo);
+      }
     });
+    self.__links = response;
     return response;
   }),
   issuesLength: Ember.computed.alias('issues.length'),
@@ -59,7 +86,7 @@ var Repo = Model.extend({
       return repo;
     }, function(jqxhr) {
       repo.set('isLoaded', false);
-      repo.set('hasErrors', true);
+      repo.set('loadFailed', true);
       return repo;
     });
   },
@@ -70,6 +97,7 @@ var Repo = Model.extend({
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
   createLink(name) {
+    var parent = this;
     return ajax({
       url: `/api/${this.get('data.repo.full_name')}/links/validate`,
       dataType: 'json',
@@ -86,8 +114,14 @@ var Repo = Model.extend({
           link: name
         }
       }).then((response) => {
-        debugger;
-
+        parent.get('data.links').pushObject(response);
+        return parent.get('links.lastObject').load().then((repo) => {
+          if(!repo.get('loadFailed')){
+            var board = Board.create({repo: repo});
+            repo.set('isLoaded', true);
+            repo.set('board', board);
+          }
+        });
       });
     });
   },

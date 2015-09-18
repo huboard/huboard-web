@@ -106,11 +106,11 @@ Board.reopenClass({
     return Ember.RSVP.all(promises).then(function(repos){
       // could fetch issues here?
       repos.forEach((x) => {
-        if(!x.get('hasErrors')){
+        if(!x.get('loadFailed')){
           var board = Board.create({repo: x});
           x.set('board', board);
           x.set('isLoaded', true);
-        }
+        }       
       });
       
       return repo.get('board');

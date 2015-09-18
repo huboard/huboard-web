@@ -5,16 +5,19 @@ var HbLinkComponent = Ember.Component.extend({
   classNameBindings: ["isLinked:hb-state-link:hb-state-unlink"],
   classNames: ["hb-widget-link"],
   isLinked: function(){
-    return this.get("labels.length") === this.get("link.columns.length");
-  }.property("labels.[]","link.columns.[]"),
+    return this.get("parent.board.columns.length") === this.get("link.board.columns.length");
+  }.property("parent.board.columns.[]", 'link.board', "link.board.columns.[]"),
   isDisabled: false,
   actions: {
     remove: function(link) {
-      this.get("links").removeObject(link);
+      var rawLink = this.get('settings.data.links').find((x) => {
+        return Ember.get(x,'repo.full_name') === Ember.get(link, 'data.repo.full_name');
+      });
+      this.get("settings.data.links").removeObject(rawLink);
       Ember.$.ajax({
-        url: "/api/"+ this.get('settings.model.repository.full_name') + "/links",
+        url: "/api/"+ this.get('settings.data.repo.full_name') + "/links",
         data: {
-          link: link.get('label.name')
+          link: link.get('repo.color.name')
         },
         type: 'DELETE',
 
@@ -23,7 +26,7 @@ var HbLinkComponent = Ember.Component.extend({
     copy: function(){
 
       var component = this,
-        apiUrl = "/api/" + this.get("link.label.user") + "/" + this.get("link.label.repo") + "/columns";
+        apiUrl = "/api/" + this.get("link.data.repo.full_name") + "/columns";
 
       component.set('isDisabled', true);
 
@@ -33,13 +36,14 @@ var HbLinkComponent = Ember.Component.extend({
         contentType: 'application/json',
         type: 'PUT',
         data: JSON.stringify({
-          columns: this.get("labels")
+          columns: this.get("labels").mapBy('data')
         }),
         success: function(response) {
-          component.set("link.columns", Ember.A(response.columns));
-          component.set('isDisabled', false);
+          component.get('link').load().then(() => {
+            component.set('isDisabled', false);
+          })
         }
-      });
+      })
     }
   }
 });
