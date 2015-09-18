@@ -40,33 +40,22 @@ var IssueCommentComponent = IssueActivity.extend(BufferedMixin, KeyPressHandling
       this.set("isEditing", true);
     },
     save: function() {
-      if(this.get('isEmpty')){
-        return;
-      }
-      var controller = this,
-        model = controller.get('model'),
-        url = "/api/" + this.get("issue.repo.full_name") + "/issues/comments/" + this.get("model.id");
+      if(this.get('isEmpty')){ return }
 
+      var controller = this;
+      controller.set("disabled", true);
       this.get('bufferedContent').applyBufferedChanges();
 
-      controller.set("disabled", true);
-
       if(this._last) { this._last.abort(); }
-      this._last = Ember.$.ajax({
-        url: url,
-        type: "PUT",
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({comment: this.get("model")}),
-        success: function(response){
-          Ember.set(model, "body_html", response.body_html);
-          if(controller.isDestroyed || controller.isDestroying){
-            return;
-          }
-          controller.set("disabled", false);
-          controller.set("isEditing", false);
-          controller._last = null;
+      var comment = this.get("model");
+      this._last = this.get("issue.repo").updateComment(comment)
+      .then(()=> {
+        if(controller.isDestroyed || controller.isDestroying){
+          return;
         }
+        controller.set("disabled", false);
+        controller.set("isEditing", false);
+        controller._last = null;
       });
     },
 

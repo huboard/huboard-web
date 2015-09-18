@@ -124,11 +124,11 @@ var IssueController = Ember.Controller.extend(
   activitiesSort:["created_at"],
   sortedActivities: Ember.computed.sort("allActivities", "activitiesSort"),
   mentions: function (){
-    var union = _.union(this.get('controllers.application.model.board.assignees'),this.get('allActivities').mapBy('user'));
+    var union = _.union(this.get('model.repo.assignees.[]'),this.get('allActivities').mapBy('user'));
     return _.uniq(_.compact(union), function(i){
       return i.login;
     });
-  }.property('controllers.application.model.board.assignees','allActivities')
+  }.property('model.repo.assignees.[]','allActivities')
 });
 
 export default IssueController;

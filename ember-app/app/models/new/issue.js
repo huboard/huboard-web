@@ -26,6 +26,23 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
+  update: function(){
+    var _self = this;
+    return Ember.$.ajax({
+      url: `${this.get("apiUrl")}`,
+      type: "PUT",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        title: this.get("title"),
+        body: this.get("body")
+      })
+    }).then((response)=> {
+      _self.set("title", response.title);
+      _self.set("body_html", response.body_html);
+      return response;
+    });
+  },
   updateLabels : function () {
     this.set("processing", true);
     return Ember.$.ajax( {
@@ -149,6 +166,16 @@ var Issue = Model.extend({
       return value;
     },
   }),
+  submitComment : function (markdown) {
+    this.set("processing", true);
+    return Ember.$.post(`${this.get("apiUrl")}/comment`, {
+      markdown: markdown,
+      correlationId: this.get("correlationId")
+    }).then(function(response){
+        this.set("processing", false);
+        return response;
+      }.bind(this));
+  }
 });
 
 export default Issue;

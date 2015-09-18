@@ -41,24 +41,13 @@ var IssueTitleComponent = Ember.Component.extend(BufferedMixin,KeyPressHandlingM
       this.set("isEditing", true);
     },
     save: function() {
-      var controller = this,
-        url = "/api/" + this.get("model.repo.full_name") + "/issues/" + this.get("model.number");
-
+      var controller = this;
       this.get('bufferedContent').applyBufferedChanges();
-
       controller.set("disabled", true);
 
-      Ember.$.ajax({
-        url: url,
-        type: "PUT",
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({title: this.get("model.title")}),
-        success: function(response){
-          controller.set("disabled", false);
-          controller.set("model.title", response.title);
-          controller.set("isEditing", false);
-        }
+      this.get("model").update().then(()=> {
+        controller.set("disabled", false);
+        controller.set("isEditing", false);
       });
     },
 

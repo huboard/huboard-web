@@ -18,7 +18,7 @@
   {{#if this.isEditing}}
   <form {{action "save" on="submit" target=this }} class="flex-form">
     {{hb-markdown-editor markdown=bufferedContent.body mentions=model.mentions}}
-    <button disabled="{{model.disabled}}" class="hb-button">Submit comment</button>
+    <button disabled={{disabled}} class="hb-button">Submit comment</button>
   </form>
   {{else}}
     {{ hb-task-list body_html=model.body_html body=model.body taskChanged="taskChanged" targetObject=this canEdit=canEdit }}
