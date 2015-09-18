@@ -3,6 +3,7 @@ import Model from '../model';
 import Board from './board';
 import Issue from './issue';
 import Milestone from './milestone';
+import Integration from 'app/models/integration';
 import ajax from 'ic-ajax';
 import correlationId from 'app/utilities/correlation-id';
 
@@ -89,6 +90,21 @@ var Repo = Model.extend({
       repo.set('loadFailed', true);
       return repo;
     });
+  },
+  fetchIntegrations: function() {
+    if(this._integrations) {return this._integrations;}
+    return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/integrations")
+      .then(function(integrations){
+        var results = Ember.A();
+        integrations.rows.forEach(function(i){
+          results.pushObject(Integration.create(i.value));
+        });
+        this._integrations = Ember.Object.create({ 
+          integrations: results 
+        });
+        return this._integrations;
+      }.bind(this));
+
   },
   fetchSettings: function(){
     //TODO: move this to Settings.fetch(repo)
