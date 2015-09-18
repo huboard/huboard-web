@@ -179,7 +179,7 @@ var Repo = Model.extend({
       });
     });
   },
-  fetchIssue: function(comment){
+  fetchIssue: function(number){
     var repo = this.data.repo.full_name;
     return Ember.$.getJSON(`/api/${repo}/issues/${number}`);
   },
