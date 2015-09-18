@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Issue from 'app/models/new/issue';
+import Milestone from 'app/models/new/milestone';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
   initSubscribers: function(){
@@ -10,6 +11,9 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       repos.forEach(function(repo){
         var newIssue = `${repo.data.repo.full_name} issues.*.issue_opened`;
         _self.hbsubscriptions[newIssue] = "newIssue";
+
+        var newMilestone = `${repo.data.repo.full_name} milestones.*.milestone_created`;
+        _self.hbsubscriptions[newMilestone] = "newMilestone";
       });
 
       _self.unsubscribeFromMessages();
@@ -42,8 +46,15 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     newMilestone: function(message){
-      var milestones = this.get("model.board.milestones");
-      milestones.pushObject(message.milestone);
+      var repo = this.get("model.repos").find((r) => {
+        return r.data.repo.full_name === message.milestone.repo.full_name;
+      });
+
+      var milestones = repo.get("milestones");
+      milestones.pushObject(Milestone.create({
+        data: message.milestone,
+        repo: repo
+      }));
     },
   }
 });
