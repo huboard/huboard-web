@@ -43,20 +43,24 @@ var IssueBodyComponent = Ember.Component.extend(BuffedMixin, KeyPressHandlingMix
       }.bind(this));
     },
     save: function() {
-      if(this.get('isEmpty')){ return }
+      if(this.get('isEmpty')){ return; }
+      this._last ? this._last.abort() : this._last;
 
       var controller = this;
       controller.set("disabled", true);
       this.get('bufferedContent').applyBufferedChanges();
 
-      if(this._last) { this._last.abort(); }
-      this._last = this.get("model").update().then(()=> {
+      this._last = this.get("model").update();
+      this._last.then((response)=> {
         if(controller.isDestroyed || controller.isDestroying){
           return;
         }
+
+        controller._last = null;
         controller.set("disabled", false);
         controller.set("isEditing", false);
-        controller._last = null;
+        controller.set("model.title", response.title);
+        controller.set("model.body_html", response.body_html);
       });
     },
 

@@ -184,7 +184,7 @@ var Repo = Model.extend({
     return Ember.$.getJSON(`/api/${repo}/issues/${number}`);
   },
   updateComment: function(comment){
-    var _self = this;
+    //!! This request has to return the jqHXR obj, no then's
     var full_name = this.get("data.repo.full_name");
     return Ember.$.ajax({
       url: `/api/${full_name}/issues/comments/${comment.id}`,
@@ -192,10 +192,7 @@ var Repo = Model.extend({
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify({comment: comment})
-    }).then((response)=> {
-      Ember.set(comment, "body_html", response.body_html);
-      return response;
-    });
+    })
   }
 });
 

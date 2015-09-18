@@ -27,7 +27,7 @@ var Issue = Model.extend({
     }.bind(this));
   },
   update: function(){
-    var _self = this;
+    //!! This request has to return the jqHXR obj, no then's
     return Ember.$.ajax({
       url: `${this.get("apiUrl")}`,
       type: "PUT",
@@ -37,11 +37,7 @@ var Issue = Model.extend({
         title: this.get("title"),
         body: this.get("body")
       })
-    }).then((response)=> {
-      _self.set("title", response.title);
-      _self.set("body_html", response.body_html);
-      return response;
-    });
+    })
   },
   updateLabels : function () {
     this.set("processing", true);

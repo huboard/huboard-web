@@ -45,9 +45,11 @@ var IssueTitleComponent = Ember.Component.extend(BufferedMixin,KeyPressHandlingM
       this.get('bufferedContent').applyBufferedChanges();
       controller.set("disabled", true);
 
-      this.get("model").update().then(()=> {
+      this.get("model").update().then((response)=> {
         controller.set("disabled", false);
         controller.set("isEditing", false);
+        controller.set("model.title", response.title);
+        controller.set("model.body_html", response.body_html);
       });
     },
 
