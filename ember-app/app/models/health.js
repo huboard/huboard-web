@@ -6,9 +6,9 @@ var get = Ember.get;
 
 var Health = Settings.extend({
   repo: {},
-  storageKey: Ember.computed('repo.full_name',{
+  storageKey: Ember.computed('repo.data.repo.full_name',{
     get:function(){
-      return this.get('repo.full_name') + "+health";
+      return this.get('repo.data.repo.full_name') + "+health";
     }
   }),
   isLoaded() {
@@ -22,6 +22,11 @@ var Health = Settings.extend({
 
      return `${day}-${month}-${year}`;
   },
+  hasErrors: Ember.computed('checks.@each.success', {
+    get: function(key){
+      return this.get('checks').any((x) => !get(x, 'success'));
+    }
+  }),
   setLoaded() {
     this.set('lastLoaded', this.getToday());
   }
@@ -36,7 +41,7 @@ Health.reopenClass({
     if(health.isLoaded()){
       return new Ember.RSVP.Promise((resolve) => resolve(health));
     }
-    return ajax(`/api/${get(repo, 'full_name')}/health/board`).then(function(result){
+    return ajax(`/api/${get(repo, 'data.repo.full_name')}/health/board`).then(function(result){
       health.set('checks', result.data);
       health.setLoaded();
       return health;

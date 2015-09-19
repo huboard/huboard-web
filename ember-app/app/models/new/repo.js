@@ -4,6 +4,7 @@ import Board from './board';
 import Issue from './issue';
 import Milestone from './milestone';
 import Integration from 'app/models/integration';
+import Health from 'app/models/health';
 import ajax from 'ic-ajax';
 import correlationId from 'app/utilities/correlation-id';
 
@@ -24,9 +25,15 @@ var Repo = Model.extend({
       return this.get('loadFailed') ||
         (this.get('parent') &&
          this.get('columns.length') !== this.get('parent.columns.length'));
-
     }
   }), 
+  health: Ember.computed({
+    get: function(key){
+      return PromiseObject.create({
+        promise: Health.fetch(this)
+      });
+    }
+  }),
   isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
   baseUrl: Ember.computed('data.repo.full_name', function () {
     return `/api/v2/${this.get('data.repo.full_name')}`;

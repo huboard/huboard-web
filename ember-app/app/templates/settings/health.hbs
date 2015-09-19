@@ -1,0 +1,14 @@
+<h3> Health checks  </h3>
+<div class="flex-form-top"> 
+{{#if model.health.isFulfilled }}
+  <ul class="unstyled integrations">
+
+  {{#each model.health.content.checks as |check| }}
+    <li>
+     {{ check.message }}
+    </li>
+  {{/each}}
+  </ul>
+{{/if}}
+</div>
+
