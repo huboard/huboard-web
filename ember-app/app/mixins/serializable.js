@@ -1,8 +1,14 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-function serialize() {
-    var result = {};
+function serialize(blacklist) {
+    var result = {},
+      isHuboardModel = Ember.get(this, 'isHuboardModel');
+
+    if(isHuboardModel){
+      return serialize.call(Ember.get(this, 'data'));
+    }
+
     for (var key in Ember.$.extend(true, {}, this))
     {
         // Skip these
@@ -10,12 +16,13 @@ function serialize() {
         key === 'isDestroyed' ||
         key === 'isDestroying' ||
         key === 'concatenatedProperties' ||
-        typeof this[key] === 'function')
+        typeof this[key] === 'function' ||
+        (blacklist && blacklist.any((x) => key === x )))
         {
             continue;
         }
         if(this[key] && this[key].toString()[0] === "<" && this[key].toString()[this[key].toString().length - 1] === ">") {
-           result[key] = serialize.call(this[key]);
+           result[key] = this[key].serialize ? this[key].serialize.call(this[key]) :  serialize.call(this[key]);
            
         }else if (Object.prototype.toString(this[key]) === "[object Array]") {
           /* jshint ignore:start */
@@ -29,8 +36,8 @@ function serialize() {
 
 }
 var Serializable = Ember.Mixin.create({
-  serialize: function () {
-    return serialize.call(this);
+  serialize: function (blacklist) {
+    return serialize.call(this, blacklist || this.get('blacklist'));
   },
   
   //Date string to ISO string

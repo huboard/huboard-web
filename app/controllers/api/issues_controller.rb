@@ -99,7 +99,7 @@ module Api
     end
 
     def assign_milestone
-      user, repo, number, milestone = params[:user], params[:repo], params[:issue], params[:milestone]
+      user, repo, number, milestone = params[:user], params[:repo], params[:number], params[:milestone]
       issue = huboard.board(user, repo).issue(number)
       issue.embed_data('milestone_order' => params[:order].to_f) if params[:order].to_f > 0
       @issue = issue.patch 'milestone' => milestone, 'body' => issue['body']

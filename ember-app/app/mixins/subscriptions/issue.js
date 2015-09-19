@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 var IssueSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
-    channel: "{model.repo.full_name}",
+    channel: "{model.repo.data.repo.full_name}",
     "issues.{model.number}.issue_closed": "closed",
     "issues.{model.number}.issue_reopened": "opened",
     "issues.{model.number}.issue_commented": "commented"
@@ -32,7 +32,6 @@ var IssueSubscriptionMixin = Ember.Mixin.create({
         this.get("model.activities.events").pushObject(activity);
       }
     },
-    //This method only works for client-built activities
     _activityUnique: function(activities, timestamp){
       var activity = activities.get("lastObject");
       return activity.created_at !== timestamp;
@@ -44,7 +43,7 @@ var IssueSubscriptionMixin = Ember.Mixin.create({
         url: issue.url,
         event: event,
         created_at: issue.updated_at,
-        actor: issue.user
+        actor: issue.closed_by
       }
     },
     _comment: function(message){
@@ -56,7 +55,7 @@ var IssueSubscriptionMixin = Ember.Mixin.create({
         html_url: message.comment.html_url,
         issue_url: message.comment.issue_url,
         created_at: issue.updated_at,
-        user: issue.user
+        user: message.comment.user
       }
     }
   }

@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 var CardSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
-    channel: "{repositoryName}",
-    "issues.{issue.number}.issue_status_changed": "statusChanged",
+    channel: "{issue.repo.data.repo.full_name}",
+    "issues.{issue.data.number}.issue_status_changed": "statusChanged",
     "issues.{issue.number}.issue_archived": "archived",
     "issues.{issue.number}.issue_closed": "closed",
     "issues.{issue.number}.issue_reopened": "opened",

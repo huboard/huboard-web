@@ -17,10 +17,9 @@ module Api
       board = huboard.board(params[:user], params[:repo])
       link = board.create_link params[:link]
       if link
-       render json: {
-          label: link,
-          columns: huboard.board(link['user'], link['repo']).column_labels
-        }
+       repo = huboard.repo(link['user'], link['repo']).fetch(false)
+       repo[:repo][:color] = link
+       render json: repo
       else
         raise HuBoard::Error, "Unable to link #{params[:link]} to your repository"
       end

@@ -43,7 +43,10 @@ var MilestonesEditView = ModalView.extend(KeyPressHandlingMixin, {
           return;
         }
         var closeModal = confirm("Any unsaved work may be lost! Continue?");
-        if(closeModal){ this.get('controller').send('closeModal'); }
+        if(closeModal){
+          this.get('controller.bufferedContent').discardBufferedChanges();
+          this.get('controller').send('closeModal');
+        }
     }
   }
 });

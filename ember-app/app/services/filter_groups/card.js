@@ -11,7 +11,7 @@ var CardFilters = Ember.Service.extend({
         queryParam: "card",
         mode: 0,
         condition: function(i){
-          return !i.pull_request;
+          return !i.data.pull_request;
         }
       }),
       Ember.Object.create({
@@ -19,7 +19,7 @@ var CardFilters = Ember.Service.extend({
         queryParam: "card",
         mode: 0,
         condition: function(i){
-          return i.pull_request;
+          return i.data.pull_request;
         }
       })
     ]);

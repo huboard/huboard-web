@@ -1,8 +1,8 @@
-{{#if column.wip}}
+{{#if column.data.wip}}
   {{#if isFiltered}}
-    {{filteredCount}}/{{issuesCount}} of {{column.wip}}
+    {{filteredCount}}/{{issuesCount}} of {{column.data.wip}}
   {{else}}
-    {{issuesCount}} of {{column.wip}}
+    {{issuesCount}} of {{column.data.wip}}
   {{/if}}
 {{else}}
   {{#if showColumnCounts}}

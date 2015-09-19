@@ -10,9 +10,7 @@ var HbQuickIssueComponent = Ember.Component.extend({
   }.on("init"),
   clearModel: function(){
     this.set("model", Issue.createNew());
-  }.observes("issueCreated"),
-  issueCreated: 0,
-
+  },
   isValid: function(){
     return this.get("model.title").trim() !== "" &&
       this.get("processing") !== true;
@@ -39,7 +37,7 @@ var HbQuickIssueComponent = Ember.Component.extend({
       var order = this.get("parentView.topOrderNumber");
 
       this.attrs.createFullscreenIssue(model, order);
-      this.incrementProperty("issueCreated");
+      this.clearModel();
     },
     onQuickAdd: function(){
       if (!this.get("isValid")) {return;}
@@ -48,13 +46,11 @@ var HbQuickIssueComponent = Ember.Component.extend({
       this.set("model.milestone", this.get("column.milestone"));
 
       var _self = this;
-      this.get("model").save(order).then(function(issue){
-        Ember.run.once(function(){
-          _self.attrs.createNewIssue(issue);
-          _self.incrementProperty("issueCreated");
+      return this.get('repo').createIssue(this.get('model'), order).then(() => {
           _self.set("processing", false);
-        });
+          _self.clearModel();
       });
+
     }
   }
 });

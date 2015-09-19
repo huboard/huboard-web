@@ -14,21 +14,21 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   }.property("columnComponents.[]"),
   sortedIssues: function(){
     var column = this.get("model");
-    var issues = this.get("issues").filter(function(i){
-      return i.current_state.index === column.index;
+    var issues = this.get("model.board.issues").filter(function(i){
+      return i.data.current_state.index === column.data.index;
     }).filter(function(i) {
       return !i.get("isArchived");
     }).sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{columnIndex,order}"),
   sortStrategy: function(a,b){
-    if(a._data.order === b._data.order){
+    if(a.data._data.order === b.data._data.order){
       if(a.repo.full_name === b.repo.full_name){
         return a.number - b.number;
       }
       return a.repo.full_name - b.repo.full_name;
     }
-    return a._data.order - b._data.order;
+    return a.data._data.order - b.data._data.order;
   },
   moveIssue: function(issue, order){
     var self = this;
@@ -48,21 +48,21 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     }
   }).property(),
   isLastColumn: function(){
-    return this.get("columns.lastObject.name") === this.get("model.name");
+    return this.get("columns.lastObject.data.name") === this.get("model.data.name");
   }.property("columns.lastObject"),
   isFirstColumn: function(){
-    return this.get("columns.firstObject.name") === this.get("model.name");
+    return this.get("columns.firstObject.data.name") === this.get("model.data.name");
   }.property("columns.firstObject"),
   isCreateVisible: Ember.computed.alias("isFirstColumn"),
   topOrderNumber: function(){
     var issues = this.get("sortedIssues");
     var milestone_issues = this.get("issues").sort(function(a,b){
-      return a._data.milestone_order - b._data.milestone_order;
+      return a.data._data.milestone_order - b.data._data.milestone_order;
     });
     if(issues.length){
       return {
-        order: issues.get("firstObject._data.order") / 2,
-        milestone_order: milestone_issues.get("firstObject._data.milestone_order") / 2
+        order: issues.get("firstObject.data._data.order") / 2,
+        milestone_order: milestone_issues.get("firstObject.data._data.milestone_order") / 2
       };
     } else {
       return {};

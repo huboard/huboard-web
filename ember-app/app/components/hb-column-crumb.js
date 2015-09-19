@@ -5,8 +5,8 @@ var HbColumnCrumbComponent = Ember.Component.extend({
   classNames: ['crumb'],
   classNameBindings: ["stateClass", "isSelected:active:inactive", "indexClass"],
   isSelected: function(){
-    return this.get("issue.current_state.name") === this.get("column.name");
-  }.property("issue.current_state"),
+    return this.get("issue.data.current_state.name") === this.get("column.data.name");
+  }.property("issue.data.current_state"),
   indexClass: function(){
     var index = this.get('visibleColumns').indexOf(this.get('column'));
 
@@ -18,9 +18,9 @@ var HbColumnCrumbComponent = Ember.Component.extend({
       return "crumb--middle";
     }
 
-  }.property('visibleColumns', 'issue.current_state'),
+  }.property('visibleColumns', 'issue.data.current_state'),
   stateClass: function(){
-    var github_state = this.get("issue.state");
+    var github_state = this.get("issue.data.state");
     if(github_state === "closed"){
       return "hb-state-" + "closed";
     }
@@ -29,7 +29,7 @@ var HbColumnCrumbComponent = Ember.Component.extend({
       return "hb-state-" + custom_state;
     }
     return "hb-state-open";
-  }.property("issue.current_state", "issue.customState", "issue.state")
+  }.property("issue.data.current_state", "issue.customState", "issue.data.state")
 
 });
 

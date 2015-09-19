@@ -1,12 +1,11 @@
 import Ember from 'ember';
 
 var SettingsLinksController = Ember.Controller.extend({
-  needs: ["settings"],
-  repository: Ember.computed.alias("controllers.settings.model.repository"),
-  columns: Ember.computed.alias("controllers.settings.model.column_labels"),
+  repository: Ember.computed.alias("model.repo.data.repo"),
+  columns: Ember.computed.alias("model.columns"),
   shouldDisplayWarning: function(){
-    return this.get("content.length") > 5;
-  }.property('content.length')
+    return this.get("model.repo.links.length") > 5;
+  }.property('model.repo.links.length')
 });
 
 export default SettingsLinksController;

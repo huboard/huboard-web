@@ -4,15 +4,15 @@
 </div>
 <div class="link">
 
-  <h4>{{link.label.user}}/{{link.label.repo}}</h4>
+  <h4>{{link.data.repo.full_name}}</h4>
   {{#if isLinked }}
     <div class="flex-crumbs">
-      {{hb-board-columns columns=link.columns }}
+      {{hb-board-columns columns=link.board.columns }}
     </div>
   {{else}}
-    {{#if link.columns.length }}
+    {{#if link.board.columns.length }}
       <div class="flex-crumbs control-group error">
-          {{hb-board-columns columns=link.columns }}
+          {{hb-board-columns columns=link.board.columns }}
         <p class="help-block">
         This HuBoard's columns are not compatible with your parent board. Click the Copy parent board button to copy the parent HuBoard's columns.
         </p>
@@ -30,7 +30,7 @@
   <div class='flex-split'>
     <div class='flex-left'>
       <div class="flex-crumbs">
-        {{hb-board-columns columns=columns }}
+        {{hb-board-columns columns=parent.board.columns }}
       </div>
     </div>
     <div class='flex-right'>

@@ -13,7 +13,7 @@ module Api
       render json: milestone
     end
 
-    def reorder_milestone
+    def reorder
       user, repo, number, index = params[:user], params[:repo], params[:number], params[:index]
       @milestone =  huboard.board(user, repo).milestone number
       @milestone = @milestone.reorder(index)

@@ -1,47 +1,61 @@
 import Ember from 'ember';
-import Issue from 'app/models/issue';
+import Issue from 'app/models/new/issue';
+import Milestone from 'app/models/new/milestone';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
+  initSubscribers: function(){
+    var _self = this;
+    Ember.run.next(() => {
+      var repos = _self.get("model.board.repos");
+      if(!repos) { return; }
+      repos.forEach(function(repo){
+        var newIssue = `${repo.data.repo.full_name} issues.*.issue_opened`;
+        _self.hbsubscriptions[newIssue] = "newIssue";
+
+        var newMilestone = `${repo.data.repo.full_name} milestones.*.milestone_created`;
+        _self.hbsubscriptions[newMilestone] = "newMilestone";
+      });
+
+      _self.unsubscribeFromMessages();
+      _self.subscribeToMessages();
+    });
+  }.observes("model.board.repos.[]"),
   hbsubscriptions: {
-    channel: "{model.full_name}",
-    "issues.*.issue_opened": "newIssue",
+    channel: "{model.repo.data.repo.full_name}",
     "milestones.*.milestone_created": "newMilestone"
   },
   hbsubscribers: {
     newIssue: function(message) {
-      var issue = this.get("model.board.issues").findBy('number', message.issue.number);
+      var number = message.issue.number;
+      var issue = this.get("model.board.issues").findBy('number', number);
       if(issue) { return issue.set("state", "open"); }
 
-      var _self = this;
-      var number = message.issue.number;
-      var repo = message.issue.repo.full_name;
-      this.get("model").fetchIssue(number, repo).then(function(issue){
-        var model = Issue.create(issue);
-        if(model.current_state.name === "__nil__") {
-          model.set("current_state", _self.get("model.board.columns.firstObject"));
-        }
+      var message_repo = message.issue.repo.full_name;
+      var repo = this.get("model.repos").find((repo) => {
+        return repo.data.repo.full_name === message_repo;
+      });
 
-        _self.hbsubscribers._colorLinkedIssue.call(_self, model);
-        _self.get("model.board.issues").pushObject(model);
+      var _self = this;
+      repo.fetchIssue(number).then((issue) => {
+        var model = Issue.create({data: issue, repo: repo});
+        if(model.get("current_state.name") === "__nil__") {
+          var column = _self.get("model.columns.firstObject");
+          model.set("current_state", column);
+        }
+        repo.get("issues").pushObject(model);
       });
     },
     newMilestone: function(message){
-      var milestones = this.get("model.board.milestones");
-      milestones.pushObject(message.milestone);
-    },
+      var repo = this.get("model.repos").find((r) => {
+        return r.data.repo.full_name === message.milestone.repo.full_name;
+      });
 
-    _colorLinkedIssue: function(model){
-      var parent_repo = this.get("model.board.repo.full_name");
-      var model_repo = model.repo.full_name;
-      if(parent_repo.toLowerCase() !== model_repo.toLowerCase()){
-        var linked_labels = this.get("model.board.link_labels");
-        var label = _.find(linked_labels, function(l){
-          var name = l.user + "/" + l.repo;
-          return name.toLowerCase() === model.repo.full_name.toLowerCase();
-        });
-        model.color = label.color;
-      }
-    }
+      var milestones = repo.get("milestones");
+      milestones.pushObject(Milestone.create({
+        data: message.milestone,
+        repo: repo
+      }));
+    },
   }
 });
 

@@ -7,7 +7,7 @@
 
 <hr>
 
-<h3>Existing links <strong>({{content.length}})</strong> </h3>
+<h3>Existing links <strong>({{model.repo.links.length}})</strong> </h3>
 <div class="flex-form-top"> 
   {{#if shouldDisplayWarning }}
   <div class="alert alert-error">
@@ -15,13 +15,16 @@
   </div>
   {{/if}}
   <ul class="unstyled links">
-    {{#each content as |link|}}
-      {{settings/hb-link
-        link=link
-        links=content
-        settings=controllers.settings
-        labels=controllers.settings.model.column_labels
-      }}
+    {{#each model.repo.links as |link|}}
+      {{#if link.isLoaded }}
+        {{settings/hb-link
+          link=link
+          links=model.repo.links
+          settings=model.repo
+          parent=model.repo
+          labels=model.columns
+        }}
+      {{/if}}
     {{else}}
       <li class="hb-empty">
         <em> Links are totally rad, you should add one </em>
