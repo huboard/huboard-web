@@ -2,7 +2,6 @@ import CssView from 'app/views/css';
 import Board from 'app/models/new/board';
 import Ember from 'ember';
 import CreateIssue from 'app/models/forms/create-issue';
-import Issue from 'app/models/issue';
 import animateModalClose from 'app/config/animate-modal-close';
 
 var IndexRoute = Ember.Route.extend({
