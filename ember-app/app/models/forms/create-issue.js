@@ -1,21 +1,11 @@
 import Ember from 'ember';
 import correlationId from 'app/utilities/correlation-id';
-import Issue from 'app/models/issue';
+console.log("TODO change path once new issue is normalized");
+import Issue from 'app/models/new/issue';
 import Serializable from 'app/mixins/serializable';
 
 var CreateIssue = Ember.Object.extend(Serializable,{
-  correlationId: correlationId,
-  save: function(order) {
-    return Ember.$.ajax( {
-      url: "/api/" + this.get("repo.full_name") + "/issues", 
-      data: JSON.stringify({issue: this.serialize(), order: order, correlationId: this.get("correlationId") }),
-      dataType: 'json',
-      type: "POST",
-      contentType: "application/json"})
-      .then(function(response){
-        return Issue.create(response);
-      });
-  }
+  correlationId: correlationId
 });
 
 CreateIssue.reopenClass({
@@ -26,7 +16,6 @@ CreateIssue.reopenClass({
        body: "",
        assignee: null,
        milestone: null,
-       repo: App.get("repo"),
        labels: []
      });
   }

@@ -10,7 +10,7 @@ var SettingsIntegrationsNewController = Ember.Controller.extend({
     submit: function(){
       var self = this;
       var controller = this.get("controllers.settings/integrations"),
-        endpoint = "/api/" + this.get("controllers.application.model.full_name") + "/integrations";
+        endpoint = "/api/" + this.get("controllers.application.model.data.repo.full_name") + "/integrations";
 
         this.set("processing", true);
 

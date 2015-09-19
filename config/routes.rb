@@ -29,6 +29,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'uploads/asset' => 'uploads#asset_uploader'
+
+    scope '/v2/:user/:repo' do
+      constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
+        get '/' => 'repos#show'
+        get 'details' => 'repos#details' 
+      end
+    end
+
     scope '/:user/:repo' do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
         get 'hooks' => 'webhooks#hooks'
@@ -39,14 +47,9 @@ Rails.application.routes.draw do
         post 'links/validate' => 'links#validate'
         put 'columns' => 'columns#update'
         get 'settings' => 'settings#index'
-        get 'board' => 'board#index', as: 'board'
         get 'health/board' => 'health#board'
         get 'commits' => 'board#commits', as: 'commits'
         get 'commit/:commit' => 'board#commit', as: 'commit'
-        get 'link_labels' => 'board#link_labels', as: 'link_labels'
-        constraints(:linked_user => /[^\/]+/, :linked_repo => /[^\/]+/) do
-          get 'linked/:linked_user/:linked_repo' => 'board#linked', as: 'linked_board'
-        end
 
         #Issues
         get 'issues/:number' => 'issues#issue'
@@ -55,18 +58,18 @@ Rails.application.routes.draw do
         post 'issues/:number/comment' => 'issues#create_comment'
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
-        post 'close' => 'issues#close_issue'
-        post 'open' => 'issues#reopen_issue'
+        post 'issues/:number/close' => 'issues#close_issue'
+        post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'
         delete 'issues/:number/blocked' => 'issues#unblock'
         put 'issues/:number/ready' => 'issues#ready'
         delete 'issues/:number/ready' => 'issues#unready'
-        post 'dragcard' => 'issues#drag_card'
-        post 'archiveissue' => 'issues#archive_issue'
-        post 'assigncard' => 'issues#assign_card'
-        post 'assignmilestone' => 'issues#assign_milestone'
+        post 'issues/:number/dragcard' => 'issues#drag_card'
+        post 'issues/:number/archive' => 'issues#archive_issue'
+        post 'issues/:number/assigncard' => 'issues#assign_card'
+        post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
 
-        post 'milestones/reorder_milestone' => 'milestones#reorder_milestone'
+        post 'milestones/:number/reorder' => 'milestones#reorder'
       end
     end
 

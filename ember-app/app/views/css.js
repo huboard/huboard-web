@@ -12,9 +12,14 @@ var CssView = Ember.View.extend({
       return (((r*299)+(g*587)+(b*144))/1000) >= 131.5 ? "#333" : "white";
     };
 
-    var labels = Ember.copy(this.get('content.combinedLabels'));
+    var labels = Ember.copy(this.get('content.labels'))
+      .map((l) => Ember.get(l, 'labels'))
+      .reduce((l, r) => l.concat(r)); 
+    var links = Ember.copy(this.get('content.repos'))
+      .map((l) => Ember.get(l, 'repo.color'))
+      .slice(1);
     return _.chain(labels)
-      .union(this.get('content.link_labels'))
+      .union(links)
       .map(function(label) {
         var color = Ember.$.Color("#" + label.color);
         Ember.set(label, "contrastColor", color.contrastColor());

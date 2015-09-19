@@ -9,8 +9,8 @@ var IssueController = Ember.Controller.extend(
   subscribeDisabled: true,
 
   isCollaborator: function(){
-    return this.get("model.repo.is_collaborator");
-  }.property("model.repo.is_collaborator"),
+    return this.get("model.data.repo.is_collaborator");
+  }.property("model.data.repo.is_collaborator"),
   columns: Ember.computed.alias("controllers.application.model.board.columns"),
   isReady: function(key, value){
     if(value !== undefined) {
@@ -24,7 +24,7 @@ var IssueController = Ember.Controller.extend(
     } else {
       return this.get("model.customState") === "ready";
     }
-  }.property("model.customState", "model._data.custom_state"),
+  }.property("model.customState", "model.data._data.custom_state"),
   isBlocked: function(key, value){
     if(value !== undefined) {
       if(value) {
@@ -38,10 +38,10 @@ var IssueController = Ember.Controller.extend(
     } else {
       return this.get("model.customState") === "blocked";
     }
-  }.property("model.customState", "model._data.custom_state"),
+  }.property("model.customState", "model.data._data.custom_state"),
   isClosed: function(){
-    return this.get("model.state") === "closed";
-  }.property("model.state"),
+    return this.get("model.data.state") === "closed";
+  }.property("model.data.state"),
   actions: {
     labelsChanged: function () {
        Ember.run.once(function () {
@@ -52,20 +52,19 @@ var IssueController = Ember.Controller.extend(
       if(!this.get("isCollaborator")) {
         return false;
       }
-      this.get("model").reorder(this.get("model._data.order"),column).then(function() {
-      }.bind(this));
+      this.get("model").reorder(this.get("model.data._data.order"), column)
     },
     assignUser: function(login){
       return this.get("model").assignUser(login);
     },
     assignMilestone: function(milestone) {
-      this.get("model").assignMilestone(this.get("model.number"), milestone);
+      this.get("model").assignMilestone(this.get("model.data.number"), milestone);
     },
     submitComment: function () {
       if (this.get("processing") || this.get("isEmpty")) { 
         return; 
       }
-      var comments = this.get("model.activities.comments");
+      var comments = this.get("model.data.activities.comments");
 
       this.set("processing", true);
 
@@ -85,7 +84,7 @@ var IssueController = Ember.Controller.extend(
       var _self = this;
       this.get("model").close().then(function(response){
         var channel = _self.hbsubscriptions.channel;
-        var topic = "issues.{model.number}.issue_closed";
+        var topic = "issues.{model.data.number}.issue_closed";
         _self.publish(channel, topic, {issue: response});
       });
 
@@ -94,9 +93,9 @@ var IssueController = Ember.Controller.extend(
     },
     reopenCard: function(){
       var _self = this;
-      this.get("model").reopenCard().then(function(response){
+      this.get("model").reopenIssue().then(function(response){
         var channel = _self.hbsubscriptions.channel;
-        var topic = "issues.{model.number}.issue_reopened";
+        var topic = "issues.{model.data.number}.issue_reopened";
         _self.publish(channel, topic, {issue: response});
       });
 
@@ -114,22 +113,22 @@ var IssueController = Ember.Controller.extend(
       return this.get("processing") || !this.get("isValid") || this.get('isEmpty');
   }.property("processing","isValid"),
   _events : function () {
-     var events = this.get("model.activities.events");
+     var events = this.get("model.data.activities.events");
      return events.map(function (e){return _.extend(e, {type: "event" }); });
-  }.property("model.activities.events.[]"),
+  }.property("model.data.activities.events.[]"),
   _comments : function () {
-     var comments = this.get("model.activities.comments");
+     var comments = this.get("model.data.activities.comments");
      return comments.map(function (e){ return _.extend(e, {type: "comment" }); });
-  }.property("model.activities.comments.[]"),
-  allActivities: Ember.computed.union("model.activities.{comments,events}"),
+  }.property("model.data.activities.comments.[]"),
+  allActivities: Ember.computed.union("model.data.activities.{comments,events}"),
   activitiesSort:["created_at"],
   sortedActivities: Ember.computed.sort("allActivities", "activitiesSort"),
   mentions: function (){
-    var union = _.union(this.get('controllers.application.model.board.assignees'),this.get('allActivities').mapBy('user'));
+    var union = _.union(this.get('model.repo.assignees.[]'),this.get('allActivities').mapBy('user'));
     return _.uniq(_.compact(union), function(i){
       return i.login;
     });
-  }.property('controllers.application.model.board.assignees','allActivities')
+  }.property('model.repo.assignees.[]','allActivities')
 });
 
 export default IssueController;

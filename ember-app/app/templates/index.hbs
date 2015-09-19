@@ -36,12 +36,11 @@
           columns/hb-column 
             model=column
             columnComponents=registeredColumns
-            issues=model.combinedIssues
+            issues=model.issues
             repos=model.combinedRepos
 
             registerColumn=(action "registerColumn")
             unregisterColumn=(action "unregisterColumn")
-            createNewIssue=(action "createNewIssue")
             createFullscreenIssue=(action "createFullscreenIssue")
             openFullscreenIssue=(action "openFullscreenIssue")
         }}
