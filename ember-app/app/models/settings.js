@@ -24,7 +24,7 @@ var Settings = Ember.Object.extend({
     var storage = localStorage.getItem("localStorage:" + this.get("storageKey"));
     return storage ? JSON.parse(storage) : {};
   },
-  storageKey: Ember.computed.alias("repo.full_name"),
+  storageKey: Ember.computed.alias("repo.repo.full_name"),
   dataKey: 'settings',
   changed: 0,
   saveData: function(key, value) {
