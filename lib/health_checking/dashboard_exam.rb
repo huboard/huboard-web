@@ -10,6 +10,10 @@ module HealthChecking
       @@checks
     end
 
+    def treatments
+      []
+    end
+
     @@checks = [
       #Checks for the dashboard
     ]

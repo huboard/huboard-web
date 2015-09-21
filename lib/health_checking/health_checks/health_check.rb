@@ -8,6 +8,8 @@ module HealthChecking
         base.class_attribute :_authorization
         base.class_attribute :_name
         base.class_attribute :_message
+        base.class_attribute :_pass
+        base.class_attribute :_fail
       end
 
       module ClassMethods
@@ -27,6 +29,14 @@ module HealthChecking
 
         def message(message)
           self._message = message
+        end
+
+        def passed(message)
+          self._pass = message
+        end
+
+        def failed(message)
+          self._fail = message
         end
 
       end

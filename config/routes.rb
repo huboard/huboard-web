@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         put 'columns' => 'columns#update'
         get 'settings' => 'settings#index'
         get 'health/board' => 'health#board'
+        post 'health/board' => 'health#treat_board'
         get 'commits' => 'board#commits', as: 'commits'
         get 'commit/:commit' => 'board#commit', as: 'commit'
 

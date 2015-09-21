@@ -4,9 +4,10 @@ module HealthChecking
       include HealthCheck
 
       name 'github_repo_webhooks_check'
-      weight :warning
-      authorization :collaborator
-      message "Click <a href='/some/place'> Here </a> to fix"
+      weight :error
+      authorization :admin
+      passed "GitHub Webhook is installed"
+      failed "GitHub Webhook is missing"
 
       ## deps
       # {
@@ -18,6 +19,10 @@ module HealthChecking
       
       def perform(deps)
         deps[:board].hook_exists?
+      end
+
+      def treat(deps)
+        deps[:board].create_hook
       end
     end
   end

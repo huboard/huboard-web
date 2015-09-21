@@ -1,14 +1,25 @@
 <h3> Health checks  </h3>
 <div class="flex-form-top"> 
-{{#if model.health.isFulfilled }}
-  <ul class="unstyled integrations">
-
-  {{#each model.health.content.checks as |check| }}
-    <li>
-     {{ check.message }}
-    </li>
-  {{/each}}
-  </ul>
-{{/if}}
+  <h4>{{model.data.repo.owner.login}} / {{model.data.repo.name}} </h4>
+  {{#if model.health.isFulfilled }}
+  <div class="boxed-group">
+    <h3>
+     {{#if model.health.content.hasErrors}}
+     Has errors
+     {{/if}}
+    </h3>
+    {{#each model.health.content.checks as |check| }}
+      <div class="boxed-group__content">
+       {{#if check.success }}
+       <i class="ui-icon ui-icon-checkmark"/>
+       {{else}}
+       <button {{action "treat" check model }} disabled={{isProcessing}} class="hb-button hb-button-small pull-right">Fix it</button>
+       <i class="ui-icon ui-icon-x-thin"/>
+       {{/if}}
+       {{ check.message }}
+      </div>
+    {{/each}}
+  </div>
+  {{/if}}
 </div>
 

@@ -6,7 +6,8 @@ module HealthChecking
       name 'github_repo_webhook_healthy_check'
       weight :warning
       authorization :admin
-      message "Click <a href='/some/place'> Here </a> to fix"
+      passed "GitHub Webhook is healthy and responsive"
+      failed "GitHub Webhook is failing to post to HuBoard"
 
       ## deps
       # {
@@ -23,6 +24,8 @@ module HealthChecking
         return huboard_hook['last_response'] == healthy_response || 
           huboard_hook['last_response'] == unused_response
       end
+
+      alias_method :treat, :perform
 
       :private
         def healthy_response

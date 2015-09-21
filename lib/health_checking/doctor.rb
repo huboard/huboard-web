@@ -17,6 +17,16 @@ module HealthChecking
       @payload
     end
 
+    def treat
+      @exam.treatments.each do |treatment_klass|
+        @current_check = treatment_klass.new
+        @payload << not_authorized_payload && next if !authorized
+        @payload << (@current_check.treat(@exam.deps) ?
+          pass_payload : fail_payload)
+      end
+      @payload
+    end
+
     def check_only(health_check)
       @current_check = health_check.to_s.classify.constantize.new
       return @payload << not_authorized_payload if !authorized
@@ -46,6 +56,7 @@ module HealthChecking
         {
           name: @current_check._name,
           weight: @current_check._weight,
+          message: @current_check._message || @current_check._pass,
           success: true
         }
       end
@@ -54,7 +65,7 @@ module HealthChecking
         {
           name: @current_check._name,
           weight: @current_check._weight,
-          message: @current_check._message,
+          message: @current_check._message || @current_check._fail,
           success: false
         }
       end

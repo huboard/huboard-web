@@ -20,6 +20,10 @@ class Huboard
         {
           name: 'huboard',
           config: {},
+          events: [
+            "issue_comment",
+            "issues",
+          ],
           active: true,
         }
       )
