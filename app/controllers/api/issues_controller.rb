@@ -107,5 +107,13 @@ module Api
       render json: @issue
     end
 
+    def close_and_move
+      user, repo, number, order, column = params[:user], params[:repo], params[:number], params[:order], params[:column]
+      @issue = huboard.board(user, repo).issue(number)
+      @issue.close
+      @previous_column = @issue['current_state']
+      @issue = @issue.move(column, order)
+      render json: @issue
+    end
   end
 end

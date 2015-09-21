@@ -92,7 +92,12 @@ var Board = Model.extend({
         .reduce((l, r) => l.concat(r)); 
       return combined;
     }
-  })
+  }),
+  topIssueOrder: function(){
+    return this.get("issues").sort((a,b) => {
+      return a.data._data.order - b.data._data.order;
+    }).get("firstObject.data._data.order") || 1;
+  }.property("issues.@each.order")
 });
 
 Board.reopenClass({

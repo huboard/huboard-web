@@ -7,20 +7,22 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   isTaskColumn: true,
   cards: Ember.A(),
 
-  columns: function(){
-    return this.get("columnComponents").map(function(c){
-      return c.get("model");
-    });
-  }.property("columnComponents.[]"),
+  columns: Ember.computed.alias("model.board.columns"),
   sortedIssues: function(){
-    var column = this.get("model");
-    var issues = this.get("model.board.issues").filter(function(i){
-      return i.data.current_state.index === column.data.index;
-    }).filter(function(i) {
-      return !i.get("isArchived");
-    }).sort(this.sortStrategy);
+    var issues = this.get("model.board.issues")
+      .filter(this.filterStrategy.bind(this))
+      .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{columnIndex,order}"),
+  filterStrategy: function(issue){
+    var issue_index = issue.data.current_state.index;
+    var same_column = issue_index === this.get("model.data.index");
+    if(this.get("isLastColumn")){
+      var first = this.get("columns.firstObject");
+      return same_column || issue.data.state === "closed" && issue_index !== first.data.index;
+    }
+    return same_column && issue.data.state !== "closed";
+  },
   sortStrategy: function(a,b){
     if(a.data._data.order === b.data._data.order){
       if(a.repo.full_name === b.repo.full_name){

@@ -67,6 +67,7 @@ Rails.application.routes.draw do
         post 'issues/:number/archive' => 'issues#archive_issue'
         post 'issues/:number/assigncard' => 'issues#assign_card'
         post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
+        post 'issues/:number/closemove' => 'issues#close_and_move'
 
         post 'milestones/:number/reorder' => 'milestones#reorder'
       end

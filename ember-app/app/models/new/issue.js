@@ -171,7 +171,25 @@ var Issue = Model.extend({
         this.set("processing", false);
         return response;
       }.bind(this));
-  }
+  },
+  closeAndMove: function () {
+    var column = this.get("repo.board.columns.lastObject");
+    var order = this.data._data.order;
+
+    if(this.data.current_state.index !== column.data.index){
+      order = this.get("repo.board.topIssueOrder") / 2;
+    }
+
+    return Ember.$.post(`${this.get("apiUrl")}/closemove`, {
+      order: order.toString(),
+      column: column.data.index.toString(),
+      correlationId: this.get("correlationId")
+    }, function( response ){
+      this.set("data.body", response.body);
+      this.set("data.body_html", response.body_html);
+      return this;
+    }.bind(this), "json");
+  },
 });
 
 export default Issue;

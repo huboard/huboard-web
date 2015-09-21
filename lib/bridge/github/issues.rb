@@ -55,7 +55,7 @@ class Huboard
     end
 
     def closed_issues(label, since = (Time.now - 2*7*24*60*60).utc.iso8601)
-      params = {labels: label, state: "closed", since: since, per_page: 30}
+      params = {state: "closed", since: since, per_page: 50}
 
       gh.issues(params).each{|i| i.extend(Card)}.each{ |i|
         i.merge!(:repo => {owner: {login: user}, name: repo,  full_name: "#{user}/#{repo}" })

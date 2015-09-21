@@ -82,13 +82,14 @@ var IssueController = Ember.Controller.extend(
     },
     close: function(){
       var _self = this;
-      this.get("model").close().then(function(response){
+      this.set("processing", true);
+      this.get("model").closeAndMove().then(function(response){
         var channel = _self.hbsubscriptions.channel;
-        var topic = "issues.{model.data.number}.issue_closed";
+        var topic = "issues.{model.data.number}.closed_and_moved";
         _self.publish(channel, topic, {issue: response});
+        _self.set("processing", false);
       });
 
-      this.send("moveToColumn", this.get("columns.lastObject"));
       if (this.get("commentBody")){ this.send("submitComment"); }
     },
     reopenCard: function(){
