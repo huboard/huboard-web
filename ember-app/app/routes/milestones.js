@@ -1,7 +1,6 @@
 import CssView from 'app/views/css';
 import Board from 'app/models/new/board';
 import CreateIssue from 'app/models/forms/create-issue';
-import Issue from 'app/models/issue';
 import Milestone from 'app/models/new/milestone';
 import Ember from 'ember';
 import animateModalClose from 'app/config/animate-modal-close';
