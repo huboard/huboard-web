@@ -5,6 +5,8 @@ var IssueSubscriptionMixin = Ember.Mixin.create({
     channel: "{model.repo.data.repo.full_name}",
     "issues.{model.number}.issue_closed": "closed",
     "issues.{model.number}.issue_reopened": "opened",
+    "issues.{model.number}.closed_and_moved": "closed",
+    "issues.{model.number}.reopened_and_moved": "opened",
     "issues.{model.number}.issue_commented": "commented"
   },
   hbsubscribers: {

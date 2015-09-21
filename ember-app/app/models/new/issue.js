@@ -190,6 +190,20 @@ var Issue = Model.extend({
       return this;
     }.bind(this), "json");
   },
+  reopenAndMove: function () {
+    var column = this.get("repo.board.columns.firstObject");
+    var order = this.get("repo.board.topIssueOrder") / 2;
+
+    return Ember.$.post(`${this.get("apiUrl")}/reopenmove`, {
+      order: order.toString(),
+      column: column.data.index.toString(),
+      correlationId: this.get("correlationId")
+    }, function( response ){
+      this.set("data.body", response.body);
+      this.set("data.body_html", response.body_html);
+      return this;
+    }.bind(this), "json");
+  }
 });
 
 export default Issue;
