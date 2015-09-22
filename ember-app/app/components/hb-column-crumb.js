@@ -19,18 +19,18 @@ var HbColumnCrumbComponent = Ember.Component.extend({
     }
 
   }.property('visibleColumns', 'issue.data.current_state'),
-  stateClass: function(){
-    var github_state = this.get("issue.data.state");
-    if(github_state === "closed"){
-      return "hb-state-" + "closed";
+  disableLink: function(){
+    this.$("a").click((ev)=> {
+      ev.preventDefault();
+    });
+  }.on("didInsertElement"),
+  actions: {
+    onSelect: function(column){
+      if(!this.parentView.get("isEnabled")){ return false;}
+      var order = this.get("issue.data._data.order");
+      this.get("issue").reorder(order, column);
     }
-    var custom_state = this.get("issue.customState");
-    if(custom_state){
-      return "hb-state-" + custom_state;
-    }
-    return "hb-state-open";
-  }.property("issue.data.current_state", "issue.customState", "issue.data.state")
-
+  }
 });
 
 export default HbColumnCrumbComponent;

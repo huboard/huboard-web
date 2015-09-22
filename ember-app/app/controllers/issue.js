@@ -48,12 +48,6 @@ var IssueController = Ember.Controller.extend(
          this.get("model").updateLabels();
        }.bind(this));
     },
-    moveToColumn: function(column) {
-      if(!this.get("isCollaborator")) {
-        return false;
-      }
-      this.get("model").reorder(this.get("model.data._data.order"), column)
-    },
     assignUser: function(login){
       return this.get("model").assignUser(login);
     },
