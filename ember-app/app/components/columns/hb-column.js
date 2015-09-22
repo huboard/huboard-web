@@ -52,10 +52,10 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
 
   isCollapsed: Ember.computed({
     get: function(){
-      return this.get("settings.taskColumn" + this.get("model.index") + "Collapsed");
+      return this.get("settings.taskColumn" + this.get("model.data.index") + "Collapsed");
     },
     set: function(key, value){
-      this.set("settings.taskColumn" + this.get("model.index") + "Collapsed", value);
+      this.set("settings.taskColumn" + this.get("model.data.index") + "Collapsed", value);
       return value;
     }
   }).property(),

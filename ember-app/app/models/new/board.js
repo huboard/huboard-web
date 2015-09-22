@@ -8,10 +8,6 @@ import ajax from 'ic-ajax';
 var Board = Model.extend({
   repo: null,
   repos: Ember.computed.alias('repo.repos'),  
-  // these need to be real 
-  // kill kill kill!
-  linkedRepos: [],
-  combinedIssues: [],
   labels: Ember.computed('repos.@each.labels.[]', {
     get: function(key){
       
