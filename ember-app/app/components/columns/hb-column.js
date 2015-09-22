@@ -32,8 +32,18 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     }
     return a.data._data.order - b.data._data.order;
   },
-  moveIssue: function(issue, order){
+  moveIssue: function(issue, order, cancelMove){
     var self = this;
+    var last = this.get("columns.lastObject");
+    if(issue.data.state === "closed"){
+      return this.attrs.reopenIssueOrAbort({
+        issue: issue,
+        column: self.get("model"),
+        onAccept: function(){ self.moveIssue(issue, order); },
+        onReject: function(){ cancelMove() }
+      })
+    }
+
     this.get("sortedIssues").removeObject(issue);
     Ember.run.schedule("afterRender", self, function(){
       issue.reorder(order, self.get("model"));
