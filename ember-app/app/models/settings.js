@@ -6,7 +6,7 @@ function attr(defaultValue) {
       return this.get("data." + key) === undefined ? defaultValue : this.get("data." + key);
     },
     set: function(key, value){
-      this.saveData(key, value);
+      this.saveKey(key, value);
       return value;
     }
   });
@@ -27,8 +27,11 @@ var Settings = Ember.Object.extend({
   storageKey: Ember.computed.alias("repo.repo.full_name"),
   dataKey: 'settings',
   changed: 0,
-  saveData: function(key, value) {
+  saveKey: function(key, value) {
     this.set("data." + key, value);
+    this.saveData();
+  },
+  saveData: function() {
 
     var localStorageData = this.loadData();
 

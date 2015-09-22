@@ -16,8 +16,6 @@ var SettingsHealthController = Ember.Controller.extend({
   }),
   actions: {
     treat(check, repo) {
-      Ember.set(check, 'success', true);
-      return;
       const controller = this;
       this.set('isProcessing', true);
       return ajax({
@@ -27,8 +25,16 @@ var SettingsHealthController = Ember.Controller.extend({
         data: {
           name: check.name
         }
-      }).then((checks) => {
-        debugger;
+      }).then((response) => {
+
+        response.data.forEach((c) => {
+          var update = controller.get('checks').findBy('name', c.name);
+          if(update) {
+            Ember.setProperties(update, c);
+          }
+        });
+
+        controller.get('model.health.content').saveData();
         this.set('isProcessing', false);
       });
     }
