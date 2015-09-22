@@ -1,19 +1,30 @@
 <h3> Health checks  </h3>
-<div class="flex-form-top"> 
-  <h4>{{model.data.repo.owner.login}} / {{model.data.repo.name}} </h4>
+<div class="hb-health"> 
   {{#if model.health.isFulfilled }}
-  <div class="boxed-group">
-    <h3>
+  <div class="hb-health__group {{if model.health.content.hasErrors 'hb-health--error' 'hb-error--success'}}">
+    <div class="hb-health__group--header">
      {{#if model.health.content.hasErrors}}
-     Has errors
+     <div class="hb-health__indicator hb-health__indicator--error">
+      <i class="ui-icon ui-icon-12 ui-icon-x-thin"/>
+     </div>
+     {{else}}
+       <div class="hb-health__indicator hb-health__indicator--success">
+        <i class="ui-icon ui-icon-12 ui-icon-checkmark"/>
+       </div>
      {{/if}}
-    </h3>
+    <h3>{{model.data.repo.owner.login}} / {{model.data.repo.name}} </h3>
+     {{#if model.health.content.hasErrors}}
+     {{errorCount}} errored and {{successCount}} successful checks
+     {{else}}
+     {{successCount}} successful checks
+     {{/if}}
+    </div>
     {{#each model.health.content.checks as |check| }}
-      <div class="boxed-group__content">
+      <div class="hb-health__content {{if check.success 'hb-health__content--success' 'hb-health__content--error'}}">
        {{#if check.success }}
        <i class="ui-icon ui-icon-checkmark"/>
        {{else}}
-       <button {{action "treat" check model }} disabled={{isProcessing}} class="hb-button hb-button-small pull-right">Fix it</button>
+       <button {{action "treat" check model }} disabled={{isProcessing}} class="hb-button hb-button-grey small pull-right">Fix it</button>
        <i class="ui-icon ui-icon-x-thin"/>
        {{/if}}
        {{ check.message }}
