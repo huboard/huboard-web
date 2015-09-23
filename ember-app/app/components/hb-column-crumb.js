@@ -6,7 +6,7 @@ var HbColumnCrumbComponent = Ember.Component.extend({
   classNameBindings: ["stateClass", "isSelected:active:inactive", "indexClass"],
   isSelected: function(){
     return this.get("issue.data.current_state.name") === this.get("column.data.name");
-  }.property("issue.data.current_state"),
+  }.property("issue.data.current_state.name"),
   indexClass: function(){
     var index = this.get('visibleColumns').indexOf(this.get('column'));
 
@@ -20,13 +20,20 @@ var HbColumnCrumbComponent = Ember.Component.extend({
 
   }.property('visibleColumns', 'issue.data.current_state'),
   disableLink: function(){
-    this.$("a").click((ev)=> {
+    this.$("a").off("click");
+    this.$("a").on("click", (ev)=> {
       ev.preventDefault();
     });
   }.on("didInsertElement"),
+  teardownEvents: function(){
+    this.$("a").off("click");
+  }.on("willDestroyElement"),
   actions: {
     onSelect: function(column){
-      if(!this.parentView.get("isEnabled")){ return false;}
+      var parent = this.parentView;
+      if(!parent.get("isEnabled") || parent.get("previewOnly")){
+        return false;
+      }
       var order = this.get("issue.data._data.order");
       this.get("issue").reorder(order, column);
     }

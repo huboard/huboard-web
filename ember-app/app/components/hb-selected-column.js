@@ -9,8 +9,7 @@ var HbSelectedColumnComponent = Ember.Component.extend({
   }.property("stateClass"),
   isEnabled: function() {
     return (this.get("issue.repo.isCollaborator") &&
-      this.get("issue.data.state") !== "closed") ||
-      this.get("previewOnly");
+      this.get("issue.data.state") !== "closed")
   }.property("issue.repo.isCollaborator", "issue.data.state", "previewOnly"),
   stateClass: function(){
     var github_state = this.get("issue.data.state");
@@ -42,7 +41,19 @@ var HbSelectedColumnComponent = Ember.Component.extend({
       end = last ? index + 2 : first ? index + 3 : (index + 2) > total - 1 ? total : index + 2;
 
     return this.get("columns").slice(start, end);
-  }
+  },
+  disablePreviewClicks: function(){
+    var _self = this;
+    if(_self.get("previewOnly")){
+      this.$("a").on("click", (ev)=> {
+        ev.preventDefault();
+        _self.parentView.sendAction("cardClick");
+      });
+    }
+  }.on("didInsertElement"),
+  teardownEvents: function(){
+    this.$("a").off("click");
+  }.on("willDestroyElement"),
 });
 
 export default HbSelectedColumnComponent;
