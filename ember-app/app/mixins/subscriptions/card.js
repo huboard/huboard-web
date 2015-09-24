@@ -22,6 +22,11 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     },
     closed: function(message){
      this.get("issue").set("state", message.issue.state);
+
+     var board = this.get("issue.repo.board");
+     var order = board.get("topIssueOrder") / 2;
+     var column = board.get("columns.lastObject");
+     this.get("issue").reorder(order, column);
     },
     opened: function(message){
      this.get("issue").set("state", message.issue.state);
