@@ -13,7 +13,7 @@ var Board = Model.extend({
       
       var combined = this.get('repos')
         .map((x) => x.get('other_labels'))
-        .reduce((l, r) => l.concat(r)); 
+        .reduce((l, r) => l.concat(r), []);
 
       var groups = _.groupBy(combined, (x) => Ember.get(x,'name').toLowerCase());
 
@@ -35,7 +35,7 @@ var Board = Model.extend({
       
       var combined = this.get('repos')
         .map((x) => x.get('milestones'))
-        .reduce((l, r) => l.concat(r)); 
+        .reduce((l, r) => l.concat(r), []);
 
       var groups = _.groupBy(combined, (x) => x.get('data.title').toLowerCase());
 
@@ -85,7 +85,7 @@ var Board = Model.extend({
     get: function(key){
       var combined = this.get('repos')
         .map((x) => x.get('issues'))
-        .reduce((l, r) => l.concat(r)); 
+        .reduce((l, r) => l.concat(r), []);
       return combined;
     }
   })
