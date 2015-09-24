@@ -16,7 +16,7 @@ function attr(modelProp, map) {
       }
       this._filters = filters;
 
-      return filters;
+      return filters.sortBy("name");
     },
     set: function(key, value){
       this.set("model." + key, value);

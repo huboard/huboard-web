@@ -33,7 +33,7 @@ var BoardFilters = Ember.Service.extend({
     var owner = model.get("repo.data.repo.full_name").split("/")[0];
 
     this.set("filters", attr("repos.[]", function(l){
-       var name = owner === l.data.repo.owner.login ? l.data.repo.name : l.repo.full_name;
+       var name = owner === l.data.repo.owner.login ? l.data.repo.name : l.data.repo.full_name;
        return Ember.Object.create({
         name: name,
         queryParam: "repo",
