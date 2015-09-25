@@ -30,7 +30,7 @@ class Huboard
           link['user'] == repo.user && l['repo'] == repo.repo
         end
 
-        links << payload
+        links << payload if !payload[:repo]["message"]
       end
       return links
     end

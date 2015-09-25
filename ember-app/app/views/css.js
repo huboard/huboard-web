@@ -14,7 +14,7 @@ var CssView = Ember.View.extend({
 
     var labels = Ember.copy(this.get('content.labels'))
       .map((l) => Ember.get(l, 'labels'))
-      .reduce((l, r) => l.concat(r)); 
+      .reduce((l, r) => l.concat(r), []);
     var links = Ember.copy(this.get('content.repos'))
       .map((l) => Ember.get(l, 'repo.color'))
       .slice(1);
