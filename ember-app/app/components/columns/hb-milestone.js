@@ -17,7 +17,7 @@ var HbMilestoneComponent = HbColumn.extend(
       .filter(this.get("model.filterBy").bind(this))
       .filter((i)=> {
         if(i.data.state === "closed"){
-          return i.data.current_state.index !== first_task_column.data.index
+          return i.get("customState") !== "archived";
         }
         return true;
       })

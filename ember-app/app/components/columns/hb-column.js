@@ -18,8 +18,8 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     var issue_index = issue.data.current_state.index;
     var same_column = issue_index === this.get("model.data.index");
     if(this.get("isLastColumn")){
-      var first = this.get("columns.firstObject");
-      return same_column || issue.data.state === "closed" && issue_index !== first.data.index;
+      var not_archived = issue.get("customState") !== "archived";
+      return same_column || (issue.data.state === "closed" && not_archived);
     }
     return same_column && issue.data.state !== "closed";
   },

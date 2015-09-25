@@ -26,7 +26,9 @@ class Huboard
       issue = gh.issues(number)
       labels = issue.labels.all.reject {|l| Huboard.all_patterns.any? {|p| p.match l['name'] }}.sort_by {|l| l['name']}
 
-      gh.issues(number).patch(labels: labels).extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
+      i = issue.extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
+      i.attach_client(connection_factory)
+      i.archive(labels)
     end
 
     def create_issue(params)
@@ -213,6 +215,12 @@ class Huboard
 
           patch body: self['body']
         end
+      end
+
+      def archive(labels)
+        embed_data({"custom_state" => "archived"})
+
+        patch({body: self['body'], labels: labels})
       end
 
       def embed_data(data = nil)
