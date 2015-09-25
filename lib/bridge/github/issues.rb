@@ -172,7 +172,7 @@ class Huboard
       end
 
       overridable do
-        def move(index, order=nil, moved = false)
+        def move(index, order=nil, moved = false, opts={})
           board = Huboard::Board.new(self[:repo][:owner][:login], self[:repo][:name], @connection_factory)
           column_labels = board.column_labels
           self.labels = [] if self['labels'].nil?
@@ -182,7 +182,8 @@ class Huboard
           self['labels'] << new_state unless new_state.nil?
           embed_data({"order" => order.to_f}) if order
           embed_data({"custom_state" => ""}) if moved
-          patch "labels" => self['labels'], "body" => self['body']
+          opts.merge!({"labels" => self['labels'], "body" => self['body']})
+          patch opts
         end
       end
 

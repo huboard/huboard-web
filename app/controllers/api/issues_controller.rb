@@ -81,7 +81,8 @@ module Api
       @moved = params[:moved_columns] == 'true'
       issue = huboard.board(user, repo).issue(number)
       @previous_column = issue['current_state']
-      @issue = issue.move(column, order, @moved)
+      data = params[:data] || {}
+      @issue = issue.move(column, order, @moved, data)
       render json: @issue
     end
 
@@ -104,15 +105,6 @@ module Api
       issue.embed_data('milestone_order' => params[:order].to_f) if params[:order].to_f > 0
       @issue = issue.patch 'milestone' => milestone, 'body' => issue['body']
       @changed_milestones = params[:changed_milestones] == "true"
-      render json: @issue
-    end
-
-    def close_and_move
-      user, repo, number, order, column = params[:user], params[:repo], params[:number], params[:order], params[:column]
-      @issue = huboard.board(user, repo).issue(number)
-      @issue.close
-      @previous_column = @issue['current_state']
-      @issue = @issue.move(column, order)
       render json: @issue
     end
   end

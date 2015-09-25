@@ -10,8 +10,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.assigned": "assigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
-    "issues.{issue.number}.milestone_changed": "milestoneChanged",
-    "issues.{issue.number}.closed_and_moved": "closeAndMove"
+    "issues.{issue.number}.milestone_changed": "milestoneChanged"
   },
   hbsubscribers: {
     statusChanged: function(message){
@@ -21,12 +20,14 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       this.get('issue').set('isArchived', true);
     },
     closed: function(message){
-     this.get("issue").set("state", message.issue.state);
+      var issue = this.get("issue");
+      this.get("issue").set("state", message.issue.state);
 
-     var board = this.get("issue.repo.board");
-     var order = board.get("topIssueOrder") / 2;
-     var column = board.get("columns.lastObject");
-     this.get("issue").reorder(order, column);
+      var column = issue.get("repo.board.columns.lastObject");
+      if(issue.data.current_state.index !== column.data.index){
+        var order = issue.get("repo.board.topIssueOrder") / 2;
+        this.get("issue").reorder(order, column);
+      }
     },
     opened: function(message){
      this.get("issue").set("state", message.issue.state);
@@ -37,13 +38,6 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     moved: function (message) {
       this.get('issue').setProperties({
         current_state : message.issue.current_state,
-        _data: message.issue._data
-      });
-    },
-    closeAndMove: function (message) {
-      this.get('issue').setProperties({
-        current_state : message.issue.current_state,
-        state: message.issue.state,
         _data: message.issue._data
       });
     },

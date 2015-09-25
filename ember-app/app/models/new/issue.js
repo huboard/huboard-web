@@ -180,10 +180,12 @@ var Issue = Model.extend({
       order = this.get("repo.board.topIssueOrder") / 2;
     }
 
-    return Ember.$.post(`${this.get("apiUrl")}/closemove`, {
+    return Ember.$.post(`${this.get("apiUrl")}/dragcard`, {
       order: order.toString(),
       column: column.data.index.toString(),
-      correlationId: this.get("correlationId")
+      moved_columns: true,
+      correlationId: this.get("correlationId"),
+      data: {state: "closed"}
     }, function( response ){
       this.set("data.body", response.body);
       this.set("data.body_html", response.body_html);

@@ -79,7 +79,7 @@ var IssueController = Ember.Controller.extend(
       this.set("processing", true);
       this.get("model").closeAndMove().then(function(response){
         var channel = _self.hbsubscriptions.channel;
-        var topic = "issues.{model.data.number}.closed_and_moved";
+        var topic = "issues.{model.data.number}.issue_closed";
         _self.publish(channel, topic, {issue: response});
         _self.set("processing", false);
       });

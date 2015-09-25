@@ -90,10 +90,11 @@ var Board = Model.extend({
     }
   }),
   topIssueOrder: function(){
-    return this.get("issues").sort((a,b) => {
-      return a.data._data.order - b.data._data.order;
-    }).get("firstObject.data._data.order") || 1;
-  }.property("issues.@each.order")
+    var issues = this.get("repo.parent") ? 
+      this.get("repo.parent.board.issues") : this.get("issues");
+
+    return issues.sortBy("order").get("firstObject.order") || 1;
+  }.property("issues.@each.order", "repo.parent.board.issues.@each.order")
 });
 
 Board.reopenClass({
