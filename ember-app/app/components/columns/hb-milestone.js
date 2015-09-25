@@ -10,7 +10,6 @@ var HbMilestoneComponent = HbColumn.extend(
   isTaskColumn: false,
 
   sortedIssues: function () {
-    var first_task_column = this.get("columns.firstObject");
     var issues = this.get("issues").filter(function(i){
         return !i.get("isArchived");
       })
