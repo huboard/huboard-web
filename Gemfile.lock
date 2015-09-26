@@ -108,7 +108,7 @@ GEM
       http_parser.rb (>= 0.6.0)
     em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
-    ember-cli-rails (0.3.5)
+    ember-cli-rails (0.1.13)
       railties (>= 3.1, < 5)
       sprockets (>= 2.0)
     ember-rails-assets (0.1.1)
@@ -439,7 +439,7 @@ DEPENDENCIES
   couchrest
   dalli
   dotenv-rails (~> 2.0.0)
-  ember-cli-rails
+  ember-cli-rails (= 0.1.13)
   ember-rails-assets
   faraday
   faraday-http-cache
