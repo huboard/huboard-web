@@ -15,25 +15,13 @@ module HealthChecking
     # doesn't make sense to fix an unhealth webhook
     # if it doesn't exist
     def treatments
-      case @deps[:name]
-      when "github_repo_webhooks_check"
-        then [ 
-          HealthChecks::GithubRepoWebhooksCheck,
-        ]
-      when "github_repo_webhook_healthy_check"
-        then [ 
-          HealthChecks::GithubRepoWebhooksCheck,
-          HealthChecks::GithubRepoWebhookHealthyCheck,
-        ]
-      else
-        []
-      end
+      treatment_class = "HealthChecking::HealthChecks::Board::#{@deps[:name].classify}".safe_constantize
+      treatment_class.nil? ? [] : [treatment_class]
     end
 
     @@checks = [
-      HealthChecks::GithubRepoWebhooksCheck,
-      HealthChecks::GithubRepoWebhookHealthyCheck,
-      HealthChecks::IssueCommentableCheck,
+      HealthChecks::Board::IssuesWebhookCheck,
+      HealthChecks::Board::IssueCommentWebhookCheck,
     ]
 
   end

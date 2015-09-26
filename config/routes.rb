@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get '/site/terms' => 'site#terms'
   get '/site/privacy' => 'site#privacy'
+  post '/site/webhook/issues' => 'api/webhooks#publish_issue_event', as: 'issues_webhook'
+  post '/site/webhook/issue_comment' => 'api/webhooks#log_comment', as: 'issue_comment_webhook'
 
   # errors
   match '/404', to: 'errors#not_found', constraints: { status: /\d{3}/ }, via: :all
@@ -29,6 +31,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'uploads/asset' => 'uploads#asset_uploader'
+    #Webhooks
+    post '/site/webhook/issue' => 'webhooks#publish_issue_event'
+    post '/site/webhook/comment' => 'webhooks#log_comment'
+    post '/site/stripe/webhook' => 'webhooks#stripe'
 
     scope '/v2/:user/:repo' do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
@@ -74,10 +80,6 @@ Rails.application.routes.draw do
       end
     end
 
-    #Webhooks
-    post '/site/webhook/issue' => 'webhooks#publish_issue_event'
-    post '/site/webhook/comment' => 'webhooks#log_comment'
-    post '/site/stripe/webhook' => 'webhooks#stripe'
       
   end
 
