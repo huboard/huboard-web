@@ -18,9 +18,16 @@
         <i class="ui-icon ui-icon-flag ui-icon-16"></i>
         <span class= "ui-text"> Create milestone</span>
       </a>
-    {{#link-to 'settings.index' class='hb-icon-link' }}
+    {{#if model.isUnhealthy}}
+      {{#link-to 'settings.health' class='hb-icon-link' }}
         <i class="ui-icon ui-icon-18 ui-icon-gear"></i>
-    {{/link-to}}
+        !
+      {{/link-to}}
+    {{else}}
+      {{#link-to 'settings.index' class='hb-icon-link' }}
+        <i class="ui-icon ui-icon-18 ui-icon-gear"></i>
+      {{/link-to}}
+    {{/if}}
     </div>
   {{/if}}
 

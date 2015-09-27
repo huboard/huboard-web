@@ -34,6 +34,15 @@ var Repo = Model.extend({
       });
     }
   }),
+  unhealthy: Ember.computed('health.isFulfilled', {
+    get: function(){
+      var health = this.get('health');
+      if(health.get('isFulfilled')){
+        return health.get('content.hasErrors')
+      }
+      return false;
+    }
+  }),
   isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
   baseUrl: Ember.computed('data.repo.full_name', function () {
     return `/api/v2/${this.get('data.repo.full_name')}`;

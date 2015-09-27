@@ -1,9 +1,9 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
 
-var SettingsHealthController = Ember.Controller.extend({
+var SettingsHbHealthComponent = Ember.Component.extend({
   isProcessing: false,
-  checks: Ember.computed.alias('model.health.content.checks'),
+  checks: Ember.computed.alias('model.content.checks'),
   errorCount: Ember.computed('checks.@each.success', {
     get: function(key) {
       return this.get('checks').filter((x) => !Ember.get(x, 'success')).length;
@@ -19,7 +19,7 @@ var SettingsHealthController = Ember.Controller.extend({
       const controller = this;
       this.set('isProcessing', true);
       return ajax({
-        url: `/api/${this.get('model.data.repo.full_name')}/health/board`,
+        url: `/api/${this.get('repo.data.repo.full_name')}/health/board`,
         dataType: 'json',
         type: 'POST',
         data: {
@@ -34,12 +34,13 @@ var SettingsHealthController = Ember.Controller.extend({
           }
         });
 
-        controller.get('model.health.content').saveData();
+        controller.get('model.content').saveData();
         this.set('isProcessing', false);
       });
     }
   }
 });
 
-export default SettingsHealthController;
+export default SettingsHbHealthComponent;
+
 
