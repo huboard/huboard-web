@@ -6,8 +6,8 @@ module HealthChecking
         name 'issue_comment_webhook_check'
         weight :error
         authorization :admin
-        passed "GitHub Webhook for the issue_comment event is installed"
-        failed "GitHub Webhook for the issue_comment event is missing"
+        passed "GitHub webhook for the issue_comment event is installed"
+        failed "GitHub webhook for the issue_comment event is missing"
 
         ## deps
         # {

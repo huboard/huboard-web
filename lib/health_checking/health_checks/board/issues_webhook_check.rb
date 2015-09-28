@@ -6,8 +6,8 @@ module HealthChecking
         name 'issues_webhook_check'
         weight :error
         authorization :admin
-        passed "GitHub Webhook for the issues event is installed"
-        failed "GitHub Webhook for the issues event is missing"
+        passed "GitHub webhook for the issues event is installed"
+        failed "GitHub webhook for the issues event is missing"
 
         ## deps
         # {
