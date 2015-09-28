@@ -30,7 +30,9 @@ var Board = Model.extend({
   }),
   isUnhealthy: Ember.computed('repos.@each.unhealthy', {
     get: function(){
-      return this.get('repos').any((x) => x.get('unhealthy'));
+      return this.get('repos')
+        .filter((x) => x.get('isAdmin'))
+        .any((x) => x.get('unhealthy'));
     }
   }),
   milestones: Ember.computed('repos.@each.{milestonesLength,milestonesOrder}', 'issues.@each.milestoneTitle', {

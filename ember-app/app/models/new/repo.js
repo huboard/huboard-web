@@ -20,6 +20,7 @@ var Repo = Model.extend({
   isCollaborator: Ember.computed('data.repo.permissions.{admin,push}', function(){
     return this.get('data.repo.permissions.admin') || this.get('data.repo.permissions.push');
   }),
+  isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
   hasErrors: Ember.computed('isLoaded', 'loadFailed', 'columns', 'columns.[]', {
     get: function(key) {
       return this.get('loadFailed') ||
@@ -43,7 +44,6 @@ var Repo = Model.extend({
       return false;
     }
   }),
-  isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
   baseUrl: Ember.computed('data.repo.full_name', function () {
     return `/api/v2/${this.get('data.repo.full_name')}`;
   }),
