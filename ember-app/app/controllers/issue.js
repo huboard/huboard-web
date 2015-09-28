@@ -8,9 +8,12 @@ var IssueController = Ember.Controller.extend(
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
 
+  statusChangeable: function(){
+    return this.get("isCollaborator") && this.get("model.data.state") !== "closed";
+  }.property("model.data.state", "isCollaborator"),
   isCollaborator: function(){
-    return this.get("model.data.repo.is_collaborator");
-  }.property("model.data.repo.is_collaborator"),
+    return this.get("model.repo.isCollaborator");
+  }.property("model.repo.isCollaborator"),
   columns: Ember.computed.alias("controllers.application.model.board.columns"),
   isReady: function(key, value){
     if(value !== undefined) {

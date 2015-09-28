@@ -11,7 +11,7 @@
   </div>
   <div class="fullscreen-card-right">
     {{#if controllers.application.loggedIn }}
-      {{#if isCollaborator }}
+      {{#if statusChangeable }}
       <div>
         <label>
           {{input type="checkbox" name="isReady" checked=isReady }} Ready for next stage
