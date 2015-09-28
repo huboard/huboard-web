@@ -25,9 +25,9 @@ var HbCardComponent = Ember.Component.extend(
       Ember.run.once(function () {
         self.$().fadeOut("fast", function () {
           var issue = self.get("issues").find(function(i) {
-            return i.id === self.get("issue.id");
+            return i.get("id") === self.get("issue.id");
           });
-          self.get("issues").removeObject(issue);
+          self.get("issue.repo.issues").removeObject(issue);
         });
       });
     }.observes("issue.isArchived", "issue.customState"),

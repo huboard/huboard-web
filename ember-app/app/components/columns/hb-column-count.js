@@ -9,7 +9,7 @@ var HbColumnCountComponent = Ember.Component.extend(IssueFiltersMixin, {
   issues: [],
   issuesCount: function(){
     return this.get("issues.length");
-  }.property("issues"),
+  }.property("issues.[]"),
   isFiltered: function(){
     return this.get("filters.hideFilters.length");
   }.property("filters.hideFilters"),
