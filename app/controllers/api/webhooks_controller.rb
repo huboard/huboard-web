@@ -8,6 +8,10 @@ module Api
       }
     end
 
+    def legacy
+      render json: { message: "Webhook received" }
+    end
+
     def publish_issue_event
       return render json: { message: "pong" } if request.env["HTTP_X_GITHUB_EVENT"] == "ping"
 

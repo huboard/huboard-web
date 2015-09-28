@@ -32,8 +32,8 @@ Rails.application.routes.draw do
   namespace :api do
     get 'uploads/asset' => 'uploads#asset_uploader'
     #Webhooks
-    post '/site/webhook/issue' => 'webhooks#publish_issue_event'
-    post '/site/webhook/comment' => 'webhooks#log_comment'
+    post '/site/webhook/issue' => 'webhooks#legacy'
+    post '/site/webhook/comment' => 'webhooks#legacy'
     post '/site/stripe/webhook' => 'webhooks#stripe'
 
     scope '/v2/:user/:repo' do
