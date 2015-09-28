@@ -64,7 +64,7 @@ Rails.application.routes.draw do
         put 'issues/:number/ready' => 'issues#ready'
         delete 'issues/:number/ready' => 'issues#unready'
         post 'issues/:number/dragcard' => 'issues#drag_card'
-        post 'issues/:number/archive' => 'issues#archive_issue'
+        put 'issues/:number/archived' => 'issues#archive_issue'
         post 'issues/:number/assigncard' => 'issues#assign_card'
         post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
 

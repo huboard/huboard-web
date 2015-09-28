@@ -8,6 +8,9 @@ var Issue = Model.extend({
   order: Ember.computed.alias("data._data.order"),
   milestoneOrder: Ember.computed.alias("data._data.milestone_order"),
   milestoneTitle: Ember.computed.alias("milestone.title"),
+  isArchived: function(){
+    return this.get("customState") === "archived";
+  }.property("customState"),
   correlationId: correlationId,
   assignee: Ember.computed.alias("data.assignee"),
   apiUrl: function(){
@@ -104,17 +107,6 @@ var Issue = Model.extend({
       return this;
     }.bind(this));
   },
-  archive: function() {
-    this.set("processing", true);
-    return Ember.$.post(`${this.get("apiUrl")}/archive`, {
-      correlationId: this.get("correlationId")
-    }, function(){}, "json").then(function () {
-      this.set("processing", false);
-      this.set("isArchived", true);
-    }.bind(this)).fail(function(){
-      this.set("processing", false);
-    }.bind(this));
-  },
   assignMilestone: function(index, milestone){
     var changedMilestones = false;
     if(milestone && !this.get("milestone")){
@@ -134,7 +126,7 @@ var Issue = Model.extend({
       correlationId: this.get("correlationId")
     }, function(){}, "json");
   },
-  customState: Ember.computed("_data.custom_state", {
+  customState: Ember.computed("data._data.custom_state", {
     get:function(){
       return this.get("_data.custom_state");
     },
