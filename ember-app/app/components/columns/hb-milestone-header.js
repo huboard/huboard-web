@@ -8,8 +8,8 @@ var HbMilestoneHeaderComponent = Ember.Component.extend({
     this.toggleProperty('isCollapsed');
   },
   actions: {
-    editMilestone: function(milestone){
-      this.attrs.editMilestone(milestone);
+    editMilestone: function(column){
+      this.attrs.editMilestone(column);
     }
   }
 });

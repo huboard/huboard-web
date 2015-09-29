@@ -10,29 +10,31 @@ var HbMilestoneComponent = HbColumn.extend(
   isTaskColumn: false,
 
   sortedIssues: function () {
-    var issues = this.get("issues").filter(function(i){
-        return !i.get("isArchived");
+    var issues = this.get("issues")
+      .filter(this.get("model.filterBy").bind(this))
+      .filter((i)=> {
+        if(i.data.state === "closed"){ return i.get("isArchived"); }
+        return true;
       })
-      .filter(this.get("model.filterBy"))
       .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{milestoneOrder,milestoneTitle}"),
   sortStrategy: function(a,b){
-    if(a._data.milestone_order === b._data.milestone_order){
-      if(a.repo.full_name === b.repo.full_name){
-        return a.number - b.number;
+    if(a.data._data.milestone_order === b.data._data.milestone_order){
+      if(a.repo.data.repo.full_name === b.repo.data.repo.full_name){
+        return a.data.number - b.data.number;
       }
-      return a.repo.full_name - b.repo.full_name;
+      return a.repo.data.repo.full_name - b.repo.data.repo.full_name;
     }
-    return a._data.milestone_order - b._data.milestone_order;
+    return a.data._data.milestone_order - b.data._data.milestone_order;
   },
   moveIssue: function(issue, order, cancelMove){
-    if(this.get("model.noMilestone")){
-      return this.assignMilestone(issue, order, null);
+    if(!this.get("model.milestone")){
+      return this.assignMilestone(issue, order, { data: null});
     }
 
     var findMilestone = this.findMilestone(issue.repo);
-    var milestone = this.get("model.group").find(findMilestone);
+    var milestone = this.get("model.milestones").find(findMilestone);
     if(!milestone){
       return this.handleMissingMilestone(issue, order, cancelMove);
     }
@@ -42,12 +44,12 @@ var HbMilestoneComponent = HbColumn.extend(
     this.get("sortedIssues").removeObject(issue);
     var _self = this;
     Ember.run.schedule("afterRender", _self, function(){
-      issue.assignMilestone(order, milestone);
+      issue.assignMilestone(order, milestone.data);
     });
   },
   findMilestone: function(a){
     return function(b){
-      return _.isEqual(a.name, b.repo.name);
+      return _.isEqual(a.data.repo.full_name, b.repo.data.repo.full_name);
     };
   },
   handleMissingMilestone: function(issue, order, cancelMove){
@@ -56,15 +58,17 @@ var HbMilestoneComponent = HbColumn.extend(
       card: issue,
       column: _self.get("model"),
       onAccept: function(milestone){
-        _self.get("model.group").pushObject(milestone);
-        _self.moveIssue(issue, order);
+        //FIXME: not real happy about mutating here
+        Ember.run.once(() => {
+          _self.get("model.milestones").pushObject(milestone);
+          _self.moveIssue(issue, order);
+        });
       },
       onReject: function(){
         cancelMove();
       }
     });
   },
-
   isCreateVisible: true,
   topOrderNumber: function(){
     var issues = this.get("issues")
@@ -73,24 +77,24 @@ var HbMilestoneComponent = HbColumn.extend(
     var first = this.get("issues")
       .filter(function(i) { return !i.get("isArchived");})
       .sort(function (a, b){
-        return a._data.order - b._data.order;
+        return a.data._data.order - b.data._data.order;
       }).get("firstObject");
     if(issues.length){
-      var order = { milestone_order: issues.get("firstObject._data.milestone_order") / 2};
+      var order = { milestone_order: issues.get("firstObject.data._data.milestone_order") / 2};
       if(first){
-        order.order = first._data.order / 2;
+        order.order = first.data._data.order / 2;
       }
       return order;
     } else {
       if(first){
-        return { order: first._data.order / 2 };
+        return { order: first.data._data.order / 2 };
       }
       return {};
     }
   }.property("sortedIssues.[]"),
   isFirstColumn: function(){
-    return this.get("columns.firstObject.title") === this.get("model.title");
-  }.property("columns.firstObject"),
+    return !this.get("model.milestone");
+  }.property("model.milestone"),
   isCollapsed: Ember.computed({
     get: function(){
       return this.get("settings.milestoneColumn" + this.get("model.milestone.number") + "Collapsed");

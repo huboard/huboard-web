@@ -25,8 +25,8 @@ var MilestonesController = Ember.Controller.extend({
 
   filtersActive: Ember.computed.alias("filters.filterGroups.active"),
   isCollaborator: function(){
-    return this.get("controllers.application.model.is_collaborator");
-  }.property("controllers.application.model.is_collaborator"),
+    return this.get("model.repo.isCollaborator");
+  }.property('model.repo.isCollaborator'),
 
   isSidebarOpen: Ember.computed.alias("controllers.application.isSidebarOpen"),
 
@@ -43,46 +43,27 @@ var MilestonesController = Ember.Controller.extend({
   }.property(),
 
   milestone_columns: function() {
-    var milestones = _.chain(this.get("model.combinedMilestones")).map(function(groups) {
-      var m = _.first(groups);
+    return this.get('model.milestone_columns');
+    //var milestones = _.chain(this.get("model.combinedMilestones")).map(function(groups) {
+    //  var m = _.first(groups);
 
-      return Ember.Object.create({
-        title: m.title,
-        orderable: true,
+    //  return Ember.Object.create({
+    //    title: m.title,
+    //    orderable: true,
 
-        filterBy: function(i) {
-          return i.milestone && i.milestone.title.toLocaleLowerCase() === m.title.toLocaleLowerCase();
-        },
+    //    filterBy: function(i) {
+    //      return i.milestone && i.milestone.title.toLocaleLowerCase() === m.title.toLocaleLowerCase();
+    //    },
 
-        milestone: m,
-        group: groups
-      });
-    }).value().sort(function(a, b) {
-      return a.milestone._data.order - b.milestone._data.order;
-    });
-    milestones.insertAt(0, this.get("left_column"));
-    return milestones;
-  }.property("model.combinedMilestones.[]"),
-
-  milestoneMoved: function(milestoneController, index) {
-    var milestone = milestoneController.get("model.milestone"), owner = milestone.repo.owner.login, name = milestone.repo.name;
-    milestoneController.set("model.milestone._data.order", index);
-
-    Ember.$.ajax({
-      url: "/api/" + owner + "/" + name + "/milestones/reorder_milestone",
-      type: "POST",
-
-      data: {
-        number: milestone.number,
-        index: index,
-        correlationId: correlationId
-      },
-
-      success: function(response) {
-        milestoneController.set("model.milestone.description", response.description);
-      }
-    });
-  },
+    //    milestone: m,
+    //    group: groups
+    //  });
+    //}).value().sort(function(a, b) {
+    //  return a.milestone._data.order - b.milestone._data.order;
+    //});
+    //milestones.insertAt(0, this.get("left_column"));
+    //return milestones;
+  }.property("model.milestone_columns.[]"),
 
   actions: {
     registerColumn: function(column_component){
@@ -90,9 +71,6 @@ var MilestonesController = Ember.Controller.extend({
     },
     unregisterColumn: function(column_component){
       this.get("registeredColumns").removeObject(column_component);
-    },
-    createNewIssue: function(issue){
-      this.get("target").send("createNewIssue", issue);
     },
     createFullscreenIssue: function(issue, order){
       this.get("target").send("createFullscreenIssue", issue, order);
@@ -103,15 +81,8 @@ var MilestonesController = Ember.Controller.extend({
     createMilestoneOrAbort: function(model){
       this.get("target").send("createMilestoneOrAbort", model);
     },
-    editMilestone: function(milestone){
-      this.get("target").send("editMilestone", milestone);
-    },
-    milestoneReordered: function(old_ms, new_ms){
-      var _self = this;
-      Ember.run.once(function(){
-        _self.get("model.milestones").removeObject(old_ms);
-        _self.get("model.milestones").pushObject(new_ms);
-      });
+    editMilestone: function(column){
+      this.get("target").send("editMilestone", column);
     }
   }
 });

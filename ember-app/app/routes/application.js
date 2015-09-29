@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import Repo from 'app/models/repo';
+import Repo from 'app/models/new/repo';
+import ajax from 'ic-ajax';
 
 var ApplicationRoute = Ember.Route.extend({
   filters: Ember.inject.service(),
@@ -18,9 +19,8 @@ var ApplicationRoute = Ember.Route.extend({
   model: function () {
     return new Ember.RSVP.Promise(function(resolve){
        Ember.run.once(function(){
-        console.log("TODO: fix this call to App");
         var repo = App.get("repo");
-        resolve(Repo.create(repo));
+        resolve(Repo.create({data:repo}));
        });
     });
   },

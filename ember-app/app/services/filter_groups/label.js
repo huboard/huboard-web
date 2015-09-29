@@ -16,7 +16,7 @@ function attr(modelProp, map) {
       }
       this._filters = filters;
 
-      return filters;
+      return filters.sortBy("name");
     },
     set: function(key, value){
       this.set("model." + key, value);
@@ -30,15 +30,15 @@ var LabelFilters = Ember.Service.extend({
   strategy: "grouping",
 
   create: function(model){
-    this.set("filters", attr("filterLabels", function(l){
+    this.set("filters", attr("labels", function(l){
        return Ember.Object.create({
-        name: l.name,
+        name: l.label.name,
         queryParam: "label",
         mode:0,
-        color: l.color,
+        color: l.label.color,
         condition:function(i){
-          return _.union(i.labels, i.other_labels).any(function(label){ 
-             return l.name.toLocaleLowerCase() === label.name.toLocaleLowerCase();
+          return _.union(i.data.labels, i.data.other_labels).any(function(label){ 
+             return l.label.name.toLocaleLowerCase() === label.name.toLocaleLowerCase();
           });
         }
        });

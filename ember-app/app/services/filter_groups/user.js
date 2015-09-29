@@ -11,7 +11,7 @@ var UserFilters = Ember.Service.extend({
         queryParam: "member",
         mode: 0,
         condition: function(i){
-          return !i.assignee;
+          return !i.data.assignee;
         }
       })
     ]);
@@ -23,7 +23,7 @@ var UserFilters = Ember.Service.extend({
           queryParam: "member",
           mode: 0,
           condition: function(i){
-            return i.assignee && i.assignee.login === App.get("currentUser").login;
+            return i.data.assignee && i.data.assignee.login === App.get("currentUser").login;
           }
       }));
       this.get("filters").insertAt(1, 
@@ -32,7 +32,7 @@ var UserFilters = Ember.Service.extend({
           queryParam: "member",
           mode: 0,
           condition: function(i){
-            return i.assignee && i.assignee.login !== App.get("currentUser").login;
+            return i.data.assignee && i.data.assignee.login !== App.get("currentUser").login;
           }
       }));
     }

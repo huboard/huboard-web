@@ -52,6 +52,16 @@ class Huboard
       board
     end
 
+    def fetch
+      gh_repos = gh
+      columns = column_labels
+      {
+        "id" => gh_repos['id'],
+        full_name: gh_repos['full_name'],
+        columns: columns
+      }
+    end
+
     def meta
       gh_repos = gh
       columns = column_labels
@@ -79,10 +89,11 @@ class Huboard
     def create_board
       create_label :name => "0 - Backlog", :color => "CCCCCC"
       create_label :name => "1 - Ready", :color => "CCCCCC"
-      create_label :name => "2 - Working", :color => "CCCCCC"
-      create_label :name => "3 - Done", :color => "CCCCCC"
+      create_label :name => "2 - Working <= 5", :color => "CCCCCC"
+      create_label :name => "3 - Review", :color => "CCCCCC"
+      create_label :name => "4 - Done", :color => "CCCCCC"
 
-      create_hook
+      create_hooks
     end
 
     def merge(target, other, label)

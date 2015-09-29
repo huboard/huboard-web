@@ -89,7 +89,7 @@ var SettingsIntegrationsController = Ember.Controller.extend({
     },
     removeWebhook: function(hook){
       this.get("model.integrations").removeObject(hook);
-      var endpoint = "/api/" + this.get("controllers.application.model.full_name") + "/integrations";
+      var endpoint = "/api/" + this.get("controllers.application.model.data.repo.full_name") + "/integrations";
       ajax({
         url: endpoint + "/" + hook.get("_id"),
         type: "DELETE",

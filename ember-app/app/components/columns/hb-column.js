@@ -7,31 +7,42 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   isTaskColumn: true,
   cards: Ember.A(),
 
-  columns: function(){
-    return this.get("columnComponents").map(function(c){
-      return c.get("model");
-    });
-  }.property("columnComponents.[]"),
+  columns: Ember.computed.alias("model.board.columns"),
   sortedIssues: function(){
-    var column = this.get("model");
-    var issues = this.get("issues").filter(function(i){
-      return i.current_state.index === column.index;
-    }).filter(function(i) {
-      return !i.get("isArchived");
-    }).sort(this.sortStrategy);
+    var issues = this.get("model.board.issues")
+      .filter(this.filterStrategy.bind(this))
+      .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{columnIndex,order}"),
+  filterStrategy: function(issue){
+    var issue_index = issue.data.current_state.index;
+    var same_column = issue_index === this.get("model.data.index");
+    if(this.get("isLastColumn")){
+      return same_column || (issue.data.state === "closed" && !issue.get("isArchived"));
+    }
+    return same_column && issue.data.state !== "closed";
+  },
   sortStrategy: function(a,b){
-    if(a._data.order === b._data.order){
+    if(a.data._data.order === b.data._data.order){
       if(a.repo.full_name === b.repo.full_name){
         return a.number - b.number;
       }
       return a.repo.full_name - b.repo.full_name;
     }
-    return a._data.order - b._data.order;
+    return a.data._data.order - b.data._data.order;
   },
-  moveIssue: function(issue, order){
+  moveIssue: function(issue, order, cancelMove){
     var self = this;
+    var last = this.get("columns.lastObject");
+    if(issue.data.state === "closed" && !this.get("isLastColumn")){
+      return this.attrs.reopenIssueOrAbort({
+        issue: issue,
+        column: self.get("model"),
+        onAccept: function(){ self.moveIssue(issue, order); },
+        onReject: function(){ cancelMove() }
+      })
+    }
+
     this.get("sortedIssues").removeObject(issue);
     Ember.run.schedule("afterRender", self, function(){
       issue.reorder(order, self.get("model"));
@@ -40,29 +51,29 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
 
   isCollapsed: Ember.computed({
     get: function(){
-      return this.get("settings.taskColumn" + this.get("model.index") + "Collapsed");
+      return this.get("settings.taskColumn" + this.get("model.data.index") + "Collapsed");
     },
     set: function(key, value){
-      this.set("settings.taskColumn" + this.get("model.index") + "Collapsed", value);
+      this.set("settings.taskColumn" + this.get("model.data.index") + "Collapsed", value);
       return value;
     }
   }).property(),
   isLastColumn: function(){
-    return this.get("columns.lastObject.name") === this.get("model.name");
+    return this.get("columns.lastObject.data.name") === this.get("model.data.name");
   }.property("columns.lastObject"),
   isFirstColumn: function(){
-    return this.get("columns.firstObject.name") === this.get("model.name");
+    return this.get("columns.firstObject.data.name") === this.get("model.data.name");
   }.property("columns.firstObject"),
   isCreateVisible: Ember.computed.alias("isFirstColumn"),
   topOrderNumber: function(){
     var issues = this.get("sortedIssues");
     var milestone_issues = this.get("issues").sort(function(a,b){
-      return a._data.milestone_order - b._data.milestone_order;
+      return a.data._data.milestone_order - b.data._data.milestone_order;
     });
     if(issues.length){
       return {
-        order: issues.get("firstObject._data.order") / 2,
-        milestone_order: milestone_issues.get("firstObject._data.milestone_order") / 2
+        order: issues.get("firstObject.data._data.order") / 2,
+        milestone_order: milestone_issues.get("firstObject.data._data.milestone_order") / 2
       };
     } else {
       return {};

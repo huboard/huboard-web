@@ -9,12 +9,12 @@ var HbRepoSelectorComponent = Ember.Component.extend({
     return this.get("repos")
     .filter(function(item) {
       var term = this.get("filterRepos") || "";
-      return item.full_name.toLowerCase().indexOf(term.toLowerCase() || item.full_name.toLowerCase()) !== -1;
+      return item.data.repo.full_name.toLowerCase().indexOf(term.toLowerCase() || item.data.repo.full_name.toLowerCase()) !== -1;
     }.bind(this))
     .map(function(item) {
       return this.ListItem.create({
-        selected: Ember.get(item, 'id') === this.get("selected.id"),
-        item: Ember.get(item, 'repo')
+        selected: Ember.get(item, 'data.repo.id') === this.get("selected.data.repo.id"),
+        item: item
       });
     }.bind(this));
 

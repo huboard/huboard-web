@@ -5,16 +5,18 @@ var MilestonesCreateController = Ember.Controller.extend({
   errors: false,
   clearErrors: function(){
     this.set("errors", false);
-  }.observes('model.title', 'model.description', 'model.due_on'),
+  }.observes('model.data.title', 'model.data.description', 'model.data.due_on'),
   dueDate: function(){
-    return this.get("model.due_on");
-  }.property("model.due_on"),
+    return this.get("model.data.due_on");
+  }.property("model.data.due_on"),
   actions: {
     submit: function() {
       var controller = this;
+      var milestone = this.get("model.data");
       this.set("processing",true);
-      this.get("model").saveNew().then(function(milestone){
-         controller.send("milestoneCreated", milestone);
+      this.get("model.repo").createMilestone(milestone, {})
+      .then((milestone) => {
+         controller.send("closeModal");
          controller.set("processing",false);
       }).fail(function(){
          controller.set("processing",false);
@@ -22,7 +24,7 @@ var MilestonesCreateController = Ember.Controller.extend({
       });
     },
     clearDueDate: function(){
-      this.set("model.due_on", null);
+      this.set("model.data.due_on", null);
     }
   },
   isCollaboratorBinding: "App.repo.is_collaborator",
