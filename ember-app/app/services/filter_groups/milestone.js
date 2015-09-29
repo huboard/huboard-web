@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 function attr(modelProp, map) {
-  return Ember.computed("model." + modelProp, {
+  return Ember.computed("model." + modelProp, "model.issues.@each.milestoneTitle", {
     get: function(key){
       var filters = this.get("model." + modelProp).map(map);
       filters.insertAt(0, Ember.Object.create({
