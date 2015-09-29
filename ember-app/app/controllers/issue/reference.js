@@ -8,6 +8,12 @@ var IssueReferenceController = Ember.Controller.extend({
     var repo = this.get("controllers.issue.model.repo.data.repo.full_name");
     return ajax("/api/" + repo + "/commit/" + commit)
       .then(function(response){
+        if(response.message === "Not Found"){
+          return {
+            sha: commit,
+            commit: {message: "Commit referenced from another repo"}
+          }
+        }
         return response;
       });
   }
