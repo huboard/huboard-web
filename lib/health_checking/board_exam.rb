@@ -15,8 +15,12 @@ module HealthChecking
     # doesn't make sense to fix an unhealth webhook
     # if it doesn't exist
     def treatments
-      treatment_class = "HealthChecking::HealthChecks::Board::#{@deps[:name].classify}".safe_constantize
-      treatment_class.nil? ? [] : [treatment_class]
+      treatments = []
+      @deps[:names].each do |name|
+        treatment_class = "HealthChecking::HealthChecks::Board::#{name.classify}".safe_constantize
+        treatments << treatment_class unless treatment_class.nil?
+      end
+      return treatments
     end
 
     @@checks = [

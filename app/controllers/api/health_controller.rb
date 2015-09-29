@@ -11,7 +11,7 @@ module Api
     def treat_board
       exam = HealthChecking::BoardExam.new({
         board: huboard.board(params[:user], params[:repo]),
-        name: params[:name],
+        names: params[:names],
         authorization: authorization_level,
         logged_in: logged_in? })
       payload = HealthChecking::Doctor.new(exam).treat

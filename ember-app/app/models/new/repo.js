@@ -35,7 +35,7 @@ var Repo = Model.extend({
       });
     }
   }),
-  unhealthy: Ember.computed('health.isFulfilled', 'health.content.hasErrors' {
+  unhealthy: Ember.computed('health.isFulfilled', 'health.content.hasErrors', {
     get: function(){
       var health = this.get('health');
       if(health.get('isFulfilled')){

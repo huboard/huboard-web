@@ -15,6 +15,29 @@ var SettingsHbHealthComponent = Ember.Component.extend({
     }
   }),
   actions: {
+    treatAll() {
+      const controller = this;
+      this.set('isProcessing', true);
+      return ajax({
+        url: `/api/${this.get('repo.data.repo.full_name')}/health/board`,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          names: controller.get('checks').mapBy('name')
+        }
+      }).then((response) => {
+
+        response.data.forEach((c) => {
+          var update = controller.get('checks').findBy('name', c.name);
+          if(update) {
+            Ember.setProperties(update, c);
+          }
+        });
+
+        controller.get('model.content').saveData();
+        this.set('isProcessing', false);
+      });
+    },
     treat(check, repo) {
       const controller = this;
       this.set('isProcessing', true);
@@ -23,7 +46,7 @@ var SettingsHbHealthComponent = Ember.Component.extend({
         dataType: 'json',
         type: 'POST',
         data: {
-          name: check.name
+          names: [check.name]
         }
       }).then((response) => {
 

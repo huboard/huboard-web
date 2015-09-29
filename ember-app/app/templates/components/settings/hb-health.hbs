@@ -3,6 +3,7 @@
   <div class="hb-health__group {{if model.content.hasErrors 'hb-health--error' 'hb-error--success'}}">
     <div class="hb-health__group--header">
      {{#if model.content.hasErrors}}
+     <button {{action "treatAll" }} disabled={{isProcessing}} class="hb-button hb-button-grey small pull-right">Fix all</button>
      <div class="hb-health__indicator hb-health__indicator--error">
       <i class="ui-icon ui-icon-12 ui-icon-x-thin"/>
      </div>
