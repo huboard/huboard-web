@@ -13,7 +13,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       .filter(this.filterStrategy.bind(this))
       .sort(this.sortStrategy);
     return issues;
-  }.property("issues.@each.{columnIndex,order}"),
+  }.property("issues.@each.{columnIndex,order,state}"),
   filterStrategy: function(issue){
     var issue_index = issue.data.current_state.index;
     var same_column = issue_index === this.get("model.data.index");
