@@ -20,14 +20,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       this.get('issue').set('isArchived', true);
     },
     closed: function(message){
-      var issue = this.get("issue");
       this.get("issue").set("state", message.issue.state);
-
-      var column = issue.get("repo.board.columns.lastObject");
-      if(issue.data.current_state.index !== column.data.index){
-        var order = issue.get("repo.board.topIssueOrder") / 2;
-        this.get("issue").reorder(order, column);
-      }
     },
     opened: function(message){
      this.get("issue").set("state", message.issue.state);

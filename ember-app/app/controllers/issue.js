@@ -90,6 +90,12 @@ var IssueController = Ember.Controller.extend(
       if (this.get("commentBody")){ this.send("submitComment"); }
     },
     reopenCard: function(){
+      var issue = this.get("model");
+      var last_column = issue.get("repo.board.columns.lastObject");
+      if(issue.get("current_state.name") !== last_column.data.name){
+        issue.reorder(issue.get("order"), last_column);
+      }
+
       var _self = this;
       this.set("processing", true);
       this.get("model").reopenIssue().then(function(response){
