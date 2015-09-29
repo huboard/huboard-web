@@ -1,10 +1,9 @@
+<a {{action "onSelect" column}} href="#">
+  <small >{{column.data.text}}</small>
 
-  <a>
-    <small >{{column.data.text}}</small>
-
-    <div class="card-states">
-      <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
-      <img src="{{asset-path 'arrow.png'}}" class="hb-state-ready"/>
-      <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
-    </div>
-  </a>
+  <div class="card-states">
+    <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
+    <img src="{{asset-path 'arrow.png'}}" class="hb-state-ready"/>
+    <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
+  </div>
+</a>

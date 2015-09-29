@@ -15,7 +15,7 @@ var HbCardComponent = Ember.Component.extend(
     }.property("issue.color"),
     isCollaborator: function(){
       return this.get("issue.repo.isCollaborator");
-    }.property("issue.repo.is_collaborator"),
+    }.property("issue.repo.isCollaborator"),
     isClosable: function () {
      return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
     }.property("loggedIn", "isLast","issue.data.state"),
@@ -25,12 +25,12 @@ var HbCardComponent = Ember.Component.extend(
       Ember.run.once(function () {
         self.$().fadeOut("fast", function () {
           var issue = self.get("issues").find(function(i) {
-            return i.id === self.get("issue.id");
+            return i.get("id") === self.get("issue.id");
           });
-          self.get("issues").removeObject(issue);
+          self.get("issue.repo.issues").removeObject(issue);
         });
       });
-    }.observes("issue.isArchived"),
+    }.observes("issue.isArchived", "issue.customState"),
     isDraggable: function( ){
       return App.get("loggedIn") &&
         this.get("isCollaborator") &&
@@ -89,7 +89,7 @@ var HbCardComponent = Ember.Component.extend(
         return this.get("issue").assignUser(login);
       },
       archive: function () {
-        this.get("issue").archive();
+        this.set("issue.customState", "archived");
       },
       close: function (){
         this.get("issue").close();

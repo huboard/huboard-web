@@ -10,10 +10,12 @@ var HbMilestoneComponent = HbColumn.extend(
   isTaskColumn: false,
 
   sortedIssues: function () {
-    var issues = this.get("issues").filter(function(i){
-        return !i.get("isArchived");
-      })
+    var issues = this.get("issues")
       .filter(this.get("model.filterBy").bind(this))
+      .filter((i)=> {
+        if(i.data.state === "closed"){ return i.get("isArchived"); }
+        return true;
+      })
       .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{milestoneOrder,milestoneTitle}"),

@@ -81,7 +81,8 @@ module Api
       @moved = params[:moved_columns] == 'true'
       issue = huboard.board(user, repo).issue(number)
       @previous_column = issue['current_state']
-      @issue = issue.move(column, order, @moved)
+      data = params[:data] || {}
+      @issue = issue.move(column, order, @moved, data)
       render json: @issue
     end
 
@@ -106,6 +107,5 @@ module Api
       @changed_milestones = params[:changed_milestones] == "true"
       render json: @issue
     end
-
   end
 end

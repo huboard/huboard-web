@@ -7,20 +7,21 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   isTaskColumn: true,
   cards: Ember.A(),
 
-  columns: function(){
-    return this.get("columnComponents").map(function(c){
-      return c.get("model");
-    });
-  }.property("columnComponents.[]"),
+  columns: Ember.computed.alias("model.board.columns"),
   sortedIssues: function(){
-    var column = this.get("model");
-    var issues = this.get("model.board.issues").filter(function(i){
-      return i.data.current_state.index === column.data.index;
-    }).filter(function(i) {
-      return !i.get("isArchived");
-    }).sort(this.sortStrategy);
+    var issues = this.get("model.board.issues")
+      .filter(this.filterStrategy.bind(this))
+      .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{columnIndex,order}"),
+  filterStrategy: function(issue){
+    var issue_index = issue.data.current_state.index;
+    var same_column = issue_index === this.get("model.data.index");
+    if(this.get("isLastColumn")){
+      return same_column || (issue.data.state === "closed" && !issue.get("isArchived"));
+    }
+    return same_column && issue.data.state !== "closed";
+  },
   sortStrategy: function(a,b){
     if(a.data._data.order === b.data._data.order){
       if(a.repo.full_name === b.repo.full_name){
@@ -30,8 +31,18 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     }
     return a.data._data.order - b.data._data.order;
   },
-  moveIssue: function(issue, order){
+  moveIssue: function(issue, order, cancelMove){
     var self = this;
+    var last = this.get("columns.lastObject");
+    if(issue.data.state === "closed" && !this.get("isLastColumn")){
+      return this.attrs.reopenIssueOrAbort({
+        issue: issue,
+        column: self.get("model"),
+        onAccept: function(){ self.moveIssue(issue, order); },
+        onReject: function(){ cancelMove() }
+      })
+    }
+
     this.get("sortedIssues").removeObject(issue);
     Ember.run.schedule("afterRender", self, function(){
       issue.reorder(order, self.get("model"));

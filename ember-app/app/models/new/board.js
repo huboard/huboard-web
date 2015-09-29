@@ -94,7 +94,13 @@ var Board = Model.extend({
         .reduce((l, r) => l.concat(r), []);
       return combined;
     }
-  })
+  }),
+  topIssueOrder: function(){
+    var issues = this.get("repo.parent") ? 
+      this.get("repo.parent.board.issues") : this.get("issues");
+
+    return issues.sortBy("order").get("firstObject.order") || 1;
+  }.property("issues.@each.order", "repo.parent.board.issues.@each.order")
 });
 
 Board.reopenClass({

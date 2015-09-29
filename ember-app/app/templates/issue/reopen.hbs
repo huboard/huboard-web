@@ -1,0 +1,13 @@
+<div class="fullscreen-card fullscreen-card--center" style="padding:20px;">
+  <h2> 
+    Reopen: "{{model.issue.title}}"?
+  </h2>
+  <div class="well">
+    <p>
+      HuBoard first needs to reopen this issue before moving it to: "{{model.column.data.text}}"
+    </p>
+  </div>
+  <div class="flex-form-top">
+    <button class="hb-button" disabled={{disabled}} {{action 'reopenIssue' }}> Reopen </button> or <a {{action 'closeModal'}} href="#">Cancel</a>
+  </div>
+</div>

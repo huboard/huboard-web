@@ -26,7 +26,9 @@ class Huboard
       issue = gh.issues(number)
       labels = issue.labels.all.reject {|l| Huboard.all_patterns.any? {|p| p.match l['name'] }}.sort_by {|l| l['name']}
 
-      gh.issues(number).patch(labels: labels).extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
+      i = issue.extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
+      i.attach_client(connection_factory)
+      i.archive(labels)
     end
 
     def create_issue(params)
@@ -55,7 +57,7 @@ class Huboard
     end
 
     def closed_issues(label, since = (Time.now - 2*7*24*60*60).utc.iso8601)
-      params = {labels: label, state: "closed", since: since, per_page: 30}
+      params = {state: "closed", since: since, direction: "asc", sort: "commented", per_page: 100}
 
       gh.issues(params).each{|i| i.extend(Card)}.each{ |i|
         i.merge!(:repo => {owner: {login: user}, name: repo,  full_name: "#{user}/#{repo}" })
@@ -172,7 +174,7 @@ class Huboard
       end
 
       overridable do
-        def move(index, order=nil, moved = false)
+        def move(index, order=nil, moved = false, opts={})
           board = Huboard::Board.new(self[:repo][:owner][:login], self[:repo][:name], @connection_factory)
           column_labels = board.column_labels
           self.labels = [] if self['labels'].nil?
@@ -182,7 +184,8 @@ class Huboard
           self['labels'] << new_state unless new_state.nil?
           embed_data({"order" => order.to_f}) if order
           embed_data({"custom_state" => ""}) if moved
-          patch "labels" => self['labels'], "body" => self['body']
+          opts.merge!({"labels" => self['labels'], "body" => self['body']})
+          patch opts
         end
       end
 
@@ -212,6 +215,12 @@ class Huboard
 
           patch body: self['body']
         end
+      end
+
+      def archive(labels)
+        embed_data({"custom_state" => "archived"})
+
+        patch({body: self['body'], labels: labels})
       end
 
       def embed_data(data = nil)

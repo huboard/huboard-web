@@ -10,17 +10,17 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.assigned": "assigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
-    "issues.{issue.number}.milestone_changed": "milestoneChanged",
+    "issues.{issue.number}.milestone_changed": "milestoneChanged"
   },
   hbsubscribers: {
     statusChanged: function(message){
       this.get("issue").set("_data", message.issue._data);
     },
-    archived: function(){
+    archived: function(message){
       this.get('issue').set('isArchived', true);
     },
     closed: function(message){
-     this.get("issue").set("state", message.issue.state);
+      this.get("issue").set("state", message.issue.state);
     },
     opened: function(message){
      this.get("issue").set("state", message.issue.state);

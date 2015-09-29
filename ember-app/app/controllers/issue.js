@@ -8,9 +8,12 @@ var IssueController = Ember.Controller.extend(
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
 
+  statusChangeable: function(){
+    return this.get("isCollaborator") && this.get("model.data.state") !== "closed";
+  }.property("model.data.state", "isCollaborator"),
   isCollaborator: function(){
-    return this.get("model.data.repo.is_collaborator");
-  }.property("model.data.repo.is_collaborator"),
+    return this.get("model.repo.isCollaborator");
+  }.property("model.repo.isCollaborator"),
   columns: Ember.computed.alias("controllers.application.model.board.columns"),
   isReady: function(key, value){
     if(value !== undefined) {
@@ -48,12 +51,6 @@ var IssueController = Ember.Controller.extend(
          this.get("model").updateLabels();
        }.bind(this));
     },
-    moveToColumn: function(column) {
-      if(!this.get("isCollaborator")) {
-        return false;
-      }
-      this.get("model").reorder(this.get("model.data._data.order"), column)
-    },
     assignUser: function(login){
       return this.get("model").assignUser(login);
     },
@@ -82,21 +79,30 @@ var IssueController = Ember.Controller.extend(
     },
     close: function(){
       var _self = this;
-      this.get("model").close().then(function(response){
+      this.set("processing", true);
+      this.get("model").closeAndMove().then(function(response){
         var channel = _self.hbsubscriptions.channel;
         var topic = "issues.{model.data.number}.issue_closed";
         _self.publish(channel, topic, {issue: response});
+        _self.set("processing", false);
       });
 
-      this.send("moveToColumn", this.get("columns.lastObject"));
       if (this.get("commentBody")){ this.send("submitComment"); }
     },
     reopenCard: function(){
+      var issue = this.get("model");
+      var last_column = issue.get("repo.board.columns.lastObject");
+      if(issue.get("current_state.name") !== last_column.data.name){
+        issue.reorder(issue.get("order"), last_column);
+      }
+
       var _self = this;
+      this.set("processing", true);
       this.get("model").reopenIssue().then(function(response){
         var channel = _self.hbsubscriptions.channel;
         var topic = "issues.{model.data.number}.issue_reopened";
         _self.publish(channel, topic, {issue: response});
+        _self.set("processing", false);
       });
 
       if (this.get("commentBody")){ this.send("submitComment"); }
