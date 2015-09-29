@@ -34,7 +34,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   moveIssue: function(issue, order, cancelMove){
     var self = this;
     var last = this.get("columns.lastObject");
-    if(issue.data.state === "closed"){
+    if(issue.data.state === "closed" && !this.get("isLastColumn")){
       return this.attrs.reopenIssueOrAbort({
         issue: issue,
         column: self.get("model"),
