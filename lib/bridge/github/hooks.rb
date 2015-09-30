@@ -5,7 +5,7 @@ class Huboard
       return [] unless ENV['GITHUB_WEBHOOK_ENDPOINT']
       url = ENV['GITHUB_WEBHOOK_ENDPOINT']
       hooks = gh.hooks.all.select do |h| 
-        h['config'] && h['config']['url'].downcase.start_with?(url.downcase) 
+        h['config'] && h['config']['url'] && h['config']['url'].downcase.start_with?(url.downcase) 
       end
       hooks
     end
