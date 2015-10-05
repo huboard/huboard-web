@@ -80,9 +80,6 @@ var Board = Model.extend({
     return columns.map(function(c, i){
       var column = Column.create({data: c});
       column.set('board', board);
-      //Ricki: If we ever allow huboard created columns 
-      //this would hurt us
-      //if(i === 0) { column.set('isFirst', true); }
       return column;
     });
   }),
@@ -112,7 +109,6 @@ Board.reopenClass({
       return r.load();
     })
     return Ember.RSVP.all(promises).then(function(repos){
-      // could fetch issues here?
       repos.forEach((x) => {
         if(!x.get('loadFailed')){
           var board = Board.create({repo: x});
