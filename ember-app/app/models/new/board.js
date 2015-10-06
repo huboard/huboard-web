@@ -97,7 +97,15 @@ var Board = Model.extend({
       this.get("repo.parent.board.issues") : this.get("issues");
 
     return issues.sortBy("order").get("firstObject.order") || 1;
-  }.property("issues.@each.order", "repo.parent.board.issues.@each.order")
+  }.property("issues.@each.order", "repo.parent.board.issues.@each.order"),
+  avatars: (function () {
+    var issues = this.get("issues");
+    return this.get("repo.assignees").filter(function (assignee) {
+      return _.find(issues, function (issue) {
+        return issue.data.assignee && issue.data.assignee.login === assignee.login;
+      });
+    });
+  }).property("repo.assignees.[]", "issues.@each.assignee")
 });
 
 Board.reopenClass({

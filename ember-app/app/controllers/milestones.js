@@ -23,7 +23,7 @@ var MilestonesController = Ember.Controller.extend({
     });
   }.observes("qps.filterParams", "qps.searchParams").on("init"),
 
-  filtersActive: Ember.computed.alias("filters.filterGroups.active"),
+  filtersActive: Ember.computed.alias("filters.active"),
   isCollaborator: function(){
     return this.get("model.repo.isCollaborator");
   }.property('model.repo.isCollaborator'),

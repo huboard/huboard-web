@@ -35,7 +35,7 @@ var queryParamsService = Ember.Service.extend({
 
   //Push board, label, card and milestone filters to the URL
   updateFilterParams: function(){
-    if(!this.get("filters.filterGroups.created")){return;}
+    if(!this.get("filters.model")){return;}
     var self = this;
     var filters_object = this.get("filters.allFiltersObject");
     ["board", "label", "milestone", "card"].forEach(function(param){
@@ -49,7 +49,7 @@ var queryParamsService = Ember.Service.extend({
 
   //Push user and member filters to the URL
   updateAssigneeParams: function(){
-    if(!this.get("filters.filterGroups.created")){return;}
+    if(!this.get("filters.model")){return;}
     var filters = this.get("filters.userFilters").
       concat(this.get("filters.memberFilters"));
     var hidden_filters = filters.filter(function(f){
@@ -61,7 +61,7 @@ var queryParamsService = Ember.Service.extend({
   //Pushes URL filters down to the filter objects
   applyFilterParams: function(){
     var legacyMatch = this.legacyFilterMatch;
-    var all_filters = this.get("filters.filterGroups.allFilters");
+    var all_filters = this.get("filters.allFilters");
     this.get("allFilterParams").forEach(function(param){
       var filters = all_filters.filter(function(filter){
         return filter.name === param || legacyMatch(filter.name) === param;
@@ -106,7 +106,7 @@ var queryParamsService = Ember.Service.extend({
 
   //Push search terms to the URL
   updateSearchParams: function(){
-    var term = this.get("filters.filterGroups.search.term");
+    var term = this.get("filters").group("search.term");
     this.set("searchParams", term);
   }.observes("filters.filterGroups.search.term").on("init"),
 
@@ -115,7 +115,7 @@ var queryParamsService = Ember.Service.extend({
     var search = this.get("searchParams");
     if(search && search.length){
       this.set("filters.searchFilters.mode", 2); 
-      this.set("filters.filterGroups.search.term", search);
+      this.get("filters").group("search").set("term", search);
     }
   },
 

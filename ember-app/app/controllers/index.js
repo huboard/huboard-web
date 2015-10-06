@@ -22,7 +22,7 @@ var IndexController = Ember.Controller.extend({
   }.observes("qps.filterParams", "qps.searchParams").on("init"),
 
   filters: Ember.inject.service(),
-  filtersActive: Ember.computed.alias("filters.filterGroups.active"),
+  filtersActive: Ember.computed.alias("filters.active"),
 
   isSidebarOpen: Ember.computed.alias("controllers.application.isSidebarOpen"),
   board_columns: function(){
