@@ -26,7 +26,11 @@ var IndexRoute = Ember.Route.extend({
     var assignee = this.controllerFor("assignee");
     assignee.set("model", this.currentModel);
     this.render('assignee', {
-      into: 'index', outlet: 'sidebarTop', controller: assignee});
+      into: 'index', 
+      outlet: 'sidebarTop',
+      controller: assignee
+    });
+
     this.render('filters', {into: 'index', outlet: 'sidebarMiddle'});
   },
   setupController: function(controller, model){

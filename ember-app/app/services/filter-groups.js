@@ -9,14 +9,7 @@ var FilterGroups = Ember.Service.extend({
   search: Ember.inject.service("filter_groups/search"),
   card: Ember.inject.service("filter_groups/card"),
 
-  groups: function(){
-    var groups = [];
-    var services = this.get("__ember_meta__.values"); 
-    _.each(services, function(k,v){
-      if(v !== "groups"){ groups.addObject(v); }
-    });
-    return groups;
-  }.property(),
+  groups: ["board", "milestone", "label", "user", "member", "search", "card"]
 });
 
 export default FilterGroups;

@@ -15,13 +15,22 @@ var FiltersService = Ember.Service.extend({
 
   qps: Ember.inject.service("query-params"),
   clear: function(){
+    this.get("qps").clear();
     this.get("allFilters").setEach("mode", 0);
     this.set("filterGroups.search.term", "");
-    this.get("qps").clear();
   },
 
   //Accessors for filterGroups
   filterGroups: Ember.inject.service(),
+  allFilters: function(){
+    var filters = [];
+    var _self = this;
+    this.get("groups").forEach(function(group){
+      filters = filters.concat(_self.group(group).get("filters"));
+    });
+    this.set("filtersReady", true);
+    return filters;
+  }.property("filterGroups.{board,milestone,label,user,member,search,card}.filters.@each.mode", "model"),
   groups: Ember.computed.alias("filterGroups.groups"),
   group: function(group_key){
     var group = this.get(`filterGroups.${group_key}`);
@@ -41,16 +50,6 @@ var FiltersService = Ember.Service.extend({
       return this.get(key + "Filters");
     }
   },
-
-  allFilters: function(){
-    var filters = [];
-    var _self = this;
-    this.get("groups").forEach(function(g){
-      var group = _self.group(g).get("filters");
-      filters = filters.concat(group);
-    });
-    return filters;
-  }.property("{groups}.filters.length"),
 
   active: function(){
     return this.get("allFilters").any(function(f){
@@ -72,22 +71,6 @@ var FiltersService = Ember.Service.extend({
       }));
     });
   }.observes("allFilters.@each.mode"),
-
-  ////allFilters as an Object i.e
-  // {
-  //   board: [],
-  //   labels: [],
-  //   member: []
-  // }
-  //
-  allFiltersObject: function(){
-    var self = this;
-    var all_filters = {};
-    this.get("groups").forEach(function(group){
-      all_filters[group] = self.group(group).get("filters");
-    });
-    return all_filters;
-  }.property("allFilters"),
 
   //// Filter Groups based on their strategy, sub-filtered by mode i.e
   // {
