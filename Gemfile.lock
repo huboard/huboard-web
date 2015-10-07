@@ -447,7 +447,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.0.0)
   ember-cli-rails (= 0.1.13)
   ember-rails-assets
-  enterprise!
+  enterprise (= 0.0.1)!
   faraday
   faraday-http-cache
   faye
