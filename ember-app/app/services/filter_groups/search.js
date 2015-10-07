@@ -4,7 +4,7 @@ import { debouncedObserver } from 'app/utilities/observers';
 var SearchFilter = Ember.Service.extend({
   strategy: "inclusive",
   term: "",
-  combinedIssuesBinding: "board.combinedIssues",
+  issuesBinding: "board.issues",
 
   create: function(model){
     this.set("board", model);
@@ -16,7 +16,7 @@ var SearchFilter = Ember.Service.extend({
 
   createFilter: function(){
     var term = this.get("term");
-    var issues = this.get("combinedIssues");
+    var issues = this.get("issues").map((i) => i.data);
     var threshold = isNaN(term) ? 0.4 : 0.1;
     var Searcher = new Fuse(issues, {keys: ["title","number_searchable"], id: "id", threshold: threshold});
     var results = Searcher.search(term);
@@ -24,7 +24,7 @@ var SearchFilter = Ember.Service.extend({
       search: true,
       mode: term.length ? 2 : 0,
       condition: function(i){
-       return term.length === 0 || results.indexOf(i.id) !== -1;
+       return term.length === 0 || results.indexOf(i.data.id) !== -1;
       },
     }]);
   },

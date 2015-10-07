@@ -8,7 +8,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
-gem "ember-cli-rails", require: nil
+gem "ember-cli-rails", '0.1.13', require: nil
 gem 'ember-rails-assets'
 #gem "warden-github-rails" , github: "huboard/warden-github-rails"
 gem 'warden-github'
@@ -47,9 +47,9 @@ gem 'pdfkit'
 gem 'wkhtmltopdf-heroku'
 
 # BUNDLE_WITHOUT="development:test:saas"
-gem 'saas', require: nil, path: "vendor/engines/saas"
-gem 'enterprise', require: nil, path: "vendor/engines/enterprise"
-gem 'faye_extensions', path: 'vendor/gems/faye_extensions'
+gem 'saas','0.0.1', require: nil, path: "vendor/engines/saas"
+gem 'enterprise', '0.0.1', require: nil, path: "vendor/engines/enterprise"
+gem 'faye_extensions','0.0.1', path: 'vendor/gems/faye_extensions'
 gem 'responders'
 gem 'stripe-rails'
 gem 'heroku-deflater', group: :production
@@ -66,5 +66,6 @@ group :development, :test do
   gem 'rspec'
   gem 'couchrest'
   gem 'httparty'
+  gem 'mocha'
 end
 

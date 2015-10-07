@@ -16,6 +16,7 @@ class nginx(
       mode      => '0644',
       source   => "puppet:///modules/nginx/huboard.conf",
       notify => Service['nginx'],
+      require =>  Package['nginx'],
     } ->
     file { '/etc/nginx/sites-enabled/default':
       ensure => 'link',

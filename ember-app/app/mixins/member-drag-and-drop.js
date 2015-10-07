@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-var IssueDragAndDropMixin = Ember.Mixin.create({
+var MemberDragAndDropMixin = Ember.Mixin.create({
   dragAuthorized: function(ev){
     var contains_type = ev.dataTransfer.types.contains("text/huboard-assignee");
     return contains_type  && this.isAssignable();
@@ -9,10 +9,9 @@ var IssueDragAndDropMixin = Ember.Mixin.create({
     var self = this;
     var login = Ember.$("#application").find(".assignees .is-flying")
       .data("assignee");
-    var repo = _.find(this.get("repos"), function(r){
-      return r.full_name === self.get("issue.repo.full_name");
-    });
-    if(repo === null){ return false; }
+
+    var repo = this.get('issue.repo'); 
+
     return repo.get("assignees").any(function(assignee){
       return assignee.login === login;
     });
@@ -57,4 +56,4 @@ var IssueDragAndDropMixin = Ember.Mixin.create({
   }
 });
 
-export default IssueDragAndDropMixin;
+export default MemberDragAndDropMixin;

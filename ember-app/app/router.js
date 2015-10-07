@@ -25,6 +25,9 @@ Router.map(function() {
       this.route('new', {path: '/new/:name'});
     });
 
+    this.resource('settings.health', {path: '/health'}, function(){
+    });
+
   });
 
   this.route("unauthorized");

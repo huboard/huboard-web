@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+//TODO: Fix milestone selector to use the raw data attributes
+// because it causes a mismatch where issue.milestone starts
+// as raw json and moves to a milestone model
+
 var HbMilestoneComponent = Ember.Component.extend({
   classNames: ["hb-selector-component", "dropdown"],
   isOpen: function(){
@@ -11,13 +15,13 @@ var HbMilestoneComponent = Ember.Component.extend({
     return this.get("milestones")
     .filter(function(item) {
       var term = this.get("filterMilestones") || "";
-      return item.title.toLowerCase().indexOf(term.toLowerCase() || item.title.toLowerCase()) !== -1;
+      return item.data.title.toLowerCase().indexOf(term.toLowerCase() || item.data.title.toLowerCase()) !== -1;
     }.bind(this))
     .map(function(item) {
 
       return this.ListItem.create({
-        selected: item.id === this.get("selected.id"),
-        item: item
+        selected: item.data.id === this.get("selected.id"),
+        item: item.data
       });
 
     }.bind(this));

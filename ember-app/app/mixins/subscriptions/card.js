@@ -2,25 +2,25 @@ import Ember from 'ember';
 
 var CardSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
-    channel: "{repositoryName}",
-    "issues.{issue.number}.issue_status_changed": "statusChanged",
+    channel: "{issue.repo.data.repo.full_name}",
+    "issues.{issue.data.number}.issue_status_changed": "statusChanged",
     "issues.{issue.number}.issue_archived": "archived",
     "issues.{issue.number}.issue_closed": "closed",
     "issues.{issue.number}.issue_reopened": "opened",
     "issues.{issue.number}.assigned": "assigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
-    "issues.{issue.number}.milestone_changed": "milestoneChanged",
+    "issues.{issue.number}.milestone_changed": "milestoneChanged"
   },
   hbsubscribers: {
     statusChanged: function(message){
       this.get("issue").set("_data", message.issue._data);
     },
-    archived: function(){
+    archived: function(message){
       this.get('issue').set('isArchived', true);
     },
     closed: function(message){
-     this.get("issue").set("state", message.issue.state);
+      this.get("issue").set("state", message.issue.state);
     },
     opened: function(message){
      this.get("issue").set("state", message.issue.state);

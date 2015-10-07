@@ -5,6 +5,7 @@ import Issue from 'app/models/issue';
 import Serializable from 'app/mixins/serializable';
 import Ember from 'ember';
 import ajax from 'ic-ajax';
+import Health from 'app/models/health';
 
 
 
@@ -19,6 +20,7 @@ var Repo = Ember.Object.extend(Serializable,{
   fetchBoard: function(linkedBoards){
     if(this._board) {return this._board;}
     var self = this;
+    Health.fetch(self);
     return ajax("/api/" + this.get("full_name") + "/board").then(function(board){
        var issues = Ember.A();
        board.issues.forEach(function(i){
@@ -43,6 +45,9 @@ var Repo = Ember.Object.extend(Serializable,{
       });
 
       return Ember.RSVP.all(requests).then(function(boards){
+        boards.forEach(function(b){
+          Health.fetch(b.repo);
+        });
         self._linkedBoards = boards;
         return boards;
       });

@@ -8,6 +8,12 @@
     display:inline-block;
 }
 
+.ui-icon-12{
+    font-size:12px;
+    height:12px;
+    width:12px;
+}
+
 .ui-icon-18{
     font-size:18px;
     height:18px;
@@ -41,6 +47,9 @@
     font-size:64px;
     height:64px;
     width:64px;
+}
+.ui-icon-error {
+  color: $hb-red;
 }
 
 

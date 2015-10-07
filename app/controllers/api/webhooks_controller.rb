@@ -8,6 +8,10 @@ module Api
       }
     end
 
+    def legacy
+      render json: { message: "Webhook received" }
+    end
+
     def publish_issue_event
       return render json: { message: "pong" } if request.env["HTTP_X_GITHUB_EVENT"] == "ping"
 
@@ -52,15 +56,21 @@ module Api
       payload = Hashie::Mash.new(params)
       id = payload.data.object.customer
 
-      if payload.type == "customer.subscription.updated" || payload.type == "customer.subscription.deleted"
-        query = Queries::CouchCustomer.get_cust(id, couch)
-        plan_doc = QueryHandler.exec(&query)
-        return render json: { message: "Webhook received" } unless plan_doc && plan_doc.id == id
+      query = Queries::CouchCustomer.get_cust(id, couch)
+      plan_doc = QueryHandler.exec(&query)
+      return render json: { message: "Webhook received" } unless plan_doc && plan_doc.id == id
 
+      if payload.type == "customer.subscription.updated" || payload.type == "customer.subscription.deleted"
         plan_doc.trial = "expired" if payload.data.object.status != "trialing"
 
         customer = plan_doc.stripe.customer
         customer.subscriptions.data[0] = payload.data.object
+        couch.customers.save plan_doc
+      end
+
+      if payload.type == "invoice.payment_succeeded"
+        customer = Stripe::Customer.retrieve(plan_doc.id)
+        plan_doc.stripe.customer = customer
         couch.customers.save plan_doc
       end
 

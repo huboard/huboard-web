@@ -1,0 +1,65 @@
+.hb-health {
+  margin-bottom: 12px;
+}
+
+.hb-health__indicator {
+  float: left;
+  height: 30px;
+  width: 30px;
+  margin-left: -40px;
+  border-radius: 50%;
+  > i {
+    color: white;
+    display: block;
+    margin-top: 9px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  &.hb-health__indicator--success{
+    background-color: $hb-purple; 
+  }
+  &.hb-health__indicator--error{
+    background-color: $hb-red; 
+  }
+}
+
+.hb-health__group {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.hb-health__group--header {
+  margin: 0;
+  padding: 12px 12px 6px 55px;
+  border-bottom: 1px solid #ccc;
+  h3 {
+    margin: 0;
+    line-height: 1;
+  }
+}
+
+.hb-health__content {
+  padding: 6px 12px 6px 55px;
+  line-height: 30px;
+  background: #fafafa;
+  border-bottom: 1px solid #ccc;
+  i {
+    margin-right: 6px;
+    font-size: 12px;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+  &.hb-health__content--success{
+    i {
+      color: $hb-purple; 
+    }
+  }
+  &.hb-health__content--error{
+    i {
+      color: $hb-red; 
+    }
+  }
+}
+

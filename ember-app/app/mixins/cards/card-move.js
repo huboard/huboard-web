@@ -9,8 +9,8 @@ var CardMoveMixin = Ember.Mixin.create({
 
   cardMover: Ember.Object.create({
     calculateIssueOrder: function(issue_above, issue_below){
-      var issue = this.data.card.get("issue");
-      if(!issue_above && !issue_below){return issue.get("order"); }
+      var issue = this.data.card.get("issue.data");
+      if(!issue_above && !issue_below){return issue._data.order; }
       if(!issue_above){ return this.moveToTop(issue, issue_below); }
       if(!issue_below){ return this.moveToBottom(issue, issue_above); }
       return this.move(issue, issue_above, issue_below);
@@ -38,19 +38,20 @@ var CardMoveMixin = Ember.Mixin.create({
     },
     issueAbove: function(index, issues, mod){
       if(index + mod && issues.length){
-        return issues.objectAt((index + mod) - 1);
+        return issues.objectAt((index + mod) - 1).data;
       }
       return null;
     },
     issueBelow: function(index, issues, mod){
       if(!(index + mod) && issues.length){  // jshint ignore:line
-        return issues.objectAt(0);
+        return issues.objectAt(0).data;
       } else if((index + mod) !== (issues.length - 1)){
-        return issues.objectAt(index + mod);
+        var issue = issues.objectAt(index + mod);
+        return issue ? issue.data : issue;
       } else if(index !== (issues.length - 1) && mod){
-        return issues.objectAt(index + mod);
+        return issues.objectAt(index + mod).data;
       } else if((index + mod) === issues.length - 1){
-        return issues.get("lastObject");
+        return issues.get("lastObject").data;
       }
       return null;
     },

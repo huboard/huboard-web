@@ -28,9 +28,10 @@ var IndexController = Ember.Controller.extend({
   board_columns: function(){
      return this.get("model.columns");
   }.property("model.columns"),
+
   isCollaborator: function(){
-    return App.get("repo.is_collaborator");
-  }.property('App.repo.is_collaborator'),
+    return this.get("model.repo.isCollaborator");
+  }.property('model.repo.isCollaborator'),
 
   actions: {
     registerColumn: function(column_component){
@@ -39,14 +40,14 @@ var IndexController = Ember.Controller.extend({
     unregisterColumn: function(column_component){
       this.get("registeredColumns").removeObject(column_component);
     },
-    createNewIssue: function(issue){
-      this.get("target").send("createNewIssue", issue);
-    },
     createFullscreenIssue: function(issue, order){
       this.get("target").send("createFullscreenIssue", issue, order);
     },
     openFullscreenIssue(issue){
       this.get("target").send("openFullscreenIssue", issue);
+    },
+    reopenIssueOrAbort(args){
+      this.get("target").send("reopenIssueOrAbort", args);
     }
   }
 });

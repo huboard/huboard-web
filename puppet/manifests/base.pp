@@ -45,8 +45,13 @@ package {
 
 
   class { 'memcached':
-    max_memory => '12%'
-  }
+    max_memory => '12%',
+    listen_ip => '0.0.0.0',
+  } ->
+    exec { 'start-memcached':
+      command => 'service memcached restart',
+      path    => ["/bin", "/usr/bin"],
+    }
 
   class { 'redis':
     version            => '2.8.12',
