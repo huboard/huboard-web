@@ -21,8 +21,9 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     });
   }.observes("model.board.repos.[]"),
   hbsubscriptions: {
-    channel: "{model.repo.data.repo.full_name}",
-    "milestones.*.milestone_created": "newMilestone"
+    channel: "{model.data.repo.full_name}",
+    "milestones.*.milestone_created": "newMilestone",
+    "issues.*.moved": "issueMoved"
   },
   hbsubscribers: {
     newIssue: function(message) {
@@ -56,6 +57,10 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         repo: repo
       }));
     },
+    issueMoved: function(message){
+      console.log(message);
+      this.get("flashMessages").success("MOVED");
+    }
   }
 });
 

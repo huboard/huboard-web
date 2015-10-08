@@ -4,6 +4,7 @@ import Messaging from "app/mixins/messaging";
 
 var ApplicationController = Ember.Controller.extend(
   BoardSubscriptions, Messaging, {
+  flashMessages: Ember.inject.service(),
   qps: Ember.inject.service("query-params"),
   isSidebarOpen: false,
   filters: Ember.inject.service(),
