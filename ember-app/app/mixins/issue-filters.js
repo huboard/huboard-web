@@ -27,7 +27,7 @@ var IssueFiltersMixin = Ember.Mixin.create({
     var filters_active = [];
     var strategy_function = this[`${strategy}Strategy`];
 
-    //this.mergeUserAndMemberGroups(filter_groups, strategy);
+    this.mergeUserAndMemberGroups(filter_groups, strategy);
 
     _.each(filter_groups[strategy], (function(group){
       if(group.length){
