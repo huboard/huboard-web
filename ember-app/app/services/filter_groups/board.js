@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 function attr(modelProp, map) {
-  return Ember.computed("model." + modelProp, "model." + modelProp + ".[]", {
+  return Ember.computed("model." + modelProp, {
     get: function(key){
       var model = this.get('model');
 

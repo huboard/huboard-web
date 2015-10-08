@@ -41,7 +41,7 @@ var HbCardComponent = Ember.Component.extend(
       if(this.isHidden(item)){return "filter-hidden";}
       if(this.isDim(item)){return "dim";}
       return "";
-    }.property("filters.hideFilters", "filters.dimFilters"),
+    }.property("filters.hideFilters", "filters.dimFilters", "issue.milestoneTitle", "issue.labels.[]"),
     click: function(){
       if(this.get("isFiltered") === "filter-hidden"){
         return;
