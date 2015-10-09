@@ -2,11 +2,13 @@ PATH
   remote: vendor/engines/saas
   specs:
     saas (0.0.1)
+      rails (~> 4.2.0)
 
 PATH
   remote: vendor/gems/faye_extensions
   specs:
     faye_extensions (0.0.1)
+      rails (~> 4.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -478,6 +480,3 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   warden-github
   wkhtmltopdf-heroku
-
-BUNDLED WITH
-   1.10.6
