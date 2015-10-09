@@ -26,9 +26,12 @@ var MilestonesRoute = Ember.Route.extend({
   renderTemplate: function() {
     this._super.apply(this, arguments);
 
+    var assignee = this.controllerFor("assignee");
+    assignee.set("model", this.currentModel);
     this.render("assignee", {
       into: "milestones",
-      outlet: "sidebarTop"
+      outlet: "sidebarTop",
+      controller: assignee
     });
 
     this.render("filters", {

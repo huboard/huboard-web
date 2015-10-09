@@ -14,7 +14,7 @@ var MemberFilters = Ember.Service.extend({
   },
 
   filters : function () {
-     var filters = this.get("avatars").map(function(a){
+     var filters = this.get("board.avatars").map(function(a){
        return Ember.Object.create({
          name: a.login,
          avatar : a,
@@ -34,17 +34,7 @@ var MemberFilters = Ember.Service.extend({
       }
       this._filters = filters;
       return filters;
-  }.property("avatars"),
-
-  avatars : function () {
-    var issues = this.get("issues");
-    return this.get("assignees").filter(function(assignee){
-      return _.find(issues, function(issue){
-        return issue.data.assignee &&
-          issue.data.assignee.login === assignee.login;
-      });
-    });
-  }.property("assignees.[]", "issues.@each.assignee"),
+  }.property("board.avatars")
 });
 
 export default MemberFilters;

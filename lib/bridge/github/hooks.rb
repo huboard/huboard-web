@@ -28,7 +28,8 @@ class Huboard
           {
             name: 'web',
             config: {
-              url: File.join(url, 'webhook', event_name)
+              url: File.join(url, 'webhook', event_name),
+              insecure_ssl: ENV['HUBOARD_ENV'] != 'production' ? "1" : "0"
             },
             events: [
               event_name

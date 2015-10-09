@@ -7,10 +7,11 @@ var ApplicationController = Ember.Controller.extend(
   flashMessages: Ember.inject.service(),
   qps: Ember.inject.service("query-params"),
   isSidebarOpen: false,
+
   filters: Ember.inject.service(),
-  setFilters: function(){
+  initFilters: function(){
     if(this.get("model.board")){
-      this.get("filters.filterGroups").setGroups(this.get("model.board"));
+      this.get("filters").set("model", this.get("model.board"));
     }
   }.observes("model.board"),
 

@@ -3,7 +3,6 @@ import correlationId from 'app/utilities/correlation-id';
 
 var MilestonesController = Ember.Controller.extend({
   needs: ["application"],
-  filters: Ember.inject.service(),
   registeredColumns: Ember.A(),
 
   qps: Ember.inject.service("query-params"),
@@ -15,15 +14,10 @@ var MilestonesController = Ember.Controller.extend({
     {"qps.labelParams": "label"},
     {"qps.cardParams": "card"}
   ],
-  applyUrlFilters: function(){
-    var self = this;
-    Ember.run.once(function(){
-      self.get("qps").applyFilterParams();
-      self.get("qps").applySearchParams();
-    });
-  }.observes("qps.filterParams", "qps.searchParams").on("init"),
 
-  filtersActive: Ember.computed.alias("filters.filterGroups.active"),
+  filters: Ember.inject.service(),
+  filtersActive: Ember.computed.alias("filters.active"),
+
   isCollaborator: function(){
     return this.get("model.repo.isCollaborator");
   }.property('model.repo.isCollaborator'),
