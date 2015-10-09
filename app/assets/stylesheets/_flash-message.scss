@@ -1,0 +1,16 @@
+.hb-flash-message {
+  top: -38px;
+  width: 300px;
+  height: 38px;
+  left: 50%;
+  transform: translate(-50%);
+  position: absolute;
+  z-index: 100;
+
+  .message {
+    background: $hb-purple-dark;
+    color: white;
+    text-align: center;
+    padding: 8px;
+  }
+}

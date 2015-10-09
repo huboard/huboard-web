@@ -27,6 +27,7 @@
 @import "markdown";
 @import "milestone";
 @import "date_picker";
+@import "flash-message";
 
 #application > .ember-view {
    @include display(flex);
