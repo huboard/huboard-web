@@ -58,8 +58,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       }));
     },
     issueMoved: function(message){
-      console.log(message);
-      this.get("flashMessages").success("MOVED");
+      var copy = `${message.actor.login} moved issue #${message.issue.number} to "${message.column.text}"`;
+      this.get("flashMessages").info(copy);
     }
   }
 });
