@@ -9,11 +9,24 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var repos = _self.get("model.board.repos");
       if(!repos) { return; }
       repos.forEach(function(repo){
-        var newIssue = `${repo.data.repo.full_name} issues.*.issue_opened`;
+        var channel = repo.data.repo.full_name;
+
+        var newIssue = `${channel} issues.*.issue_opened`;
         _self.hbsubscriptions[newIssue] = "newIssue";
 
-        var newMilestone = `${repo.data.repo.full_name} milestones.*.milestone_created`;
+        var newMilestone = `${channel} milestones.*.milestone_created`;
         _self.hbsubscriptions[newMilestone] = "newMilestone";
+
+        var moved = `${channel} issues.*.moved`;
+        _self.hbsubscriptions[moved] = "issueMoved";
+
+        var closed = `${channel} issues.*.issue_closed`;
+        _self.hbsubscriptions[closed] = "issueStateChanged";
+        var opened = `${channel} issues.*.issue_reopened`;
+        _self.hbsubscriptions[opened] = "issueStateChanged";
+
+        var status = `${channel} issues.*.issue_status_changed`;
+        _self.hbsubscriptions[status] = "issueStatusChanged";
       });
 
       _self.unsubscribeFromMessages();
@@ -23,7 +36,6 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
     channel: "{model.data.repo.full_name}",
     "milestones.*.milestone_created": "newMilestone",
-    "issues.*.moved": "issueMoved"
   },
   hbsubscribers: {
     newIssue: function(message) {
@@ -59,6 +71,22 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     },
     issueMoved: function(message){
       var copy = `${message.actor.login} moved issue #${message.issue.number} to "${message.column.text}"`;
+      this.get("flashMessages").info(copy);
+    },
+    issueStatusChanged: function(message){
+      var custom_state = message.issue._data.custom_state;
+      var status = custom_state.length ? custom_state : "cleared";
+
+      if(status === "cleared"){
+        var copy = `${message.actor.login} cleared issue #${message.issue.number}'s status`;
+      } else {
+        var copy = `${message.actor.login} marked issue #${message.issue.number} as ${message.issue._data.custom_state}`;
+      }
+
+      this.get("flashMessages").info(copy);
+    },
+    issueStateChanged: function(message){
+      var copy = `${message.actor.login} changed issue #${message.issue.number} to "${message.issue.state}"`;
       this.get("flashMessages").info(copy);
     }
   }
