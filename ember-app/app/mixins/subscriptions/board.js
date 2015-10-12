@@ -28,7 +28,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           "issue_commented": "issueCommented"
         };
         _.each(issues, function(handler, subscriber){
-          var path = `issues.*.${subscriber}`;
+          var path = `${channel} issues.*.${subscriber}`;
           _self.hbsubscriptions[path] = handler;
         });
       });
