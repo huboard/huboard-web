@@ -1,15 +1,16 @@
 .hb-flash-message {
   top: -38px;
-  width: 300px;
+  width: 306px;
   height: 38px;
   left: 50%;
   transform: translate(-50%);
-  position: absolute;
+  position: fixed;
   z-index: 100;
 
   .message {
     background: $hb-purple-dark;
     color: white;
+    font-size: 13px;
     text-align: center;
     padding: 8px;
   }
