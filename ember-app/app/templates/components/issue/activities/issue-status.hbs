@@ -22,6 +22,9 @@
           {{#if status.description}}
             - <i> {{status.description}} </i>
           {{/if}}
+          {{#if status.target_url}}
+            <a href="{{status.target_url}}">details</a>
+          {{/if}}
         </li>
       {{/each}}
     </ul>
