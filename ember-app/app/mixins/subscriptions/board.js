@@ -17,16 +17,20 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         var newMilestone = `${channel} milestones.*.milestone_created`;
         _self.hbsubscriptions[newMilestone] = "newMilestone";
 
-        var moved = `${channel} issues.*.moved`;
-        _self.hbsubscriptions[moved] = "issueMoved";
-
-        var closed = `${channel} issues.*.issue_closed`;
-        _self.hbsubscriptions[closed] = "issueStateChanged";
-        var opened = `${channel} issues.*.issue_reopened`;
-        _self.hbsubscriptions[opened] = "issueStateChanged";
-
-        var status = `${channel} issues.*.issue_status_changed`;
-        _self.hbsubscriptions[status] = "issueStatusChanged";
+        var issues = {
+          "moved": "issueMoved",
+          "assigned": "issueAssigned",
+          "issue_closed": "issueStateChanged",
+          "issue_reopened": "issueStateChanged",
+          "issue_status_changed": "issueStatusChanged",
+          "issue_archived": "issueArchived",
+          "milestone_changed": "issueMsChanged",
+          "issue_commented": "issueCommented"
+        };
+        _.each(issues, function(handler, subscriber){
+          var path = `issues.*.${subscriber}`;
+          _self.hbsubscriptions[path] = handler;
+        });
       });
 
       _self.unsubscribeFromMessages();
@@ -87,6 +91,39 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     },
     issueStateChanged: function(message){
       var copy = `${message.actor.login} changed issue #${message.issue.number} to "${message.issue.state}"`;
+      this.get("flashMessages").info(copy);
+    },
+    issueArchived: function(message){
+      var copy = `${message.actor.login} archived issue #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueAssigned: function(message){
+      var actor = message.actor.login;
+      var assignee = message.issue.assignee;
+
+      if(assignee){
+        var target = actor === assignee.login ? "themselves" : assignee.login
+        var copy = `${actor} assigned issue #${message.issue.number} to ${target}`;
+      } else {
+        var copy = `${actor} unassigned issue #${message.issue.number}`;
+      }
+
+      this.get("flashMessages").info(copy);
+    },
+    issueMsChanged: function(message){
+      var actor = message.actor.login;
+      var milestone = message.issue.milestone;
+
+      if(milestone){
+        var copy = `${actor} added issue #${message.issue.number} to ${milestone.title}`;
+      } else {
+        var copy = `${actor} removed issue #${message.issue.number} from a milestone`;
+      }
+
+      this.get("flashMessages").info(copy);
+    },
+    issueCommented: function(message){
+      var copy = `${message.actor.login} commented on issue #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     }
   }
