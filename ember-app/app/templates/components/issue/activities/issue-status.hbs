@@ -1,23 +1,30 @@
-<div class="current-state">
-  <label>
-    Build {{stateInflection}}: {{status.state}}
-  </label>
+<div class="hb-issue-status">
+  <div class="hb-issue-status__indicator hb-health__indicator--{{status.state}}">
+    <i class="ui-icon ui-icon-12 {{object-value iconClass status.state}}"></i>
+  </div>
+  <h3>
+    Build status: {{status.state}}
+  </h3>
   <label>
     {{#each commitStates as |state|}}
-      {{object-value stateCounts state}} {{state}}
+      <small>{{object-value stateCounts state}} {{state}}</small>
     {{/each}}
   </label>
+
+  <div class="statuses">
+    <ul>
+      {{#each status.statuses as |status|}}
+        <div class="hb-issue-status__mini-indicator hb-health__mini-indicator--{{status.state}}">
+          <i class="ui-icon ui-icon-12 {{object-value iconClass status.state}}"></i>
+        </div>
+        <li>
+          <strong>{{status.context}}</strong>:  {{status.state}}
+          {{#if status.description}}
+            - <i> {{status.description}} </i>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
 
-<div class="all-states">
-  <ul>
-    {{#each status.statuses as |status|}}
-      <li>
-        {{status.context}}:  {{status.state}}
-        {{#if status.description}}
-          {{status.description}}
-        {{/if}}
-      </li>
-    {{/each}}
-  </ul>
-</div>

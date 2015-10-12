@@ -9,7 +9,7 @@ var IssueStatusComponent = Ember.Component.extend({
     statuses: [],
   },
   fetchStatus: function(){
-    var repo = this.get("issue.repo.full_name");
+    var repo = this.get("issue.repo.data.repo.full_name");
     var number = this.get("issue.number");
     var url = `/api/${repo}/issues/${number}/status`
     var _self = this;
@@ -32,16 +32,21 @@ var IssueStatusComponent = Ember.Component.extend({
     var counts = {};
     this.get("status.statuses").forEach(function(status){
       if(counts[status.state]){
-        counts[status.state] = counts[status.state]++;
+        counts[status.state] = counts[status.state] + 1;
       } else {
         counts[status.state] = 1;
       }
     });
     return counts;
   }.property("status.statuses.[]"),
-  stateInflection: function(){
-    return this.get("statusContexts").length > 1 ? "statuses" : "state";
-  }.property("statusContexts.[]")
+  iconClass: function(){
+    return {
+      "success": "ui-icon-checkmark",
+      "failure": "ui-icon-x-thin",
+      "error": "ui-icon-x-thin",
+      "pending": "ui-icon-refresh"
+    };
+  }.property()
 });
 
 export default IssueStatusComponent;
