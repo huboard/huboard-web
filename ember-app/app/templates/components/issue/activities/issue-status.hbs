@@ -1,33 +1,32 @@
 <div class="hb-issue-status">
-  <div class="hb-issue-status__indicator hb-health__indicator--{{status.state}}">
-    <i class="ui-icon ui-icon-12 {{object-value iconClass status.state}}"></i>
+  <div class="hb-status-indicator hb-status-indicator--mega hb-status-indicator--{{status.state}}">
+    <i class="ui-icon ui-icon-16 {{object-value iconClass status.state}}"></i>
   </div>
-  <h3>
-    Build status: {{status.state}}
-  </h3>
-  <label>
-    {{#each commitStates as |state|}}
-      <small>{{object-value stateCounts state}} {{state}}</small>
-    {{/each}}
-  </label>
-
-  <div class="statuses">
-    <ul>
+  <div class="hb-issue-status__body hb-statuses hb-statuses--{{status.state}}"> 
+    <h3 class="">
+      {{object-value stateCopy status.state}}
+      <label>
+        {{#each commitStates as |state|}}
+          <small>{{object-value stateCounts state}} {{state}}</small>
+        {{/each}}
+      </label>
+    </h3>
+    <div>
       {{#each status.statuses as |status|}}
-        <div class="hb-issue-status__mini-indicator hb-health__mini-indicator--{{status.state}}">
-          <i class="ui-icon ui-icon-12 {{object-value iconClass status.state}}"></i>
-        </div>
-        <li>
-          <strong>{{status.context}}</strong>:  {{status.state}}
+        <div class="hb-statuses__status">
+          <div class="hb-status-indicator hb-status-indicator--{{status.state}} hb-status-indicator--mini">
+          </div>
+          <strong>{{status.context}}</strong>
           {{#if status.description}}
             - <i> {{status.description}} </i>
           {{/if}}
           {{#if status.target_url}}
             <a href="{{status.target_url}}">details</a>
           {{/if}}
-        </li>
+        </div>
+
       {{/each}}
-    </ul>
+    </div>
   </div>
 </div>
 

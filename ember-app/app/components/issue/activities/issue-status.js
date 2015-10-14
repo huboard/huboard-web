@@ -46,6 +46,14 @@ var IssueStatusComponent = Ember.Component.extend({
       "error": "ui-icon-x-thin",
       "pending": "ui-icon-refresh"
     };
+  }.property(),
+  stateCopy: function(){
+    return {
+      "success": "All checks have passed",
+      "failure": "Some checks have failed",
+      "error": "Some checks have errored",
+      "pending": "Some checks are pending"
+    };
   }.property()
 });
 

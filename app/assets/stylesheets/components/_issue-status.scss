@@ -1,65 +1,86 @@
 .hb-issue-status {
-  margin-left: 40px;
-
-  li {
-    list-style-type: none;
-    padding-bottom: 4px;
-  }
-  a {
-    float: right;
+  &__body {
+    margin-left: 34px;
+    padding: 10px;
   }
 }
 
-.hb-issue-status__mini-indicator {
-  float: left;
-  height: 18px;
-  width: 18px;
-  margin-left: -10px;
-  margin-right: 10px;
-  border-radius: 50%;
-  > i {
-    color: white;
-    display: block;
-    margin-top: 4px;
-    margin-left: 4px;
-    font-size: 10px;
-  }
+.hb-statuses {
+  background: #fff;
 
-  &.hb-health__mini-indicator--success{
-    background-color: $hb-purple; 
+  > h3 {
+    color: #999;
   }
-  &.hb-health__mini-indicator--failure{
-    background-color: $hb-red; 
+  &--success{
+    border: 1px solid $hb-success;
+    > h3 {
+      color: $hb-success; 
+    }
   }
-  &.hb-health__mini-indicator--error{
-    background-color: $hb-red; 
+  &--failure{
+    border: 1px solid $hb-failure;
+    > h3 {
+      color: $hb-failure; 
+    }
   }
-  &.hb-health__mini-indicator--pending{
-    background-color: #cea61b; 
+  &--error{
+    border: 1px solid $hb-error;
+    > h3 {
+      color: $hb-error; 
+    }
+  }
+  &--pending{
+    border: 1px solid $hb-pending;
+    > h3 {
+      color: $hb-pending;
+    }
+  }
+  &__status {
+    background: #fafafa;
+    padding: 6px 12px;
+    border-top: 1px solid #ccc;
+    margin: 0 -10px -10px;
   }
 }
 
-.hb-issue-status__indicator {
-  float: left;
-  height: 30px;
-  width: 30px;
-  margin-left: -40px;
-  border-radius: 50%;
+.hb-status-indicator {
 
-  > i {
-    color: white;
-    display: block;
-    margin-top: 9px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  &.hb-health__indicator--success{
-    background-color: $hb-purple; 
-  }
-  &.hb-health__indicator--failure{
-    background-color: $hb-red; 
-  }
-  &.hb-health__indicator--pending{
-    background-color: #cea61b; 
-  }
+    &--mega {
+      float: left;
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      > i {
+        margin-top: 6px;
+      }
+    }
+
+    &--mini {
+      display: inline-block;
+      height: 10px;
+      width: 10px;
+      margin-right: 6px;
+      border-radius: 50%;
+    }
+
+    > i {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      color: white;
+    }
+
+
+    &--success{
+      background-color: $hb-purple; 
+    }
+    &--failure{
+      background-color: $hb-red; 
+    }
+    &--error{
+      background-color: $hb-red; 
+    }
+    &--pending{
+      background-color: #cea61b; 
+    }
 }
