@@ -1,46 +1,63 @@
 import Ember from 'ember';
-import { debouncedObserver } from 'app/utilities/observers';
 
 var HbFlashMessageComponent = Ember.Component.extend({
   classNames: ['hb-flash-message'],
   flashMessages: Ember.inject.service(),
   hasMessages: Ember.computed.alias("flashMessages.queue.length"),
+  messageCount: 2,
 
-  currentFlash: null,
+  currentFlash: [],
   manageQueue: function(){
     var queue = this.get('flashMessages.queue');
     var flash = this.get('currentFlash');
 
-    if(!flash && queue.length){
-      queue[0].on('didDestroyMessage', this.removeFlash.bind(this));
-      this.set('currentFlash', queue[0]);
-    } else if(queue.length > 1) {
-      this.extendTimers(queue.slice(1));
-   }
-  }.observes('flashMessages.queue.[]', 'currentFlash'),
-  removeFlash: function(){
-    var clearFlash = this.clearFlash.bind(this);
-    this.$().animate({
-      'top': '-=38px'
-    }, 500, clearFlash);
+    var count = this.get("messageCount");
+    var index = flash.length;
+    if(queue.length && queue[index] && flash.length < count){
+      this.addToQueue(queue[index], flash);
+    } 
+
+    if(queue.length > count.length) {
+      this.extendTimers(queue.slice(count.length));
+    }
+  }.observes('flashMessages.queue.[]', 'currentFlash.[]'),
+  addToQueue: function(flash, current){
+    var _self = this;
+    flash.on('didClickDestroy', ()=> { 
+      Ember.run.once(()=> {
+        _self.get('flashMessages.queue').removeObject(flash);
+        flash.destroy();
+        _self.removeFlash(flash);
+      })
+    });
+    flash.on('didDestroyMessage', ()=>{
+      _self.timerExpired(flash);
+    });
+    current.unshiftObject(flash);
   },
-  //Clears the flash to signal the next message in the queue
-  clearFlash: function(){
-    this.set('currentFlash', null);
+  timerExpired: function(flash){
+    var remove = this.removeFlash.bind(this);
+    if(this.get("currentFlash").length === 1){
+      this.$(".message").first().animate({
+        'top': '-=38px'
+      }, 500, ()=> remove(flash));
+    } else {
+      this.$(".message").last().animate({
+        'top': '+=8px',
+        'opacity': 'hide'
+      }, 'slow', ()=>{ remove(flash)});
+    }
   },
+  removeFlash: function(flash){
+    var current = this.get('currentFlash');
+    current.removeObject(flash);
+  },
+
   //Extends the timers if the queue is backed up
   extendTimers: function(queue){
     queue.invoke("_cancelTimer", "timer");
     queue.invoke("_cancelTimer", "exitTimer");
-    queue.invoke("_setTimer", "timer", "destroyMessage", 5000);
-  },
-
-  actions: {
-    addFlash: function(){
-      this.$().animate({
-        'top': '+=38px'
-      }, 500);
-    }
+    queue.invoke("_setTimer", "timer", "destroyMessage", 3500);
   }
 });
 

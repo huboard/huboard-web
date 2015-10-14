@@ -1,9 +1,7 @@
-<div class="ui-icon-x"></div>
-{{#if currentFlash}}
+{{#each currentFlash as |flash| }}
   {{
     flash/hb-message
-    flash=currentFlash
-    message=currentFlash.message
-    addFlash=(action 'addFlash')
+    flash=flash
+    message=flash.message
   }}
-{{/if}}
+{{/each}}

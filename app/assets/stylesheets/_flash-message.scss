@@ -1,24 +1,24 @@
 .hb-flash-message {
   top: -38px;
   width: 306px;
-  height: 38px;
   left: 50%;
   transform: translate(-50%);
   position: fixed;
   z-index: 100;
 
   .message {
+    position: relative;
     background: $hb-purple-dark;
     color: white;
     font-size: 13px;
     text-align: center;
     padding: 8px;
+    margin-bottom: 4px;
   }
   .ui-icon-x {
     position: relative;
     float: right;
     font-size: 8px;
-    top: 6px;
     right: 6px;
     color: white;
   }
