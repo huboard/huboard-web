@@ -3,61 +3,66 @@ import Ember from 'ember';
 var HbFlashMessageComponent = Ember.Component.extend({
   classNames: ['hb-flash-message'],
   flashMessages: Ember.inject.service(),
-  hasMessages: Ember.computed.alias("flashMessages.queue.length"),
-  messageCount: 2,
+  messageMax: 2,
+  timer: 2500,
 
   currentFlash: [],
-  manageQueue: function(){
+  processQueue: function(){
     var queue = this.get('flashMessages.queue');
-    var flash = this.get('currentFlash');
+    var max = this.get("messageMax")
+    var current = this.get('currentFlash');
 
-    var count = this.get("messageCount");
-    var index = flash.length;
-    if(queue.length && queue[index] && flash.length < count){
-      this.addToQueue(queue[index], flash);
-    } 
-
-    if(queue.length > count.length) {
-      this.extendTimers(queue.slice(count.length));
-    }
+    var _self = this;
+    queue.forEach((flash, index)=> {
+      if(current.length < max && !current.contains(flash)){
+        _self.addToQueue(flash, current);
+      } else if(index > max) {
+        _self.resetTimer(flash, this.get('timer') * 2);
+      }
+    })
   }.observes('flashMessages.queue.[]', 'currentFlash.[]'),
   addToQueue: function(flash, current){
     var _self = this;
-    flash.on('didClickDestroy', ()=> { 
-      Ember.run.once(()=> {
-        _self.get('flashMessages.queue').removeObject(flash);
-        flash.destroy();
-        _self.removeFlash(flash);
-      })
-    });
     flash.on('didDestroyMessage', ()=>{
-      _self.timerExpired(flash);
+      _self.scheduleRemove(flash);
     });
+
+    var first = current.get('lastObject');
+    if(first && !first.isDestroying){
+      this.resetTimer(first, this.get('timer') / 2);
+    }
+    this.resetTimer(flash, this.get('timer'));
     current.unshiftObject(flash);
   },
-  timerExpired: function(flash){
-    var remove = this.removeFlash.bind(this);
-    if(this.get("currentFlash").length === 1){
-      this.$(".message").first().animate({
-        'top': '-=38px'
-      }, 500, ()=> remove(flash));
-    } else {
-      this.$(".message").last().animate({
-        'top': '+=8px',
-        'opacity': 'hide'
-      }, 'slow', ()=>{ remove(flash)});
-    }
-  },
-  removeFlash: function(flash){
+  scheduleRemove: function(flash){
     var current = this.get('currentFlash');
-    current.removeObject(flash);
-  },
+    var callback = function(){
+      current.removeObject(flash);
+      this.set("removingFlash", false);
+    }.bind(this);
 
-  //Extends the timers if the queue is backed up
-  extendTimers: function(queue){
-    queue.invoke("_cancelTimer", "timer");
-    queue.invoke("_cancelTimer", "exitTimer");
-    queue.invoke("_setTimer", "timer", "destroyMessage", 3500);
+    if(this.get("removingFlash")){
+      Ember.run.later(this, ()=> {
+        this.scheduleRemove(flash)
+      }, 400);
+    } else { this.removeFlash(flash, callback); }
+  },
+  removeFlash: function(flash, callback){
+    this.set("removingFlash", true);
+    if(this.get("currentFlash").length === 1){
+      return this.$(".message").first().animate({
+        'top': '-=38px'
+      }, 400, callback);
+    }
+    this.$(".message").last().animate({
+      'top': '+=8px',
+      'opacity': 'hide'
+    }, 400, callback);
+  },
+  resetTimer: function(flash, time){
+    flash._cancelTimer("timer");
+    flash._cancelTimer("exitTimer");
+    flash._setTimer("timer", "destroyMessage", time);
   }
 });
 
