@@ -39,7 +39,10 @@
     background: #fafafa;
     padding: 6px 12px;
     border-top: 1px solid #ccc;
-    margin: 0 -10px -10px;
+    margin: 0 -10px;
+    &:last-child {
+      margin-bottom: -10px;
+    }
   }
 }
 
