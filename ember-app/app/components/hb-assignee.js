@@ -12,6 +12,7 @@ var HbAssigneeComponent = Ember.Component.extend({
 
   listItems: function () {
 
+    var currentUserLogin = this.get("currentUser").login;
     return this.get("assignees")
     .filter(function(item) {
       var term = this.get("filterPeople") || "";
@@ -20,6 +21,7 @@ var HbAssigneeComponent = Ember.Component.extend({
     .map(function(item) {
 
       return this.ListItem.create({
+        currentUser: item.login === currentUserLogin,
         selected: item.id === this.get("selected.id"),
         item: item
       });
@@ -29,9 +31,13 @@ var HbAssigneeComponent = Ember.Component.extend({
   }.property("assignees.[]","selected","filterPeople"),
 
   ListItem: Ember.Object.extend({
+    currentUser: false,
     selected: false,
     item: null
   }),
+
+  sortKeys: ["currentUser:desc", "selected:desc"],
+  sortedListItems: Ember.computed.sort("listItems", "sortKeys"),
 
   actions: {
     toggleSelector: function(){
