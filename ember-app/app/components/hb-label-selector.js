@@ -15,9 +15,26 @@ var HbLabelSelectorComponent = Ember.Component.extend({
     .filter(function(item) {
       var term = this.get("filterLabels") || "";
       return item.name.toLowerCase().indexOf(term.toLowerCase()|| item.name.toLowerCase()) !== -1;
+    }.bind(this))
+    .map(function(item) {
+      return this.ListItem.create({
+        selected: this.get("selected").any(function (l){return l.name === item.name;}),
+        item: item
+      });
     }.bind(this));
 
-  }.property("filterLabels","labels"),
+  }.property("filterLabels","labels", "selected"),
+
+  ListItem: Ember.Object.extend({
+    selected: false,
+    item: null
+  }),
+
+  sortKeys: ["selected:desc", "item.name"],
+  selectedSortkeys: ["name"],
+  sortedListItems: Ember.computed.sort("listItems", "sortKeys"),
+  sortedSelected: Ember.computed.sort("selected", "selectedSortkeys"),
+
   actions: {
     toggleSelector: function(){
       this.set("isOpen", !!!this.$().is(".open"));
@@ -34,13 +51,16 @@ var HbLabelSelectorComponent = Ember.Component.extend({
     },
     select : function (label) {
       var selected = this.get("selected");
+      var currentLabel = this.get("listItems").findBy("item.name", label.name);
       var action = "";
       if(selected.isAny("name", label.name)) {
         action = "unlabel";
          selected.removeObject(selected.findBy("name", label.name));
+         Ember.set(currentLabel, "selected", false);
       } else {
         action = "label";
         selected.pushObject(label);
+        Ember.set(currentLabel, "selected", true);
       }
       this.set("values", selected);
       this.sendAction("labelsChanged", label, action);

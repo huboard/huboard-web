@@ -33,6 +33,9 @@ var HbMilestoneComponent = Ember.Component.extend({
     item: null
   }),
 
+  sortKeys: ["selected:desc", "item.title"],
+  sortedListItems: Ember.computed.sort("listItems", "sortKeys"),
+
   actions: {
     toggleSelector: function(){
       this.set("isOpen", !!!this.$().is(".open"));
