@@ -54,7 +54,21 @@ var IssueStatusComponent = Ember.Component.extend({
       "error": "Some checks have errored",
       "pending": "Some checks are pending"
     };
-  }.property()
+  }.property(),
+  c3Data: function(){
+    const counts = Ember.merge({
+      "success": 0,
+      "failure": 0,
+      "error": 0,
+      "pending": 0
+    },this.get('stateCounts'));
+
+    const pairs = _.pairs(_.pick(counts,'failure','error','pending','success'));
+    return {
+      columns: pairs,
+      type: 'donut'
+    };
+  }.property('stateCounts')
 });
 
 export default IssueStatusComponent;

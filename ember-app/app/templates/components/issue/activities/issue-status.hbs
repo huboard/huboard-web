@@ -1,10 +1,13 @@
 <div class="hb-issue-status">
   <div class="hb-status-indicator hb-status-indicator--mega hb-status-indicator--{{status.state}}">
-    <i class="ui-icon ui-icon-16 {{object-value iconClass status.state}}"></i>
+    <i class="ui-icon ui-icon-16 ui-icon-branch-merge"></i>
   </div>
   <div class="hb-issue-status__body hb-statuses hb-statuses--{{status.state}}"> 
     <h3 class="">
-      {{object-value stateCopy status.state}}
+     <div class="hb-statuses__chart">
+      {{issue/activities/issue-status-chart data=c3Data }} 
+      </div>
+      {{object-value stateCopy status.state }}
       <label>
         {{#each commitStates as |state|}}
           <small>{{object-value stateCounts state}} {{state}}</small>
