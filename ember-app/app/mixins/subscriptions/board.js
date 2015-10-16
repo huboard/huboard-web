@@ -78,15 +78,15 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       this.get("flashMessages").info(copy);
     },
     issueStatusChanged: function(message){
-      var copy = `${message.actor.login} changed the status of #${message.issue.number} to ${message.issue._data.custom_state}`;
+      var copy = `${message.actor.login} changed the status of #${message.issue.number} to ${message.action}`;
       this.get("flashMessages").info(copy);
     },
     issueClosed: function(message){
-      var copy = `${message.actor.login} closed #${message.issue.number}"`;
+      var copy = `${message.actor.login} closed #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     },
     issueReopened: function(message){
-      var copy = `${message.actor.login} reopened #${message.issue.number}"`;
+      var copy = `${message.actor.login} reopened #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     },
     issueArchived: function(message){
