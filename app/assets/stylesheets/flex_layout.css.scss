@@ -22,12 +22,12 @@
 @import "breadcrumbs";
 @import "components/selector";
 @import "components/health";
+@import "components/flash-message";
 @import 'textcomplete';
 @import "tooltips";
 @import "markdown";
 @import "milestone";
 @import "date_picker";
-@import "flash-message";
 
 #application > .ember-view {
    @include display(flex);
