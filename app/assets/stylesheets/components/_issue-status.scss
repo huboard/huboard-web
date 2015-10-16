@@ -2,6 +2,7 @@
   &__body {
     margin-left: 34px;
     padding: 10px;
+    border-radius: 0px 3px 3px 3px;
   }
 }
 
@@ -17,6 +18,10 @@
   > h3 {
     color: #999;
     padding-left: 50px;
+    .hb-status-indicator {
+      margin-top: 3px;
+      margin-left: -45px;
+    }
   }
   &__chart {
     float: left;
@@ -117,6 +122,29 @@
     &:last-child {
       margin-bottom: -10px;
     }
+    > i {
+      margin-right: 3px;
+    }
+    &--success{
+      > i {
+        color: $hb-success; 
+      }
+    }
+    &--failure{
+      > i {
+        color: $hb-failure; 
+      }
+    }
+    &--error{
+      > i {
+        color: $hb-error; 
+      }
+    }
+    &--pending{
+      > i {
+        color: $hb-pending; 
+      }
+    }
   }
 }
 
@@ -125,11 +153,21 @@
   &--mega {
     float: left;
     height: 30px;
+    width: 30px;
     padding: 1px;
     border: 1px solid #fff;
-    width: 30px;
     > i {
       margin-top: 6px;
+    }
+  }
+
+  &--round {
+    float: left;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    > i {
+      margin-top: 12px;
     }
   }
 

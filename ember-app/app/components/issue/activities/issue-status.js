@@ -49,6 +49,15 @@ var IssueStatusComponent = Ember.Component.extend({
   anyPending: function(){
     return this.get("status.statuses").any((x) => Ember.get(x, 'state') === 'pending');
   }.property("status.statuses.[]", "status.statuses.@each.state"),
+  allErrors: function(){
+    return this.get('status.statuses').every((x) => {
+      const state = Ember.get(x, 'state');
+      return state === "failed" || state === "error";
+    });
+  }.property("status.statuses.[]", "status.statuses.@each.state"),
+  allSuccess: function(){
+    return this.get('status.state') === "success";
+  }.property("status.statuses.[]", "status.statuses.@each.state"),
   iconClass: function(){
     return {
       "success": "ui-icon-checkmark",
