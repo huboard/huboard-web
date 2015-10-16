@@ -1,6 +1,20 @@
 import Chart from 'ember-c3/components/c3-chart';
 
 var IssueStatusChart = Chart.extend({
+  data: function(){
+    const counts = Ember.merge({
+      "success": 0,
+      "failure": 0,
+      "error": 0,
+      "pending": 0
+    },this.get('stateCounts'));
+
+    const pairs = _.pairs(_.pick(counts,'failure','error','pending','success'));
+    return {
+      columns: pairs,
+      type: 'donut'
+    };
+  }.property('stateCounts'),
   interaction: {
     enabled: false
   },

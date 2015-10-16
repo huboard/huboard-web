@@ -38,7 +38,17 @@ var IssueStatusComponent = Ember.Component.extend({
       }
     });
     return counts;
-  }.property("status.statuses.[]"),
+  }.property("status.statuses.[]", "status.statuses.@each.state"),
+  aggregateState: function(){
+    if(this.get('anyPending')){
+      return "pending";
+    } else {
+      return this.get('status.state')
+    }
+  }.property("anyPending"),
+  anyPending: function(){
+    return this.get("status.statuses").any((x) => Ember.get(x, 'state') === 'pending');
+  }.property("status.statuses.[]", "status.statuses.@each.state"),
   iconClass: function(){
     return {
       "success": "ui-icon-checkmark",
@@ -54,21 +64,7 @@ var IssueStatusComponent = Ember.Component.extend({
       "error": "Some checks have errored",
       "pending": "Some checks are pending"
     };
-  }.property(),
-  c3Data: function(){
-    const counts = Ember.merge({
-      "success": 0,
-      "failure": 0,
-      "error": 0,
-      "pending": 0
-    },this.get('stateCounts'));
-
-    const pairs = _.pairs(_.pick(counts,'failure','error','pending','success'));
-    return {
-      columns: pairs,
-      type: 'donut'
-    };
-  }.property('stateCounts')
+  }.property()
 });
 
 export default IssueStatusComponent;
