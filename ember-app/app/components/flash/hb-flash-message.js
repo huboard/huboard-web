@@ -4,7 +4,7 @@ var HbFlashMessageComponent = Ember.Component.extend({
   classNames: ['hb-flash-message'],
   flashMessages: Ember.inject.service(),
   messageMax: 2,
-  timer: 2500,
+  timer: 2750,
 
   currentFlash: [],
   processQueue: function(){
@@ -31,7 +31,9 @@ var HbFlashMessageComponent = Ember.Component.extend({
     if(first && !first.isDestroying){
       this.resetTimer(first, this.get('timer') / 2);
     }
-    this.resetTimer(flash, this.get('timer'));
+    if(!flash.get('sticky')){
+      this.resetTimer(flash, this.get('timer'));
+    }
     current.unshiftObject(flash);
   },
   scheduleRemove: function(flash){

@@ -20,8 +20,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         var issues = {
           "moved": "issueMoved",
           "assigned": "issueAssigned",
-          "issue_closed": "issueStateChanged",
-          "issue_reopened": "issueStateChanged",
+          "issue_closed": "issueClosed",
+          "issue_reopened": "issueReopened",
           "issue_status_changed": "issueStatusChanged",
           "issue_archived": "issueArchived",
           "milestone_changed": "issueMsChanged",
@@ -74,27 +74,23 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       }));
     },
     issueMoved: function(message){
-      var copy = `${message.actor.login} moved issue #${message.issue.number} to "${message.column.text}"`;
+      var copy = `${message.actor.login} moved #${message.issue.number} from ${message.previous.text} to ${message.column.text}`;
       this.get("flashMessages").info(copy);
     },
     issueStatusChanged: function(message){
-      var custom_state = message.issue._data.custom_state;
-      var status = custom_state.length ? custom_state : "cleared";
-
-      if(status === "cleared"){
-        var copy = `${message.actor.login} cleared issue #${message.issue.number}'s status`;
-      } else {
-        var copy = `${message.actor.login} marked issue #${message.issue.number} as ${message.issue._data.custom_state}`;
-      }
-
+      var copy = `${message.actor.login} changed the status of #${message.issue.number} to ${message.issue._data.custom_state}`;
       this.get("flashMessages").info(copy);
     },
-    issueStateChanged: function(message){
-      var copy = `${message.actor.login} changed issue #${message.issue.number} to "${message.issue.state}"`;
+    issueClosed: function(message){
+      var copy = `${message.actor.login} closed #${message.issue.number}"`;
+      this.get("flashMessages").info(copy);
+    },
+    issueReopened: function(message){
+      var copy = `${message.actor.login} reopened #${message.issue.number}"`;
       this.get("flashMessages").info(copy);
     },
     issueArchived: function(message){
-      var copy = `${message.actor.login} archived issue #${message.issue.number}`;
+      var copy = `${message.actor.login} archived #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     },
     issueAssigned: function(message){
@@ -102,10 +98,9 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var assignee = message.issue.assignee;
 
       if(assignee){
-        var target = actor === assignee.login ? "themselves" : assignee.login
-        var copy = `${actor} assigned issue #${message.issue.number} to ${target}`;
+        var copy = `${actor} assigned #${message.issue.number} to ${assignee.login}`;
       } else {
-        var copy = `${actor} unassigned issue #${message.issue.number}`;
+        var copy = `${actor} unassigned #${message.issue.number}`;
       }
 
       this.get("flashMessages").info(copy);
@@ -115,9 +110,9 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var milestone = message.issue.milestone;
 
       if(milestone){
-        var copy = `${actor} added issue #${message.issue.number} to ${milestone.title}`;
+        var copy = `${actor} changed milestone of #${message.issue.number} to ${milestone.title}`;
       } else {
-        var copy = `${actor} removed issue #${message.issue.number} from a milestone`;
+        var copy = `${actor} changed milestone of #${message.issue.number} to _nil_`;
       }
 
       this.get("flashMessages").info(copy);
