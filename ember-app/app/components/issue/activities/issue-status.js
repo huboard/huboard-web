@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 var IssueStatusComponent = Ember.Component.extend({
   isVisible: function(){
-    return this.get("status.state") != null;
+    return this.get("status.total_count") > 0;
   }.property("status.state"),
 
   status: {
