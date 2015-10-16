@@ -27,13 +27,13 @@
     <div>
       {{#each status.statuses as |status|}}
         <div class="hb-statuses__status hb-statuses__status--{{status.state}}">
+          {{#if status.target_url}}
+            <a href="{{status.target_url}}">details</a>
+          {{/if}}
           <i class="ui-icon ui-icon-12 {{object-value iconClass status.state}}"></i>
           <strong>{{status.context}}</strong>
           {{#if status.description}}
             - <i> {{status.description}} </i>
-          {{/if}}
-          {{#if status.target_url}}
-            <a href="{{status.target_url}}">details</a>
           {{/if}}
         </div>
 
