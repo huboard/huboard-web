@@ -5,7 +5,7 @@ var queryParamsService = Ember.Service.extend({
 
   clear: function(){
     var self = this;
-    this.get("filterNames").forEach(function(param){
+    self.get("filterNames").forEach(function(param){
       return self.set(`${param}Params`, []);
     });
     this.set("filterParamsBuffer", {});
@@ -33,35 +33,40 @@ var queryParamsService = Ember.Service.extend({
     return _.flatten(filters);
   }.property("{repo,assignee,milestone,label,card}Params"),
 
+  filtersReady: function(){
+    if(this.get("filters.filtersReady")){
+      this.applyFilterParams(); 
+      this.applySearchParams(); 
+    }
+  }.observes("filters.filtersReady"),
+
   //Push board, label, card and milestone filters to the URL
   updateFilterParams: function(){
-    if(!this.get("filters.filterGroups.created")){return;}
     var self = this;
-    var filters_object = this.get("filters.allFiltersObject");
+    var filters = this.get("filters");
     ["board", "label", "milestone", "card"].forEach(function(param){
-      var hidden_filters = filters_object[param].filter(function(f){
+      var hidden_filters = filters.get(`${param}Filters`).filter((f) => {
         return f.mode === 2;
       }).map(function(f){return f.name; });
       param = param === "board" ? "repo" : param;
       self.set(`${param}Params`, hidden_filters);
     });
-  }.observes("filters.hideFilters").on("init"),
+  }.observes("filters.hideFilters.[]"),
 
   //Push user and member filters to the URL
   updateAssigneeParams: function(){
-    if(!this.get("filters.filterGroups.created")){return;}
     var filters = this.get("filters.userFilters").
       concat(this.get("filters.memberFilters"));
     var hidden_filters = filters.filter(function(f){
       return f.mode === 2;
     }).map(function(f){return f.name; });
     this.set("assigneeParams", hidden_filters);
-  }.observes("filters.hideFilters").on("init"),
+  }.observes("filters.hideFilters.[]"),
 
-  //Pushes URL filters down to the filter objects
+  //Pushes URL filters down to the filter objects on load
   applyFilterParams: function(){
     var legacyMatch = this.legacyFilterMatch;
-    var all_filters = this.get("filters.filterGroups.allFilters");
+    var all_filters = this.get("filters.allFilters");
     this.get("allFilterParams").forEach(function(param){
       var filters = all_filters.filter(function(filter){
         return filter.name === param || legacyMatch(filter.name) === param;
@@ -106,16 +111,17 @@ var queryParamsService = Ember.Service.extend({
 
   //Push search terms to the URL
   updateSearchParams: function(){
-    var term = this.get("filters.filterGroups.search.term");
+    if(!this.get("filters.model")){return;}
+    var term = this.get("filters").group("search").get("term");
     this.set("searchParams", term);
-  }.observes("filters.filterGroups.search.term").on("init"),
+  }.observes("filters.filterGroups.search.term.length").on("init"),
 
   //Pushes URL search term down to the search filter 
   applySearchParams: function(){
     var search = this.get("searchParams");
     if(search && search.length){
       this.set("filters.searchFilters.mode", 2); 
-      this.set("filters.filterGroups.search.term", search);
+      this.get("filters").group("search").set("term", search);
     }
   },
 

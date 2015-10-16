@@ -5,7 +5,7 @@ class Huboard
       return [] unless ENV['GITHUB_WEBHOOK_ENDPOINT']
       url = ENV['GITHUB_WEBHOOK_ENDPOINT']
       hooks = gh.hooks.all.select do |h| 
-        h['config']['url'] && h['config']['url'].downcase.start_with?(url.downcase) 
+        h['config'] && h['config']['url'] && h['config']['url'].downcase.start_with?(url.downcase) 
       end
       hooks
     end
@@ -28,7 +28,8 @@ class Huboard
           {
             name: 'web',
             config: {
-              url: File.join(url, 'webhook', event_name)
+              url: File.join(url, 'webhook', event_name),
+              insecure_ssl: ENV['HUBOARD_ENV'] != 'production' ? "1" : "0"
             },
             events: [
               event_name

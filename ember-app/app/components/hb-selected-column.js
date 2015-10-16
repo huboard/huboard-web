@@ -23,6 +23,9 @@ var HbSelectedColumnComponent = Ember.Component.extend({
     return "hb-state-open";
   }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
   selectedColumn: function () {
+    if(this.get("issue.data.state") === "closed"){
+      return this.get("columns.lastObject");
+    }
     var state = this.get("issue.data.current_state");
     return this.get("columns").find(function(column){
       return column.data.index === state.index;

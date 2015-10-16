@@ -445,7 +445,7 @@ DEPENDENCIES
   faraday-http-cache
   faye
   faye-redis
-  faye_extensions!
+  faye_extensions (= 0.0.1)!
   foreman
   ghee
   hashie
@@ -468,7 +468,7 @@ DEPENDENCIES
   redis
   responders
   rspec
-  saas!
+  saas (= 0.0.1)!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sinatra_auth_github

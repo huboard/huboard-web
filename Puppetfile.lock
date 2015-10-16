@@ -2,7 +2,7 @@ FORGE
   remote: https://forgeapi.puppetlabs.com
   specs:
     alup-rbenv (1.2.0)
-    jlondon-wkhtmltox (1.0.6)
+    jlondon-wkhtmltox (1.0.9)
       maestrodev-wget (>= 1.5.0)
       puppetlabs-stdlib (>= 0)
     maestrodev-wget (1.5.7)
@@ -29,7 +29,7 @@ FORGE
 
 DEPENDENCIES
   alup-rbenv (>= 0)
-  jlondon-wkhtmltox (>= 0)
+  jlondon-wkhtmltox (= 1.0.9)
   puppetlabs-apt (>= 0)
   puppetlabs-postgresql (>= 0)
   puppetlabs-stdlib (= 4.2.0)

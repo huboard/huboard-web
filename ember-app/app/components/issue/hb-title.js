@@ -25,7 +25,7 @@ var IssueTitleComponent = Ember.Component.extend(BufferedMixin,KeyPressHandlingM
   tearDownEvents: function(){
     this.$().off("keydown");
   }.on("willDestroyElement"),
-  isCollaboratorBinding: "model.repo.is_collaborator",
+  isCollaboratorBinding: "model.repo.isCollaborator",
   isLoggedInBinding: "App.loggedIn",
   currentUserBinding: "App.currentUser",
   isEditing: false,

@@ -37,7 +37,7 @@ var LabelFilters = Ember.Service.extend({
         mode:0,
         color: l.label.color,
         condition:function(i){
-          return _.union(i.data.labels, i.data.other_labels).any(function(label){ 
+          return i.data.other_labels.any(function(label){
              return l.label.name.toLocaleLowerCase() === label.name.toLocaleLowerCase();
           });
         }

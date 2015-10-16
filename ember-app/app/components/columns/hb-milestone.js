@@ -13,7 +13,7 @@ var HbMilestoneComponent = HbColumn.extend(
     var issues = this.get("issues")
       .filter(this.get("model.filterBy").bind(this))
       .filter((i)=> {
-        if(i.data.state === "closed"){ return i.get("isArchived"); }
+        if(i.data.state === "closed"){ return !i.get("isArchived"); }
         return true;
       })
       .sort(this.sortStrategy);

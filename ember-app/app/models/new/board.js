@@ -80,9 +80,6 @@ var Board = Model.extend({
     return columns.map(function(c, i){
       var column = Column.create({data: c});
       column.set('board', board);
-      //Ricki: If we ever allow huboard created columns 
-      //this would hurt us
-      //if(i === 0) { column.set('isFirst', true); }
       return column;
     });
   }),
@@ -100,7 +97,15 @@ var Board = Model.extend({
       this.get("repo.parent.board.issues") : this.get("issues");
 
     return issues.sortBy("order").get("firstObject.order") || 1;
-  }.property("issues.@each.order", "repo.parent.board.issues.@each.order")
+  }.property("issues.@each.order", "repo.parent.board.issues.@each.order"),
+  avatars: (function () {
+    var issues = this.get("issues");
+    return this.get("repo.assignees").filter(function (assignee) {
+      return _.find(issues, function (issue) {
+        return issue.data.assignee && issue.data.assignee.login === assignee.login;
+      });
+    });
+  }).property("repo.assignees.[]", "issues.@each.assignee")
 });
 
 Board.reopenClass({
@@ -112,7 +117,6 @@ Board.reopenClass({
       return r.load();
     })
     return Ember.RSVP.all(promises).then(function(repos){
-      // could fetch issues here?
       repos.forEach((x) => {
         if(!x.get('loadFailed')){
           var board = Board.create({repo: x});
