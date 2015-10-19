@@ -54,6 +54,14 @@
     </div>
   </div>
 
+  {{#if isCollaborator}}
+    {{#if model.pull_request}}
+      {{component "issue/activities/issue-status"
+        issue=model
+      }}
+    {{/if}}
+  {{/if}}
+
   {{#if controllers.application.loggedIn }}
   <hr>
   <form {{action "submitComment" on="submit"}} class="flex-form">
