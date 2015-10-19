@@ -12,7 +12,8 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.assigned": "assigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
-    "issues.{issue.number}.milestone_changed": "milestoneChanged"
+    "issues.{issue.number}.milestone_changed": "milestoneChanged",
+    "issues.{issue.number}.issue_updated": "updated"
   },
   hbsubscribers: {
     statusChanged: function(message){
@@ -48,6 +49,14 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         _data: message.issue._data
       });
     },
+    updated: function(message) {
+      this.get('issue').setProperties({
+        title: message.issue.title,
+        body: message.issue.body,
+        other_labels: message.issue.other_labels,
+        _data: message.issue._data
+      });
+    }
   }
 });
 
