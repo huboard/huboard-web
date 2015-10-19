@@ -86,7 +86,7 @@ module Api
       if data['state']
         message = {
           :issue => @issue,
-          'action_controller.params' => {},
+          'action_controller.params' => {'correlationId' => params['correlationId']},
           :current_user => current_user.attribs || {}
         }
         generate_issue_event(data['state'], message)
