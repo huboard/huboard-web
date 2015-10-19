@@ -83,6 +83,14 @@ module Api
       @previous_column = issue['current_state']
       data = params[:data] || {}
       @issue = issue.move(column, order, @moved, data)
+      if data['state']
+        message = {
+          :issue => @issue,
+          'action_controller.params' => {},
+          :current_user => current_user.attribs || {}
+        }
+        generate_issue_event(data['state'], message)
+      end
       render json: @issue
     end
 
