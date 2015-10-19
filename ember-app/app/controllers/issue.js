@@ -85,9 +85,9 @@ var IssueController = Ember.Controller.extend(
         var topic = "local.{model.data.number}.issue_closed";
         _self.publish(channel, topic, {issue: response});
         _self.set("processing", false);
+        if (_self.get("commentBody")){ _self.send("submitComment"); }
       });
 
-      if (this.get("commentBody")){ this.send("submitComment"); }
     },
     reopenCard: function(){
       var issue = this.get("model");
@@ -103,9 +103,8 @@ var IssueController = Ember.Controller.extend(
         var topic = "local.{model.data.number}.issue_reopened";
         _self.publish(channel, topic, {issue: response});
         _self.set("processing", false);
+        if (_self.get("commentBody")){ _self.send("submitComment"); }
       });
-
-      if (this.get("commentBody")){ this.send("submitComment"); }
     }
   },
   commentBody: null,
