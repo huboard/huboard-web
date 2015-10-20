@@ -22,6 +22,12 @@ module Api
       render json: @issue
     end
 
+    def label_issue
+      api = huboard.board(params[:user], params[:repo])
+      @issue = api.issue(params[:number]).update(params)
+      render json: @issue
+    end
+
     def close_issue
       user, repo, number = params[:user], params[:repo], params[:number]
       @issue = huboard.board(user, repo).issue(number).close

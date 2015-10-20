@@ -25,7 +25,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           "issue_status_changed": "issueStatusChanged",
           "issue_archived": "issueArchived",
           "milestone_changed": "issueMsChanged",
-          "issue_commented": "issueCommented"
+          "issue_commented": "issueCommented",
+          "issue_labeled": "issueLabeled"
         };
         _.each(issues, function(handler, subscriber){
           var path = `${channel} issues.*.${subscriber}`;
@@ -119,6 +120,11 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     },
     issueCommented: function(message){
       var copy = `${message.actor.login} commented on issue #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueLabeled: function(message){
+      return;
+      var copy = `${message.actor.login} updated #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     }
   }

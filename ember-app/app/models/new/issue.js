@@ -45,7 +45,7 @@ var Issue = Model.extend({
   updateLabels : function () {
     this.set("processing", true);
     return Ember.$.ajax( {
-      url: `${this.get("apiUrl")}`,
+      url: `${this.get("apiUrl")}/label`,
       data: JSON.stringify({
         labels: this.data.other_labels,
         correlationId: this.get("correlationId")

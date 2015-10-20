@@ -66,6 +66,7 @@ Rails.application.routes.draw do
         post 'issues/:number/comment' => 'issues#create_comment'
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
+        put 'issues/:number/label' => 'issues#label_issue'
         post 'issues/:number/close' => 'issues#close_issue'
         post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'
