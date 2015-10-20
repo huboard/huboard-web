@@ -6,7 +6,9 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.data.number}.issue_status_changed": "statusChanged",
     "issues.{issue.number}.issue_archived": "archived",
     "issues.{issue.number}.issue_closed": "closed",
+    "local.{issue.number}.issue_closed": "closed",
     "issues.{issue.number}.issue_reopened": "opened",
+    "local.{issue.number}.issue_reopened": "opened",
     "issues.{issue.number}.assigned": "assigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
@@ -31,6 +33,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     moved: function (message) {
       this.get('issue').setProperties({
         current_state : message.issue.current_state,
+        state: message.issue.state,
         _data: message.issue._data
       });
     },

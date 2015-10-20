@@ -9,11 +9,28 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var repos = _self.get("model.board.repos");
       if(!repos) { return; }
       repos.forEach(function(repo){
-        var newIssue = `${repo.data.repo.full_name} issues.*.issue_opened`;
+        var channel = repo.data.repo.full_name;
+
+        var newIssue = `${channel} issues.*.issue_opened`;
         _self.hbsubscriptions[newIssue] = "newIssue";
 
-        var newMilestone = `${repo.data.repo.full_name} milestones.*.milestone_created`;
+        var newMilestone = `${channel} milestones.*.milestone_created`;
         _self.hbsubscriptions[newMilestone] = "newMilestone";
+
+        var issues = {
+          "moved": "issueMoved",
+          "assigned": "issueAssigned",
+          "issue_closed": "issueClosed",
+          "issue_reopened": "issueReopened",
+          "issue_status_changed": "issueStatusChanged",
+          "issue_archived": "issueArchived",
+          "milestone_changed": "issueMsChanged",
+          "issue_commented": "issueCommented"
+        };
+        _.each(issues, function(handler, subscriber){
+          var path = `${channel} issues.*.${subscriber}`;
+          _self.hbsubscriptions[path] = handler;
+        });
       });
 
       _self.unsubscribeFromMessages();
@@ -21,8 +38,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     });
   }.observes("model.board.repos.[]"),
   hbsubscriptions: {
-    channel: "{model.repo.data.repo.full_name}",
-    "milestones.*.milestone_created": "newMilestone"
+    channel: "{model.data.repo.full_name}",
+    "milestones.*.milestone_created": "newMilestone",
   },
   hbsubscribers: {
     newIssue: function(message) {
@@ -56,6 +73,54 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         repo: repo
       }));
     },
+    issueMoved: function(message){
+      var copy = `${message.actor.login} moved #${message.issue.number} from ${message.previous.text} to ${message.column.text}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueStatusChanged: function(message){
+      var copy = `${message.actor.login} changed the status of #${message.issue.number} to ${message.action}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueClosed: function(message){
+      var copy = `${message.actor.login} closed #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueReopened: function(message){
+      var copy = `${message.actor.login} reopened #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueArchived: function(message){
+      var copy = `${message.actor.login} archived #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueAssigned: function(message){
+      var actor = message.actor.login;
+      var assignee = message.issue.assignee;
+
+      if(assignee){
+        var copy = `${actor} assigned #${message.issue.number} to ${assignee.login}`;
+      } else {
+        var copy = `${actor} unassigned #${message.issue.number}`;
+      }
+
+      this.get("flashMessages").info(copy);
+    },
+    issueMsChanged: function(message){
+      var actor = message.actor.login;
+      var milestone = message.issue.milestone;
+
+      if(milestone){
+        var copy = `${actor} changed milestone of #${message.issue.number} to ${milestone.title}`;
+      } else {
+        var copy = `${actor} changed milestone of #${message.issue.number} to _nil_`;
+      }
+
+      this.get("flashMessages").info(copy);
+    },
+    issueCommented: function(message){
+      var copy = `${message.actor.login} commented on issue #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    }
   }
 });
 

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   rescue_from Ghee::Unauthorized, :with => :ghee_unauthorized
 
   include ApplicationHelper
+  include InflectionsHelper
 
   after_action :queue_job
 

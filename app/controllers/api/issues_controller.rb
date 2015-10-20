@@ -80,9 +80,23 @@ module Api
       user, repo, number, order, column = params[:user], params[:repo], params[:number], params[:order], params[:column]
       @moved = params[:moved_columns] == 'true'
       issue = huboard.board(user, repo).issue(number)
-      @previous_column = issue['current_state']
+
+      if issue['current_state']['name'] != '__nil__'
+        @previous_column = issue['current_state']
+      else
+        @previous_column = huboard.board(user, repo).column_labels[0]
+      end
+
       data = params[:data] || {}
       @issue = issue.move(column, order, @moved, data)
+      if data['state']
+        message = {
+          :issue => @issue,
+          'action_controller.params' => {'correlationId' => params['correlationId']},
+          :current_user => current_user.attribs || {}
+        }
+        generate_issue_event(data['state'], message)
+      end
       render json: @issue
     end
 
