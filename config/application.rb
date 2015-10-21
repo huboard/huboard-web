@@ -46,7 +46,6 @@ module HuboardWeb
     if ENV["SELF_HOST_FAYE"] && ENV['SOCKET_BACKEND'] == '/site/pubsub'
       #config.middleware.delete Rack::Lock
       Faye.logger = Logger.new(STDOUT)
-      require Rails.root.join('lib', 'private_pub')
       config.middleware.use Faye::RackAdapter, 
         mount: (ENV['SOCKET_BACKEND']), 
         timeout: 25,
