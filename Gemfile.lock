@@ -460,7 +460,7 @@ DEPENDENCIES
   meta_request
   mocha
   pdfkit
-  private_pub
+  private_pub (= 1.0.3)
   pry-byebug
   puma
   rack-attack
