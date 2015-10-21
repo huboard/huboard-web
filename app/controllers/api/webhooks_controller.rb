@@ -33,6 +33,11 @@ module Api
         :current_user => payload[:sender]
       )
 
+      is_column = Huboard.column_pattern
+      if payload[:label] && !!payload[:label][:name].match(is_column)
+        return render json: { message: "Webhook received" }
+      end
+
       generate_issue_event(payload[:action], message)
       render json: { message: "Webhook received" }
     end

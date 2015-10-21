@@ -52,20 +52,12 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     labeled: function(message) {
-      var event_issue = message.issue;
-      var event_column = event_issue.current_state;
-
-      var current_issue = this.get("issue");
-      var column = current_issue.get("current_state");
-      if(column.name !== event_issue.current_state.name){
-        if(event_column.name === "__nil__"){
-          event_column = current_issue.get("repo.board.columns.firstObject.data");
-        }
-        current_issue.set("current_state", event_column);
-        var copy = `${message.actor.login} moved #${event_issue.number} from ${column.text} to ${event_column.text}`;
-        this.get("flashMessages").info(copy);
+      var event_labels = message.issue.other_labels;
+      var current_labels = this.get("issue.other_labels");
+      var difference = _.difference(event_labels, current_labels);
+      if(difference.length){
+        this.set("issue.other_labels", event_labels);
       }
-      current_issue.set("other_labels", event_issue.other_labels);
     }
   }
 });
