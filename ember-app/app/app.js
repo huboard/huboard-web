@@ -48,16 +48,29 @@ Ember.onLoad("Ember.Application", function ($app) {
           outgoing(message, callback) {
             if (message.channel == "/meta/subscribe") {
               ajax(`/api${message.subscription}/subscriptions`).then(function(subscription){
+                if(subscription.error) {
+                  message.ext = {
+                    private_pub_timestamp: "",
+                    private_pub_signature: ""
+                  }
+                  callback(message);
+                } else {
+                  message.ext = {
+                    private_pub_timestamp: subscription.timestamp,
+                    private_pub_signature: subscription.signature
+                  }
+                  callback(message);
+                }
+              }, function(error){
                 message.ext = {
-                  private_pub_timestamp: subscription.timestamp,
-                  private_pub_signature: subscription.signature
+                  private_pub_timestamp: "",
+                  private_pub_signature: ""
                 }
                 callback(message);
-              })
+              });
             } else {
               callback(message);
             }
-
           }
         });
 
