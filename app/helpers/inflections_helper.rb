@@ -13,7 +13,8 @@ module InflectionsHelper
       'opened' => 'open',
       'reopened' => 'reopen',
       'closed' => 'close',
-      'labeled' => 'label'
+      'labeled' => 'label',
+      'unlabeled' => 'unlabel'
     }
   end
 end

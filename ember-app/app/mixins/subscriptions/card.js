@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 var CardSubscriptionMixin = Ember.Mixin.create({
+  flashMessages: Ember.inject.service(),
   hbsubscriptions: {
     channel: "{issue.repo.data.repo.full_name}",
     "issues.{issue.data.number}.issue_status_changed": "statusChanged",
@@ -13,7 +14,8 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
     "issues.{issue.number}.milestone_changed": "milestoneChanged",
-    "issues.{issue.number}.issue_labeled": "labeled"
+    "issues.{issue.number}.issue_labeled": "labeled",
+    "issues.{issue.number}.issue_unlabeled": "labeled"
   },
   hbsubscribers: {
     statusChanged: function(message){
@@ -50,11 +52,20 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     labeled: function(message) {
-      var issue = message.issue;
-      if(this.current_state.name !== issue.current_state.name){
-        this.set("current_state", issue.current_state);
+      var event_issue = message.issue;
+      var event_column = event_issue.current_state;
+
+      var current_issue = this.get("issue");
+      var column = current_issue.get("current_state");
+      if(column.name !== event_issue.current_state.name){
+        if(event_column.name === "__nil__"){
+          event_column = current_issue.get("repo.board.columns.firstObject.data");
+        }
+        current_issue.set("current_state", event_column);
+        var copy = `${message.actor.login} moved #${event_issue.number} from ${column.text} to ${event_column.text}`;
+        this.get("flashMessages").info(copy);
       }
-      this.set("other_labels", issue.other_labels);
+      current_issue.set("other_labels", event_issue.other_labels);
     }
   }
 });

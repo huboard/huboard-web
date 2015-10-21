@@ -3,6 +3,7 @@ import Issue from 'app/models/new/issue';
 import Milestone from 'app/models/new/milestone';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
+  flashMessages: Ember.inject.service(),
   initSubscribers: function(){
     var _self = this;
     Ember.run.next(() => {
