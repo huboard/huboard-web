@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     scope '/:user/:repo' do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
         get 'hooks' => 'webhooks#hooks'
+        get 'subscriptions' => 'subscriptions#show'
         resources :integrations, only: [:index, :create, :destroy]
         resources :milestones, only: [:create, :update]
         resources :links, only: [:index, :create]

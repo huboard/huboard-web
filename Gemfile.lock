@@ -285,6 +285,8 @@ GEM
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
     pdfkit (0.6.2)
+    private_pub (1.0.3)
+      faye
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -458,6 +460,7 @@ DEPENDENCIES
   meta_request
   mocha
   pdfkit
+  private_pub (= 1.0.3)
   pry-byebug
   puma
   rack-attack
