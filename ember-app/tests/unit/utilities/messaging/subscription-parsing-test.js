@@ -63,6 +63,13 @@ test("parse", (assert)=> {
   assert.equal(result.identifier, context.get("model.name"));
   assert.equal(result.action, "punch");
   assert.equal(result.handler, "punchHandler");
+
+  result = sut.parse("test/herp.derp jitz.{model.name}.punch", "punchHandler", context);
+
+  assert.equal(result.channel, "test/herp.derp");
+  assert.equal(result.identifier, context.get("model.name"));
+  assert.equal(result.action, "punch");
+  assert.equal(result.handler, "punchHandler");
   
   //Parses subscription 3
   result = sut.parse(subscription3, "jabHandler", context);
