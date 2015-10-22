@@ -52,11 +52,11 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     labeled: function(message) {
-      var event_labels = message.issue.other_labels;
-      var current_labels = this.get("issue.other_labels");
-      var difference = _.difference(event_labels, current_labels);
-      if(difference.length){
-        this.set("issue.other_labels", event_labels);
+      var event_time = message.issue.updated_at;
+      var current_time = this.get("issue.updated_at");
+      var fresher = Date.parse(current_time) < Date.parse(event_time);
+      if(fresher){
+        this.set("issue.other_labels", message.issue.other_labels);
       }
     }
   }

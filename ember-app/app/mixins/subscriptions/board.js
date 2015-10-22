@@ -27,7 +27,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           "issue_archived": "issueArchived",
           "milestone_changed": "issueMsChanged",
           "issue_commented": "issueCommented",
-          "issue_labeled": "issueLabeled",
+          "issue_labeled": "issueLabeled"
           "issue_unlabeled": "issueLabeled"
         };
         _.each(issues, function(handler, subscriber){
@@ -125,15 +125,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       this.get("flashMessages").info(copy);
     },
     issueLabeled: function(message){
-      var event_labels = message.issue.other_labels;
-      var current_labels = this.get("issue.other_labels");
-      var difference = _.difference(event_labels, current_labels);
-      Ember.run.debounce(this, function(){
-        if(difference.length){
-          var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
-          this.get("flashMessages").info(copy);
-        }
-      }, 3000);
+      var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
+      this.get("flashMessages").info(copy);
     }
   }
 });
