@@ -1,5 +1,5 @@
 module Api
-  class HealthController < ApplicationController
+  class HealthController < ApiController
     def board
       exam = HealthChecking::BoardExam.new({
         board: huboard.board(params[:user], params[:repo]),

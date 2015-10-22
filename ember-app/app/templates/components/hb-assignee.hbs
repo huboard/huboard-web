@@ -15,7 +15,11 @@
 </div>
 {{else}}
 <div class="hb-selected empty">
- No one assigned 
+{{#if editable}}
+ No one - <a{{action "assignToCurrentUser"}}>assign yourself</a>
+{{else}}
+ No one assigned
+{{/if}}
 </div>
 {{/if}}
 <div class="hb-flyout">

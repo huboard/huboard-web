@@ -1,5 +1,5 @@
 module Api
-  class WebhooksController < ApplicationController
+  class WebhooksController < ApiController
     skip_before_action :verify_authenticity_token
 
     def hooks

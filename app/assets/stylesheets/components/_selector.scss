@@ -21,6 +21,10 @@
     &.empty {
       color: #999;
     }
+    &.empty > a:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
   }
 
   h5 {
