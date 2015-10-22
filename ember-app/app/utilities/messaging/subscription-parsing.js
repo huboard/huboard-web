@@ -19,8 +19,9 @@ var SubscriptionParsing = Ember.Object.create({
     return normalized;
   },
   _parseMeta: function(subscription, context){
-    var keys = subscription.split(/[ .]/).reverse();
-    var channel = keys[3] || this._parseChannel(context);
+    var parts = subscription.split(/[ ]/).reverse();
+    var keys = parts[0].split(/[ .]/).reverse();
+    var channel = parts[1] || this._parseChannel(context);
     return {
       channel: channel.toLowerCase(),
       type: keys[2],
