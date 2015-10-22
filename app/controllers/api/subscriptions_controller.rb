@@ -1,5 +1,7 @@
 module Api
   class SubscriptionsController < ApplicationController
+    skip_before_action :check_account
+
     def show
       if gh.repos("#{params[:user]}/#{params[:repo]}").raw.status != 404
         subscription = PrivatePub.subscription channel: "/#{params[:user]}/#{params[:repo]}".downcase
