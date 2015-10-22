@@ -47,7 +47,8 @@ Ember.onLoad("Ember.Application", function ($app) {
         faye.addExtension({
           outgoing(message, callback) {
             if (message.channel == "/meta/subscribe") {
-              ajax(`/api${message.subscription}/subscriptions`).then(function(subscription){
+              ajax(`/api${message.subscription}/subscriptions`, {global: false})
+              .then(function(subscription){
                 if(subscription.error) {
                   message.ext = {
                     private_pub_timestamp: "",
