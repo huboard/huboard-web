@@ -1,5 +1,5 @@
 module Api
-  class IssuesController < ApplicationController
+  class IssuesController < ApiController
 
     def issue
       api = huboard.board(params[:user], params[:repo])

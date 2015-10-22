@@ -1,6 +1,5 @@
 module Api
-  class SubscriptionsController < ApplicationController
-    skip_before_action :check_account
+  class SubscriptionsController < ApiController
 
     def show
       if gh.repos("#{params[:user]}/#{params[:repo]}").raw.status != 404

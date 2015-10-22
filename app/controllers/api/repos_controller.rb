@@ -1,5 +1,5 @@
 module Api
-  class ReposController < ApplicationController
+  class ReposController < ApiController
     def show
       render json: { data: huboard.repo(params[:user], params[:repo]).fetch }
     end
