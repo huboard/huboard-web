@@ -128,7 +128,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var event_labels = message.issue.other_labels;
       var current_labels = this.get("issue.other_labels");
       var difference = _.difference(event_labels, current_labels);
-      Ember.debounce(this, function(){
+      Ember.run.debounce(this, function(){
         if(difference.length){
           var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
           this.get("flashMessages").info(copy);
