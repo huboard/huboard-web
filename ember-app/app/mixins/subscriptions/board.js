@@ -27,7 +27,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           "issue_archived": "issueArchived",
           "milestone_changed": "issueMsChanged",
           "issue_commented": "issueCommented",
-          "issue_labeled": "issueLabeled"
+          "issue_labeled": "issueLabeled",
           "issue_unlabeled": "issueLabeled"
         };
         _.each(issues, function(handler, subscriber){
