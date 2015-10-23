@@ -2,6 +2,13 @@ Rails.application.routes.draw do
   constraints subdomain: 'www' do
       get ':any', to: redirect(subdomain: nil, path: '/%{any}'), any: /.*/
   end
+
+  if ENV["SIDEKIQ"]
+    require 'sidekiq/web'
+    require 'authorized_team_constraint'
+    mount Sidekiq::Web => '/site/sidekiq', :constraints => AuthorizedTeamConstraint.new
+  end
+
   root to: 'dashboard#index', constraints: LoggedInConstraint.new 
   root to: 'marketing#index', as: 'marketing_root'
 
