@@ -69,7 +69,11 @@ module HuboardWeb
     config.action_dispatch.rescue_responses["HuBoard::Error"] = 422
     config.exceptions_app = self.routes
 
-    config.active_job.queue_adapter = :sidekiq
+    if ENV['SIDEKIQ']
+      config.active_job.queue_adapter = :sidekiq
+    else
+      config.active_job.queue_adapter = :sucker_punch
+    end
     
     config.middleware.use Rack::Attack
     config.middleware.use PDFKit::Middleware, {print_media_type: true}, only: %r[^/settings]
