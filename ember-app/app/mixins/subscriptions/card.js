@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import sortedQueue from 'app/utilities/sorted-queue';
 
 var CardSubscriptionMixin = Ember.Mixin.create({
   flashMessages: Ember.inject.service(),
@@ -51,14 +52,13 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         _data: message.issue._data
       });
     },
-    labeled: function(message) {
-      var event_time = message.issue.updated_at;
-      var current_time = this.get("issue.updated_at");
-      var fresher = Date.parse(current_time) < Date.parse(event_time);
-      if(fresher){
-        this.set("issue.other_labels", message.issue.other_labels);
-      }
-    }
+    labeled: sortedQueue(function(message) {
+      this.set("issue.other_labels", message.issue.other_labels);
+    }, {time: 3000, sort: function(a,b){
+      var timeA = Data.parse(a.issue.updated_at);
+      var timeB = Data.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }})
   }
 });
 
