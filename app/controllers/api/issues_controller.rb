@@ -11,7 +11,7 @@ module Api
       render json: api.issue(params[:number]).activities
     end
 
-    def create_issue
+    def open_issue
       @issue = huboard.board(params[:user],params[:repo]).create_issue params
       render json: @issue
     end
