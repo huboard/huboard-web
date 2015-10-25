@@ -11,7 +11,7 @@ module Api
       render json: api.issue(params[:number]).activities
     end
 
-    def create_issue
+    def open_issue
       @issue = huboard.board(params[:user],params[:repo]).create_issue params
       render json: @issue
     end
@@ -112,7 +112,7 @@ module Api
       render json: @issue
     end
 
-    def assign_card
+    def assign_issue
       user, repo, number, @assignee = params[:user], params[:repo], params[:number], params[:assignee]
       @issue = huboard.board(user, repo).issue(number)
         .patch 'assignee' => @assignee

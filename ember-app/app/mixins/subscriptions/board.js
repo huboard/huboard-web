@@ -21,6 +21,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         var issues = {
           "moved": "issueMoved",
           "assigned": "issueAssigned",
+          "unassigned": "issueAssigned",
           "issue_closed": "issueClosed",
           "issue_reopened": "issueReopened",
           "issue_status_changed": "issueStatusChanged",

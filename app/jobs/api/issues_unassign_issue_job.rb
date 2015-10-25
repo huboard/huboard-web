@@ -1,12 +1,11 @@
 module Api
-  class IssuesAssignCardJob < IssueEventJob
+  class IssuesUnassignIssueJob < IssueEventJob
     include IsPublishable
-    action 'assigned'
+    action 'unassigned'
     timestamp Proc.new { Time.now.utc.iso8601}
     def payload(params)
       {
-        issue: params[:issue],
-        assignee: params[:issue]["assignee"]
+        issue: params[:issue]
       }
     end
   end

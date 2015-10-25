@@ -67,7 +67,6 @@ module ApplicationHelper
   end
   def generate_issue_event(action, message)
     verb = action.present_tense
-    verb = verb == 'open' ? 'create' : verb
     constant = "Api::Issues#{verb.capitalize}IssueJob".constantize
     constant.perform_later message
   end
