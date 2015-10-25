@@ -3,6 +3,7 @@ import Issue from 'app/models/new/issue';
 import Milestone from 'app/models/new/milestone';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
+  flashMessages: Ember.inject.service(),
   initSubscribers: function(){
     var _self = this;
     Ember.run.next(() => {
@@ -25,7 +26,9 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           "issue_status_changed": "issueStatusChanged",
           "issue_archived": "issueArchived",
           "milestone_changed": "issueMsChanged",
-          "issue_commented": "issueCommented"
+          "issue_commented": "issueCommented",
+          "issue_labeled": "issueLabeled",
+          "issue_unlabeled": "issueLabeled"
         };
         _.each(issues, function(handler, subscriber){
           var path = `${channel} issues.*.${subscriber}`;
@@ -119,6 +122,10 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     },
     issueCommented: function(message){
       var copy = `${message.actor.login} commented on issue #${message.issue.number}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueLabeled: function(message){
+      var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
       this.get("flashMessages").info(copy);
     }
   }

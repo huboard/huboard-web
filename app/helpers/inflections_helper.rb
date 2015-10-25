@@ -12,7 +12,9 @@ module InflectionsHelper
     @@keys = {
       'opened' => 'open',
       'reopened' => 'reopen',
-      'closed' => 'close'
+      'closed' => 'close',
+      'labeled' => 'label',
+      'unlabeled' => 'unlabel'
     }
   end
 end
