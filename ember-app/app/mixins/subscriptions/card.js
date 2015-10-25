@@ -55,8 +55,8 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     labeled: sortedQueue(function(message) {
       this.set("issue.other_labels", message.issue.other_labels);
     }, {time: 3000, sort: function(a,b){
-      var timeA = Data.parse(a.issue.updated_at);
-      var timeB = Data.parse(b.issue.updated_at);
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
       return timeA - timeB;
     }})
   }
