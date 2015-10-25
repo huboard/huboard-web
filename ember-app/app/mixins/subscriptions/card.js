@@ -12,6 +12,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.issue_reopened": "opened",
     "local.{issue.number}.issue_reopened": "opened",
     "issues.{issue.number}.assigned": "assigned",
+    "issues.{issue.number}.unassigned": "assigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
     "issues.{issue.number}.milestone_changed": "milestoneChanged",
