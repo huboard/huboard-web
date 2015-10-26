@@ -3,7 +3,8 @@ module Api
 
     def show
       if gh.repos("#{params[:user]}/#{params[:repo]}").raw.status != 404
-        subscription = PrivatePub.subscription channel: "/#{params[:user]}/#{params[:repo]}".downcase
+        channel = "/#{params[:user]}/#{params[:repo]}".downcase.gsub(".","!")
+        subscription = PrivatePub.subscription channel: channel
         render json: subscription
       else
         render json: {error: "Unauthorized access to repository"}, status: 403

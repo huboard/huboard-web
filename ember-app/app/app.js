@@ -47,7 +47,7 @@ Ember.onLoad("Ember.Application", function ($app) {
         faye.addExtension({
           outgoing(message, callback) {
             if (message.channel == "/meta/subscribe") {
-              ajax(`/api${message.subscription}/subscriptions`, {global: false})
+              ajax(`/api${message.subscription.replace("!",".")}/subscriptions`, {global: false})
               .then(function(subscription){
                 if(subscription.error) {
                   message.ext = {
@@ -80,7 +80,7 @@ Ember.onLoad("Ember.Application", function ($app) {
           sockets: {},
           client: faye, 
           publish: function(message){
-            const channel = message.meta.channel.toLowerCase();
+            const channel = message.meta.channel.toLowerCase().replace('.','!');
             var _self = this;
 
             if(_self._messages){
@@ -90,7 +90,7 @@ Ember.onLoad("Ember.Application", function ($app) {
             _self._nextProcess = Ember.run.later(_self, _self._processMessageQueue, 50);
           },
           subscribe: function (channel, callback) {
-            const channel = channel.toLowerCase();
+            const channel = channel.toLowerCase().replace('.','!');
             if(!this.get("sockets")[channel]){
               this.subscribeTo(channel);
             }
@@ -98,7 +98,7 @@ Ember.onLoad("Ember.Application", function ($app) {
             return callback;
           },
           unsubscribe: function(channel, callback) {
-            const channel = channel.toLowerCase();
+            const channel = channel.toLowerCase().replace('.','!');
             this.get("sockets")[channel].callbacks.remove(callback);
           },
           _processMessageQueue() {
@@ -133,7 +133,8 @@ Ember.onLoad("Ember.Application", function ($app) {
           },
           _messages: [],
           subscribeTo: function(channel) {
-            const channel = channel.toLowerCase(), self = this;
+            const channel = channel.toLowerCase().replace('.','!'),
+               self = this;
             var client = this.get('client'), 
               callbacks = Ember.$.Callbacks();
 
