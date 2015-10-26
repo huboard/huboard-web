@@ -19,7 +19,7 @@ class IssueEventJob < ActiveJob::Base
   end
 
   def self.build_meta(params)
-    issue = params['issue']
+    issue = HashWithIndifferentAccess.new(params['issue'])
     action = @_action.is_a?(String) ? @_action : @_action.call(params)
     HashWithIndifferentAccess.new(
       action: action,
