@@ -42,6 +42,7 @@ module Faye
       end
 
       def publish(channel, payload)
+        channel = channel.gsub(".","!")
         json_message = MultiJson.dump({ channel: channel, data: payload})
         channels = Channel.expand(channel)
         keys = channels.map { |c| @ns + "/channels#{c}" }
