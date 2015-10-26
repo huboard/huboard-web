@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Issue from 'app/models/new/issue';
 import Milestone from 'app/models/new/milestone';
+import sortedQueue from 'app/utilities/sorted-queue';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
   flashMessages: Ember.inject.service(),
@@ -29,7 +30,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
           "milestone_changed": "issueMsChanged",
           "issue_commented": "issueCommented",
           "issue_labeled": "issueLabeled",
-          "issue_unlabeled": "issueLabeled"
+          "issue_unlabeled": "issueUnlabeled"
         };
         _.each(issues, function(handler, subscriber){
           var path = `${channel} issues.*.${subscriber}`;
@@ -125,10 +126,18 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var copy = `${message.actor.login} commented on issue #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     },
-    issueLabeled: function(message){
+    issueLabeled: sortedQueue(function(message) {
       var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
       this.get("flashMessages").info(copy);
-    }
+    }, {time: 3000}),
+    issueUnlabled: sortedQueue(function(message) {
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      if(timeA > timeB){
+        var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
+        this.get("flashMessages").info(copy);
+      }
+    }, {time: 3500}) 
   }
 });
 
