@@ -129,7 +129,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     issueLabeled: sortedQueue(function(message) {
       var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
       this.get("flashMessages").info(copy);
-    }, {time: 3000}),
+    }, {time: 5000}),
     issueUnlabled: sortedQueue(function(message) {
       var timeA = Date.parse(a.issue.updated_at);
       var timeB = Date.parse(b.issue.updated_at);
@@ -137,7 +137,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
         this.get("flashMessages").info(copy);
       }
-    }, {time: 3500}) 
+    }, {time: 5000}) 
   }
 });
 
