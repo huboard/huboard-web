@@ -19,6 +19,6 @@
     "jquery-textcomplete": "~0.3.9",
     "jquery-color": "~2.1.2",
     "sinon": "http://sinonjs.org/releases/sinon-1.12.2.js",
-    "dom-ruler": "0.1.5"
+    "c3": "~0.4.10"
   }
 }

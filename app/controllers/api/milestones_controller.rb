@@ -1,5 +1,5 @@
 module Api
-  class MilestonesController < ApplicationController
+  class MilestonesController < ApiController
     def create
       @milestone = huboard.board(params[:user],params[:repo])
         .create_milestone params

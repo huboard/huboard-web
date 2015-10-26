@@ -9,6 +9,8 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require File.expand_path('../../lib/core_extensions/string', __FILE__)
+
 Octokit.api_endpoint = ENV["GITHUB_API_ENDPOINT"] if ENV["GITHUB_API_ENDPOINT"]
 Octokit.web_endpoint = ENV["GITHUB_WEB_ENDPOINT"] if ENV["GITHUB_WEB_ENDPOINT"]
 
@@ -53,10 +55,12 @@ module HuboardWeb
 
     if ENV["SELF_HOST_FAYE"] && ENV['SOCKET_BACKEND'] == '/site/pubsub'
       #config.middleware.delete Rack::Lock
+      Faye.logger = Logger.new(STDOUT)
       config.middleware.use Faye::RackAdapter, 
         mount: (ENV['SOCKET_BACKEND']), 
         timeout: 25,
         ping: 20,
+        extensions: [PrivatePub::FayeExtension.new],
         engine: {
           type: Faye::Redis,
           uri: (ENV['REDIS_URL'] || 'redis://localhost:6379')
@@ -75,7 +79,11 @@ module HuboardWeb
     config.action_dispatch.rescue_responses["HuBoard::Error"] = 422
     config.exceptions_app = self.routes
 
-    config.active_job.queue_adapter = :sucker_punch
+    if ENV['SIDEKIQ']
+      config.active_job.queue_adapter = :sidekiq
+    else
+      config.active_job.queue_adapter = :sucker_punch
+    end
     
     config.middleware.use Rack::Attack
     config.middleware.use PDFKit::Middleware, {print_media_type: true}, only: %r[^/settings]

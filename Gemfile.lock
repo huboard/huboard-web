@@ -119,16 +119,16 @@ GEM
       sprockets (>= 2.0)
     ember-rails-assets (0.1.1)
     erubis (2.7.0)
-    ethon (0.7.3)
+    ethon (0.8.0)
       ffi (>= 1.3.0)
     eventmachine (1.0.7)
     excon (0.44.4)
     execjs (2.4.0)
-    faraday (0.9.1)
+    faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (1.0.1)
       faraday (~> 0.8)
-    faraday_middleware (0.9.1)
+    faraday_middleware (0.10.0)
       faraday (>= 0.7.4, < 0.10)
     faye (1.1.1)
       cookiejar (>= 0.3.0)
@@ -145,7 +145,7 @@ GEM
     faye-websocket (0.9.2)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
-    ffi (1.9.8)
+    ffi (1.9.10)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.28.0)
@@ -231,7 +231,7 @@ GEM
     foreman (0.78.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
-    ghee (0.12.17)
+    ghee (0.14.19)
       faraday (~> 0.9)
       faraday_middleware (~> 0.9)
       hashie (~> 3.3.2)
@@ -279,7 +279,7 @@ GEM
     minitest (5.5.1)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.11.0)
+    multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     net-scp (1.2.1)
@@ -291,6 +291,8 @@ GEM
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
     pdfkit (0.6.2)
+    private_pub (1.0.3)
+      faye
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -347,6 +349,8 @@ GEM
       json (~> 1.4)
     redcarpet (3.2.2)
     redis (3.2.1)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.7.3)
@@ -378,6 +382,12 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sidekiq (3.4.1)
+      celluloid (~> 0.16.0)
+      connection_pool (>= 2.1.1)
+      json
+      redis (>= 3.0.6)
+      redis-namespace (>= 1.3.1)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -412,8 +422,8 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
-    typhoeus (0.7.1)
-      ethon (>= 0.7.1)
+    typhoeus (0.7.3)
+      ethon (>= 0.7.4)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -465,6 +475,7 @@ DEPENDENCIES
   meta_request
   mocha
   pdfkit
+  private_pub (= 1.0.3)
   pry-byebug
   puma
   rack-attack
@@ -478,6 +489,7 @@ DEPENDENCIES
   saas (= 0.0.1)!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  sidekiq (~> 3.0)
   sinatra_auth_github
   solid_use_case
   spring

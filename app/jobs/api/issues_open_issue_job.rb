@@ -1,5 +1,5 @@
 module Api
-  class IssuesCreateIssueJob < IssueEventJob
+  class IssuesOpenIssueJob < IssueEventJob
     include IsPublishable
     action "issue_opened"
     timestamp ->(params) { params[:issue]['created_at']}

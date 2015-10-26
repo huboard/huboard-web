@@ -1,8 +1,8 @@
 module Api
-  class IssuesUpdateIssueJob < IssueEventJob
+  class IssuesLabelIssueJob < IssueEventJob
     include IsPublishable
     timestamp ->(params) { params[:issue]['updated_at'] }
-    action "issue_updated"
+    action "issue_labeled"
 
     def payload(params)
       { issue: params[:issue] }

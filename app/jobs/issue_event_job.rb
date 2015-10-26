@@ -49,6 +49,7 @@ class IssueEventJob < ActiveJob::Base
   end
 
   def deliver(payload)
+    payload['actor'] = self.arguments.first['current_user']
     message = { 
       meta: self.class.build_meta(arguments.first),
       payload: payload

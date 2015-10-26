@@ -1,5 +1,5 @@
 module Api
-  class UploadsController < ApplicationController
+  class UploadsController < ApiController
 
     def asset_uploader
       not_found unless logged_in?

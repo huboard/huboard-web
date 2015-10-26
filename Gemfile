@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.2.1' if ENV['DYNO']
 
 gem 'rails', '4.2.0'
 gem 'dotenv-rails', '~> 2.0.0', :require => 'dotenv/rails-now'
@@ -45,6 +45,8 @@ gem 'redcarpet'
 
 gem 'pdfkit'
 gem 'wkhtmltopdf-heroku'
+gem 'private_pub', '1.0.3'
+gem 'sidekiq', "~> 3.0"
 
 # BUNDLE_WITHOUT="development:test:saas"
 gem 'saas','0.0.1', require: nil, path: "vendor/engines/saas"

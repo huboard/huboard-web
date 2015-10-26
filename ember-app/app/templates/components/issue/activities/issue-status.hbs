@@ -1,0 +1,44 @@
+<div class="hb-issue-status">
+  <div class="hb-status-indicator hb-status-indicator--mega hb-status-indicator--{{aggregateState}}">
+    <i class="ui-icon ui-icon-16 ui-icon-branch-merge"></i>
+  </div>
+  <div class="hb-issue-status__body hb-statuses hb-statuses--{{aggregateState}}"> 
+    <h3 class="">
+     {{#if allErrors }}
+      <div class="hb-status-indicator hb-status-indicator--round hb-status-indicator--{{aggregateState}}">
+        <i class="ui-icon ui-icon-12 {{iconClass.error}}"></i>
+      </div>
+     {{else if allSuccess}}
+      <div class="hb-status-indicator hb-status-indicator--round hb-status-indicator--{{aggregateState}}">
+        <i class="ui-icon ui-icon-12 {{iconClass.success}}"></i>
+      </div>
+     {{else}}
+      <div class="hb-statuses__chart">
+        {{issue/activities/issue-status-chart stateCounts=stateCounts }} 
+       </div>
+     {{/if}}
+      {{object-value stateCopy aggregateState }}
+      <label>
+        {{#each commitStates as |state|}}
+          <small>{{object-value stateCounts state}} {{state}}</small>
+        {{/each}}
+      </label>
+    </h3>
+    <div>
+      {{#each status.statuses as |status|}}
+        <div class="hb-statuses__status hb-statuses__status--{{status.state}}">
+          {{#if status.target_url}}
+            <a href="{{status.target_url}}">details</a>
+          {{/if}}
+          <i class="ui-icon ui-icon-12 {{object-value iconClass status.state}}"></i>
+          <strong>{{status.context}}</strong>
+          {{#if status.description}}
+            - <i> {{status.description}} </i>
+          {{/if}}
+        </div>
+
+      {{/each}}
+    </div>
+  </div>
+</div>
+

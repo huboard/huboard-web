@@ -3,7 +3,7 @@ import config from '../config/environment'; //jshint ignore:line
 import MarkdownParsing from '../mixins/markdown-parsing';
 
 var HbTaskListComponent = Ember.Component.extend(MarkdownParsing, {
-  classNames: ["js-task-list-container"],
+  classNames: ["js-task-list-container", "comment-text"],
   onBodyChange: function(){
     Ember.run(this, function(){
       this.set("bodyMarkup", this.get('body_html'));

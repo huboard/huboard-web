@@ -1,5 +1,5 @@
 module Api
-  class IntegrationsController < ApplicationController
+  class IntegrationsController < ApiController
     def index
       not_found unless gh.connection.get("./repos/#{params[:user]}/#{params[:repo]}/collaborators/#{current_user.login}").status == 204
 

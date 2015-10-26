@@ -1,5 +1,5 @@
 module Api
-  class BoardController < ApplicationController
+  class BoardController < ApiController
 
     def commits
       render json: huboard.board(params[:user], params[:repo]).commits

@@ -1,5 +1,5 @@
 module Api
-  class SettingsController < ApplicationController
+  class SettingsController < ApiController
     def index
       repo = gh.repos params[:user], params[:repo]
       not_found unless repo['permissions'] && repo['permissions']['push']

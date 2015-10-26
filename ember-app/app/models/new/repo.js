@@ -209,7 +209,10 @@ var Repo = Model.extend({
       contentType: 'application/json',
       data: JSON.stringify({comment: comment})
     })
-  }
+  },
+  assigneesLength: function(){
+    return this.get("assignees.length");
+  }.property("assignees.[]")
 });
 
 export default Repo;

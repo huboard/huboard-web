@@ -2,6 +2,9 @@ import Ember from 'ember';
 
 var HbAssigneeComponent = Ember.Component.extend({
   classNames: ["hb-selector-component", "dropdown"],
+  currentUser: function () {
+    return App.get("currentUser");
+  }.property("App.currentUser"),
   isOpen: function(){
     return false;
   }.property(),
@@ -47,6 +50,11 @@ var HbAssigneeComponent = Ember.Component.extend({
       this.sendAction("assign", assignee.login);
       this.$().removeClass("open");
       this.set("isOpen", false);
+    },
+    assignToCurrentUser : function() {
+      var currentUser = this.get("currentUser");
+      this.set("selected", currentUser);
+      this.sendAction("assign", currentUser.login);
     },
     clearAssignee: function(){
       this.set("selected", null);

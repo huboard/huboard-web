@@ -1,5 +1,5 @@
 module Api
-  class IssuesController < ApplicationController
+  class IssuesController < ApiController
 
     def issue
       api = huboard.board(params[:user], params[:repo])
@@ -11,12 +11,18 @@ module Api
       render json: api.issue(params[:number]).activities
     end
 
-    def create_issue
+    def open_issue
       @issue = huboard.board(params[:user],params[:repo]).create_issue params
       render json: @issue
     end
 
     def update_issue
+      api = huboard.board(params[:user], params[:repo])
+      @issue = api.issue(params[:number]).update(params)
+      render json: @issue
+    end
+
+    def label_issue
       api = huboard.board(params[:user], params[:repo])
       @issue = api.issue(params[:number]).update(params)
       render json: @issue
@@ -80,9 +86,23 @@ module Api
       user, repo, number, order, column = params[:user], params[:repo], params[:number], params[:order], params[:column]
       @moved = params[:moved_columns] == 'true'
       issue = huboard.board(user, repo).issue(number)
-      @previous_column = issue['current_state']
+
+      if issue['current_state']['name'] != '__nil__'
+        @previous_column = issue['current_state']
+      else
+        @previous_column = huboard.board(user, repo).column_labels[0]
+      end
+
       data = params[:data] || {}
       @issue = issue.move(column, order, @moved, data)
+      if data['state']
+        message = {
+          :issue => @issue,
+          'action_controller.params' => {'correlationId' => params['correlationId']},
+          :current_user => current_user.attribs || {}
+        }
+        generate_issue_event(data['state'], message)
+      end
       render json: @issue
     end
 
@@ -92,7 +112,7 @@ module Api
       render json: @issue
     end
 
-    def assign_card
+    def assign_issue
       user, repo, number, @assignee = params[:user], params[:repo], params[:number], params[:assignee]
       @issue = huboard.board(user, repo).issue(number)
         .patch 'assignee' => @assignee
@@ -106,6 +126,13 @@ module Api
       @issue = issue.patch 'milestone' => milestone, 'body' => issue['body']
       @changed_milestones = params[:changed_milestones] == "true"
       render json: @issue
+    end
+
+    def status
+      repo = gh.repos(params[:user], params[:repo])
+      sha = repo.pulls(params[:number]).commits.first['sha']
+
+      render json: repo.commits(sha).status
     end
   end
 end

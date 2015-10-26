@@ -2,6 +2,13 @@ Rails.application.routes.draw do
   constraints subdomain: 'www' do
       get ':any', to: redirect(subdomain: nil, path: '/%{any}'), any: /.*/
   end
+
+  if ENV["SIDEKIQ"]
+    require 'sidekiq/web'
+    require 'authorized_team_constraint'
+    mount Sidekiq::Web => '/site/sidekiq', :constraints => AuthorizedTeamConstraint.new
+  end
+
   root to: 'dashboard#index', constraints: LoggedInConstraint.new 
   if ENV['HUBOARD_ENV'] != 'enterprise'
     root to: 'marketing#index', as: 'marketing_root'
@@ -50,6 +57,7 @@ Rails.application.routes.draw do
     scope '/:user/:repo' do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
         get 'hooks' => 'webhooks#hooks'
+        get 'subscriptions' => 'subscriptions#show'
         resources :integrations, only: [:index, :create, :destroy]
         resources :milestones, only: [:create, :update]
         resources :links, only: [:index, :create]
@@ -65,10 +73,12 @@ Rails.application.routes.draw do
         #Issues
         get 'issues/:number' => 'issues#issue'
         get 'issues/:number/details' => 'issues#details'
-        post 'issues' => 'issues#create_issue'
+        get 'issues/:number/status' => 'issues#status'
+        post 'issues' => 'issues#open_issue'
         post 'issues/:number/comment' => 'issues#create_comment'
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
+        put 'issues/:number/label' => 'issues#label_issue'
         post 'issues/:number/close' => 'issues#close_issue'
         post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'
@@ -77,7 +87,7 @@ Rails.application.routes.draw do
         delete 'issues/:number/ready' => 'issues#unready'
         post 'issues/:number/dragcard' => 'issues#drag_card'
         put 'issues/:number/archived' => 'issues#archive_issue'
-        post 'issues/:number/assigncard' => 'issues#assign_card'
+        post 'issues/:number/assigncard' => 'issues#assign_issue'
         post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
 
         post 'milestones/:number/reorder' => 'milestones#reorder'

@@ -1,5 +1,5 @@
 module Api
-  class ColumnsController < ApplicationController
+  class ColumnsController < ApiController
     def update
       board = huboard.board(params[:user], params[:repo])
       board.copy_board params[:columns]
