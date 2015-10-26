@@ -104,7 +104,7 @@ var Board = Model.extend({
     }));
 
     return _.uniq(combined, (a) => a.login);
-  }.property("repos.@each.assignees.[]"),
+  }.property("repos.@each.assigneesLength"),
   avatars: (function () {
     var issues = this.get("issues");
     return this.get("assignees").filter(function (assignee) {
