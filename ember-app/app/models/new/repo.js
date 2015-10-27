@@ -100,9 +100,12 @@ var Repo = Model.extend({
       repo.set('assignees', details.data.assignees);
       repo.set('columns', details.data.columns);
 
+      repo.set('isLoaded', true);
+      repo.set('loadFailed', false);
+
       return repo;
     }, function(jqxhr) {
-      repo.set('isLoaded', false);
+      repo.set('isLoaded', true);
       repo.set('loadFailed', true);
       return repo;
     });
