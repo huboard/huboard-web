@@ -1,6 +1,6 @@
 <div class="instructions drop-shadow">
   <h2> We noticed your repository issue tracker is not yet configured for HuBoard</h2>
-  <% if @repo['permissions'] && @repo['permissions']['push'] %>
+  <% if @repo && @repo['permissions'] && @repo['permissions']['push'] %>
   <p> No worries, HuBoard can automatically get you started with a default label configuration </p>
   <p> HuBoard will create the following labels </p>
   <ol start="0">
