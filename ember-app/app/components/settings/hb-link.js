@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Board from 'app/models/new/board';
 
 var HbLinkComponent = Ember.Component.extend({
   tagName: 'li',
@@ -39,8 +40,12 @@ var HbLinkComponent = Ember.Component.extend({
           columns: this.get("labels").mapBy('data')
         }),
         success: function(response) {
-          component.get('link').load().then(() => {
+          component.get('link').load().then((repo) => {
             component.set('isDisabled', false);
+            if(repo.get('isLoaded') && !repo.get('loadFailed')){
+              var board = Board.create({ repo: repo})
+              repo.set('board', board);
+            }
           })
         }
       })
