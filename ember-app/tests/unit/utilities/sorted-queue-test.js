@@ -145,3 +145,52 @@ test("requeues subsequent items", (assert) =>{
     finishTest();
   }, (time * 3));
 });
+
+test("runs different queues on each instance", (assert) =>{
+  var finishTest = assert.async();
+
+  var time = 100;
+  var item1 = {id: 2, data: "o"};
+  var item2 = {id: 1, data: "d"};
+  var item3 = {id: 4, data: "e"};
+  var item4 = {id: 3, data: "n"};
+
+  var item5 = {id: 2, data: "o"};
+  var item6 = {id: 3, data: "o"};
+  var item7 = {id: 4, data: "l"};
+  var item8 = {id: 1, data: "c"};
+
+  var sortBy = function(a,b){
+    return a.id - b.id;
+  };
+
+  var expected1 = "";
+  var targetObject = {
+    whenImCalled: sut(function(item){
+      expected1 = expected1 + item.data;
+    }, {time: time, sort: sortBy})
+  };
+
+  var expected2 = "";
+  var targetObject2 = {
+    whenImCalled: sut(function(item){
+      expected2 = expected2 + item.data;
+    }, {time: time, sort: sortBy})
+  };
+
+  targetObject.whenImCalled(item1);
+  targetObject.whenImCalled(item2);
+  targetObject.whenImCalled(item3);
+  targetObject.whenImCalled(item4);
+
+  targetObject2.whenImCalled(item5);
+  targetObject2.whenImCalled(item6);
+  targetObject2.whenImCalled(item7);
+  targetObject2.whenImCalled(item8);
+
+  setTimeout(function(){
+    assert.equal(expected1, "done");
+    assert.equal(expected2, "cool");
+    finishTest();
+  }, time);
+});
