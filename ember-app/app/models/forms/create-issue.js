@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import correlationId from 'app/utilities/correlation-id';
-console.log("TODO change path once new issue is normalized");
 import Issue from 'app/models/new/issue';
 import Serializable from 'app/mixins/serializable';
 

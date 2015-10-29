@@ -23,11 +23,14 @@ var SubscriptionParsing = Ember.Object.create({
     var keys = parts[0].split(/[ .]/).reverse();
     var channel = parts[1] || this._parseChannel(context);
     return {
-      channel: channel.toLowerCase(),
+      channel: this._sanitizeChannel(channel),
       type: keys[2],
       identifier: keys[1],
       action: keys[0]
     };
+  },
+  _sanitizeChannel: function(channel){
+    return channel.toLowerCase();
   },
   _parseChannel: function(context){
     var channel = context.hbsubscriptions.channel;
