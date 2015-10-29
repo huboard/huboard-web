@@ -9,6 +9,7 @@ class BoardController < ApplicationController
       end
 
       failure :no_board do
+        return not_found unless logged_in?
         redirect_to "/#{params[:user]}/#{params[:repo]}/board/create"
       end
 
@@ -22,7 +23,7 @@ class BoardController < ApplicationController
     end
 
     def create_board
-      not_found unless logged_in?
+      return not_found unless logged_in?
       @parameters = params
       @repo = gh.repos(params[:user],params[:repo])
 
@@ -43,7 +44,7 @@ class BoardController < ApplicationController
   end
 
   def enable_issues?
-    not_found unless logged_in?
+    return not_found unless logged_in?
     @parameters = params
     @repo = gh.repos(params[:user],params[:repo])
     render :enable_issues
