@@ -96,3 +96,52 @@ test("Accepts a sort callback", (assert) =>{
     finishTest();
   }, time);
 });
+
+test("requeues subsequent items", (assert) =>{
+  var finishTest = assert.async();
+
+  var time = 100;
+  var item1 = {id: 2, data: "o"};
+  var item2 = {id: 1, data: "d"};
+  var item3 = {id: 4, data: "e"};
+  var item4 = {id: 3, data: "n"};
+
+  var item5 = {id: 2, data: "o"};
+  var item6 = {id: 3, data: "o"};
+  var item7 = {id: 4, data: "l"};
+  var item8 = {id: 1, data: "c"};
+
+  var sortBy = function(a,b){
+    return a.id - b.id;
+  };
+
+  var expected = "";
+  var targetObject = {
+    whenImCalled: sut(function(item){
+      expected = expected + item.data;
+    }, {time: time, sort: sortBy})
+  };
+
+  targetObject.whenImCalled(item1);
+  targetObject.whenImCalled(item2);
+  targetObject.whenImCalled(item3);
+  targetObject.whenImCalled(item4);
+
+  //Queues more items
+  setTimeout(function(){
+    targetObject.whenImCalled(item5);
+    targetObject.whenImCalled(item6);
+    targetObject.whenImCalled(item7);
+    targetObject.whenImCalled(item8);
+  }, time);
+
+  setTimeout(function(){
+    assert.equal(expected, "done");
+  }, time);
+
+  //Waits for queue to run
+  setTimeout(function(){
+    assert.equal(expected, "donecool");
+    finishTest();
+  }, (time * 3));
+});
