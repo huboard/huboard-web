@@ -23,6 +23,7 @@ var IssueReferenceController = Ember.Controller.extend({
   },
   //It's silly, but need this to call the html versus the api endpoint
   toHtml: function(url){
+    if(!url){ return ""; }
     return url.replace("api.", "")
       .replace("repos/", "")
       .replace("commits", "commit");
