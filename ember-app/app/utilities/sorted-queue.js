@@ -15,13 +15,13 @@ function scheduleRun(queue, callback, opts={}){
   Ember.run.debounce(this, function(){
     sortQueue(queue, sort).forEach(function(item){
       callback.call(this, item);
+      queue.removeObject(item);
     }.bind(this));
-    queue.clear();
   }, setTime);
-};
+}
 
 function sortQueue(array, sortBy){
-  return array.sort(sortBy);
-};
+  return _.clone(array.sort(sortBy));
+}
 
 export default sortedQueue;
