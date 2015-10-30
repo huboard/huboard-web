@@ -6,7 +6,10 @@ var IssueReferenceView = Ember.View.extend({
   isLoaded: false,
   commit: null,
   commitUrl: Ember.computed.alias("commit.html_url"),
-  message: Ember.computed.alias("commit.commit.message"),
+  processMessage: function(){
+    //needs emoji parser
+    this.set("message", this.get("commit.commit.message"));
+  }.observes("commit.commit.message"),
   shortSha: function(){
     if (this.get("commit") === null){
       return "";
