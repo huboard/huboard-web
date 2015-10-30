@@ -14,7 +14,7 @@ var IssueReferenceView = Ember.View.extend({
     return this.get("commit.sha").substr(0,7);
   }.property("commit.sha"),
   didInsertElement: function(){
-    this.set("model", this.get("parentView.content.model"));
+    this.set("model", this.get("parentView.model"));
     if (this.get("model.commit_id") === null){
       return this.set("parentView.isVisible", false);
     }
@@ -37,7 +37,7 @@ var IssueReferenceView = Ember.View.extend({
     }
     this.set("isProcessing", true);
     var self = this;
-    var commit = this.get("controller.model.commit_id");
+    var commit = this.get("controller.model");
     this.get("controller").fetchCommit(commit)
       .then(function(commit){
         self.set('isLoaded', true);
