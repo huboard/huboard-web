@@ -9,7 +9,7 @@ var HbColumnCrumbComponent = Ember.Component.extend({
       return this.get("visibleColumns.lastObject.data.name") === this.get("column.data.name");
     }
     return this.get("issue.data.current_state.name") === this.get("column.data.name");
-  }.property("issue.data.current_state.name", "column.data.name"),
+  }.property("issue.data.current_state.name", "column.data.name", "issue.data.state"),
   indexClass: function(){
     var index = this.get('visibleColumns').indexOf(this.get('column'));
 
