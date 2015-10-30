@@ -36,7 +36,7 @@ class Huboard
         l.extend(ColumnLabel)
       end
 
-      columns = columns.sort_by {|i| i['index'] }
+      columns = columns.sort_by {|i| i['index'].to_i }
       if columns.any?
         columns.first['is_first'] = true
         columns.last['is_last'] = true
