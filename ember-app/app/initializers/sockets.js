@@ -17,7 +17,7 @@ export function initialize(container, application){
       sockets: {},
       client: faye(application.get("socketBackend")), 
       publish: function(message){
-        const channel = this._sanitizeChannel(channel);
+        const channel = this._sanitizeChannel(message.meta.channel);
         var _self = this;
 
         if(_self._messages){
