@@ -10,14 +10,7 @@ var IssueActivityComponent = Ember.Component.extend({
   isEditing: false,
   eventClass: Ember.computed('model.event', function(){
     return "card-event-" + this.get('model.event');
-  }),
-  fetchCommit: function(commit){
-    var repo = this.get("issue.repo.data.repo.full_name");
-    return ajax("/api/" + repo + "/commit/" + commit)
-      .then(function(response){
-        return response;
-      });
-  }
+  })
 });
 
 export default IssueActivityComponent;
