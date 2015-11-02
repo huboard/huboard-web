@@ -75,6 +75,13 @@
       @include filter(blur(5px));
     }
   }
+  .commit-message {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      max-width: calc(100% - 70px);
+  }
   .commit-info {
     margin-left: 60px;
     .commit {
