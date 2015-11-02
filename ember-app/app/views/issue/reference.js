@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import emojiParser from "app/utilities/string/emoji-parser";
 
 var IssueReferenceView = Ember.View.extend({
   classNameBindings: [":issue-reference-info", "isLoaded:hb-loaded:ui-blur"],
@@ -7,8 +8,8 @@ var IssueReferenceView = Ember.View.extend({
   commit: null,
   commitUrl: Ember.computed.alias("commit.html_url"),
   processMessage: function(){
-    //needs emoji parser
-    this.set("message", this.get("commit.commit.message"));
+    var message = emojiParser.parse(this.get("commit.commit.message"));
+    this.set("message", message);
   }.observes("commit.commit.message"),
   shortSha: function(){
     if (this.get("commit") === null){

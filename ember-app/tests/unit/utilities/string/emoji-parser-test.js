@@ -33,3 +33,10 @@ test("Parses emoji into img tags", (assert) =>{
   var result = sut.parse(target);
   assert.equal(result, (part1 + part2));
 });
+
+test("Returns the original string if nothing matches", (assert) =>{
+  var target = "No Emojis here!"
+
+  var result = sut.parse(target);
+  assert.equal(result, target);
+});
