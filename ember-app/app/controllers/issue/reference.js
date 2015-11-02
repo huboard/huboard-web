@@ -7,7 +7,7 @@ var IssueReferenceController = Ember.Controller.extend({
   fetchCommit: function(commit){
     var _self = this;
     var repo = this.getRepoName(commit.commit_url);
-    return ajax("/api/" + repo + "/commit/" + commit.commit_id)
+    return ajax("/api/" + repo + "/commit/" + commit.commit_id, {global: false})
       .then(function(response){
         if(response.message === "Not Found"){
           return {
