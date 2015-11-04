@@ -13,8 +13,7 @@ var emojiParser = Ember.Object.create({
       var emoji = window.EMOJIS[key];
       if(emoji){
         var template = _self._template(emoji);
-        var regexp = new RegExp(match, "g");
-        string = string.replace(regexp, template); 
+        string = string.replace(_self._buildRegExp(match), template);
       }
     });
     return string;
@@ -22,7 +21,11 @@ var emojiParser = Ember.Object.create({
   _template: function(value){
     return `<img style='height:32px;' src='${value}'></img>`;
   },
-  _pattern: /:(.*?):/g
+  _pattern: /:(.*?):/g,
+  _buildRegExp: function(string){
+    var escaped = new RegExp().replace(string);
+    return new RegExp(escaped, "g");
+  }
 });
 
 export default emojiParser;

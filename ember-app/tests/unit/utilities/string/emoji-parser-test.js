@@ -16,7 +16,8 @@ module("emojiParser", {
 var EMOJIS = {
   "huboard": "https://huboardemoji.com",
   "github": "https://githubemoji.com",
-  100: "https://100emoji.com"
+  100: "https://100emoji.com",
+  "+1": "https://thumbsup.com"
 };
 
 
@@ -25,10 +26,11 @@ test("Parses emoji into img tags", (assert) =>{
   var huboard = template(EMOJIS["huboard"]);
   var github = template(EMOJIS["github"]);
   var hundred = template(EMOJIS[100]);
+  var thumbs = template(EMOJIS["+1"]);
 
-  var target = "HuBoard is :huboard::100:, Github is :github: :100:"
+  var target = "HuBoard is :huboard::100:, Github is :github: :100::+1:";
   var part1 = `HuBoard is ${huboard}${hundred}, `;
-  var part2 = `Github is ${github} ${hundred}`;
+  var part2 = `Github is ${github} ${hundred}${thumbs}`;
 
   var result = sut.parse(target);
   assert.equal(result, (part1 + part2));
