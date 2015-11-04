@@ -1,8 +1,9 @@
 import Ember from "ember";
 
 var emojiParser = Ember.Object.create({
-  parse: function(string){
+  parse: function(string, height){
     if(!window.EMOJIS){ return string; }
+    this.height = height ? height : 16;
     return this._process(string);
   },
   _process: function(string){
@@ -19,7 +20,7 @@ var emojiParser = Ember.Object.create({
     return string;
   },
   _template: function(value){
-    return `<img style='height:32px;' src='${value}'></img>`;
+    return `<img style='height:${this.height}px;' src='${value}'></img>`;
   },
   _pattern: /:(.*?):/g,
   _buildRegExp: function(string){
