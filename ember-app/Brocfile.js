@@ -31,6 +31,9 @@ app.import('bower_components/jquery-color/jquery.color.js')
 app.import('app/vendor/task-list.js')
 app.import('app/vendor/autoresize.js')
 
+//Extensions
+app.import('app/utilities/core_extensions/regexp.js');
+
 
 
 module.exports = app.toTree();
