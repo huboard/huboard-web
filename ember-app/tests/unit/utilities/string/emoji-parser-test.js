@@ -51,3 +51,10 @@ test("Returns the original string if nothing matches", (assert) =>{
   var result = sut.parse(target);
   assert.equal(result, target);
 });
+
+test("Does nothing with unsupported matches", (assert) =>{
+  var target = "This is a :fake: emoji";
+
+  var result = sut.parse(target);
+  assert.equal(result, target);
+});
