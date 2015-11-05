@@ -42,6 +42,7 @@ gem 'sucker_punch'
 gem 'raygun4ruby'
 gem 'rack-attack'
 gem 'redcarpet'
+gem 'analytics-ruby', :require => 'segment'
 
 gem 'pdfkit'
 gem 'wkhtmltopdf-heroku'
