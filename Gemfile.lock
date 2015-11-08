@@ -50,6 +50,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.7)
+    analytics-ruby (2.0.13)
     annotate (2.6.8)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
@@ -440,6 +441,7 @@ PLATFORMS
 
 DEPENDENCIES
   addressable
+  analytics-ruby
   annotate
   better_errors
   binding_of_caller

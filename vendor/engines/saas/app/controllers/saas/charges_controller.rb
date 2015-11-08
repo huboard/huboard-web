@@ -1,6 +1,7 @@
 module Saas
   class ChargesController < Saas::ApplicationController
     include ::HuBoard::AccountHelpers
+
     def create
       begin
         repo_owner = gh.users(params[:id])
@@ -39,6 +40,9 @@ module Saas
         plan_doc.billing_email = params[:email]
         plan_doc.trial = "expired"
         couch.customers.save plan_doc
+
+        @customer = JSON.parse(customer.to_json)
+        @email = params[:email]
 
         render json: { success: true, card: customer["cards"]["data"].first, discount: customer.discount}
       rescue Stripe::StripeError => e
