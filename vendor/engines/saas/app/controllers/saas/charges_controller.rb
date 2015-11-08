@@ -41,8 +41,10 @@ module Saas
         plan_doc.trial = "expired"
         couch.customers.save plan_doc
 
-        @customer = JSON.parse(customer.to_json)
         @email = params[:email]
+        @user = gh.user 
+        @account = repo_owner
+        @account_id = customer.id
 
         render json: { success: true, card: customer["cards"]["data"].first, discount: customer.discount}
       rescue Stripe::StripeError => e

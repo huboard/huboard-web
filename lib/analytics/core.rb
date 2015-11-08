@@ -1,12 +1,9 @@
 module Analytics
   class Core
-    def self.adapter=(adapter)
-      @@adapter = adapter
-      @@adapter
-    end
+    class << self; attr_accessor :adapter; end
 
     def self.identify(payload)
-      @@adapter.identify(payload)
+      @adapter.identify(payload)
     end
   end
 end

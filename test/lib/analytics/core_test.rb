@@ -6,7 +6,7 @@ class Analytics::CoreTest < ActiveSupport::TestCase
   test 'attach the underlying client' do
     sut.adapter = FakeAnalytics
 
-    adapter = Analytics::Core.class_variable_get(:@@adapter)
+    adapter = Analytics::Core.adapter
     assert adapter == FakeAnalytics
   end
 
@@ -15,7 +15,7 @@ class Analytics::CoreTest < ActiveSupport::TestCase
     FakeAnalytics.stubs(:identify)
     sut.adapter = FakeAnalytics
 
-    adapter = Analytics::Core.class_variable_get(:@@adapter)
+    adapter = Analytics::Core.adapter
     adapter.expects(:identify).with({some: :payload})
     sut.identify({some: :payload})
   end
