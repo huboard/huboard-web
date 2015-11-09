@@ -3,7 +3,7 @@ module Analytics
 
     def payload(params)
       {
-        user_id: params['account']['login'],
+        user_id: params['owner']['id'],
         traits: {
           email: params['email'],
           user: params['user'],

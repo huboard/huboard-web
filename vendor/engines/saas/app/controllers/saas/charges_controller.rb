@@ -43,7 +43,7 @@ module Saas
 
         @email = params[:email]
         @user = gh.user 
-        @account = repo_owner
+        @owner = repo_owner
         @account_id = customer.id
 
         render json: { success: true, card: customer["cards"]["data"].first, discount: customer.discount}
