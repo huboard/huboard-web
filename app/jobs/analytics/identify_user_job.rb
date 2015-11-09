@@ -5,7 +5,7 @@ module Analytics
       {
         user_id: params['owner']['id'],
         traits: {
-          email: params['email'],
+          email: params['email'] || "",
           user: params['user'],
           account: params['account_id'] || ""
         }
