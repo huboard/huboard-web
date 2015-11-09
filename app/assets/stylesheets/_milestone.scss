@@ -5,3 +5,75 @@
     }
   }
 }
+.milestone {
+
+  > h3 {
+
+    line-height: 16px;
+    position: relative;
+
+    .ui-icon {
+      float:left;
+      padding-right: 6px !important;
+      &.ui-icon-gear {
+        display:none;
+        color: $hb-purple;
+        position: absolute;
+        top: 11px;
+        right: 2px;
+        opacity: 1;
+      }
+
+    }
+
+    .text {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      max-width: calc(100% - 30px);
+    }
+    &:hover {
+      .ui-icon.ui-icon-gear {
+        display: block;
+      }
+      .text {
+        max-width: calc(100% - 40px);
+      }
+    }
+  }
+}
+
+.milestone-placeholder {
+  @include display(flex);
+  @include flex(0 0 230px);
+  border: 1px dotted #ccc;
+  &.hb-state-collapsed {
+    @include flex(0 0 90px);
+  }
+}
+
+.milestones {
+  @include flex(1);
+  @include flex-direction(column);
+  .column {
+    @include flex(1);
+    @include display(flex);
+    padding: 0;
+    ul {
+      min-height: 72px;
+      @include display(flex);
+      @include flex-direction(row);
+      @include flex-wrap(wrap);
+      @include justify-content(flex-start);
+      @include align-items(flex-start);
+      @include align-content(flex-start);
+      
+      li {
+        margin-right: 5px;
+        max-width: 400px;
+      }
+
+    }
+  }
+}

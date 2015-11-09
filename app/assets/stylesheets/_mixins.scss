@@ -1,4 +1,45 @@
 @import "bourbon/bourbon";
+
+%u-fancy-scrollbar {
+    -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+      height: 9px;
+      width: 9px
+  }
+  &::-webkit-scrollbar-button:end:increment, &::-webkit-scrollbar-button:start:decrement {
+      background: 0 0;
+      display: none;
+  }
+  &::-webkit-scrollbar-track-piece {
+      background: #d6dadc;
+  }
+
+
+&::-webkit-scrollbar-track-piece:vertical:start {
+    border-radius: 5px 5px 0 0;
+}
+
+&::-webkit-scrollbar-track-piece:vertical:end {
+    border-radius: 0 0 5px 5px;
+}
+
+&::-webkit-scrollbar-track-piece:horizontal:start {
+    border-radius: 5px 0 0 5px;
+}
+
+&::-webkit-scrollbar-track-piece:horizontal:end {
+    border-radius: 0 5px 5px 0;
+}
+
+&::-webkit-scrollbar-thumb:horizontal,&::-webkit-scrollbar-thumb:vertical {
+    background: #c4c9cc;
+    border-radius: 5px;
+    display: block;
+    height: 50px;
+}
+}
+
+
 @mixin button ($base-color: #4294f0) {
 
   // Grayscale button

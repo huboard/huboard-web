@@ -1,5 +1,93 @@
 @import "arrow";
 
+.main-toolbar {
+  @include display(flex);
+  @include justify-content(space-between);
+  
+  .filters-clear {
+    @include flex(1);
+    padding: 0 12px;
+  }
+
+  .create-button {
+    .hb-icon-link {
+      padding: 6px;
+      color: #999;
+      @include transition(all .5s);
+      .ui-icon {
+        position: relative;
+        top: 3px;
+      }
+      &:hover {
+        color: #666;
+      }
+    }
+  }
+   height: 40px;
+   line-height: 40px;
+   padding: 0 25px;
+   box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+   a {
+    &:hover {
+     text-decoration: none;
+    }
+   }
+}
+
+.board-wrapper {
+  position: relative;
+  @include display(flex);
+  @include flex(1);
+  @include align-content(stretch);
+  .board {
+    @extend %abso-hax;
+    @include display(flex);
+  }
+}
+
+.board-not-dragging {
+  .column.milestone {
+    height: 100%;
+    .column-contents{
+      height: 100%;
+      @include display(flex);
+      @include flex-direction(column);
+      @include flex(0 0 230px);
+    }
+    .cards {
+      @include flex(1 1 auto);
+      overflow-y: auto;
+      overflow-x: hidden;
+      @extend %u-fancy-scrollbar;
+      // fix this
+      padding-right: 3px;
+    }
+    &.hb-state-collapsed {
+      @include flex(0 0 90px);
+    }
+    @include transition(all 0.4s ease-out);
+  }
+}
+
+.board-dragging {
+  .column.milestone {
+    min-width: 230px;
+    max-width: 230px;
+    @include display(block);
+    &.hb-state-collapsed {
+      .text {
+        display: inline-block;
+      }
+    }
+  }
+  .collapsed {
+    min-height: 100vh;
+  }
+
+  @include transition(all 0s);
+}
+
+
 .container-fluid {
    padding-right: 25px;
    padding-left: 25px;
@@ -124,7 +212,7 @@
   @extend .arrow;
 }
 
-.column > ul {
+.column .cards {
   margin:0;
   padding: 0;
 }
@@ -146,6 +234,7 @@
     }
 }
 .board {
+  padding: 6px 25px;
   @include user-select(none);
     .dim {
       opacity: 0.4;
@@ -518,5 +607,139 @@
     }
   }
 }
+.column.no-milestone {
+  margin: -6px 6px -6px 0;
+  padding: 6px 16px 6px 10px;
+  border-right: 1px solid #ddd;
+}
 
+.task-column {
+  float:none;
+  @include flex(1);
+  @include display(flex);
+  @include flex-direction(column);
+  @include transition(all 0.4s ease-out);
+}
+.column {
+  //@include transition(all 0.4s ease-out);
+  h3 {
+    cursor: pointer;
+  }
+  ul {
+    @include flex(1);
+    li {
+      box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+    }
+  }
+  .collapsed {
+    cursor: pointer;
+    display: none;
+    background: #f3f3f3;
+    border: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    @include flex(1);
 
+  }
+
+  > h3 .ui-icon {
+    color: #999;
+    opacity: 0.5;
+    padding: 0px 2px;
+  }
+  > h3 .ui-icon-plus {
+    display:none;
+  }
+  &.hb-state-collapsed {
+    @include flex(1 0 80px);
+    > h3 .ui-icon-plus { display:inline; }
+    .collapsed {
+      @include display(flex);
+    }
+    > h3 span, > h3 .ui-icon-minus, > h3 small {
+      display:none;
+    }
+
+    .sortable {
+      @include flex(0 1 auto);
+      min-height: 0;
+      border:0;
+      padding: 0;
+      margin: 0;
+      width: 0;
+      height: 0;
+      li {
+        border:0;
+        padding: 0;
+        margin: 0;
+        width: 0;
+        height: 0;
+        > div {
+          display:none;
+        }
+      }
+    }
+
+  }
+  &.hb-state-collapsed {
+    @include flex(0 1 auto);
+    width: 90px;
+    > h3 .ui-icon-plus { display:inline; }
+    .collapsed {
+      display: block;
+    }
+    > h3 span, > h3 .ui-icon-minus, > h3 small,  > h3 .ui-icon-gear {
+      display:none;
+    }
+  }
+  &.hb-state-collapsed.hovering {
+      @include flex(1);
+      width: auto;
+      .collapsed {
+        display: none;
+      }
+      ul {
+        display:block;
+      }
+   }
+}
+ @media only screen and (max-width: 480px) {
+  @include flex-direction(column);
+  > .sidebar {
+      @include flex(0 1 auto);
+  }
+ }
+ @media only screen and (max-width: 959px) {
+  .board {
+    @include flex-direction(column);
+    .column {
+      @include flex(0 1 auto);
+
+      .sortable {
+        min-height: 72px;
+      }
+
+      &.hb-state-collapsed {
+        width: auto;
+
+        > h3 span,  > h3 small {
+          display:inline;
+        }
+        .sortable {
+          min-height: 0;
+        }
+
+       
+        &.hovering {
+          ul {
+            display:none;
+          }
+        }
+        .collapsed {
+          display:none;
+        }
+        
+      }
+    }
+  }
+
+ }

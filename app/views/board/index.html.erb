@@ -5,34 +5,12 @@
   <% unless ENV["SOCKET_BACKEND"].nil? %>
   <script src='<%= ENV['SOCKET_BACKEND']%>/client.js'></script>
   <% end %>
-  <%= javascript_include_tag 'vendor' %>
-  <%= javascript_include_tag 'app' %>
-  <%= javascript_include_tag 'bootstrap' %>
-  <%= javascript_include_tag 'vendor/jquery-ui' %>
-  <script>
-    (function($) {
-     var _mouseDrag = $.ui.sortable.prototype._mouseDrag;
-     $.ui.sortable.prototype._mouseDrag = function(event) {
-          var i, item, itemElement, intersection,
-            o = this.options,
-            scrolled = false;
-
-          //Do scrolling
-
-          if(event.pageY - $(document).scrollTop() < o.scrollSensitivity) {
-            scrolled = $(document).scrollTop($(document).scrollTop() - o.scrollSpeed);
-          } else if($(window).height() - (event.pageY - $(document).scrollTop()) < o.scrollSensitivity) {
-            scrolled = $(document).scrollTop($(document).scrollTop() + o.scrollSpeed);
-          }
-
-
-          if(scrolled !== false && $.ui.ddmanager && !o.dropBehaviour) {
-            $.ui.ddmanager.prepareOffsets(this, event);
-          }
-          return _mouseDrag.apply(this, arguments);
-     };
-
-    })(jQuery);
+<%= javascript_include_tag 'vendor' %>
+<%= javascript_include_tag 'app' %>
+<%= javascript_include_tag 'bootstrap' %>
+<%= javascript_include_tag 'vendor/jquery-ui' %>
+<%= javascript_include_tag 'jquery-ui' %>
+<script>
     Ember.Application.initializer({
       name: 'advanceReadiness',
       after: 'deferReadiness',
