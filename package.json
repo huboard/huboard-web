@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "bower": "*"
+    "bower": "*",
+    "ember-tools": "git://github.com/huboard/ember-tools"
   },
-  "engines" : {
-    "node" : "0.12.x"
+  "engines": {
+    "node": "0.12.x"
   }
 }

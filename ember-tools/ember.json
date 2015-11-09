@@ -1,5 +1,5 @@
 {
-  "jsPath": "../app/assets/javascripts/board",
+  "jsPath": "../app/assets/javascripts/accounts",
   "modules": "cjs"
 }
 
