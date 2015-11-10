@@ -45,6 +45,7 @@ module Saas
         @user = gh.user 
         @owner = repo_owner
         @account_id = customer.id
+        @event = "customer_subscription"
 
         render json: { success: true, card: customer["cards"]["data"].first, discount: customer.discount}
       rescue Stripe::StripeError => e

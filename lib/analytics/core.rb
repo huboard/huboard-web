@@ -5,5 +5,9 @@ module Analytics
     def self.identify(payload)
       @adapter.identify(payload)
     end
+
+    def self.track(payload)
+      @adapter.track(payload)
+    end
   end
 end

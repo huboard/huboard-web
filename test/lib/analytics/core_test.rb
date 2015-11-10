@@ -19,4 +19,13 @@ class Analytics::CoreTest < ActiveSupport::TestCase
     adapter.expects(:identify).with({some: :payload})
     sut.identify({some: :payload})
   end
+
+  test 'track a users to their actions through events' do
+    FakeAnalytics.stubs(:track)
+    sut.adapter = FakeAnalytics
+
+    adapter = Analytics::Core.adapter
+    adapter.expects(:track).with({some: :payload})
+    sut.track({some: :payload})
+  end
 end
