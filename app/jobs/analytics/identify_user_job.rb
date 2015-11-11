@@ -4,12 +4,8 @@ module Analytics
 
     def payload(params)
       {
-        user_id: params['user']['id'],
-        traits: {
-          email: params['email'] || params['user']['email'],
-          user: params['user'],
-          account: params['account_id'] || ""
-        }
+        user_id: params['user_id'],
+        traits: params['data']
       }
     end
   end
