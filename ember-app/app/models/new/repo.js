@@ -5,6 +5,7 @@ import Issue from './issue';
 import Milestone from './milestone';
 import Integration from 'app/models/integration';
 import Health from 'app/models/health';
+import Link from 'app/models/link';
 import ajax from 'ic-ajax';
 import correlationId from 'app/utilities/correlation-id';
 
@@ -131,32 +132,18 @@ var Repo = Model.extend({
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
-  createLink(name) {
+  createLink(name, contraints) {
     var parent = this;
-    return ajax({
-      url: `/api/${this.get('data.repo.full_name')}/links/validate`,
-      dataType: 'json',
-      type: 'POST',
-      data: {
-        link: name
-      }
-    }).then(() => {
-      return ajax({
-        url: `/api/${this.get('data.repo.full_name')}/links`,
-        dataType: 'json',
-        type: 'POST',
-        data: {
-          link: name
+    var repo = this.get('data.repo.full_name');
+      
+    return Link.build(name, repo, contraints).then((response) => {
+      parent.get('data.links').pushObject(response);
+      return parent.get('links.lastObject').load().then((repo) => {
+        if(!repo.get('loadFailed')){
+          var board = Board.create({repo: repo});
+          repo.set('isLoaded', true);
+          repo.set('board', board);
         }
-      }).then((response) => {
-        parent.get('data.links').pushObject(response);
-        return parent.get('links.lastObject').load().then((repo) => {
-          if(!repo.get('loadFailed')){
-            var board = Board.create({repo: repo});
-            repo.set('isLoaded', true);
-            repo.set('board', board);
-          }
-        });
       });
     });
   },

@@ -10,7 +10,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
     submit: function(){
       var controller = this;
       this.set("isDisabled", true);
-      this.get("model.repo").createLink(this.get("repoFullName"))
+      this.get("model.repo").createLink(this.get("repoFullName"), this.get("constraints"))
         .then(function(){
           controller.set("isDisabled", false);
           controller.set("shouldDisplayError", false);
