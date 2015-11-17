@@ -1,8 +1,10 @@
-<form class="flex-form" {{action 'submit'  on='submit'}}>
+<form class="flex-form" {{action 'submit'  on='submit'}} accept-charset="UTF-8">
   <div class="{{if shouldDisplayError 'error'}} control-group">
   <label>
     {{input value=repoFullName placeholder='owner/repo'}}
-    
+  </label>
+  <label>
+    {{input value=rawLabels placeholder='bug,feature,ux'}}
   </label>
     {{#if shouldDisplayError }}
     <span class="help-block">

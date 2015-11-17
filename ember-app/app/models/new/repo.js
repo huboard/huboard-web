@@ -132,11 +132,11 @@ var Repo = Model.extend({
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
-  createLink(name, contraints) {
+  createLink(name, labels) {
     var parent = this;
     var repo = this.get('data.repo.full_name');
       
-    return Link.build(name, repo, contraints).then((response) => {
+    return Link.build(name, repo, labels).then((response) => {
       parent.get('data.links').pushObject(response);
       return parent.get('links.lastObject').load().then((repo) => {
         if(!repo.get('loadFailed')){

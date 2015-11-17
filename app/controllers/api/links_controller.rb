@@ -15,7 +15,7 @@ module Api
     end
     def create
       board = huboard.board(params[:user], params[:repo])
-      link = board.create_link params[:link]
+      link = board.create_link(params[:link], params[:labels])
       if link
        repo = huboard.repo(link['user'], link['repo']).fetch(false)
        repo[:repo][:color] = link
