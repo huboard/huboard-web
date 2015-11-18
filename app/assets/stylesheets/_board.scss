@@ -497,6 +497,10 @@
 .filter {
 
   .ui-icon {
+    // start: UX Experiment 
+    display:none;
+    // end: UX Experiment 
+
     position: absolute;
     top: 13px;
     right: 3px;
@@ -515,6 +519,9 @@
   .dim:hover, .active:hover { 
     .ui-icon {
       display:inline;
+      // start: UX Experiment 
+      display:none;
+      // end: UX Experiment 
     }
   }
 }
