@@ -4,9 +4,9 @@ module Analytics
 
     def payload(params)
       {
-        user_id: params['user_id'],
+        user_id: params['current_user']['id'],
         event: params['event'],
-        properties: params['data']
+        properties: params['account']
       }
     end
   end
