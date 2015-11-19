@@ -9,5 +9,9 @@ module Analytics
     def self.track(payload)
       @adapter.track(payload)
     end
+    
+    def self.group(payload)
+      @adapter.group(payload)
+    end
   end
 end
