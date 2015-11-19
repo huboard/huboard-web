@@ -2,6 +2,7 @@ PATH
   remote: vendor/engines/saas
   specs:
     saas (0.0.1)
+      analytics-ruby
       rails (~> 4.2.0)
 
 PATH
@@ -441,7 +442,6 @@ PLATFORMS
 
 DEPENDENCIES
   addressable
-  analytics-ruby
   annotate
   better_errors
   binding_of_caller

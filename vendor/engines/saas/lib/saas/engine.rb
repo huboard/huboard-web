@@ -8,5 +8,15 @@ module Saas
         before_action :check_account
       end
     end
+
+    initializer "saas.initialize_analytics" do 
+      if ENV["SEGMENTIO_KEY"]
+        require 'segment'
+        Analytics::Core.adapter = Segment::Analytics.new({
+          write_key: ENV["SEGMENTIO_KEY"]
+        })
+      end
+
+    end
   end
 end
