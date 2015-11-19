@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
     job_params['action_controller.params'] = params
 
     #TODO: make sure you can safely serialize the params
-    JobResolver.find_job(params).perform_later job_params
+    JobResolver.find_jobs(params).each do |job|
+      job.perform_later job_params
+    end
   end
 
   def not_found
