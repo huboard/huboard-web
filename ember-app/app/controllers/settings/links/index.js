@@ -15,7 +15,8 @@ var SettingsLinksIndexController = Ember.Controller.extend({
           controller.set("isDisabled", false);
           controller.set("shouldDisplayError", false);
           controller.set("errorMessage", '');
-          controller.set("repoFullName","");
+          controller.set("repoFullName", "");
+          controller.set("labels", "");
         }, function(jqXHR){
           controller.set("shouldDisplayError", true);
           controller.set("isDisabled", false);
