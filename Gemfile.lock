@@ -2,6 +2,7 @@ PATH
   remote: vendor/engines/saas
   specs:
     saas (0.0.1)
+      analytics-ruby
       rails (~> 4.2.0)
 
 PATH
@@ -50,6 +51,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.7)
+    analytics-ruby (2.0.13)
     annotate (2.6.8)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
