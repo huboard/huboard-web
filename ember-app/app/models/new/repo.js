@@ -88,7 +88,8 @@ var Repo = Model.extend({
   isLoaded: false,
   load: function(){
     var repo = this;
-    return this.get('ajax')(`${this.get('baseUrl')}/details`).then(function(details){
+    var opts = {data: {issue_filter: repo.data.issue_filter}};
+    return this.get('ajax')(`${this.get('baseUrl')}/details`, opts).then(function(details){
       // map the issues
       var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
       repo.set('issues', issues);

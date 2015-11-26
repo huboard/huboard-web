@@ -64,6 +64,7 @@ class Huboard
         new_link = create_label name: label_name, color: random_color
         new_link['user'] = match[:user_name]
         new_link['repo'] = match[:repo]
+        new_link['labels'] = match[:labels].split(/:/, ',')
         new_link
       else
         nil
@@ -90,6 +91,7 @@ class Huboard
         match = Huboard.link_pattern.match l['name']
         l['user'] = match[:user_name]
         l['repo'] = match[:repo]
+        l['labels'] = match[:labels].split(/:/)
         l
       end
     end
