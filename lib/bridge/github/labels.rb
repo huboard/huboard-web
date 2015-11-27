@@ -56,15 +56,14 @@ class Huboard
 
     def create_link(repo, labels=nil)
       label_name = "Link <=> #{repo}"
+      label_name = labels ? "#{label_name} labels=#{labels.gsub(/,/, ":")}" : label_name
+
       match = Huboard.link_pattern.match label_name
-
-      label_name = labels ? "#{label_name} ?labels=#{labels.gsub(/,/, ":")}" : label_name
-
       if match and repo_exists?(match[:user_name], match[:repo])
         new_link = create_label name: label_name, color: random_color
         new_link['user'] = match[:user_name]
         new_link['repo'] = match[:repo]
-        new_link['labels'] = match[:labels].split(/:/, ',')
+        new_link['labels'] = match[:labels].split(/:/)
         new_link
       else
         nil
