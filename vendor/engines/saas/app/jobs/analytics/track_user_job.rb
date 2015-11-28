@@ -4,7 +4,7 @@ module Analytics
 
     def payload(params)
       {
-        user_id: params['current_user']['id'],
+        user_id: params['current_user']['id'] || "Anonymous",
         event: params['event'],
         properties: params['account']
       }

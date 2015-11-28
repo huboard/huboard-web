@@ -10,7 +10,7 @@ module Analytics
         login: params['repo_owner']['login']
       }
       {
-        user_id: params['current_user']['id'],
+        user_id: params['current_user']['id'] || "Anonymous",
         group_id: params['repo_owner']['id'],
         traits: traits
       }
