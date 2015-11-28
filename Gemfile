@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.1' if ENV['DYNO']
+ruby '2.2.3' if ENV['DYNO']
 
 gem 'rails', '4.2.0'
 gem 'dotenv-rails', '~> 2.0.0', :require => 'dotenv/rails-now'
