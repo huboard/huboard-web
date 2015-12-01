@@ -1,0 +1,8 @@
+<h4> Labels <small> (click to pull only issues matching selected labels) </small> </h4>
+{{#each labels as |label|}}
+  {{
+    settings/hb-label 
+      label=label
+      clickHandler=(action "toggleLabel")
+  }}
+{{/each}}

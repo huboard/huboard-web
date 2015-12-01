@@ -149,3 +149,26 @@
 
   }
 }
+
+div.hb-label-container {
+  display: inline-block;
+  margin: 2px;
+  padding: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 0px;
+  text-align: center;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+
+  &.selected {
+    box-shadow: inset 3px 3px 1px rgba(0,0,0,0.3);
+  }
+
+  span.label {
+    color: white;
+    background-color: inherit;
+    text-shadow: 0 1px 2px gray;
+  }
+}
