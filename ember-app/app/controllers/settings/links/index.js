@@ -5,7 +5,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
   needs: ['application', 'settings/links'],
   repoFullName: '',
   isDisabled: true,
-  constraints: [],
+  issue_filter: [],
   labels: [],
   shouldDisplayWarning: Ember.computed.alias("controllers.settings/links.shouldDisplayWarning"),
   shouldDisplayError: false,
@@ -40,7 +40,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
       var model = this.get("model.repo");
       this.set("isDisabled", true);
 
-      model.createLink(name, _self.get("constraints")).then(()=> {
+      model.createLink(name, _self.get("issue_filter")).then(()=> {
         _self.resetForm();
       }, (jqXHR)=> _self.errorHandler(jqXHR) )
     },
