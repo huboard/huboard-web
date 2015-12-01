@@ -133,12 +133,13 @@ var Repo = Model.extend({
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
-  createLink(name, labels) {
+  createLink(name, issue_filter) {
     var parent = this;
     var repo = this.get('data.repo.full_name');
       
-    return Link.build(name, repo, labels).then((response) => {
+    return Link.build(name, repo, issue_filter).then((response) => {
       parent.get('data.links').pushObject(response);
+      parent.set('links.lastObject.data.issue_filter', issue_filter);
       return parent.get('links.lastObject').load().then((repo) => {
         if(!repo.get('loadFailed')){
           var board = Board.create({repo: repo});
