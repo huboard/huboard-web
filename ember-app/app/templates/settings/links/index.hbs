@@ -3,9 +3,7 @@
   <label>
     {{input value=repoFullName placeholder='owner/repo'}}
   </label>
-  <label>
-    {{input value=labels placeholder='e.g. bug, feature, ux'}}
-  </label>
+  {{settings/hb-label-chooser labels=labels selected=constraints}}
     {{#if shouldDisplayError }}
     <span class="help-block">
       {{errorMessage}}

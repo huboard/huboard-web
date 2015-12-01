@@ -47,7 +47,7 @@ module Api
         }, status: 403
       end
 
-      render json: { link: params[:link] }, status: 200
+      render json: { link: params[:link], labels: board.other_labels }, status: 200
     end
   end
 end
