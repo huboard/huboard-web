@@ -9,6 +9,16 @@
     <div class="flex-crumbs">
       {{hb-board-columns columns=link.board.columns }}
     </div>
+    <div class="">
+    {{hb-label-selector 
+      title="+ filters"
+      editable=true
+      customClass="hb-selector-component--links"
+      values=issueFilters
+      selected=issueFilters
+      labels=link.data.other_labels
+    }}
+    </div>
   {{else}}
     {{#if link.board.columns.length }}
       <div class="flex-crumbs control-group error">
