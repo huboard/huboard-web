@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 var HbLabelSelectorComponent = Ember.Component.extend({
   classNames: ["hb-selector-component", "dropdown"],
+  classNameBindings: ["customClass"],
   isOpen: function(){
     return false;
   }.property(),
