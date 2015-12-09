@@ -149,6 +149,10 @@ var Repo = Model.extend({
       });
     });
   },
+  updateLink: function(link){
+    var repo = this.get('data.repo.full_name');
+    return Link.update(link, repo);
+  },
   validateLink: function(name){
     var repo = this.get('data.repo.full_name');
     return Link.validate(name, repo);
