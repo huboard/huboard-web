@@ -9,7 +9,7 @@ var HbLinkComponent = Ember.Component.extend({
     return this.get("parent.board.columns.length") === this.get("link.board.columns.length");
   }.property("parent.board.columns.[]", 'link.board', "link.board.columns.[]"),
   isDisabled: false,
-  issueFilters: function(){
+  issueFiltersLabels: function(){
     var issue_filter = this.get("link.data.issue_filter");
     return this.get("link.data.other_labels").filter((l) => {
       return issue_filter.any((filter) => {
@@ -17,6 +17,23 @@ var HbLinkComponent = Ember.Component.extend({
       });
     });
   }.property("link.data.issue_filter", "link.data.other_labels"),
+  issueFilters: function(){
+    return this.get("issueFiltersLabels").map((link)=> {
+      return link.name;
+    });
+  }.property("issueFiltersLabels.[]"),
+  labelsChanged: function(){
+    this.set("link.data.issue_filter", this.get("issueFilters"));
+    var repo = this.get("link.board.repo");
+    var name = repo.data.repo.full_name;
+    repo.parent.updateLink(this.get("link"));
+  },
+  didInsertElement: function(){
+    var _self = this;
+    this.$(".hb-selector-component").on("selectorClosed", ()=>{
+      _self.labelsChanged();
+    });
+  },
   actions: {
     remove: function(link) {
       var rawLink = this.get('settings.data.links').find((x) => {
@@ -57,7 +74,7 @@ var HbLinkComponent = Ember.Component.extend({
           })
         }
       })
-    }
+    },
   }
 });
 
