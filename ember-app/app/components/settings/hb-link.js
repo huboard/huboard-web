@@ -23,6 +23,10 @@ var HbLinkComponent = Ember.Component.extend({
     });
   }.property("issueFiltersLabels.[]"),
   labelsChanged: function(){
+    if(_.isEqual(this.get("link.data.issue_filter"), this.get("issueFilters"))){
+      return;
+    }
+
     this.set("link.data.issue_filter", this.get("issueFilters"));
     var repo = this.get("link.board.repo");
     var name = repo.data.repo.full_name;

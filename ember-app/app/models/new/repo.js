@@ -150,8 +150,12 @@ var Repo = Model.extend({
     });
   },
   updateLink: function(link){
+    var parent = this;
     var repo = this.get('data.repo.full_name');
-    return Link.update(link, repo);
+
+    return Link.update(link, repo).then((response) => {
+      parent.get('links.lastObject').load();
+    });
   },
   validateLink: function(name){
     var repo = this.get('data.repo.full_name');
