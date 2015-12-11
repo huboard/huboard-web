@@ -71,6 +71,21 @@ class Huboard
 
     end
 
+    def update_link(name, issue_filter=nil)
+      link = labels.find do |label|
+        label["name"].include?(name)
+      end
+
+      if link
+        new_name = issue_filter ? "#{name} labels=#{issue_filter.join('·')}" : name
+        return gh.labels(link["name"]).patch({
+          color: link["color"],
+          name: new_name
+        })
+      end
+      nil
+    end
+
     def copy_board(columns)
       column_labels.each do |column|
         destroy_label(column["name"])

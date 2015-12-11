@@ -31,6 +31,15 @@ module Api
         status: link 
       }
     end
+    def update
+      board = huboard.board(params[:user], params[:repo])
+      link = board.update_link params[:name], params[:labels]
+      if link
+       render json: link
+      else
+        raise HuBoard::Error, "Unable to update link #{params[:name]}"
+      end
+    end
 
     def validate
       repo = params[:link].split("/")
