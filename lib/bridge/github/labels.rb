@@ -77,13 +77,17 @@ class Huboard
       end
 
       if link
-        new_name = issue_filter ? "#{name} labels=#{issue_filter.join('·')}" : name
-        return gh.labels(link["name"]).patch({
+        new_name = issue_filter ? "Link <=> #{name} labels=#{issue_filter.join('·')}" : name
+        link = gh.labels(link["name"]).patch({
           color: link["color"],
           name: new_name
         })
+
+        match = Huboard.link_pattern.match new_name
+        link['user'] = match[:user_name]
+        link['repo'] = match[:repo]
       end
-      nil
+      link
     end
 
     def copy_board(columns)
