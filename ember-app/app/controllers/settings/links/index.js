@@ -27,6 +27,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
     }
   },
   validation: debouncedObserver(function(){
+    this.set("shouldDisplayError", false);
     this.set("isDisabled", true);
     this.set("labels", []);
 
