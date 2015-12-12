@@ -73,7 +73,8 @@ class Huboard
 
     def update_link(name, issue_filter=nil)
       link = labels.find do |label|
-        label["name"].include?(name)
+        match = Huboard.link_pattern.match label["name"]
+        match && "#{match[:user_name]}/#{match[:repo]}" == name
       end
 
       if link
