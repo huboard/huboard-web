@@ -30,7 +30,12 @@ var HbLinkComponent = Ember.Component.extend({
     this.set("link.data.issue_filter", this.get("issueFilters"));
     var repo = this.get("link.board.repo");
     var name = repo.data.repo.full_name;
-    repo.parent.updateLink(this.get("link"));
+
+    var _self = this;
+    this.set("isProcessing", true);
+    repo.parent.updateLink(this.get("link")).then(()=> {
+      _self.set("isProcessing", false);
+    });
   },
   didInsertElement: function(){
     var _self = this;

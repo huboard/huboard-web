@@ -5,6 +5,7 @@
 <div class="link">
 
   <h4>{{link.data.repo.full_name}}</h4>
+  {{#if isProcessing}}{{hb-spinner}} {{/if}}
   {{#if isLinked }}
     <div class="flex-crumbs">
       {{hb-board-columns columns=link.board.columns }}
