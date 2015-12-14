@@ -3,7 +3,9 @@
   <label>
     {{input value=repoFullName placeholder='owner/repo'}}
   </label>
-  {{settings/hb-label-chooser labels=labels selected=issue_filter}}
+  {{#if labelChooserEnabled}}
+    {{settings/hb-label-chooser labels=labels selected=issue_filter}}
+  {{/if}}
     {{#if shouldDisplayError }}
     <span class="help-block">
       {{errorMessage}}

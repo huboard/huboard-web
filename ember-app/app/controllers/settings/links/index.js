@@ -7,6 +7,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
   isDisabled: true,
   issue_filter: [],
   labels: [],
+  labelChooserEnabled: false,
   shouldDisplayWarning: Ember.computed.alias("controllers.settings/links.shouldDisplayWarning"),
   shouldDisplayError: false,
   errorMessage: '',
