@@ -110,11 +110,7 @@ class Huboard
         match = Huboard.link_pattern.match l['name']
         l['user'] = match[:user_name]
         l['repo'] = match[:repo]
-<<<<<<< HEAD
         l['labels'] = match[:labels].split(/·/) rescue nil
-=======
-        l['labels'] = match[:labels].split(/·/)
->>>>>>> ec4abcb02c69265d79f9a540a64f93f03c65609b
         l
       end
     end
