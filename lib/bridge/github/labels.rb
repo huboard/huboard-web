@@ -78,7 +78,7 @@ class Huboard
       end
 
       if link
-        new_name = issue_filter ? "Link <=> #{name} labels=#{issue_filter.join('·')}" : name
+        new_name = issue_filter ? "Link <=> #{name} labels=#{issue_filter.join('·')}" : "Link <=> #{name}"
         link = gh.labels(link["name"]).patch({
           color: link["color"],
           name: new_name
@@ -110,7 +110,7 @@ class Huboard
         match = Huboard.link_pattern.match l['name']
         l['user'] = match[:user_name]
         l['repo'] = match[:repo]
-        l['labels'] = match[:labels].split(/·/)
+        l['labels'] = match[:labels].split(/·/) rescue nil
         l
       end
     end

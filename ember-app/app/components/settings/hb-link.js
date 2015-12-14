@@ -12,9 +12,9 @@ var HbLinkComponent = Ember.Component.extend({
   issueFiltersLabels: function(){
     var issue_filter = this.get("link.data.issue_filter");
     return this.get("link.data.other_labels").filter((l) => {
-      return issue_filter.any((filter) => {
+      return issue_filter ? issue_filter.any((filter) => {
         return filter === l.name;
-      });
+      }) : false;
     });
   }.property("link.data.issue_filter", "link.data.other_labels"),
   issueFilters: function(){

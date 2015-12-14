@@ -6,6 +6,7 @@ var HbLabelSelectorComponent = Ember.Component.extend({
   isOpen: function(){
     return false;
   }.property(),
+  noLabelsMessage: "None yet",
   editable: true,
   selected: [],
   values: [],
