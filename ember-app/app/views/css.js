@@ -28,7 +28,7 @@ var CssView = Ember.View.extend({
         return label;
       })
       .value();
-  }.property("content.labels.[]")
+  }.property()
 });
 
 export default CssView;
