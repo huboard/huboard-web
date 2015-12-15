@@ -53,7 +53,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
 
       model.validateLink(name).then((link)=>{
         _self.set("isDisabled", false);
-        _self.set("labels", link.labels);
+        _self.set("labels", link.other_labels);
       }, (jqXHR)=> _self.errorHandler(jqXHR) )
     },
   }

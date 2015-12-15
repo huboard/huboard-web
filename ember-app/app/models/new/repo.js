@@ -150,11 +150,16 @@ var Repo = Model.extend({
     });
   },
   updateLink: function(link){
-    var parent = this;
+    var link = this.get("links").find((l) => {
+      return l.get("data.repo.full_name") === link.data.repo.full_name;
+    });
     var repo = this.get('data.repo.full_name');
 
     return Link.update(link, repo).then((response) => {
-      parent.get('links.lastObject').load();
+      var issues = response.data.issues.map((x) => Issue.create({data: x, repo: link}));
+      link.set('issues', issues);
+      link.set('other_labels', response.data.other_labels);
+      return link;
     });
   },
   validateLink: function(name){

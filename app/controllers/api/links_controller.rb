@@ -35,9 +35,8 @@ module Api
       board = huboard.board(params[:user], params[:repo])
       link = board.update_link params[:name], params[:labels]
       if link
-       repo = huboard.repo(link['user'], link['repo']).fetch(false)
-       repo[:repo][:color] = link
-       render json: repo
+       repo = huboard.repo(link['user'], link['repo']).details(params)
+       render json: {data: repo}
       else
         raise HuBoard::Error, "Unable to update link #{params[:name]}"
       end
@@ -58,7 +57,7 @@ module Api
         }, status: 403
       end
 
-      render json: { link: params[:link], labels: board.other_labels }, status: 200
+      render json: { link: params[:link], other_labels: board.other_labels }, status: 200
     end
   end
 end
