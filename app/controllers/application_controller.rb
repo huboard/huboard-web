@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   protected
   def ghee_unauthorized
-    request.env['warden'].logout
+    omniauth_logout
     respond_to do |format|
       format.json { render json: {error: 'GitHub token is expired'}, status: 422}
       format.html { redirect_to '/login' }
@@ -48,5 +48,9 @@ class ApplicationController < ActionController::Base
 
   def not_found
     raise ActionController::RoutingError.new 'Not found'
+  end
+
+  def omniauth_logout
+    request.env['omniauth.auth'] = nil
   end
 end
