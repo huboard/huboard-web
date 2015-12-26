@@ -5,7 +5,7 @@ export default Ember.Component.extend({
     // Did Insert Element.
     // Add this logic.
     this.get('parentView').addPane(this); 
-  },
+  }.on('didInsertElement'),
   selected: function() {
     return this.get('parentView.selected') === this;
   }.property('parentView.selected')

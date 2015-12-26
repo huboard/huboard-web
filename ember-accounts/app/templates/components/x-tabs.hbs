@@ -1,3 +1,13 @@
-<div class="tab-pane" class="{{if selected 'active'}}">
-  {{yield}}
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    {{#each panes as |pane|}}
+    <li class="{{if pane.selected 'active'}}">
+      <a href="#" {{action 'select' pane}}>{{pane.title}}</a>
+    </li>
+  {{/each}}
+  </ul>
+
+  <div class="tab-content">
+    {{yield}}
+  </div>
 </div>
