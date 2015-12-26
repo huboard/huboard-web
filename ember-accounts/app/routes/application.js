@@ -5,7 +5,6 @@ import Organization from '../models/organization';
 export default Ember.Route.extend({
   model() {
     return Ember.$.getJSON("/api/profiles").then((response) => {
-      console.log(response);
       let user = User.create(response.user);
 
       let orgs = Ember.A();
