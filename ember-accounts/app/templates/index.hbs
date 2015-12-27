@@ -1,0 +1,23 @@
+<h1>Index Route</h1>
+
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="">
+      {{link-to 'Plans' 'plans'}}
+    </li>
+
+    <li class="">
+      {{link-to 'Billing' 'billing'}}
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane">
+      <div class="nav-section">
+        <div class="widget-body">
+          {{outlet}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

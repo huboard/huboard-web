@@ -1,3 +1,49 @@
-<h2 id="title">Welcome to Ember</h2>
+<div class="container">
+<h1>Accounts</h1>
 
-{{outlet}}
+<div class="row">
+  <div class="col-md-3">
+    <ul class="nav nav-list">
+      <li>
+        {{#link-to "index"}}
+        <img height="24" width="24" src={{model.user.gravatar_url}}>
+        {{model.user.login}}
+        {{/link-to}}
+      </li>
+
+      {{#each model.orgs as |org|}}
+      <li>
+        {{#link-to "profile" org}}
+        <img height="24" width="24" src={{org.gravatar_url}} />
+        {{ org.login }}
+        {{/link-to}}
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+  <div class="col-md-span-9">
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="">
+          {{login}}
+          {{link-to 'Plans' 'plans'}}
+        </li>
+
+        <li class="">
+          {{link-to 'Billing' 'billing'}}
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane">
+          <div class="nav-section">
+            <div class="widget-body">
+              {{outlet}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

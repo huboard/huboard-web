@@ -1,0 +1,24 @@
+<h1>Profile Route</h1>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="">
+      Plans
+      {{!--{{link-to 'Plans' 'plans'}}--}}
+    </li>
+
+    <li class="">
+       Billing
+      {{!--{{link-to 'Billing' 'billing'}}--}}
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane">
+      <div class="nav-section">
+        <div class="widget-body">
+          {{outlet}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
