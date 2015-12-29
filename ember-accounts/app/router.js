@@ -11,9 +11,10 @@ Router.map(function() {
     this.route('billing');
   });
 
-  this.route('plans');
-  this.route('billing');
-
+  this.route('user_profile', {path: '/'}, function() {
+    this.route('plans', {path: '/'});
+    this.route('billing');
+  });
 });
 
 export default Router;
