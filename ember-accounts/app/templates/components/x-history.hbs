@@ -7,8 +7,7 @@
   <p>
   {{ textarea value=model.history.additional_info }}
 
-  <button class="hb-button small"
-    {{action 'saveAdditionalInfo' this }} {{bind-attr disabled=processing }} >Update</button>
+  <button class="hb-button small" {{action 'saveAdditionalInfo' model }} disabled={{processing}} >Update</button>
   </p>
 
 </div>
