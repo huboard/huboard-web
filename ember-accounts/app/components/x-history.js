@@ -4,9 +4,10 @@ export default Ember.Component.extend({
   actions: {
     saveAdditionalInfo(model) {
       this.set("processing", true);
-      Ember.$.ajax({
+      return Ember.$.ajax({
         url: "/settings/profile/" + model.get("login") + "/additionalInfo",
         type: "PUT",
+        contentType: "application/json",
         data: {
           additional_info: model.get("history.additional_info")
         },
