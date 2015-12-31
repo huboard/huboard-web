@@ -5,7 +5,7 @@ export default Ember.Object.extend({
   }.property("avatar_url"),
   
   loadDetails() {
-    return Ember.$.getJSON("api/profiles/user").then(response => {
+    return Ember.$.getJSON("/api/profiles/user").then(response => {
       this.set('details', response);
       return response;
     });

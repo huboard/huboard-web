@@ -5,6 +5,8 @@ const Router = Ember.Router.extend({
   location: config.locationType
 });
 
+
+
 Router.map(function() {
   this.route('profile', {path: '/:profile_id'}, function() {
     this.route('plans', {path: '/'});
