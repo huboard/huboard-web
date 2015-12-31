@@ -54,19 +54,41 @@ class Huboard
     alias_method :destroy_link, :destroy_label
 
 
-    def create_link(repo)
+    def create_link(repo, labels=nil)
       label_name = "Link <=> #{repo}"
-      match = Huboard.link_pattern.match label_name
+      label_name = labels ? "#{label_name} labels=#{labels.join('·')}" : label_name
 
+      match = Huboard.link_pattern.match label_name
       if match and repo_exists?(match[:user_name], match[:repo])
         new_link = create_label name: label_name, color: random_color
         new_link['user'] = match[:user_name]
         new_link['repo'] = match[:repo]
+        new_link['labels'] = labels
         new_link
       else
         nil
       end
 
+    end
+
+    def update_link(name, issue_filter=nil)
+      link = labels.find do |label|
+        match = Huboard.link_pattern.match label["name"]
+        match && "#{match[:user_name]}/#{match[:repo]}" == name
+      end
+
+      if link
+        new_name = issue_filter ? "Link <=> #{name} labels=#{issue_filter.join('·')}" : "Link <=> #{name}"
+        link = gh.labels(link["name"]).patch({
+          color: link["color"],
+          name: new_name
+        })
+
+        match = Huboard.link_pattern.match new_name
+        link['user'] = match[:user_name]
+        link['repo'] = match[:repo]
+      end
+      link
     end
 
     def copy_board(columns)
@@ -88,6 +110,7 @@ class Huboard
         match = Huboard.link_pattern.match l['name']
         l['user'] = match[:user_name]
         l['repo'] = match[:repo]
+        l['labels'] = match[:labels].split(/·/) rescue nil
         l
       end
     end

@@ -5,10 +5,20 @@
 <div class="link">
 
   <h4>{{link.data.repo.full_name}}</h4>
+  {{#if isProcessing}}{{hb-spinner}} {{/if}}
   {{#if isLinked }}
     <div class="flex-crumbs">
       {{hb-board-columns columns=link.board.columns }}
     </div>
+    {{hb-label-selector 
+      title="+ filters"
+      editable=true
+      customClass="hb-selector-component--links"
+      values=issueFiltersLabels
+      selected=issueFiltersLabels
+      labels=link.data.other_labels
+      noLabelsMessage="Constrain the issues on this link!"
+    }}
   {{else}}
     {{#if link.board.columns.length }}
       <div class="flex-crumbs control-group error">

@@ -24,7 +24,7 @@ class Huboard
   end
 
   def self.link_pattern
-    /^Link <=> (?<user_name>.*)\/(?<repo>.*)/
+    /^Link <=> (?<user_name>.*)\/(?<repo>[^\/?\ ]*)($|(.*)\=(?<labels>.*))/
   end
 
   def self.settings_pattern
