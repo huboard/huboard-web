@@ -77,6 +77,13 @@
       @include flex(1);
       padding: 6px;
       padding-top: 0px;
+
+      .hb-spinner {
+        position: relative;
+        float: right;
+        bottom: 34px;
+        right: 30px;
+      }
     }
     .link-states {
       @include display(flex);
@@ -147,5 +154,64 @@
       }
     }
 
+  }
+
+
+  .hb-label-container {
+    display: inline-block;
+    margin: 2px;
+    padding: 1px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 0px;
+    text-align: center;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+
+    &.selected {
+      box-shadow: inset 3px 3px 1px rgba(0,0,0,0.3);
+    }
+
+    .label {
+      color: white;
+      background-color: inherit;
+      text-shadow: 0 1px 2px gray;
+    }
+  }
+}
+
+.hb-selector-component.hb-selector-component--links {
+  .hb-selector-title {
+    float: left;
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin-right: 6px;
+  }
+
+  .hb-display-item {
+    display: inline-block;
+  }
+
+  .hb-flyout {
+    left: 0;
+    right: auto;
+  }
+
+  .hb-label-items {
+    max-height: 130px;
+  }
+
+  .ui-icon-gear {
+    display: none;
+  }
+
+  .hb-selected .empty {
+    display: none;
+  }
+
+  .hb-selected {
+    line-height: 2.5em;
+    font-size: 14px;
   }
 }
