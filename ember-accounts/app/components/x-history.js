@@ -7,7 +7,6 @@ export default Ember.Component.extend({
       return Ember.$.ajax({
         url: "/settings/profile/" + model.get("login") + "/additionalInfo",
         type: "PUT",
-        contentType: "application/json",
         data: {
           additional_info: model.get("history.additional_info")
         },
