@@ -47,7 +47,7 @@ export default Ember.Component.extend({
     return !this.get("active") && !this.get("inactive")  && this.get("trialExpired");
   }.property("active", "inactive", "trialExpired"),
   actions: {
-    activateTrial: function(){
+    activateTrial() {
       self = this;
       this.set("trialButtonDisabled", true);
       Ember.$.ajax( {
@@ -58,5 +58,33 @@ export default Ember.Component.extend({
           location.reload();
         });
     },
+    applyCoupon(model) {
+      this.set("controllers.applyCoupon.model", model);
+      this.send("openModal","applyCoupon");
+    },
+    cancel(model) {
+      var org = this.get("model.details.org");
+      var details = this.get('model.details');
+      plan = Ember.Object.create({plan: model, org:org, details: details});
+      this.set("controllers.cancelForm.model", plan);
+      this.send("openModal","cancelForm");
+    },
+    purchase(model) {
+      var org = this.get("model.details.org");
+      var details = this.get('model.details');
+      plan = Ember.Object.create({plan: model, org:org, details: details});
+      this.set("controllers.purchaseForm.model", plan);
+      this.send("openModal","purchaseForm");
+    },
+    updateCard(model) {
+      var org = this.get("model.details.org");
+      card = Ember.Object.create({card: model, org:org});
+      this.set("controllers.updateCard.model", card);
+      this.send("openModal","updateCard");
+    },
+    updateEmail(model) {
+      this.set("controllers.updateEmail.model", model);
+      this.send("openModal","updateEmail");
+    }
   }
 });
