@@ -1,8 +1,9 @@
 <div class="alert {{if errorState 'alert-error' 'alert-success'}}">
   <div class={{if trialing 'trialing' 'disabled'}}>
     <p><strong> Free Trial is Active! </strong></p>
+    <p>Expires: {{stripe-date plan.trial_end}}</p>
   </div>
-  <div class={{if trialiningExpired 'trialing-expired' 'disabled'}}>
+  <div class={{if trialingExpired 'trialing-expired' 'disabled'}}>
     <p><strong> Free Trial is Expired! </strong></p>
     <p> Upgrade your plan to enable private access </p>
   </div>
