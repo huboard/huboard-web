@@ -1,0 +1,22 @@
+<div class="alert {{if errorState 'alert-error' 'alert-success'}}">
+  <div class={{if trialing 'trialing' 'disabled'}}>
+    <p><strong> Free Trial is Active! </strong></p>
+  </div>
+  <div class={{if trialiningExpired 'trialing-expired' 'disabled'}}>
+    <p><strong> Free Trial is Expired! </strong></p>
+    <p> Upgrade your plan to enable private access </p>
+  </div>
+
+
+  <div class={{if noAccount 'new-account' 'disabled'}}>
+    <p>
+      <strong>All Accounts</strong> receive a <strong>15 day free trial</strong>.
+    </p>
+    <p>
+      <form {{action "activateTrial" on="submit"}}>
+        {{input type="email" placeholder="Email Address" name="billing_email" value=emailBinding required="required"}}
+        {{input class="hb-button" type="submit" value="Activate Trial" disabled=trialButtonDisabled}}
+      </form>
+    </p>
+  </div>
+</div>
