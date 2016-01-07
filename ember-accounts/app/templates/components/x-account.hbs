@@ -95,10 +95,10 @@
          {{#if plan.purchased }} 
             Your plan
             <button class="hb-button hb-button-danger small"
-               {{action 'cancel' model}}>Cancel plan</button>
+               {{action 'cancel' plan}}>Cancel plan</button>
           {{else}}
             <button class="hb-button small"
-             {{action 'purchase' model}}>Upgrade</button>
+             {{action 'purchase' plan}}>Upgrade</button>
           {{/if}}
 
         </td>
