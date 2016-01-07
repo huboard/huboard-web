@@ -13,7 +13,7 @@ Router.map(function() {
     this.route('billing');
   });
 
-  this.route('user_profile', {path: '/'}, function() {
+  this.route('user-profile', {path: '/'}, function() {
     this.route('plans', {path: '/'});
     this.route('billing');
   });

@@ -45,7 +45,6 @@ export default Ember.Route.extend({
       promise.resolve();
 
       return promise.promise;
-    },
-
+    }
   }
 });
