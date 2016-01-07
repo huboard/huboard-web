@@ -47,6 +47,8 @@ export default Ember.Component.extend({
   trialingExpired: function(){
     return !this.get("active") && !this.get("inactive")  && this.get("trialExpired");
   }.property("active", "inactive", "trialExpired"),
+  currentModal: 'updateEmail',
+  showUpdateEmailModal: Ember.computed.equal('currentModal', 'updateEmail'),
   actions: {
     activateTrial() {
       self = this;
@@ -70,10 +72,16 @@ export default Ember.Component.extend({
       this.set("controllers.cancelForm.model", plan);
       this.send("openModal","cancelForm");
     },
+    closeModal() {
+      // We don't want to show any type of modal.
+      this.set('currentModal', ''); 
+    },
     purchase(model) {
       var org = this.get("model.details.org");
       var details = this.get('model.details');
       plan = Ember.Object.create({plan: model, org:org, details: details});
+      this.set(planModel, plan);
+      this.set('currentModal', 'purchaseForm');
       this.set("controllers.purchaseForm.model", plan);
       this.send("openModal","purchaseForm");
     },
@@ -84,8 +92,7 @@ export default Ember.Component.extend({
       this.send("openModal","updateCard");
     },
     updateEmail(model) {
-      this.set("controllers.updateEmail.model", model);
-      this.send("openModal","updateEmail");
+      this.set('currentModal', 'updateEmail');
     }
   }
 });

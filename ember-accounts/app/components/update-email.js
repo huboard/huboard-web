@@ -1,0 +1,37 @@
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  customer: Ember.computed.alias('model.details.plans.firstObject.customer'),
+  onChange: (function() {
+    let errors;
+    errors = this.get('errors');
+    if (errors) {
+      this.set('errors', null);
+    }
+  }).observes('email'),
+  isDisabled: function() {
+    return this.get('errors') || this.get('processing');
+  },
+  processing: false,
+  actions: {
+    update() {
+      this.set('processing', true);
+      Ember.$.ajax({
+        url: '/settings/email/' + this.get('customer'),
+        data: {billing_email: this.get('email')},
+        type: "PUT"
+      }).then(response => {
+        this.set('model.details.account_email', this.get('email'));
+        this.set('processing', false);
+        this.set('email', '');
+        this.sendAction('action');
+      }).fail(() => {
+        this.set('errors', 'Your email address could not be updated, please try again.');
+        this.set('processing', false);
+      });
+    },
+    close() {
+      this.sendAction('action');
+    }
+  }
+});

@@ -1,3 +1,9 @@
+{{#if showUpdateEmailModal}}
+  {{#x-modal}}
+    {{update-email model=model action='closeModal'}}
+  {{/x-modal}}
+{{/if}}
+
 <div class="alert {{if errorState 'alert-error' 'alert-success'}}">
   <div class={{if trialing 'trialing' 'disabled'}}>
     <p><strong> Free Trial is Active! </strong></p>
@@ -102,3 +108,4 @@
     </tbody>
   </table>
 </div>
+
