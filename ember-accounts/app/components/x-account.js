@@ -21,9 +21,10 @@ export default Ember.Component.extend({
     return this.get("model.details.non_profit") && !this.get("plan");
   }.property("model.details.non_profit", "active"),
   plan: function() {
-    var plans = this.get("model.details.plans");
+    let plans = this.get("model.details.plans");
     this.set("model.details.plans", Em.A(plans));
-    return this.get("model.detail.plans.firstObject");
+    const firstPlan = this.get("model.details.plans.firstObject");
+    return firstPlan;
   }.property("model.details.plans"),
   purchaseWithTrial: function(){
     return this.get("plan.status") === "purchase_with_trial";
@@ -34,9 +35,9 @@ export default Ember.Component.extend({
     return (end_time - now) < 1;
   }.property("plan.trial_end"),
   trialActivationUrl: function(){
-    var path = encodeURIComponent(window.location.pathname + window.location.hash);
-    var redirect = "?forward_to=" + path;
-    var user = this.get("model.login");
+    const path = encodeURIComponent(window.location.pathname + window.location.hash);
+    const redirect = "?forward_to=" + path;
+    const user = this.get("model.login");
     return "/settings/profile/" + user + "/trial/activate"  + redirect;
   }.property("model.login"),
   trialButtonDisabled: false,
@@ -50,13 +51,13 @@ export default Ember.Component.extend({
     activateTrial() {
       self = this;
       this.set("trialButtonDisabled", true);
-      Ember.$.ajax( {
+      Ember.$.ajax({
         url: self.get("trialActivationUrl"),
         data: {billing_email: self.get("emailBinding")},
-        type: "POST"})
-        .then(function(response){
+        type: "POST"
+      }).then(function(response){
           location.reload();
-        });
+      });
     },
     applyCoupon(model) {
       this.set("controllers.applyCoupon.model", model);
