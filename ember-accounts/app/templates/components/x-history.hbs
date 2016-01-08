@@ -25,7 +25,7 @@
       {{#each model.history.charges as |charge|}}
       <tr>
         <td>{{stripe-date charge.created }}</td>
-        <td>{{ receipt_email }}</td>
+        <td>{{ charge.receipt_email }}</td>
         <td>{{stripe-money charge.amount }}</td>
         <td class="text-right">    
          {{#if paid}}
