@@ -24,14 +24,14 @@ export default Ember.Component.extend({
         this.set('model.details.account_email', this.get('email'));
         this.set('processing', false);
         this.set('email', '');
-        this.sendAction('action');
+        this.sendAction('close');
       }).fail(() => {
         this.set('errors', 'Your email address could not be updated, please try again.');
         this.set('processing', false);
       });
     },
     close() {
-      this.sendAction('action');
+      this.sendAction('close');
     }
   }
 });

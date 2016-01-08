@@ -1,22 +1,22 @@
 {{#if showUpdateEmailModal}}
   {{#x-modal}}
-    {{update-email model=model action='closeModal'}}
+    {{update-email model=model close='closeModal'}}
   {{/x-modal}}
 {{else if showApplyCouponModal}}
   {{#x-modal}}
-    {{apply-coupon model=model action='closeModal'}}
+    {{apply-coupon model=model close='closeModal'}}
   {{/x-modal}}
 {{else if showCancelModal}}
   {{#x-modal}}
-    {{cancel-form model=planModel action='closeModal'}}
+    {{cancel-form model=planModel close='closeModal'}}
   {{/x-modal}}
 {{else if showUpdateCardModal}}
   {{#x-modal}}
-    {{update-card model=cardModel action='closeModal'}}
+    {{update-card model=cardModel close='closeModal'}}
   {{/x-modal}}
 {{else if showPurchaseFormModal}}
   {{#x-modal}}
-    {{purchase-form model=planModel action='closeModal'}}
+    {{purchase-form model=planModel close='closeModal'}}
   {{/x-modal}}
 {{/if}}
 
