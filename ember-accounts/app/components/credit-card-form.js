@@ -1,5 +1,5 @@
 import Ember from 'ember';
-
+import ENV from 'ember-accounts/config/environment';
 export default Ember.Component.extend({
   actions: {
     close() {
