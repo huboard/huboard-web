@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-console.log(Ember.$);
 export default Ember.Component.extend({
   actions: {
     close() {
