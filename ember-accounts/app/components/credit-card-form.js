@@ -2,9 +2,6 @@ import Ember from 'ember';
 import ENV from 'ember-accounts/config/environment';
 export default Ember.Component.extend({
   actions: {
-    close() {
-      return this.sendAction('close');
-    },
     process() {
       this.set('processingCard', true);
       Stripe.setPublishableKey(this.get('key'));
@@ -16,7 +13,7 @@ export default Ember.Component.extend({
       }, this.didProcessToken.bind(this));
     }
   },
-  key: '1234567', //HuboardEnv.stripe_pub_key,
+  key: ENV.STRIPE_PUBLISHABLE_API,
   processingCard: false,
   number: null,
   cvc: null,

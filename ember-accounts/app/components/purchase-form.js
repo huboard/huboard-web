@@ -27,7 +27,7 @@ export default CreditCardForm.extend({
     }
   },
   postCharge(token) {
-    return this.ajax('/settings/charge' + this.get('model.org.login'), {
+    return this.ajax('/settings/charge/' + this.get('model.org.login'), {
       email: this.get('model.org.billing_email'),
       card: token,
       coupon: this.get('coupon'),
