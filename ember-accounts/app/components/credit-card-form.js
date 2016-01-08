@@ -21,19 +21,19 @@ export default Ember.Component.extend({
   number: null,
   cvc: null,
   exp: null,
-  expMonth: Ember.computed("exp", () => {
+  expMonth: function() {
     if (this.get("exp")) {
       return Ember.$.payment.cardExpiryVal(this.get("exp")).month || "MM";
     }
-  }),
-  expYear: Ember.computed("exp", () => {
+  }.property('exp'),
+  expYear: function() {
     if (this.get("exp")) {
       return Ember.$.payment.cardExpiryVal(this.get("exp")).year || "YYYY";
     }
 
     return "YYYY";
-  }),
-  cardType: Ember.computed("number", () => {
+  }.property('exp'),
+  cardType: function() {
     return Ember.$.payment.cardType(this.get('number'));
-  })
+  }.property('number')
 });

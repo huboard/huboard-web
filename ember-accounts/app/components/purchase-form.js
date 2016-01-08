@@ -3,9 +3,9 @@ import CreditCardForm from './credit-card-form';
 
 export default CreditCardForm.extend({
   coupon: null,
-  isDisabled: Ember.computed('isProcessing', 'errors', () => {
+  isDisabled: function() {
     this.get('isProcessing') || this.get('errors');
-  }),
+  }.property('isProcessing', 'errors'),
   clearErrors: function() {
     this.set('errors', null);
   }.observes('number', 'cvc', 'expMonth', 'expYear'),
@@ -15,9 +15,9 @@ export default CreditCardForm.extend({
       return this.set('errors', null);
     }
   }.observes('coupon'),
-  price: Ember.computed('plan.amount', () => {
+  price: function() {
     return this.get('model.amount');
-  }),
+  }.property('plan.amount'),
   didProcessToken(status, response) {
     if (response.error) {
       this.set('processingCard', false);
@@ -76,19 +76,19 @@ export default CreditCardForm.extend({
       return Ember.$.ajax(hash);
     });
   },
-  plan: Ember.computed('model.details.plans', () => {
+  plan: function() {
     const plans = this.get('model.details.plans');
     this.set('model.details.plans.firstObject', Em.A(plans));
     return this.get('model.details.plans.firstObject');
-  }),
-  trialing: Ember.computed('plan.status', 'trialExpired', () => {
+  }.property('model.details.plans'),
+  trialing: function() {
     return this.get('plan.status') === 'trialining' && !this.get('trialExpired');
-  }),
-  trialExpired: Ember.computed('plan.trial_end', () => {
+  }.property('plan.status', 'trialExpired'),
+  trialExpired: function() {
     const end_time = new Date(this.get('plan.trial_end') * 1000);
     let now = new Date();
     return (end_time - now) < 1;
-  }),
+  }.property('plan.trial_end'),
   actions: {
     couponChanged() {
       let success;

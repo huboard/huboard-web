@@ -3,9 +3,9 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   coupon: null,
   customer: Ember.computed.alias('model.details.card.customer'),
-  isDisabled: Ember.computed('errors', () => {
+  isDisabled: function() {
     return this.get('errors') || this.get('processingAction');
-  }),
+  }.property('errors'),
   processingAction: false,
   onCouponChange: (function() {
     let errors = this.get('errors');
