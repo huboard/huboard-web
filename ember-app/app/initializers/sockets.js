@@ -1,5 +1,5 @@
 import correlationId from 'app/utilities/correlation-id';
-import faye from 'app/utilities/messaging/fayeClient';
+import { Socket } from 'app/utilities/phoenix/phoenix';
 import ajax from 'ic-ajax';
 
 export function initialize(container, application){
@@ -15,7 +15,7 @@ export function initialize(container, application){
     socket = Ember.Object.extend({
       correlationId : correlationId,
       sockets: {},
-      client: faye(application.get("socketBackend")), 
+      client: new Socket(application.get("socketBackend")), 
       publish: function(message){
         const channel = this._sanitizeChannel(message.meta.channel);
         var _self = this;
@@ -78,8 +78,10 @@ export function initialize(container, application){
         var client = this.get('client'), 
         callbacks = Ember.$.Callbacks();
 
-        client.disable("eventsource");
-        var source = client.subscribe("/" + channel, function(message){
+        client.connect();
+
+        //client.disable("eventsource");
+        var source = client.channel("/" + channel).on("*", function(message){
           if(self._messages){
             self._messages.push({channel: channel, message: message});
           }              
@@ -105,6 +107,7 @@ export function initialize(container, application){
   application.inject("route", "socket", "socket:main");
   application.inject("service", "socket", "socket:main");
 }
+
 export default {
   name: 'sockets',
   initialize: initialize
