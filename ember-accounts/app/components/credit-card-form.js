@@ -11,6 +11,9 @@ export default Ember.Component.extend({
         exp_month: this.get('expMonth'),
         exp_year: this.get('expYear')
       }, this.didProcessToken.bind(this));
+    },
+    close() {
+      this.sendAction('close');
     }
   },
   key: ENV.STRIPE_PUBLISHABLE_API,

@@ -88,7 +88,7 @@ export default Ember.Component.extend({
     },
     updateCard(model) {
       const org = this.get("model.details.org");
-      const  card = Ember.Object.create({card: model, org:org});
+      const card = Ember.Object.create({card: model, org:org});
       this.set('cardModel', card);
       this.set('currentModal', 'updateCard');
     },

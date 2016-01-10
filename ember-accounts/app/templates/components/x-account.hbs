@@ -75,10 +75,9 @@
   <div class='credit-card'>
     {{#if model.details.card }}
      <img src="/assets/images/Plain.png" /> <strong>Credit card on file.</strong> Ending in {{ model.details.card.last4 }}
-     <button style="float: right" {{action 'updateCard' model }} class="hb-button small">Update card</button>
+     <button style="float: right" {{action 'updateCard' model}} class="hb-button small">Update card</button>
     {{else}}
-     <img src="/assets/images/Plain.png" /> <strong>No Credit card on file.</strong>
-
+      <img src="/assets/images/Plain.png" /> <strong>No Credit card on file.</strong>
     {{/if}}
   </div>
 
