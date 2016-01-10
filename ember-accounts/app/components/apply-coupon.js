@@ -3,62 +3,68 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   coupon: null,
   customer: Ember.computed.alias('model.details.card.customer'),
-  isDisabled: function() {
+  isDisabled: (function() {
     return this.get('errors') || this.get('processingAction');
-  }.property('errors'),
+  }).property('errors'),
   processingAction: false,
   onCouponChange: (function() {
-    let errors = this.get('errors');
+    var errors;
+    errors = this.get('errors');
     if (errors) {
       return this.set('errors', null);
     }
   }).observes('coupon'),
-  ajax(url, data, verb) {
-    return new Ember.RSVP.Promise((resolve, reject) => {
-      let hash;
+  ajax: function(url, data, verb) {
+    var controller;
+    controller = this;
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      var hash;
       hash = {};
       hash.url = url;
       hash.type = verb || 'GET';
-      hash.context = this;
+      hash.context = controller;
       hash.data = data;
-      hash.success = (json) => {
+      hash.success = function(json) {
         return resolve(json);
       };
-      hash.error = (jqXHR, textStatus, errorThrown) => {
+      hash.error = function(jqXHR, textStatus, errorThrown) {
         return reject(jqXHR);
       };
       return Ember.$.ajax(hash);
     });
   },
-  didRejectCoupon(error, statusText) {
-    this.set('errors', JSON.pares(error.responseText).error.message);
+  didRejectCoupon: function(error, statusText) {
+    this.set('errors', JSON.parse(error.responseText).error.message);
     return this.set('processingAction', false);
   },
-  didAcceptCoupon(response) {
-    this.sendAction('action'); // Close Action
+  didAcceptCoupon: function(response) {
+    this.send('close');
     this.set('processingAction', false);
     return this.set('model.details.discount', response.discount);
   },
-  clearCouponAlerts() {
+  clearCouponAlerts: function() {
     return this.set('errors', null);
   },
   actions: {
-    apply_coupon() {
-      const coupon_id = this.get('coupon');
-      const customer = this.get('customer');
+    apply_coupon: function() {
+      var coupon_id, customer;
+      coupon_id = this.get('coupon');
+      customer = this.get('customer');
       this.set('processingAction', true);
-      return this.ajax(`settings/redeem_coupon/${customer}`, {
+      return this.ajax("/settings/redeem_coupon/" + customer, {
         coupon: coupon_id
       }, "PUT").then(this.didAcceptCoupon.bind(this), this.didRejectCoupon.bind(this));
     },
-    couponChanged() {
-      let success;
-      const coupon_id = this.get('coupon');
+    couponChanged: function() {
+      var coupon_id, success;
+      coupon_id = this.get('coupon');
       if (coupon_id === "") {
         return this.clearCouponAlerts();
       }
-
-      return this.ajax(`/settings/coupon_valid/${coupon_id}`, {}, "GET").then(success = () => {}, this.didRejectCoupon.bind(this));
+      return this.ajax("/settings/coupon_valid/" + coupon_id, {}, "GET").then(success = (function() {}), this.didRejectCoupon.bind(this));
+    },
+    close: function() {
+      return this.send("closeModal");
     }
   }
 });
