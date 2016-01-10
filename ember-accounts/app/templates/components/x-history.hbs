@@ -28,7 +28,7 @@
         <td>{{ charge.receipt_email }}</td>
         <td>{{stripe-money charge.amount }}</td>
         <td class="text-right">    
-         {{#if paid}}
+         {{#if charge.paid}}
           <a href="/settings/invoices/{{unbound charge.invoice }}">HTML</a> | <a
             href="/settings/invoices/{{unbound charge.invoice}}.pdf">PDF</a>
          {{else}}
@@ -44,4 +44,3 @@
     </tbody>
   </table>
 </div>
-{{yield}}
