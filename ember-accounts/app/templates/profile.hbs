@@ -1,12 +1,12 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="">
-      {{link-to 'Plans' 'profile.plans'}}
-    </li>
+      {{#link-to 'profile.plans' tagName='li' href=false}}
+        {{link-to 'Plans' 'profile.plans'}}
+      {{/link-to}}
 
-    <li class="">
-       {{link-to 'Billing' 'profile.billing'}}
-    </li>
+      {{#link-to 'profile.billing' tagName='li' href=false}}
+        {{link-to 'Billing' 'profile.billing'}}
+      {{/link-to}}
   </ul>
 
   <div class="">
