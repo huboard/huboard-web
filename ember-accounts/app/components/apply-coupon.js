@@ -64,7 +64,7 @@ export default Ember.Component.extend({
       return this.ajax("/settings/coupon_valid/" + coupon_id, {}, "GET").then(success = (function() {}), this.didRejectCoupon.bind(this));
     },
     close: function() {
-      return this.send("closeModal");
+      return this.sendAction("close");
     }
   }
 });
