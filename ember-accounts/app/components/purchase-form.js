@@ -82,7 +82,7 @@ export default CreditCardForm.extend({
     return this.get('model.details.plans.firstObject');
   }.property('model.details.plans'),
   trialing: function() {
-    return this.get('plan.status') === 'trialining' && !this.get('trialExpired');
+    return this.get('plan.status') === 'trialing' && !this.get('trialExpired');
   }.property('plan.status', 'trialExpired'),
   trialExpired: function() {
     const end_time = new Date(this.get('plan.trial_end') * 1000);

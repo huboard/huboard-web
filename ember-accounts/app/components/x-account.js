@@ -13,6 +13,11 @@ export default Ember.Component.extend({
   failure: function() {
     return this.get("model.details.success") === false;
   }.property("model.details.success"),
+  inactive: function() {
+    let trial = this.get('model.details.trial');
+    let status = this.get('plan.status');
+    return (status === 'inactive' || status === 'canceled') && trial === 'expired';
+  }.property('plan.status', 'model.details.trial'),
   noAccount: function(){
     var trial = this.get("model.details.trial");
     return !this.get("model.details.has_plan") && trial === "available";
