@@ -77,9 +77,9 @@ export default CreditCardForm.extend({
     });
   },
   plan: function() {
-    const plans = this.get('model.details.plans');
-    this.set('model.details.plans.firstObject', Em.A(plans));
-    return this.get('model.details.plans.firstObject');
+    let plans = this.get("model.details.plans")
+    this.set("model.details.plans", Em.A(plans));
+    return this.get("model.details.plans.firstObject");
   }.property('model.details.plans'),
   trialing: function() {
     return this.get('plan.status') === 'trialing' && !this.get('trialExpired');
