@@ -52,12 +52,10 @@ export default Ember.Component.extend({
   trialingExpired: function(){
     return !this.get("active") && !this.get("inactive")  && this.get("trialExpired");
   }.property("active", "inactive", "trialExpired"),
-  currentModal: '',
-  showUpdateEmailModal: Ember.computed.equal('currentModal', 'updateEmail'),
-  showApplyCouponModal: Ember.computed.equal('currentModal', 'applyCoupon'),
-  showCancelModal: Ember.computed.equal('currentModal', 'cancelForm'),
-  showUpdateCardModal: Ember.computed.equal('currentModal', 'updateCard'),
-  showPurchaseFormModal: Ember.computed.equal('currentModal', 'purchaseForm'),
+  currentModal: null,
+  showModal: function() {
+    return !!this.get('currentModal');
+  }.property("currentModal"),
   actions: {
     activateTrial() {
       this.set("trialButtonDisabled", true);
@@ -70,35 +68,37 @@ export default Ember.Component.extend({
       });
     },
     applyCoupon(model) {
-      this.set('currentModal', 'applyCoupon');
+      this.set('modalModel', model);
+      this.set('currentModal', 'apply-coupon');
     },
     cancel(model) {
       const org = this.get("model.details.org");
       const details = this.get('model.details');
       const plan = Ember.Object.create({plan: model, org:org, details: details});
-      this.set('planModel', plan);
-      this.set('currentModal', 'cancelForm');
+      this.set('modalModel', plan);
+      this.set('currentModal', 'cancel-form');
     },
     closeModal() {
       // We don't want to show any type of modal.
-      this.set('currentModal', ''); 
+      this.set('currentModal', null); 
     },
     purchase(model) {
       const org = this.get("model.details.org");
       const details = this.get('model.details');
       const plan = Ember.Object.create({plan: model, org:org, details: details});
       
-      this.set('planModel', plan);
-      this.set('currentModal', 'purchaseForm');
+      this.set('modalModel', plan);
+      this.set('currentModal', 'purchase-form');
     },
     updateCard(model) {
       const org = this.get("model.details.org");
       const card = Ember.Object.create({card: model, org:org});
-      this.set('cardModel', card);
-      this.set('currentModal', 'updateCard');
+      this.set('modalModel', card);
+      this.set('currentModal', 'update-card');
     },
     updateEmail(model) {
-      this.set('currentModal', 'updateEmail');
+      this.set('modalModel', model);
+      this.set('currentModal', 'update-email');
     }
   }
 });
