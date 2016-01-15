@@ -77,7 +77,14 @@ body > .fullscreen-overlay {
       }
     }
   }
-
+  .ui-icon-x-thin {
+    position: relative;
+    color: #999;
+    float: right;
+    top: 6px;
+    font-size: 8px;
+    z-index: 1;
+  }
 }
 
 .fullscreen-card, .fullscreen-login {
