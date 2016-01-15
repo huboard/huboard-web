@@ -1,6 +1,6 @@
 # GitHub issues made awesome
 
-[![HuBoard logo](https://raw.github.com/rauhryan/huboard/master/app/assets/images/HuBoardSplash960.png)](https://huboard.com)
+[![HuBoard logo](https://raw.github.com/huboard/huboard-web/master/app/assets/images/HuBoardSplash960.png)](https://huboard.com)
 ### Instant project management for your GitHub repositories
 ## FAQ
 
