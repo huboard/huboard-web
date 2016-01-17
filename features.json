@@ -1,5 +1,6 @@
 {
   "FEATURES" : {
-    "IMAGE_UPLOADS": true
+    "IMAGE_UPLOADS": true,
+    "ENCRYPTED_UPLOADS": false
   }
 }
