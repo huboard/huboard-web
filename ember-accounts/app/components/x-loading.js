@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  setupSpinner: function() {
+  didInsertElement: function() {
     Ember.$("body").addClass("fullscreen-open");
     const opts = {
       lines: 13, // The number of lines to draw
@@ -18,13 +18,16 @@ export default Ember.Component.extend({
       hwaccel: true, // Whether to use hardware acceleration
       className: 'spinner', // The CSS class to assign to the spinner
       zIndex: 2e9, // The z-index (defaults to 2000000000)
-      top: 'auto', // Top position relative to parent in px
-      left: 'auto' // Left position relative to parent in px
+      top: '100px', // Top position relative to parent in px
+      left: '50%' // Left position relative to parent in px
     };
-    new Spinner(opts).spin(this.$().get(0));
-  }.on('didInsertElement'),
 
-  destroySpinner: function() {
+    new Spinner(opts).spin(this.$().get(0));
+    
+    return this._super();
+  },
+  willDestroyElement: function() {
     Ember.$("body").removeClass("fullscreen-open");
-  }.on('willDestroyElement'),
+    return this._super();
+  },
 });
