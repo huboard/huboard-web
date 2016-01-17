@@ -17,6 +17,7 @@ Router.map(function() {
     this.route('plans', {path: '/'});
     this.route('billing');
   });
+  this.route('not-authorized');
 });
 
 export default Router;
