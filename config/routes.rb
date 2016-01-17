@@ -63,6 +63,7 @@ Rails.application.routes.draw do
         resources :links, only: [:index, :create]
         delete 'links' => 'links#destroy'
         post 'links/validate' => 'links#validate'
+        put 'links/update' => 'links#update'
         put 'columns' => 'columns#update'
         get 'settings' => 'settings#index'
         get 'health/board' => 'health#board'

@@ -119,6 +119,7 @@
     overflow-y: auto;
     .hb-menu-item {
       padding: 6px 12px;
+      @include transform(translateZ(0));
 
       .color {
         display: inline-block;

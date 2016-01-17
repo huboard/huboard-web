@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import emojiParser from "app/utilities/string/emoji-parser";
 
 var IssueReferenceView = Ember.View.extend({
   classNameBindings: [":issue-reference-info", "isLoaded:hb-loaded:ui-blur"],
@@ -6,7 +7,10 @@ var IssueReferenceView = Ember.View.extend({
   isLoaded: false,
   commit: null,
   commitUrl: Ember.computed.alias("commit.html_url"),
-  message: Ember.computed.alias("commit.commit.message"),
+  message: function(){
+    var message = emojiParser.parse(this.get("commit.commit.message"));
+    return message.htmlSafe();
+  }.property("commit.commit.message"),
   shortSha: function(){
     if (this.get("commit") === null){
       return "";
@@ -14,7 +18,7 @@ var IssueReferenceView = Ember.View.extend({
     return this.get("commit.sha").substr(0,7);
   }.property("commit.sha"),
   didInsertElement: function(){
-    this.set("model", this.get("parentView.content.model"));
+    this.set("model", this.get("parentView.model"));
     if (this.get("model.commit_id") === null){
       return this.set("parentView.isVisible", false);
     }
@@ -37,7 +41,7 @@ var IssueReferenceView = Ember.View.extend({
     }
     this.set("isProcessing", true);
     var self = this;
-    var commit = this.get("controller.model.commit_id");
+    var commit = this.get("controller.model");
     this.get("controller").fetchCommit(commit)
       .then(function(commit){
         self.set('isLoaded', true);
