@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   setupSpinner: function() {
-    $("body").addClass("fullscreen-open")
+    Ember.$("body").addClass("fullscreen-open");
     const opts = {
       lines: 13, // The number of lines to draw
       length: 0, // The length of each line
@@ -21,10 +21,10 @@ export default Ember.Component.extend({
       top: 'auto', // Top position relative to parent in px
       left: 'auto' // Left position relative to parent in px
     };
-    new Spinner(opts).spin(this.$().get(0))
+    new Spinner(opts).spin(this.$().get(0));
   }.on('didInsertElement'),
 
   destroySpinner: function() {
-    $("body").removeClass("fullscreen-open");
+    Ember.$("body").removeClass("fullscreen-open");
   }.on('willDestroyElement'),
 });
