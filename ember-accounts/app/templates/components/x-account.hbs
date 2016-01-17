@@ -58,16 +58,16 @@
   </div>
   <div class='credit-card'>
     {{#if model.details.card }}
-     <img src="/assets/images/Plain.png" /> <strong>Credit card on file.</strong> Ending in {{ model.details.card.last4 }}
+    <img src="{{asset-path 'Plain.png'}}" /> <strong>Credit card on file.</strong> Ending in {{ model.details.card.last4 }}
      <button style="float: right" {{action 'updateCard' model}} class="hb-button small">Update card</button>
     {{else}}
-      <img src="/assets/images/Plain.png" /> <strong>No Credit card on file.</strong>
+    <img src="{{asset-path 'Plain.png'}}" /> <strong>No Credit card on file.</strong>
     {{/if}}
   </div>
 
   <div class='coupon'>
     {{#if model.details.has_plan }}
-      <img src="/assets/images/icn-coupon.png" /> <strong> Coupon: {{{couponCode}}} </strong>
+    <img src="{{asset-path 'icn-coupon.png'}}" /> <strong> Coupon: {{{couponCode}}} </strong>
     <button style="float: right"class="hb-button small"
     {{action 'applyCoupon' model}}> Redeem Coupon </button>
     {{/if}}
