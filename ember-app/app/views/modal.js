@@ -57,6 +57,7 @@ var ModalView = Ember.View.extend({
   willDestroyElement: function() {
     Ember.$('body').off('keyup.modal');
     this.$(".fullscreen-overlay,.fullscreen-body").off("click.modal");
+    this.$('.modal-close').off("click");
   },
 
   actions: {
