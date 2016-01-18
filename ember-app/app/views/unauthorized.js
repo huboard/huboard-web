@@ -5,6 +5,7 @@ import Ember from 'ember';
 
 var UnauthorizedView = ModalView.extend({
   modalSize: "slimmer",
+  lockedModal: true,
   didInsertElement: function() {
     animateModalOpen();
     this.$(".fullscreen-body").on('click.modal', function(event){
