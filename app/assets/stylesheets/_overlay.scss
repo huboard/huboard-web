@@ -78,6 +78,11 @@ body > .fullscreen-overlay {
     }
   }
   .modal-close {
+
+    &:hover {
+      @include transform(scale(1.2));
+      cursor: pointer;
+    }
     position: fixed;
     color: white;
     float: right;
