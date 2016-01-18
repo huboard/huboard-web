@@ -1,0 +1,17 @@
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+      {{#link-to 'settings.profile.plans' tagName='li' href=false}}
+        {{link-to 'Plans' 'settings.profile.plans'}}
+      {{/link-to}}
+
+      {{#link-to 'settings.profile.billing' tagName='li' href=false}}
+        {{link-to 'Billing' 'settings.profile.billing'}}
+      {{/link-to}}
+  </ul>
+
+  <div class="nav-section">
+    <div class="widget-body">
+      {{outlet}}
+    </div>
+  </div>
+</div>

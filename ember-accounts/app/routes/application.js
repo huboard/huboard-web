@@ -19,32 +19,5 @@ export default Ember.Route.extend({
         orgs: orgs
       });
     });
-  },
-  actions: {
-    openModal(view) {
-      this.render(view, {
-        into: "application",
-        outlet: "modal"
-      });
-    },
-    closeModal(view) {
-      this.render(view);
-    },
-    animateModalClose() {
-      let promise = new Ember.RSVP.defer();
-
-      Ember.$('body').removeClass("fullscreen-open");
-      promise.resolve();
-
-      return promise.promise;
-    },
-    animateModalOpen() {
-      let promise = new Ember.RSVP.defer();
-
-      Ember.$('body').addClass("fullscreen-open");
-      promise.resolve();
-
-      return promise.promise;
-    }
   }
 });

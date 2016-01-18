@@ -1,7 +1,28 @@
-<div class="error-container">
-  <div class="v-mid">
+<div class="container">
+  <div class="error-container">
+    <div class="v-mid">
     <img class="error-policeman" src="{{asset-path 'errors/403/403_policeman.png'}}" />
     <h2>Hold on! This organization either does not exist or you do not have
       access.</h2>
+    </div>
+
+  <div class="row orgs-container">
+      <h3>Here are the organizations that we were able to get from the GitHub
+        API.</h3>
+
+
+      <div class="orgs">
+      {{#each model.orgs as |org|}}
+          {{#link-to 'settings.profile' org}}
+              <div class="org-item">
+                <img class="org-image" height="72" width="72" src={{org.gravatar_url}}
+                                 alt="{{org.login}} Avatar" />
+                <h4 class="org-label">{{org.login}}</h4>
+              </div>
+          {{/link-to}}
+      {{/each}}
+
+      </div>
+    </div>
   </div>
 </div>

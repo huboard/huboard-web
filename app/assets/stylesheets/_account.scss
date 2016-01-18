@@ -30,15 +30,21 @@
 
 .error-container {
   width: 100%;
-  display: table;
   text-align: center;
   height: 100%;
+  padding-top: 100px;
 }
 
-.v-mid {
-  display: table-cell;
-  vertical-align: middle;
-  height: 100%;
+.org-item {
+  display: inline-block;
+  margin-right: 24px;
+  padding-right: 24px;
+  border: 1px solid $borderColor;
+  border-radius: 4px;
+}
+
+.org-item:hover {
+  background-color: $hb-grey-light;
 }
 
 .error-policeman {
@@ -46,3 +52,18 @@
   margin: 0 auto;
 }
 
+.org-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.orgs-container {
+  padding-bottom: 40px;
+  max-width: 80%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.org-image {
+  padding-right: 8px;
+}
