@@ -44,7 +44,12 @@
 }
 
 .org-item:hover {
-  background-color: $hb-grey-light;
+  background-color: $hb-purple;
+  color: #fff;
+
+  & .org-label {
+    color: #fff;
+  }
 }
 
 .error-policeman {
@@ -55,6 +60,7 @@
 .org-label {
   display: inline-block;
   vertical-align: middle;
+  color: #4a4a4a;
 }
 
 .orgs-container {
