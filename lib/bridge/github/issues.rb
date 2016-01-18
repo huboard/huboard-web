@@ -232,7 +232,19 @@ class Huboard
           begin
             data = MultiJson.load(match[1])
             data["order"] = self['number'] unless data["order"]
+
+            zero_adjustment = 0.1e-20
+            if data["order"] == 0
+              data["order"] = self['id'] * zero_adjustment
+              data["zero_fix"] = true
+            end
+
             data["milestone_order"] = self['number'] unless data["milestone_order"]
+            if data["milestone_order"] == 0
+              data["milestone_order"] = self['id'] * zero_adjustment
+              data["zero_fix"] = true
+            end
+
             return data
           rescue
             return { order: self['number'], milestone_order: self['number'] }
