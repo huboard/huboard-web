@@ -234,13 +234,13 @@ class Huboard
             data["order"] = self['number'] unless data["order"]
 
             zero_adjustment = 0.1e-20
-            if data["order"] <= 0 || data["order"].is_a?(String)
+            if !data["order"].is_a?(Numeric) || data["order"] <= 0
               data["order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
             end
 
             data["milestone_order"] = self['number'] unless data["milestone_order"]
-            if data["milestone_order"] <= 0 || data["milestone_order"].is_a?(String)
+            if !data["milestone_order"].is_a?(Numeric) || data["order"] <= 0
               data["milestone_order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
             end
