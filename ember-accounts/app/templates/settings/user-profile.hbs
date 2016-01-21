@@ -1,21 +1,17 @@
 <div class="tabbable">
-  <ul class="nav nav-tabs">
-      {{#link-to 'settings.user-profile.plans' tagName='li' href=false}}
-        {{link-to 'Plans' 'settings.user-profile.plans'}}
-      {{/link-to}}
-
-      {{#link-to 'settings.user-profile.billing' tagName='li' href=false}}
-        {{link-to 'Billing' 'settings.user-profile.billing'}}
-      {{/link-to}}
-  </ul>
-
-  <div class="nav-section">
+  <div class="nav-section account-section">
     <div class="widget-body">
-      {{outlet}}
+      {{x-account model=model}}
+    </div>
+  </div>
+
+  <div class="nav-section billing-section">
+    <div class="widget-body">
+      {{x-history model=model}}
     </div>
   </div>
 </div>
 
-<div>
+<div class="question-label">
   <strong>Have questions?</strong> Email us anytime at support@huboard.com
 </div>
