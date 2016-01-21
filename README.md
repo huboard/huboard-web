@@ -4,11 +4,11 @@
 ### Instant project management for your GitHub repositories
 ## FAQ
 
-  1. [How to customize column titles](https://github.com/rauhryan/huboard/wiki#wiki-labels-explained)
+  1. [How to customize column titles](https://github.com/huboard/huboard/wiki#wiki-labels-explained)
   1. [How to customize column order](https://github.com/rauhryan/huboard/wiki#wiki-labels-explained)
   1. [How to configure work in progress limits](https://github.com/rauhryan/huboard/wiki#wiki-labels-explained)
-  1. [How link repositories together](https://github.com/rauhryan/huboard/wiki#wiki-linking-repositories)
-  1. [How deploy HuBoard to heroku](https://github.com/rauhryan/huboard/wiki/Deploying)
+  1. [How link repositories together](https://github.com/huboard/huboard/wiki#wiki-linking-repositories)
+  1. [How deploy HuBoard to heroku](https://github.com/huboard/huboard/wiki/Deploying)
 
 
 ## How to contribute
