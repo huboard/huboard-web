@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
-  gravatar_url: function() {
+  gravatar_url: Ember.computed('avatar_url', function() {
     return this.get('avatar_url');
-  }.property('avatar_url'),
+  }),
   loadDetails() {
     return Ember.$.getJSON(`/api/profiles/${this.get('login')}`, response => {
       this.set('details', response);

@@ -3,17 +3,17 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   coupon: null,
   customer: Ember.computed.alias('model.details.card.customer'),
-  isDisabled: (function() {
+  isDisabled: Ember.computed('errors', function() {
     return this.get('errors') || this.get('processingAction');
-  }).property('errors'),
+  }),
   processingAction: false,
-  onCouponChange: (function() {
+  onCouponChange: Ember.observer('coupon', function() {
     var errors;
     errors = this.get('errors');
     if (errors) {
       return this.set('errors', null);
     }
-  }).observes('coupon'),
+  }),
   ajax: function(url, data, verb) {
     var controller;
     controller = this;

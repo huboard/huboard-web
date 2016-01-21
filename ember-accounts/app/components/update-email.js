@@ -2,13 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   customer: Ember.computed.alias('model.details.plans.firstObject.customer'),
-  onChange: (function() {
+  onChange: Ember.observer('email', function() {
     let errors;
     errors = this.get('errors');
     if (errors) {
       this.set('errors', null);
     }
-  }).observes('email'),
+  }),
   isDisabled: function() {
     return this.get('errors') || this.get('processing');
   },

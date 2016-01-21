@@ -3,21 +3,21 @@ import CreditCardForm from './credit-card-form';
 
 export default CreditCardForm.extend({
   coupon: null,
-  isDisabled: function() {
-    this.get('isProcessing') || this.get('errors');
-  }.property('isProcessing', 'errors'),
-  clearErrors: function() {
+  isDisabled: Ember.computed('isProcessing', 'errors', function() {
+    return this.get('isProcessing') || this.get('errors');
+  }),
+  clearErrors: Ember.observer('number', 'cvc', 'expMonth', 'expYear', function() {
     this.set('errors', null);
-  }.observes('number', 'cvc', 'expMonth', 'expYear'),
-  onCouponChange: function() {
+  }),
+  onCouponChange: Ember.observer('coupon', function() {
     const errors = this.get('errors');
     if (errors) {
       return this.set('errors', null);
     }
-  }.observes('coupon'),
-  price: function() {
+  }),
+  price: Ember.computed('plan.amount', function() {
     return this.get('model.amount');
-  }.property('plan.amount'),
+  }),
   didProcessToken(status, response) {
     if (response.error) {
       this.set('processingCard', false);
@@ -76,19 +76,19 @@ export default CreditCardForm.extend({
       return Ember.$.ajax(hash);
     });
   },
-  plan: function() {
-    let plans = this.get("model.details.plans")
+  plan: Ember.computed('model.details.plans', function() {
+    let plans = this.get("model.details.plans");
     this.set("model.details.plans", Em.A(plans));
     return this.get("model.details.plans.firstObject");
-  }.property('model.details.plans'),
-  trialing: function() {
+  }),
+  trialing: Ember.computed('plan.status', 'trialExpired', function() {
     return this.get('plan.status') === 'trialing' && !this.get('trialExpired');
-  }.property('plan.status', 'trialExpired'),
-  trialExpired: function() {
+  }),
+  trialExpired: Ember.computed('plan.trial_end', function() {
     const end_time = new Date(this.get('plan.trial_end') * 1000);
     let now = new Date();
     return (end_time - now) < 1;
-  }.property('plan.trial_end'),
+  }),
   actions: {
     couponChanged() {
       let success;
