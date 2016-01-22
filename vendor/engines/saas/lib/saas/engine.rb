@@ -5,6 +5,7 @@ module Saas
     initializer "saas.register_before_action" do
       ActiveSupport.on_load :action_controller do
         include Saas::BeforeAction
+        before_action :user_email_handler
         before_action :check_account
       end
     end
