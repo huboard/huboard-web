@@ -34,22 +34,22 @@ module ApplicationHelper
   # Initiates the OAuth flow if not already authenticated for the
   #         # specified scope.
   def github_authenticate!(scope=:default)
-    request.env['warden'].authenticate!(scope: scope)
+    redirect_to '/auth/github'
   end
 
   # Logs out a user if currently logged in for the specified scope.
   def github_logout(scope=:default)
-    request.env['warden'].logout(scope)
+    request.env['omniauth.auth'] = nil
   end
   def github_authenticated?(scope=:default)
-    request.env['warden'].authenticated?(scope)
+    request.env['omniauth.auth'].present? && request.env['omniauth.auth'].try('provider') == 'github'
   end
 
   def github_user(scope=:default)
-    request.env['warden'].user(scope)
+    request.env['omniauth.auth'].try('info').try('user')
   end
   def github_session(scope=:default)
-    request.env['warden'].session(scope)  if github_authenticated?(scope)
+    raise NotImplemented
   end
   def is_collaborator?(repo)
     repo['permissions'] && repo['permissions']['push'] && logged_in?

@@ -44,7 +44,7 @@ class DashboardController < ApplicationController
   end
   :protected
     def login
-      request.env['warden'].logout if github_authenticated? :default
+      omniauth_logout if github_authenticated? :default
       github_authenticate! :private
     end
 
