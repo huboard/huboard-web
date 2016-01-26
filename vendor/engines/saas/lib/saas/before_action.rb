@@ -29,11 +29,6 @@ module Saas
           end
         end
       end
-
-      def user_email_handler
-        return unless gh.user.emails.raw.status === 200
-        #Do whatever we need to do with emails
-      end
     end
   end
 end
