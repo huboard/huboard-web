@@ -5,9 +5,8 @@ class LoginController < ApplicationController
     redirect_to "/"
   end
   def public
-    scope_strategy = params[:v2] ? :public_v2 : :default
     request.env['warden'].logout if github_authenticated? :private
-    github_authenticate! scope_strategy
+    github_authenticate! :default
     redirect_to params[:redirect_to] || "/"
   end
   def private
