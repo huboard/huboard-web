@@ -9,6 +9,14 @@
 <div class="row no-header">
   <div class="span3">
     <%= render partial: "vcard", :locals => {:user => @user || current_user.attribs } %>
+    <% if !@auth_scope_private %>
+      <div class="dashboard--alert">
+        <h4><i class="ui-icon-alert"></i> Looking for Private Repos? </h4>
+        <a class="hb-button hb-octo-button" href="/login/private">
+          <img src="<%= image_path 'GitHub-Mark-Light-32px.png' %>" width="18px"> Allow Private Access
+        </a>
+      </div>
+    <% end %>
   </div>
   <div class="span9">
     <div>

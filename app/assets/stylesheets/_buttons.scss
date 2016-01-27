@@ -37,7 +37,14 @@
       left: 10px;
     }
   }
-    
+
+  &.hb-octo-button {
+    img {
+      position: relative;
+      right: 7px;
+      bottom: 1px;
+    }
+  }
 }
 
 .hb-button-group {
