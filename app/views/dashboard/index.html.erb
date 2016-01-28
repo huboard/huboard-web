@@ -11,16 +11,23 @@
     <%= render partial: "vcard", :locals => {:user => @user || current_user.attribs } %>
     <% if !@auth_scope_private %>
       <div class="dashboard--alert">
-        <h4><i class="ui-icon-alert"></i> Looking for Private Repos? </h4>
+        <h5><i class="ui-icon-alert"></i> Looking for your private repositories? </h5>
         <a class="hb-button hb-octo-button" href="/login/private">
-          <img src="<%= image_path 'GitHub-Mark-Light-32px.png' %>" width="18px"> Allow Private Access
+          <img src="<%= image_path 'GitHub-Mark-Light-32px.png' %>" width="18px"> Allow private access
         </a>
       </div>
     <% end %>
   </div>
   <div class="span9">
-    <div>
+    <div class="repo-list">
       <%= render partial: 'repo_filters', :locals => { :user => @user || current_user.attribs, :is_current_user => (params[:user].nil? or @user['login'] == current_user.login ) } %>
+      <% if !@auth_scope_private && @private != 0 %>
+        <div class="dashboard--alert public-only-hero">
+          <span class="alert dashboard--alert" >
+            Only public repositories are currently visible!
+          </span>
+        </div>
+      <% end %>
       <ul class="repos drop-shadow ">
         <% if @repos.nil? || @repos.empty? %>
           <li class="empty">

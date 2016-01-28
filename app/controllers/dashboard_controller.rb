@@ -27,6 +27,7 @@ class DashboardController < ApplicationController
     @private = 0
     @user = user.body
     @repos = huboard.repos_by_user(params[:user]).select {|r| !r['private'] }
+    @auth_scope_private = github_authenticated? :private
     render :index
   end
 
@@ -34,6 +35,7 @@ class DashboardController < ApplicationController
     user = gh.users(params[:user]).raw
     not_found unless user.status == 200
     @private = 1
+    @auth_scope_private = github_authenticated? :private
     @user = user.body
     if logged_in? && current_user.login == params[:user]
       @repos = huboard.all_repos.select {|r| r['private'] }
