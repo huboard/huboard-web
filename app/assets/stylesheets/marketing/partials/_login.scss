@@ -10,6 +10,14 @@
 	background-size: 100% auto;
 	color: white;
 
+  .permissions {
+    .btn-octocat {
+      position: relative;
+      top: 2px;
+      margin-right: 4px;
+    }
+  }
+
 	.top {
 		background: none;
 	}
