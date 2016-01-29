@@ -7,15 +7,12 @@ class LoginPublicJob < ActiveJob::Base
       params['user']['email_verified'] = email['verified']
     end
 
-    data = {
-      user: params['user'],
-      emails: params['emails'],
-      event: 'public_login'
-    }
+    params['user']['emails'] = params['emails']
+    params['user']['action'] = 'public_login'
 
     payload = {
       'current_user': params['user'],
-      'data': data
+      'data': params['user']
     }
     Analytics::IdentifyUserJob.perform_later(payload)
   end
