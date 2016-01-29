@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     @private = nil
     @user = gh.users(current_user.login)
     @repos = huboard.all_repos
+    @auth_scope_private = github_authenticated? :private
   end
   def user
     user =   gh.users(params[:user]).raw

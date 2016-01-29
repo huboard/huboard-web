@@ -4,13 +4,13 @@ Rails.application.middleware.insert_after ActionDispatch::Flash, Warden::Manager
     config: {
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
-    scope:         'read:org,repo'
+    scope:         'read:org,repo,user:email'
   }
   config.scope_defaults :default, strategies: [:github],
     config: {
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
-    scope:         'read:org,public_repo'
+    scope:         'read:org,public_repo,user:email'
   }
 
   config.failure_app = Rails.application.routes

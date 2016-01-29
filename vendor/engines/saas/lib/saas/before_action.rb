@@ -29,7 +29,6 @@ module Saas
           end
         end
       end
-
     end
   end
 end
