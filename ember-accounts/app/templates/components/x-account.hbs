@@ -65,6 +65,18 @@
     {{/if}}
   </div>
 
+  <div class='plan'>
+    {{#if plan.purchased}}
+      <span><strong>Current Plan:</strong> {{plan.name}}</span>
+      <button style="float: right" class="hb-button hb-button-danger small" 
+      {{action 'cancel' plan}}>Cancel Plan</button>
+    {{else}}
+      <span><strong>Available Plan:</strong> {{plan.name}} ({{stripe-money
+        plan.amount }}/month)</span>
+      <button style="float: right" class="hb-button small" 
+      {{action 'purchase' plan}}>Upgrade Plan</button>
+    {{/if}}
+  </div>
   <div class='coupon'>
     {{#if model.details.has_plan }}
     <img src="{{asset-path 'icn-coupon.png'}}" /> <strong> Coupon: {{{couponCode}}} </strong>
@@ -73,38 +85,3 @@
     {{/if}}
   </div>
 </div>
- <div class="table-wrapper">
-  <table class="table">
-    <thead>
-      <th>Plan</th>
-      <th>Price</th>
-      <th>Private repositories</th>
-      <th>Collaborators</th>
-      <th></th>
-    </thead>
-    <tbody>
-
-      {{#each model.details.plans as |plan| }}
-      <tr>
-        <td>{{ plan.name }}</td>
-        <td>{{stripe-money plan.amount }}/month</td>
-        <td>unlimited</td>
-        <td>unlimited</td>
-        <td class="text-right">    
-         {{#if plan.purchased }} 
-            Your plan
-            <button class="hb-button hb-button-danger small"
-               {{action 'cancel' plan}}>Cancel plan</button>
-          {{else}}
-            <button class="hb-button small"
-             {{action 'purchase' plan}}>Upgrade</button>
-          {{/if}}
-
-        </td>
-      </tr>
-
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
