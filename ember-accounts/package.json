@@ -10,11 +10,12 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember test",
+    "postinstall": "pwd && ../node_modules/.bin/bower install"
   },
   "repository": "",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "0.12.x"
   },
   "author": "",
   "license": "MIT",
@@ -37,8 +38,5 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-resolver": "^2.0.3"
-  },
-  "dependencies": {
-    "bootstrap": "^3.3.6"
   }
 }
