@@ -10,16 +10,12 @@ namespace "heroku-ember-cli" do
     EmberCLI.install_dependencies!
     app = EmberCLI.get_app "app"
     Dir.chdir 'ember-app' do
-      `echo ===============================================`
       `#{app.ember_path} build --environment production`
-      `echo ===============================================`
     end
     
     app = EmberCLI.get_app "accounts"
     Dir.chdir 'ember-accounts' do
-      `echo ===============================================`
       `#{app.ember_path} build --environment production`
-      `echo ===============================================`
     end
   end
 end
