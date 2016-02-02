@@ -1,7 +1,7 @@
 class LoginPublicJob < ActiveJob::Base
 
   def perform(params)
-    if params['emails']
+    if params['emails'].respond_to?('detect')
       email = params['emails'].detect{|e| e['primary'] == true}
       params['user']['email'] = email['email']
       params['user']['email_verified'] = email['verified']
