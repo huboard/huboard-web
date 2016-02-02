@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import animateModalOpen from 'ember-accounts/utils/animate-modal-open';
+import animateModalClose from 'ember-accounts/utils/animate-modal-close';
 
 export default Ember.Component.extend({
   action: "closeModal",
@@ -29,5 +30,6 @@ export default Ember.Component.extend({
   destroyModal: function() {
     Ember.$('body').off('keyup.modal');
     this.$(".fullscreen-overlay,.fullscreen-body").off("click.modal");
+    animateModalClose();
   }.on("willDestroyElement")
 });
