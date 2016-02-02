@@ -6,7 +6,7 @@ namespace "heroku-ember-cli" do
       c.app :accounts, path: Rails.root.join('ember-accounts')
     end
 
-    #EmberCLI.install_dependencies!
+    EmberCLI.install_dependencies!
     app = EmberCLI.get_app "app"
     Dir.chdir 'ember-app' do
       `echo ===============================================`
