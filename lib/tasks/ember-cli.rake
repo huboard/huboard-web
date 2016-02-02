@@ -10,14 +10,14 @@ namespace "heroku-ember-cli" do
     app = EmberCLI.get_app "app"
     Dir.chdir 'ember-app' do
       `echo ===============================================`
-      puts "echo #{app.ember_path} build --environment production"
+      `#{app.ember_path} build --environment production`
       `echo ===============================================`
     end
     
     app = EmberCLI.get_app "accounts"
     Dir.chdir 'ember-accounts' do
       `echo ===============================================`
-      puts "echo #{app.ember_path} build --environment production"
+      `#{app.ember_path} build --environment production`
       `echo ===============================================`
     end
   end
