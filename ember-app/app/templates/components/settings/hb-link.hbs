@@ -44,11 +44,16 @@
       </div>
     </div>
     <div class='flex-right'>
-      <button class="hb-button hb-button-grey" disabled={{isDisabled}} {{action 'copy' link}}>
+      <button class="hb-button hb-button-grey" disabled=disabled {{action 'copy' link}}>
         Copy parent HuBoard
       </button>
     </div>
   </div>
+    <div class="control-group error">
+      <p class="help-block">
+      We have disabled copying parent repositories to prevent lost history and reset boards. Please contact us at <a href="mailto:support@huboard.com?Subject=ATTN:Copy%20parent%20repository%20is%20disabled">support@huboard.com</a> or ping us on Intercom by clicking on the bottom right ? button and we will help you get squared away. 
+      </p>
+    </div>
   {{/if}}
 </div>
 <div class="link-actions">
