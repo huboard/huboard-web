@@ -5,6 +5,7 @@ var HbColumnCrumbComponent = Ember.Component.extend({
   classNames: ['crumb'],
   classNameBindings: ["stateClass", "isSelected:active:inactive", "indexClass"],
   isSelected: function(){
+    //String comparision fails on WIP
     if(this.get("issue.data.state") === "closed"){
       return this.get("visibleColumns.lastObject.data.name") === this.get("column.data.name");
     }
