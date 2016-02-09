@@ -240,7 +240,7 @@ class Huboard
             end
 
             data["milestone_order"] = self['number'] unless data["milestone_order"]
-            if !data["milestone_order"].is_a?(Numeric) || data["order"] <= 0
+            if !data["milestone_order"].is_a?(Numeric) || data["milestone_order"] <= 0
               data["milestone_order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
             end
