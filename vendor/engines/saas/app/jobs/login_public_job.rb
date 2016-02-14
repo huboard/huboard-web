@@ -2,7 +2,7 @@ class LoginPublicJob < ActiveJob::Base
 
   def perform(params)
     if params['emails'].is_a?(Array)
-      email = params['emails'].detect{|e| e['primary'] == true}
+      email = params['emails'].detect{|e| e['primary'] == true} || {}
       params['user']['email'] = email['email']
       params['user']['email_verified'] = email['verified']
     end
