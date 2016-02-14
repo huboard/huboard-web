@@ -57,7 +57,7 @@
 }
 
 .flex-issue-title {
-  @include word-break(break-all);
+  @include word-break(break-word);
   @include display(flex);
   .issue-closed-badge p {
     margin: 4px 4px;
