@@ -5,10 +5,10 @@ var HbColumnCrumbComponent = Ember.Component.extend({
   classNames: ['crumb'],
   classNameBindings: ["stateClass", "isSelected:active:inactive", "indexClass"],
   isSelected: function(){
-    if(this.get("issue.data.state") === "closed"){
-      return this.get("visibleColumns.lastObject.data.index") === this.get("column.data.index");
-    }
-    return this.get("issue.columnIndex") === this.get("column.data.index");
+    var current_issue = this.get("issue");
+    return this.get("column.sortedIssues").find((issue)=> {
+      return issue.get("id") === current_issue.get("id");
+    });
   }.property("issue.columnIndex", "column.data.index"),
   indexClass: function(){
     var index = this.get('visibleColumns').indexOf(this.get('column'));
