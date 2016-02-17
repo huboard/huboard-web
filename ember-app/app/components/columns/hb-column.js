@@ -10,7 +10,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   columns: Ember.computed.alias("model.columns"),
   sortedIssues: function(){
     return this.get("model.sortedIssues");
-  }.property("model.sortedIssues.@each"),
+  }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
   moveIssue: function(issue, order, cancelMove){
     var self = this;
     var last = this.get("columns.lastObject");
