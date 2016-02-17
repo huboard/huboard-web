@@ -78,7 +78,7 @@ var Board = Model.extend({
     var board = this,
     columns = this.get('repo.columns');
     return columns.map(function(c, i){
-      var column = Column.create({data: c, index: i});
+      var column = Column.create({data: c});
       column.set('board', board);
       return column;
     });
