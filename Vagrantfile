@@ -10,7 +10,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_version = "= 1.0.1"
 
   config.vm.synced_folder ".", "/srv/huboard", type: "nfs"
-  config.vm.provision "shell", path: "provision.sh"
   config.vm.network "private_network", ip: "192.168.50.10"
 
   config.vm.network "forwarded_port", guest: 3000, host: 3001
@@ -23,4 +22,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #puppet.options = "--verbose --debug"
   end
 
+  config.vm.provision "shell", path: "provision.sh"
 end
