@@ -25,6 +25,14 @@ module Saas
           end
 
           failure :unauthorized do
+            if params[:subscription_canceled]
+              throw :warden, action: 'unauthenticated_canceled'
+            end
+
+            if params[:trial_expired] && !params[:subscription_canceled]
+              throw :warden, action: 'unauthenticated_expired'
+            end
+
             throw :warden, action: 'unauthenticated_saas'
           end
         end
