@@ -18,12 +18,12 @@
           <div class="message__top">
             <h1> ! </h1>
             <h2> HOLD UP! </h2>
-            <h3> Your trial for <%= params[:repo] %> has expired! </h3>
+            <h3> Your trial for <%= params[:user] %> has expired! </h3>
           </div>
           <% if is_owner %>
           <div class="message__middle">
             <p>
-            You'll need to upgrade your account to access this repo.
+            You'll need to upgrade your account to access <%= params[:user] %>/<%= params[:repo] %>
             </p>
           </div>
           <div class="message__bottom">
@@ -33,7 +33,7 @@
           <% else %>
           <div class="message__middle">
             <p>
-              Click <a href="https://github.com/<%= params[:user] %>/<%= params[:repo] %>/issues/new?title=HuBoard%20Subscription%20Request&body=@<%= params[:user] %>%20please%20visit%20https://huboard.com/settings/profile%20to%20upgrade%20HuBoard%20for%20this%20repo" target="_blank"> here </a> if you would like to open an issue on <%= "#{params[:user]}/#{params[:repo]}" %> requesting upgraded access to HuBoard from this account
+              Click <a href="https://github.com/<%= params[:user] %>/<%= params[:repo] %>/issues/new?title=HuBoard%20Subscription%20Request&body=@<%= params[:user] %>%20please%20visit%20https://huboard.com/settings/profile%20to%20upgrade%20HuBoard%20for%20this%20repo" target="_blank"> here </a> if you would like to open an issue on <%= "#{params[:user]}/#{params[:repo]}" %> requesting upgraded access
             </p>
           </div>
           <div class="message__bottom">

@@ -18,12 +18,12 @@
           <div class="message__top">
             <h1> ! </h1>
             <h2> HOLD UP! </h2>
-            <h3> Your subscription for <%= params[:repo] %> has been canceled! </h3>
+            <h3> Your subscription for <%= params[:user] %> has been canceled! </h3>
           </div>
           <% if is_owner %>
           <div class="message__middle">
             <p>
-            You'll need to upgrade your account to access this repo.
+            You'll need to upgrade your account to access <%= params[:user] %>/<%= params[:repo] %>
             </p>
           </div>
           <div class="message__bottom">
