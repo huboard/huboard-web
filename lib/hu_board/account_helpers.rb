@@ -35,7 +35,7 @@ module HuBoard
         sub = cus[:subscriptions][:data][0]
         return sub[:status] == "canceled"
       end
-      false
+      true
     end
 
     def account_exists?(customer_doc)
