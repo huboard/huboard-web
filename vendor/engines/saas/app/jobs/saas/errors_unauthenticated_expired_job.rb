@@ -1,5 +1,5 @@
 module Saas
-  class UnauthenticatedExpiredJob < ActiveJob::Base
+  class ErrorsUnauthenticatedExpiredJob < ActiveJob::Base
 
     def perform(params)
       user = params['current_user']['login']

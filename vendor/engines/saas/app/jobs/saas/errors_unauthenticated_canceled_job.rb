@@ -1,5 +1,5 @@
 module Saas
-  class UnauthenticatedCanceledJob < ActiveJob::Base
+  class ErrorsUnauthenticatedCanceledJob < ActiveJob::Base
 
     def perform(params)
       user = params['current_user']['login']
