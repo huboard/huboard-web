@@ -31,8 +31,6 @@ export default Ember.Component.extend({
       });
     },
     close() {
-      console.log(this);
-      console.log("WITHIN THE COMPONENT");
       this.sendAction('close');
     }
   }

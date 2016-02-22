@@ -1,7 +1,7 @@
 {{#if showModal}}
-  {{!--  {{#x-modal}} --}}
+ {{#x-modal}}
     {{component currentModal model=modalModel close='closeModal'}}
-  {{!-- {{/x-modal}} --}}
+  {{/x-modal}}
 {{/if}}
 
 <div class="alert {{if errorState 'alert-error' 'alert-success'}}">

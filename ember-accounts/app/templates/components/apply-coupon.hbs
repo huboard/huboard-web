@@ -1,5 +1,5 @@
 <div class="fullscreen-credit-card">
-  <form>
+<form {{action 'apply_coupon' on='submit'}}>
     <div class="modal-header">
       <div>
         <button type="button" class="close" {{action 'close'}} data-dismiss="modal" aria-hidden="true">×</button>
@@ -23,7 +23,7 @@
       {{/if}}
     </div>
     <div class="modal-footer">
-      <button {{action 'apply_coupon'}} href="#" class="stripe-connect light-blue" type="submit"
+      <button href="#" class="stripe-connect light-blue" type="submit"
                                                          disabled={{isDisabled}}><span> Redeem </span></button>
     </div>
   </form>

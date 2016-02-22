@@ -1,5 +1,5 @@
 <div class="fullscreen-credit-card">
-  <form>
+  <form {{action 'cancel' on='submit'}}>
     <div class="modal-header">
       <button type="button" class="close" {{action 'close'}} data-dismiss="modal" aria-hidden="true">×</button>
       Cancel plan
@@ -22,7 +22,7 @@
       {{/if}}
     </div>
     <div class="modal-footer">
-      <button {{action 'cancel'}} href="#" class="hb-button danger full"
+      <button href="#" class="hb-button danger full"
                                            type="submit"
                                            disabled={{processingAction}}><span>Cancel my plan</span></button>
     </div>
