@@ -29,7 +29,7 @@ module Saas
               throw :warden, action: 'unauthenticated_canceled'
             end
 
-            if params[:trial_expired] && !params[:subscription_canceled]
+            if params[:trial_expired]
               throw :warden, action: 'unauthenticated_expired'
             end
 
