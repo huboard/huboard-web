@@ -47,6 +47,7 @@ gem 'pdfkit'
 gem 'wkhtmltopdf-heroku'
 gem 'private_pub', '1.0.3'
 gem 'sidekiq', "~> 3.0"
+gem 'sendgrid-ruby'
 
 # BUNDLE_WITHOUT="development:test:saas"
 gem 'saas','0.0.1', require: nil, path: "vendor/engines/saas"
