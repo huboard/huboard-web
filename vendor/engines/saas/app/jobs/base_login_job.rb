@@ -9,8 +9,7 @@ class BaseLoginJob < ActiveJob::Base
     user = map_user(params)
     Analytics::IdentifyUserJob.perform_later(user)
 
-    q = Queries::CouchUser.get(user[:data]['id'], couch)
-    doc = QueryHandler.exec(&q)
+    doc = couch.users.get(user[:data])
     if doc[:rows].nil? || doc[:rows].size == 0
       Users::CreateUserJob.perform_later(user[:data])
     end

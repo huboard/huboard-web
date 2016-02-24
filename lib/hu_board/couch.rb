@@ -58,6 +58,11 @@ module HuBoard
         response.body.merge clone
       end
 
+      def get(doc)
+        clone = doc.clone.merge "_id" => escape_docid(doc), "meta" => meta
+        connection.get(clone["_id"])
+      end
+
       # Patchs
       #
       # return json
@@ -190,10 +195,6 @@ module HuBoard
 
     class Users < ResourceProxy
       identify_by :id
-
-      def findById(id)
-        query_view  'findById', :key => id
-      end
     end
 
     def boards
