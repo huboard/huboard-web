@@ -4,7 +4,7 @@ module Saas
 
       def initialize(config)
         @api_key = config[:api_key]
-        @client = SendGrid::Client.new(api_key)
+        @client = SendGrid::Client.new({api_key: api_key})
       end
 
       def api_key

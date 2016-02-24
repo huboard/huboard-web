@@ -1,3 +1,3 @@
-class LoginPrivateJob < LoginJob
+class LoginPrivateJob < BaseLoginJob
   action 'private_login'
 end

@@ -1,20 +1,24 @@
-class LoginJob < ActiveJob::Base
-
-  def perform(params)
-    payload = map_payload(params)
-    Analytics::IdentifyUserJob.perform_later(payload)
-
-    #email = map_email(params)
-    #Queue job to send the email
-  end
+class BaseLoginJob < ActiveJob::Base
+  include ::ApplicationHelper
 
   def self.action(action)
     @action = action
   end
 
+  def perform(params)
+    user = map_user(params)
+    Analytics::IdentifyUserJob.perform_later(user)
+
+    q = Queries::CouchUser.get(user[:data]['id'], couch)
+    doc = QueryHandler.exec(&q)
+    if doc[:rows].nil? || doc[:rows].size == 0
+      Users::CreateUserJob.perform_later(user[:data])
+    end
+  end
+
   :private
 
-  def map_payload(params)
+  def map_user(params)
     if params['emails'].is_a?(Array)
       email = params['emails'].detect{|e| e['primary'] == true} || {}
       params['user']['email'] = email['email']
@@ -28,9 +32,5 @@ class LoginJob < ActiveJob::Base
       'current_user' => params['user'],
       'data' => params['user']
     }
-  end
-
-  def map_email(params)
-    #some logic
   end
 end

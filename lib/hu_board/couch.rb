@@ -190,6 +190,10 @@ module HuBoard
 
     class Users < ResourceProxy
       identify_by :id
+
+      def findById(id)
+        query_view  'findById', :key => id
+      end
     end
 
     def boards
@@ -260,5 +264,4 @@ module HuBoard
       end
     end
   end
-
 end
