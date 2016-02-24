@@ -13,6 +13,7 @@ module Saas
 
       def send_mail(mail)
         mail_object = SendGrid::Mail.new(mail)
+        mail_object.template = SendGrid::Template.new(mail[:template]) if mail[:template]
         @client.send(mail_object)
       end
     end

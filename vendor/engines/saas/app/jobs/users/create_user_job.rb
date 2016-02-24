@@ -4,11 +4,13 @@ module Users
 
     def perform(params)
       couch.users.save({
-        "id" => params['id'],
+        'id' => params['id'],
         user: params,
         emails_sent: {},
         last_login: Time.now
       })
+
+      Mailers::CreateUserMailJob.perform_later(params)
     end
   end
 end

@@ -10,12 +10,17 @@ describe Saas::Mailers::Sendgrid do
     def send(mail); end
   end
   class MockMail
+    attr_accessor :template
     def initialize(mail_config); end
+  end
+  class MockTemplate
+    def initialize(template); end
   end
 
   before(:each) do
     stub_const("SendGrid::Client", MockClient)
     stub_const("SendGrid::Mail", MockMail)
+    stub_const("SendGrid::Template", MockTemplate)
   end
 
   context 'set configuration' do
@@ -37,6 +42,12 @@ describe Saas::Mailers::Sendgrid do
 
     it 'sends emails' do
       expect_any_instance_of(MockClient).to receive(:send)
+      adapter.send_mail(mail)
+    end
+
+    it 'creates an instance for templates' do
+      mail[:template] = 'abc1234'
+      expect(MockTemplate).to receive(:new).with(mail[:template])
       adapter.send_mail(mail)
     end
   end

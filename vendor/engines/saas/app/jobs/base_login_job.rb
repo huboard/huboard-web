@@ -26,7 +26,7 @@ class BaseLoginJob < ActiveJob::Base
     end
 
     params['user']['emails'] = params['emails']
-    params['user']['action'] = @action
+    params['user']['action'] = self.class.instance_variable_get('@action')
 
     {
       'current_user' => params['user'],
