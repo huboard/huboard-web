@@ -43,6 +43,13 @@ package {
       ],
   }
 
+  exec { 'migrate-couch-debug':
+    command => '/bin/sleep 5 && /usr/local/node/node-default/bin/couchapp -dc push /srv/huboard/couch/debug http://127.0.0.1:5984/huboard',
+    path    => ["/bin", "/usr/bin", "/usr/local/node/node-default/bin"],
+    require => [
+      Exec['run-couchapp'],
+      ],
+  }
 
   class { 'memcached':
     max_memory => '12%',
