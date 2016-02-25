@@ -6,6 +6,7 @@ var HbColumnCrumbComponent = Ember.Component.extend({
   classNameBindings: ["stateClass", "isSelected:active:inactive", "indexClass"],
   isSelected: function(){
     var current_issue = this.get("issue");
+    if(!current_issue){ return false; }
     return this.get("column.sortedIssues").find((issue)=> {
       return issue.get("id") === current_issue.get("id");
     });
