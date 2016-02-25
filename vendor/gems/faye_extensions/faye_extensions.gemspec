@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = FayeExtensions::VERSION
   s.authors     = [""]
   s.email       = [""]
-  s.homepage    = "https://github.com/huboard/huboard-web/vender/gems/faye_extensions"
+  s.homepage    = "https://github.com/huboard/huboard-web/tree/master/vendor/gems/faye_extensions "
   s.summary     = "HuBoard Extensions for Faye"
   s.description = "HuBoard Extensions for Faye"
   s.license     = "MIT"
