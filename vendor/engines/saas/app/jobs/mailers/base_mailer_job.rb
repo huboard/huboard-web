@@ -1,5 +1,6 @@
 module Mailers
   class BaseMailerJob < ActiveJob::Base
+    include ::ApplicationHelper
 
     def mailer
       return Rails.configuration.mailer
@@ -26,14 +27,21 @@ module Mailers
     end
 
     def perform(params)
-      mailer.send_mail({
-        to: params['email'],
-        from: self.class.instance_variable_get('@from'),
-        subject: self.class.instance_variable_get('@subject'),
-        text: self.class.instance_variable_get('@text'),
-        html: self.class.instance_variable_get('@html'),
-        template: self.class.instance_variable_get('@template')
-      })
+      template = self.class.instance_variable_get('@template')
+      doc = couch.users.get(params).body
+
+      if not doc.emails_sent[template]
+        mailer.send_mail({
+          to: params['email'],
+          from: self.class.instance_variable_get('@from'),
+          subject: self.class.instance_variable_get('@subject'),
+          text: self.class.instance_variable_get('@text'),
+          html: self.class.instance_variable_get('@html'),
+          template: template
+        })
+        doc.emails_sent[template] = Time.now
+        couch.users.save doc
+      end
     end
   end
 end

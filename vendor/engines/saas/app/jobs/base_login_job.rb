@@ -9,8 +9,8 @@ class BaseLoginJob < ActiveJob::Base
     user = map_user(params)
     Analytics::IdentifyUserJob.perform_later(user)
 
-    doc = couch.users.get(user[:data])
-    if doc[:rows].nil? || doc[:rows].size == 0
+    req = couch.users.get(user[:data])
+    if req.status != 200
       Users::CreateUserJob.perform_later(user[:data])
     end
   end
