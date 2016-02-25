@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = FayeExtensions::VERSION
   s.authors     = [""]
   s.email       = [""]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Saas."
-  s.description = "TODO: Description of Saas."
+  s.homepage    = "https://github.com/huboard/huboard-web/vender/gems/faye_extensions"
+  s.summary     = "HuBoard Extensions for Faye"
+  s.description = "HuBoard Extensions for Faye"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
