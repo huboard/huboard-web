@@ -21,3 +21,16 @@ end
 Warden::Manager.serialize_from_session { |key| Warden::GitHub::Verifier.load(key) }
 Warden::Manager.serialize_into_session { |user| Warden::GitHub::Verifier.dump(user) }
 
+module Warden
+  module GitHub
+    class Config
+      alias_method :base_normalized_uri, :normalized_uri
+
+      def normalized_uri(uri_or_path)
+        uri = base_normalized_uri(uri_or_path)
+        puts "Warden Override: #{uri}"
+        uri
+      end
+    end
+  end
+end
