@@ -45,3 +45,34 @@ module Warden
     end
   end
 end
+
+class Huboard
+  class Warden
+    class AppRedirect
+      def initialize(app, params={})
+        @app = app
+        @params = params
+      end
+
+      def call(env)
+        uri = Addressable::URI.parse(env['REQUEST_URI'])
+
+        app_name = uri.query_values['APP_NAME'] if uri.query_values
+        parent_app_name = ENV['HEROKU_APP_NAME']
+        puts "AppRedirect: #{parent_app_name} => #{app_name}"
+
+        if app_name && parent_app_name
+          uri.query_values = uri.query_values(Array).reject { |kvp| kvp[0] == 'APP_NAME' } unless !uri.query_values
+
+          app_redirect = "#{env['rack.url_scheme']}://#{env['HTTP_HOST'].sub(parent_app_name, app_name)}#{uri}"
+          puts "AppRedirect to #{app_redirect}"
+          return [302, {"Location" => app_redirect}, self]
+        end
+
+        @app.call env
+      end
+    end
+  end
+end
+
+Rails.application.middleware.insert_before Warden::Manager, Huboard::Warden::AppRedirect
