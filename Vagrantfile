@@ -26,6 +26,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.manifest_file  = "base.pp"
     #puppet.options = "--verbose --debug"
   end
-
-  config.vm.provision "shell", path: "provision.sh"
 end
