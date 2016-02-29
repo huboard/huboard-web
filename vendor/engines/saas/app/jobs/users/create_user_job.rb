@@ -10,7 +10,7 @@ module Users
         last_login: Time.now
       })
 
-      UserOnboardMailer.delay.welcome_email(params)
+      Saas::UserOnboarding.welcome_email(params).deliver
     end
   end
 end

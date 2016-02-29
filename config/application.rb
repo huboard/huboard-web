@@ -17,6 +17,15 @@ Octokit.web_endpoint = ENV["GITHUB_WEB_ENDPOINT"] if ENV["GITHUB_WEB_ENDPOINT"]
 Dotenv::Railtie.load
 
 if ENV["HUBOARD_ENV"] == 'production'
+  ActionMailer::Base.smtp_settings = {
+    :user => ENV['MAILER_USER'],
+    :password => ENV['MAILER_PASSWORD'],
+    :address => 'smtp.sendgrid.net',
+    :domain => 'huboard.com',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
   require 'saas'
 end
 
