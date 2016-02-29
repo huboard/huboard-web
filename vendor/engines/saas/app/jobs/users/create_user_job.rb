@@ -10,7 +10,7 @@ module Users
         last_login: Time.now
       })
 
-      Mailers::CreateUserMailJob.perform_later(params)
+      UserOnboardMailer.delay.welcome_email(params)
     end
   end
 end

@@ -35,7 +35,6 @@ Rails.application.routes.draw do
 
   get '/repositories/public/:user' => 'dashboard#public', as: 'repositories_public'
 
-
   namespace :api do
     get 'uploads/asset' => 'uploads#asset_uploader'
     #Webhooks

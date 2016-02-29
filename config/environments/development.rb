@@ -1,4 +1,7 @@
 Rails.application.configure do
+  #Mailer Previews
+  config.action_mailer.preview_path = Saas::Engine.root.join('test/mailers')
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
