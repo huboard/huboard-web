@@ -10,7 +10,7 @@ module Users
         last_login: Time.now
       })
 
-      Saas::UserOnboarding.welcome_email(params).deliver
+      Saas::UserOnboarding.welcome_email(params).deliver_later
     end
   end
 end

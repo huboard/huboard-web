@@ -1,4 +1,13 @@
 Rails.application.configure do
+  config.mailer.smtp_settings = {
+    :user => ENV['SENDGRID_USER'],
+    :password => ENV['SENDGRID_PASSWORD'],
+    :address => 'smtp.sendgrid.net',
+    :domain => 'huboard.com',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

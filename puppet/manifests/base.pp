@@ -8,9 +8,13 @@ package {
   'npm': ensure => "present";
   'couchdb': ensure => "present";
   'libffi-dev': ensure => "present";
+  'libsqlite3-dev': ensure => "present";
   } ->
   class { 'ruby_install': 
     ruby_version => "2.2.1",
+  } ->
+  exec { 'mail-catcher':
+    command => 'gem install mailcatcher'
   }
 
   class { 'wkhtmltox':
