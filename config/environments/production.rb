@@ -1,6 +1,6 @@
 Rails.application.configure do
   config.action_mailer.smtp_settings = {
-    :user => ENV['SENDGRID_USERNAME'],
+    :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],
     :address => 'smtp.sendgrid.net',
     :domain => 'huboard.com',
