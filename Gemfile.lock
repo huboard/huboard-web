@@ -494,3 +494,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   warden-github
   wkhtmltopdf-heroku
+
+BUNDLED WITH
+   1.11.2
