@@ -1,9 +1,9 @@
 module Saas
-  class ErrorsUnauthenticatedExpiredJob < ActiveJob::Base
+  class ErrorsUnauthenticatedSaasJob < ActiveJob::Base
 
     def perform(params)
-      user = params['current_user']['login']
-      params['url'] = "/settings/#{user}/unauthenticated"
+      owner = params['action_controller.params']['user']
+      params['url'] = "/settings/#{owner}/unauthenticated"
       Analytics::PageJob.perform_later(params)
     end
   end
