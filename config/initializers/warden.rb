@@ -33,13 +33,13 @@ module Warden
 
         app_name = ENV["HEROKU_APP_NAME"]
         parent_app_name = ENV["HEROKU_PARENT_APP_NAME"]
-        puts "Warden Override: #{app_name} => #{parent_app_name}"
+        Rails.logger.info "Warden Override: #{app_name} => #{parent_app_name}"
         if parent_app_name && parent_app_name != app_name
           uri.host.sub! app_name, parent_app_name
           uri.query = URI.encode_www_form("APP_NAME" => app_name)
         end
 
-        puts "Warden Override: #{uri}"
+        Rails.logger.info "Warden Override: #{uri}"
         uri
       end
     end
@@ -59,13 +59,13 @@ class Huboard
 
         app_name = uri.query_values['APP_NAME'] if uri.query_values
         parent_app_name = ENV['HEROKU_APP_NAME']
-        puts "AppRedirect: #{parent_app_name} => #{app_name}"
+        Rails.logger.info "AppRedirect: #{parent_app_name} => #{app_name}"
 
         if app_name && parent_app_name
           uri.query_values = uri.query_values(Array).reject { |kvp| kvp[0] == 'APP_NAME' } unless !uri.query_values
 
           app_redirect = "#{env['rack.url_scheme']}://#{env['HTTP_HOST'].sub(parent_app_name, app_name)}#{uri}"
-          puts "AppRedirect to #{app_redirect}"
+          Rails.logger.info "AppRedirect to #{app_redirect}"
           return [302, {"Location" => app_redirect}, self]
         end
 
