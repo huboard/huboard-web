@@ -11,8 +11,8 @@ module Saas
     def redeem
       query = Queries::CouchCustomer.get_cust(params[:id], couch)
       doc = QueryHandler.exec(&query)
-      return render json: {success: false, message: "Couldn't find couch record: #{plan_doc.id}"} unless doc
       plan_doc = doc
+      return render json: {success: false, message: "Couldn't find couch record: #{plan_doc.id}"} unless doc
 
       begin
         customer = Stripe::Customer.retrieve(params[:id])
