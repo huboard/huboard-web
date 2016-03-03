@@ -59,7 +59,7 @@ class Huboard
 
         app_name = uri.query_values['APP_NAME'] if uri.query_values
         parent_app_name = ENV['HEROKU_APP_NAME']
-        Rails.logger.info "AppRedirect: #{parent_app_name} => #{app_name}"
+        Rails.logger.info "AppRedirect: #{parent_app_name} => #{app_name}" if app_name
 
         if app_name && parent_app_name
           uri.query_values = uri.query_values(Array).reject { |kvp| kvp[0] == 'APP_NAME' } unless !uri.query_values
