@@ -7,9 +7,6 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
 
-  #DISABLED UNTIL RAILS IS BUMPED TO 4.2.4
-  #config.action_mailer.register_preview_interceptor(ActionMailer::InlinePreviewInterceptor)
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
