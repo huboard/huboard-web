@@ -11,8 +11,8 @@ class LoginPublicJob < ActiveJob::Base
     params['user']['action'] = 'public_login'
 
     payload = {
-      'current_user': params['user'],
-      'data': params['user']
+      'current_user' => params['user'],
+      'data' => params['user']
     }
     Analytics::IdentifyUserJob.perform_later(payload)
   end
