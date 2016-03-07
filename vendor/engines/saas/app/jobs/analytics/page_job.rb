@@ -3,7 +3,7 @@ module Analytics
     action "page"
 
     def payload(params)
-      user = params['current_user'] ? params['current_user']['id'] || "Anonymous"
+      user = params['current_user'] ? params['current_user']['id'] : "Anonymous"
       {
         user_id: user,
         name: params['url'],
