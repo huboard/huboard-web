@@ -19,6 +19,7 @@ class IssueEventJob < ActiveJob::Base
   end
 
   def self.build_meta(params)
+    #TODO Fix this hack on remapping params to HWIA
     params = HashWithIndifferentAccess.new(params)
     issue = HashWithIndifferentAccess.new(params['issue'])
     action = @_action.is_a?(String) ? @_action : @_action.call(params)
