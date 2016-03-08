@@ -38,6 +38,9 @@ module UseCase
       if @customer && subscription_active?(@customer)
         return continue(params)
       end
+
+      params[:subscription_canceled] = subscription_canceled?(@customer)
+      params[:trial_expired] = trial_expired?(@customer)
       return fail :unauthorized
     end
 
