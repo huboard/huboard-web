@@ -97,3 +97,9 @@ package {
       createdb      => true,
       createrole    => true,
     }
+
+  exec { "echo 'cd /srv/huboard' >> .bashrc":
+    cwd    => "/home/vagrant",
+    path   => "/usr/bin:/usr/sbin:/bin",
+    unless => "grep -q '^cd /srv/huboard$' .bashrc"
+  }

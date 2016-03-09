@@ -77,7 +77,19 @@ body > .fullscreen-overlay {
       }
     }
   }
+  .modal-close {
 
+    &:hover {
+      @include transform(scale(1.2));
+      cursor: pointer;
+    }
+    position: fixed;
+    color: white;
+    float: right;
+    top: 10px;
+    right: 30px;
+    font-size: 26px;
+  }
 }
 
 .fullscreen-card, .fullscreen-login {

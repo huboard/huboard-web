@@ -36,19 +36,28 @@ var ModalView = Ember.View.extend({
     this.$(".fullscreen-overlay, .close").on('click.modal', function(event){
      if(Ember.$(event.target).is("[data-ember-action],[data-toggle]")){return;}
      if(Ember.$(event.target).parents("[data-ember-action],[data-toggle]").length){return;}
-     if(this.modalCloseCriteria()){
-       this.send("modalCloseAction");
-     } else {
-       this.get('controller').send('closeModal');
-     }
+     this.close();
     }.bind(this));
 
     this.$(':input:not(.close):not([type="checkbox"])').first().focus();
+
+    this.$('.modal-close').click(function(){
+      this.close();
+    }.bind(this));
+  },
+
+  close: function(){
+    if(this.modalCloseCriteria()){
+      this.send("modalCloseAction");
+    } else {
+      this.get('controller').send('closeModal');
+    }
   },
 
   willDestroyElement: function() {
     Ember.$('body').off('keyup.modal');
     this.$(".fullscreen-overlay,.fullscreen-body").off("click.modal");
+    this.$('.modal-close').off("click");
   },
 
   actions: {
