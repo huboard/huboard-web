@@ -6,7 +6,7 @@ module Saas
       Analytics::TrackUserJob.perform_later(params)
       Analytics::GroupOwnerJob.perform_later(params)
 
-      if params[:event]
+      if params[:event] == 'customer_subscribed'
         params['url'] = "/settings/#{params[:repo_owner]['login']}/upgrading"
         Analytics::PageJob.perform_later(params)
       end
