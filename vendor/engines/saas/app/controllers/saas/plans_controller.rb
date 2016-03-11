@@ -32,7 +32,7 @@ module Saas
         plan_doc.trial = "expired"
         couch.customers.save plan_doc
 
-        @event = 'plan_canceled'
+        @event = 'plan_canceling'
         @repo_owner = plan_doc.github.account.login
 
         render json: {success: true, message: "Sorry to see you go"}
