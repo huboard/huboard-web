@@ -23,7 +23,8 @@ module Saas
         :private
 
         def page_job
-          if request.referer !~ /github\.com/ && !logged_in?
+          auth_request = request.params['code'] && request.params['state']
+          if request.referer !~ /github\.com/ && !logged_in? && !auth_request
             Analytics::PageJob.perform_later({
               'url' => "/login/#{params['action']}"
             })
