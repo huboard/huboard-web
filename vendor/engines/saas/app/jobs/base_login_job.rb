@@ -1,11 +1,11 @@
-class LoginJob < ActiveJob::Base
+class BaseLoginJob < ActiveJob::Base
 
   def perform(params)
     payload = map_payload(params)
     Analytics::IdentifyUserJob.perform_later(payload)
 
-    #email = map_email(params)
-    #Queue job to send the email
+    payload['url'] = "/login/#{params['action_controller.params']['action']}/authorized"
+    Analytics::PageJob.perform_later(payload)
   end
 
   def self.action(action)
@@ -22,15 +22,11 @@ class LoginJob < ActiveJob::Base
     end
 
     params['user']['emails'] = params['emails']
-    params['user']['action'] = @action
+    params['user']['action'] = self.instance_variable_get('@action')
 
     {
       'current_user' => params['user'],
       'data' => params['user']
     }
-  end
-
-  def map_email(params)
-    #some logic
   end
 end

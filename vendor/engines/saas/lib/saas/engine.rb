@@ -17,6 +17,19 @@ module Saas
         })
       end
 
+      LoginController.class_eval do
+        before_action :page_job, only: [:public, :private]
+
+        :private
+
+        def page_job
+          if request.referer !~ /github\.com/
+            Analytics::PageJob.perform_later({
+              'url' => "/login/#{params['action']}"
+            })
+          end
+        end
+      end
     end
   end
 end
