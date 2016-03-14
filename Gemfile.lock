@@ -378,8 +378,6 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    sendgrid (1.2.4)
-      json
     sidekiq (3.4.1)
       celluloid (~> 0.16.0)
       connection_pool (>= 2.1.1)
@@ -486,7 +484,6 @@ DEPENDENCIES
   saas (= 0.0.1)!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
-  sendgrid
   sidekiq (~> 3.0)
   sinatra_auth_github
   solid_use_case

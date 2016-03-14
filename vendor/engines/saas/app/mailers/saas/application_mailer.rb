@@ -1,8 +1,5 @@
 module Saas
   class ApplicationMailer < ActionMailer::Base
-    include SendGrid
-    sendgrid_enable :opentrack
-
     default from: 'no-reply@huboard.com'
     layout 'mailer'
 
