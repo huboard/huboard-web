@@ -3,7 +3,7 @@ PATH
   specs:
     saas (0.0.1)
       analytics-ruby
-      rails (~> 4.2.0)
+      rails (~> 4.2.4)
 
 PATH
   remote: vendor/gems/faye_extensions
