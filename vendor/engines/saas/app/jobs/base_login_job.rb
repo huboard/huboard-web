@@ -9,6 +9,9 @@ class BaseLoginJob < ActiveJob::Base
     user = map_user(params)
     Analytics::IdentifyUserJob.perform_later(user)
 
+    user['url'] = "/login/#{params['action_controller.params']['action']}/authorized"
+    Analytics::PageJob.perform_later(user)
+
     req = couch.users.get(user[:data])
     if req.status != 200
       Users::CreateUserJob.perform_later(user[:data])
@@ -25,7 +28,7 @@ class BaseLoginJob < ActiveJob::Base
     end
 
     params['user']['emails'] = params['emails']
-    params['user']['action'] = self.class.instance_variable_get('@action')
+    params['user']['action'] = self.instance_variable_get('@action')
 
     {
       'current_user' => params['user'],

@@ -1,26 +1,13 @@
 # GitHub issues made awesome
 
 [![HuBoard logo](https://raw.github.com/huboard/huboard-web/master/app/assets/images/HuBoardSplash960.png)](https://huboard.com)
-### Instant project management for your GitHub repositories
-## FAQ
 
-  1. [How to customize column titles](https://github.com/huboard/huboard/wiki#wiki-labels-explained)
-  1. [How to customize column order](https://github.com/rauhryan/huboard/wiki#wiki-labels-explained)
-  1. [How to configure work in progress limits](https://github.com/rauhryan/huboard/wiki#wiki-labels-explained)
-  1. [How link repositories together](https://github.com/huboard/huboard/wiki#wiki-linking-repositories)
-  1. [How deploy HuBoard to heroku](https://github.com/huboard/huboard/wiki/Deploying)
-
-
-## How to contribute
-
-Before contributing to HuBoard, please:
-
-  * The greatest majority of active work is done on the [huboard/huboard-web](https://github.com/huboard/huboard-web) repository. This repository is a mirror and can get out of sync with active development
+Check out our [parent repository](https://github.com/huboard/huboard#github-issues-made-awesome) for details!
 
 ## License
 
 The MIT License (MIT)
-Copyright (c) 2012-2015 Ryan Rauh
+Copyright (c) 2012-2016 HuBoard, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
