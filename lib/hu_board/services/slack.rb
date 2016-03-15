@@ -29,7 +29,7 @@ module HuBoard
     def transform_moved(mash)
       {
         username: "#{mash.meta.user.login} via HuBoard",
-        icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+        icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
         attachments: [
           {
             fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> moved <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> from #{mash.payload.previous.text} to #{mash.payload.column.text }",
@@ -46,7 +46,7 @@ module HuBoard
       if mash.payload.assignee.nil?
         {
           username: "#{mash.meta.user.login} via HuBoard",
-          icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+          icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
           attachments: [
             {
               fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> unassigned <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
@@ -60,7 +60,7 @@ module HuBoard
       else
         {
           username: "#{mash.meta.user.login} via HuBoard",
-          icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+          icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
           attachments: [
             {
               fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> assigned <#{mash.payload.assignee.html_url}|#{mash.payload.assignee.login}> to <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
@@ -78,7 +78,7 @@ module HuBoard
       if mash.payload.milestone.nil?
         {
           username: "#{mash.meta.user.login} via HuBoard",
-          icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+          icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
           attachments: [
             {
               fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to _nil_",
@@ -92,7 +92,7 @@ module HuBoard
       else
         {
           username: "#{mash.meta.user.login} via HuBoard",
-          icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+          icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
           attachments: [
             {
               fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to *#{mash.payload.milestone.title}*",
@@ -121,7 +121,7 @@ module HuBoard
       }
       {
         username: "#{mash.meta.user.login} via HuBoard",
-        icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+        icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
         attachments: [
           {
             fallback: "#{icon[mash.payload.action.to_sym]}<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed the status of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to #{mash.payload.action}",
@@ -137,7 +137,7 @@ module HuBoard
     def transform_issue_opened(mash)
       {
         username: "#{mash.meta.user.login} via HuBoard",
-        icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+        icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
         attachments: [
           {
             fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> opened a new issue <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
@@ -156,7 +156,7 @@ module HuBoard
     def transform_issue_closed(mash)
       {
         username: "#{mash.meta.user.login} via HuBoard",
-        icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+        icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
         attachments: [
           {
             fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> closed <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
@@ -175,7 +175,7 @@ module HuBoard
     def transform_issue_reopened(mash)
       {
         username: "#{mash.meta.user.login} via HuBoard",
-        icon_url: "https://avatars.githubusercontent.com/u/#{mash.meta.user.id}?s=64",
+        icon_url: "#{mash.payload.issue.user.avatar_url}s=64",
         attachments: [
           {
             fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> reopened <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
