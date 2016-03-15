@@ -10,19 +10,33 @@ module HuBoard
       customer && customer[:trial] == "active"
     end
 
+    def trial_expired?(customer)
+      customer && customer[:trial] == "expired"
+    end
+
     def non_profit?(customer)
-      customer[:stripe][:plan] && 
+      customer &&
+        customer[:stripe][:plan] &&
         customer[:stripe][:plan][:plan_id] == "non_profit"
     end
 
     def subscription_active?(customer)
       return true if non_profit?(customer)
-      cus = customer[:stripe][:customer]
-      if cus[:subscriptions][:total_count] > 0
+      cus = customer && customer[:stripe][:customer]
+      if cus && cus[:subscriptions][:total_count] > 0
         sub = cus[:subscriptions][:data][0]
         return sub[:status] == "active" || sub[:status] == "trialing"
       end
       false
+    end
+
+    def subscription_canceled?(customer)
+      cus = customer && customer[:stripe][:customer]
+      if cus && cus[:subscriptions][:total_count] > 0
+        sub = cus[:subscriptions][:data][0]
+        return sub[:status] == "canceled"
+      end
+      true
     end
 
     def account_exists?(customer_doc)

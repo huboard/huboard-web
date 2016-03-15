@@ -13,5 +13,9 @@ module Analytics
     def self.group(payload)
       @adapter.group(payload)
     end
+
+    def self.page(payload)
+      @adapter.page(payload)
+    end
   end
 end

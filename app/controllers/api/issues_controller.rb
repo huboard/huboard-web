@@ -40,7 +40,7 @@ module Api
       render json: @issue
     end
 
-    #TODO original api checks if comment['message'] exists
+    #TODO Implement create_comment in bridge
     def create_comment
       data = {body: params['markdown']}
       @issue =  huboard.board(params[:user], params[:repo]).

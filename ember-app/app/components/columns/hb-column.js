@@ -7,34 +7,14 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   isTaskColumn: true,
   cards: Ember.A(),
 
-  columns: Ember.computed.alias("model.board.columns"),
+  columns: Ember.computed.alias("model.columns"),
   sortedIssues: function(){
-    var issues = this.get("model.board.issues")
-      .filter(this.filterStrategy.bind(this))
-      .sort(this.sortStrategy);
-    return issues;
-  }.property("issues.@each.{columnIndex,order,state}"),
-  filterStrategy: function(issue){
-    var issue_index = issue.data.current_state.index;
-    var same_column = issue_index === this.get("model.data.index");
-    if(this.get("isLastColumn")){
-      return same_column || (issue.data.state === "closed" && !issue.get("isArchived"));
-    }
-    return same_column && issue.data.state !== "closed";
-  },
-  sortStrategy: function(a,b){
-    if(a.data._data.order === b.data._data.order){
-      if(a.repo.full_name === b.repo.full_name){
-        return a.number - b.number;
-      }
-      return a.repo.full_name - b.repo.full_name;
-    }
-    return a.data._data.order - b.data._data.order;
-  },
+    return this.get("model.sortedIssues");
+  }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
   moveIssue: function(issue, order, cancelMove){
     var self = this;
     var last = this.get("columns.lastObject");
-    if(issue.data.state === "closed" && !this.get("isLastColumn")){
+    if(issue.data.state === "closed" && !this.get("model.isLastColumn")){
       return this.attrs.reopenIssueOrAbort({
         issue: issue,
         column: self.get("model"),
@@ -43,7 +23,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       })
     }
 
-    this.get("sortedIssues").removeObject(issue);
+    this.get("model.sortedIssues").removeObject(issue);
     Ember.run.schedule("afterRender", self, function(){
       issue.reorder(order, self.get("model"));
     });
@@ -58,13 +38,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       return value;
     }
   }).property(),
-  isLastColumn: function(){
-    return this.get("columns.lastObject.data.name") === this.get("model.data.name");
-  }.property("columns.lastObject"),
-  isFirstColumn: function(){
-    return this.get("columns.firstObject.data.name") === this.get("model.data.name");
-  }.property("columns.firstObject"),
-  isCreateVisible: Ember.computed.alias("isFirstColumn"),
+  isCreateVisible: Ember.computed.alias("model.isFirstColumn"),
   topOrderNumber: function(){
     var issues = this.get("sortedIssues");
     var milestone_issues = this.get("issues").sort(function(a,b){

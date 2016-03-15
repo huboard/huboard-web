@@ -7,6 +7,21 @@ module Saas
         format.json { render json: { error: "Unauthenticated" }, status: 403}
       end
     end
+
+    def unauthenticated_canceled
+      respond_to do |format|
+        format.html {render :unauthenticated_canceled, status: 403}
+        format.json { render json: { error: "Canceled Subscription" }, status: 403}
+      end
+    end
+
+    def unauthenticated_expired
+      respond_to do |format|
+        format.html {render :unauthenticated_expired, status: 403}
+        format.json { render json: { error: "Trial Expired" }, status: 403}
+      end
+    end
+
     helper_method :is_owner
     helper_method :issues_enabled
     helper_method :upgrade_url
