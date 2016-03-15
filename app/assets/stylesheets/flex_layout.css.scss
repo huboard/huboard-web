@@ -42,6 +42,11 @@
    @include flex-direction(column);
 }
 
+body {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
 [draggable] {
   -khtml-user-drag: element;
   -webkit-user-drag: element;
