@@ -27,7 +27,7 @@ module HuBoard
     end
 
     def avatar_url(mash)
-      if github_url != 'https://github.com/'
+      if ENV['HUBOARD_ENV'] == 'enterprise'
         return 'https://s3-us-west-2.amazonaws.com/prod.enterprise.huboard.com/assets/slack/avatar.png'
       end
       mash.meta.user.avatar_url
