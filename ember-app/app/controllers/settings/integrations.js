@@ -47,14 +47,15 @@ var SettingsIntegrationsController = Ember.Controller.extend({
     Ember.Object.extend({
       name: "HipChat",
       room: "",
+      endpoint: "https://api.hipchat.com",
       authToken: "",
       attrs: function(){
         return {
           webhookURL: this.get('webhookURL'),
         };
-      }.property('room', 'authToken'),
+      }.property('room', 'authToken', 'endpoint'),
       webhookURL: function(){
-        return "https://api.hipchat.com/v2/room/" + this.get('room') + "/notification?auth_token=" + this.get('authToken');
+        return `${this.get('endpoint')}/v2/room/${this.get('room')}/notification?auth_token=${this.get('authToken')}`;
       }.property('room', 'authToken'),
       disabled: function(){
         return !this.get("room") || !this.get("authToken");

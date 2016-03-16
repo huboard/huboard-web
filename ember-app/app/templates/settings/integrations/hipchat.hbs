@@ -9,6 +9,10 @@
     <label>
       {{input value=model.authToken placeholder="Authorization Token" required=true }}
     </label>
+    <p> HipChat Endpoint (no trailing slashes): </p>
+    <label>
+      {{input value=model.endpoint required=true }}
+    </label>
     <button disabled={{disabled}} class="hb-button">Submit webhook</button>
     <div class="with-line"><span>or</span></div>
     <div class="cancel"> <a href="#" {{action 'cancel'}}>Cancel</a> </div>
