@@ -385,6 +385,7 @@ body {
    }
 }
 .board {
+  max-width: 100%;
   @include display(flex);
   @include flex(1);
   @include align-content(stretch);
