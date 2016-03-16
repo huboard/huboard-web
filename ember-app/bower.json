@@ -1,7 +1,7 @@
 {
   "name": "huboard",
   "dependencies": {
-    "jquery": "^1.11.1",
+    "jquery": "1.11.3",
     "ember": "1.13.8",
     "ember-resolver": "~0.1.12",
     "loader.js": "ember-cli/loader.js#3.2.0",
