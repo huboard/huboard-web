@@ -58,9 +58,8 @@ module HuBoard
         response.body.merge clone
       end
 
-      def get(doc)
-        clone = doc.clone.merge "_id" => escape_docid(doc), "meta" => meta
-        connection.get(clone["_id"])
+      def get(id)
+        connection.get(escape_docid({'_id' => id}))
       end
 
       # Patchs
