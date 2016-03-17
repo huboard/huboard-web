@@ -4,7 +4,7 @@ namespace "heroku-ember-cli" do
     `echo STRIPE_PUBLISHABLE_API=$STRIPE_PUBLISHABLE_API > #{Rails.root.join('.env')}`
     EmberCLI.configure do |c|
       c.app :app, path: Rails.root.join('ember-app')
-      c.app :accounts, path: Rails.root.join('ember-accounts')
+      c.app :accounts, path: Rails.root.join('ember-accounts') if ENV['HUBOARD_ENV'] == 'production'
     end
 
     EmberCLI.install_dependencies!
@@ -13,9 +13,11 @@ namespace "heroku-ember-cli" do
       `#{app.ember_path} build --environment production`
     end
     
-    app = EmberCLI.get_app "accounts"
-    Dir.chdir 'ember-accounts' do
-      `#{app.ember_path} build --environment production`
+    if ENV['HUBOARD_ENV'] == 'production'
+      app = EmberCLI.get_app "accounts"
+      Dir.chdir 'ember-accounts' do
+        `#{app.ember_path} build --environment production`
+      end
     end
   end
 end
