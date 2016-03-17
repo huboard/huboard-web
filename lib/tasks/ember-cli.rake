@@ -1,7 +1,6 @@
 require "ember-cli-rails"
 namespace "heroku-ember-cli" do
   task compile: :environment do
-    `echo STRIPE_PUBLISHABLE_API=$STRIPE_PUBLISHABLE_API > #{Rails.root.join('.env')}`
     EmberCLI.configure do |c|
       c.app :app, path: Rails.root.join('ember-app')
       c.app :accounts, path: Rails.root.join('ember-accounts') if ENV['HUBOARD_ENV'] == 'production'
