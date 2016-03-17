@@ -42,6 +42,15 @@
    @include flex-direction(column);
 }
 
+body {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.wrap-fix {
+  min-width: 0;
+}
+
 [draggable] {
   -khtml-user-drag: element;
   -webkit-user-drag: element;
@@ -183,6 +192,7 @@
 
 .board-not-dragging {
   .column.milestone {
+    min-width: 0;
     @include display(flex);
     @include flex-direction(column);
     @include flex(0 0 230px);
@@ -286,6 +296,7 @@
 
 .task-column {
   float:none;
+  min-width: 0;
   @include flex(1);
   @include display(flex);
   @include flex-direction(column);
@@ -374,6 +385,7 @@
    }
 }
 .board {
+  max-width: 100%;
   @include display(flex);
   @include flex(1);
   @include align-content(stretch);
