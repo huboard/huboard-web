@@ -30,6 +30,7 @@ class DashboardController < ApplicationController
   end
 
   def private
+    throw Ghee::ServiceUnavailable
     user = gh.users(params[:user]).raw
     not_found unless user.status == 200
     @private = 1
