@@ -12,7 +12,7 @@
     {{input value=bufferedContent.title }}
   {{else}}
     <div class="flex-issue-title">
-      {{ model.title }}
+      <span class="wrap-fix">{{ model.title }}</span>
       <a class="number" href="{{{unbound model.html_url }}}" target="_blank" title="{{model.title}}"><small>#{{model.number}}</small></a>
       {{#if isClosed}}
         <span class="issue-closed-badge"><p> Closed </p></span>
@@ -20,4 +20,3 @@
     </div>
   {{/if}}
 </h2>
-

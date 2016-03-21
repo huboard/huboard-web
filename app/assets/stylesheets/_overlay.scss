@@ -154,15 +154,6 @@ body > .fullscreen-overlay {
 }
 .fullscreen-card-description {
   p {
-  -ms-word-break: break-all;
-     word-break: break-all;
-
-     // Non standard for webkit
-     word-break: break-word;
-
--webkit-hyphens: auto;
-   -moz-hyphens: auto;
-        hyphens: auto;
   }
 }
 .fullscreen-card-right{
@@ -250,16 +241,7 @@ body > .fullscreen-overlay {
     }
   }
   .comment-text {
-      -ms-word-break: break-all;
-      word-break: break-all;
-
-      // Non standard for webkit
-      word-break: break-word;
-
-      -webkit-hyphens: auto;
-      -moz-hyphens: auto;
-      hyphens: auto;
-    }
+  }
 
 }
 

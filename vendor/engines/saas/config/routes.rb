@@ -1,5 +1,11 @@
 Rails.application.routes.draw do 
   match 'unauthenticated_saas' => 'saas/errors#unauthenticated_saas', via: :all
+  match 'unauthenticated_canceled' => 'saas/errors#unauthenticated_canceled', via: :all
+  match 'unauthenticated_expired' => 'saas/errors#unauthenticated_expired', via: :all
+
+  get '/rails/mailers' => "rails/mailers#index"
+  get '/rails/mailers/*path' => "rails/mailers#preview"
+
   mount Saas::Engine => "/settings"
   scope "/api" do
     get '/profiles'      => "saas/profiles#index"

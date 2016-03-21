@@ -302,8 +302,6 @@
     color: $darkGrey;
   }
   .title {
-    word-wrap: break-word;
-    @include word-break(break-word);
     white-space: normal;
     text-overflow: clip;
     overflow:auto;

@@ -58,6 +58,10 @@ module HuBoard
         response.body.merge clone
       end
 
+      def get(id)
+        connection.get(escape_docid({'_id' => id}))
+      end
+
       # Patchs
       #
       # return json
@@ -260,5 +264,4 @@ module HuBoard
       end
     end
   end
-
 end
