@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   rescue_from ActionController::InvalidAuthenticityToken, :with => :csrf_failed
   rescue_from Ghee::Unauthorized, :with => :ghee_unauthorized
-  rescue_from Ghee::ServiceUnavailable, Ghee::BadGateway, :with => :ghee_unreachable
+  #rescue_from Ghee::ServiceUnavailable, Ghee::BadGateway, :with => :ghee_unreachable
 
   include ApplicationHelper
 
