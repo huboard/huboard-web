@@ -9,6 +9,11 @@ module.exports = function(defaults) {
     fingerprint: {
       enabled: false
     },
+    // For development mode, pulls keys from the .env file
+    dotEnv: {
+      clientAllowedKeys: ['STRIPE_PUBLISHABLE_API'],
+      path: '../.env'
+    },
     outputPaths: {
       vendor: {
         js: "/assets/vendor-accounts.js"
