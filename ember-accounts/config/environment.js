@@ -17,6 +17,7 @@ module.exports = function(environment) {
       // when it is created
     }
   };
+  ENV.STRIPE_PUBLISHABLE_API = process.env.STRIPE_PUBLISHABLE_API;
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
