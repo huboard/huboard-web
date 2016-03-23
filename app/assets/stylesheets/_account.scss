@@ -14,9 +14,15 @@
     display: none;
   }
 
+  .new-account {
+    display: flex;
+    justify-content: space-between;
+    .trial-form {
+      min-width: 334px;
+    }
+  }
+
   form {
-    margin-top: -31px;
-    float: right;
     .hb-button {
       margin-top: -8px;
       margin-left: 6px;
