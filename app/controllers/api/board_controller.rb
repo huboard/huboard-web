@@ -9,5 +9,11 @@ module Api
       render json: huboard.board(params[:user], params[:repo]).commit(params[:commit])
     end
 
+    def issue_template
+      board = huboard.board(params[:user], params[:repo])
+      template = board.issue_template
+      decoded_template = Base64.decode64(template['content'])
+      render json: { issue_template: decoded_template }
+    end
   end
 end
