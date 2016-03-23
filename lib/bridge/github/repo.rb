@@ -3,6 +3,7 @@ class Huboard
     include Assignees
     include Labels
     include Issues
+    include Contents
 
     attr_accessor :user, :repo, :connection
 
@@ -55,13 +56,17 @@ class Huboard
         i
       end
 
+      template = issue_template
+      decoded_template = template ? Base64.decode64(template['content']) : nil
+
       {
         columns: columns,
         milestones: milestones,
         other_labels: other_labels.sort_by {|l| l['name'].downcase },
         link_labels: link_labels,
         assignees: assignees,
-        issues: issues
+        issues: issues,
+        issue_template: decoded_template
       }
     end
 

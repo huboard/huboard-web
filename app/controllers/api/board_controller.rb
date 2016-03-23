@@ -12,7 +12,7 @@ module Api
     def issue_template
       board = huboard.board(params[:user], params[:repo])
       template = board.issue_template
-      decoded_template = Base64.decode64(template['content'])
+      decoded_template = template ? Base64.decode64(template['content']) : nil
       render json: { issue_template: decoded_template }
     end
   end
