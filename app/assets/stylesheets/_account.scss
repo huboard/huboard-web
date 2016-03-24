@@ -15,7 +15,7 @@
   }
 
   .new-account {
-    display: flex;
+    @include display(flex);
     justify-content: space-between;
     .trial-form {
       min-width: 334px;

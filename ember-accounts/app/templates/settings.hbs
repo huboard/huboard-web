@@ -3,7 +3,7 @@
   <div class="span3">
     <h1>Accounts</h1>
     <ul class="nav nav-list">
-      {{#link-to 'settings.user-profile' tagName='li' herf=false}}
+      {{#link-to 'settings.user-profile' tagName='li' href=false}}
         {{#link-to "settings.user-profile"}}
         <img height="24" width="24" src={{model.user.gravatar_url}}
                          alt="{{model.user.login}} Avatar">
@@ -12,7 +12,7 @@
       {{/link-to}}
 
       {{#each model.orgs as |org|}}
-        {{#link-to 'settings.profile' org tagName='li' herf=false}}
+        {{#link-to 'settings.profile' org tagName='li' href=false}}
           {{#link-to "settings.profile" org}}
             <img height="24" width="24" src={{org.gravatar_url}} alt="{{org.login}}
         Avatar"/>
