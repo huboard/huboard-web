@@ -53,6 +53,16 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
         assert_equal nil, bridge.issue_template
       end
     end
+
+    describe 'the repository is empty' do
+      file_list = ["message", "This repository is empty."]
+
+      it 'it returns nil' do
+        @mock_gh_instance.expects(:contents).with('').returns file_list
+
+        assert_equal nil, bridge.issue_template
+      end
+    end
   end
 
   describe 'issue template pattern' do

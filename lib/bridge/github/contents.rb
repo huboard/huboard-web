@@ -12,6 +12,7 @@ class Huboard
 
     :private
     def find_template(list)
+      return nil if list.first == ["message", "This repository is empty."]
       issue = list.find {|f| ISSUE_TEMPLATE_PATTERN.match(f['name'])}
       return gh.contents issue['path'] if issue
     end
