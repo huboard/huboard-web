@@ -7,6 +7,9 @@ var IssuesCreateController = Ember.Controller.extend({
   selectedRepo: function(){
     return this.get('allRepos.firstObject');
   }.property('allRepos.[]'),
+  repoChanged: function(){
+    this.set('model.body', this.get('selectedRepo.issue_template'));
+  }.observes('selectedRepo'),
   otherLabels: Ember.computed.alias("selectedRepo.data.other_labels"),
   assignees: Ember.computed.alias("selectedRepo.data.assignees"),
   milestones: Ember.computed.alias("selectedRepo.data.milestones"),
