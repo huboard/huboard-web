@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Accounts | Huboard</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{content-for "head"}}
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/ember-accounts.css">
+
+    {{content-for "head-footer"}}
+  </head>
+  <body>
+    {{content-for "body"}}
+
+    <script>
+      $(function() {
+          var token = $('meta[name="csrf-token"]').attr('content');
+          return $.ajaxPrefilter(function(options, originalOptions, xhr) {
+            return xhr.setRequestHeader('X-CSRF-Token', token);
+          });
+        });
+    </script>
+    <script src="assets/vendor.js"></script>
+    <script src="assets/ember-accounts.js"></script>
+
+
+    {{content-for "body-footer"}}
+  </body>
+</html>

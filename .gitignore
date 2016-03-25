@@ -59,3 +59,4 @@ ember-app/coverage/*
 ember-app/libpeerconnection.log
 ember-app/npm-debug.log
 ember-app/testem.log
+modules/
