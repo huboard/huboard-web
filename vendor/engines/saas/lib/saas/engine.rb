@@ -26,7 +26,8 @@ module Saas
           auth_request = request.params['code'] && request.params['state']
           if request.referer !~ /github\.com/ && !logged_in? && !auth_request
             Analytics::PageJob.perform_later({
-              'url' => "/login/#{params['action']}"
+              'url' => "/login/#{params['action']}",
+              'session_id' => request.session.id
             })
           end
         end

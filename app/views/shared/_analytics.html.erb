@@ -6,7 +6,8 @@
     window.analytics.identify('<%= current_user.id %>', {})
     window.analytics.page({ userId: '<% current_user.id %>' });
   <% else %>
-    window.analytics.page();
+      window.analytics.identify({ anonymousId: '<%= session.id %>' });
+      window.analytics.page({ anonymousId: '<%= session.id %>' });
   <% end %>
 <% end %>
 </script>
