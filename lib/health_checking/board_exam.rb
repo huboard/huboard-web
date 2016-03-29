@@ -26,6 +26,7 @@ module HealthChecking
     @@checks = [
       HealthChecks::Board::IssuesWebhookCheck,
       HealthChecks::Board::IssueCommentWebhookCheck,
+      HealthChecks::Board::PullRequestWebhookCheck,
     ]
 
   end
