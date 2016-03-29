@@ -56,9 +56,6 @@ class Huboard
         i
       end
 
-      template = issue_template
-      decoded_template = template ? Base64.decode64(template['content']) : nil
-
       {
         columns: columns,
         milestones: milestones,
@@ -66,7 +63,7 @@ class Huboard
         link_labels: link_labels,
         assignees: assignees,
         issues: issues,
-        issue_template: decoded_template
+        issue_template: issue_template_content
       }
     end
 

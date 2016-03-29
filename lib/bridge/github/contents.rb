@@ -10,6 +10,11 @@ class Huboard
       return find_template(file_list) if file_list && file_list.size > 0
     end
 
+    def issue_template_content
+      template = issue_template
+      return template ? Base64.decode64(template['content']) : nil
+    end
+
     :private
     def find_template(list)
       return nil if list.first == ["message", "This repository is empty."]

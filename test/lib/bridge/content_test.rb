@@ -65,6 +65,32 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'issue template content' do
+
+    before(:each) do
+      @content = '#Guidelines ##For ###Awesomeness'
+      @encoded_content = Base64.encode64(@content)
+    end
+
+    describe 'a template exists' do
+      it 'returns the decoded content' do
+        bridge.stubs(:issue_template).returns({
+          'content' => @encoded_content
+        })
+
+        assert_equal @content, bridge.issue_template_content
+      end
+    end
+
+    describe 'a template does not exist' do
+      it 'is nil' do
+        bridge.stubs(:issue_template).returns(nil)
+
+        assert_equal nil, bridge.issue_template_content
+      end
+    end
+  end
+
   describe 'issue template pattern' do
     pattern = sut::ISSUE_TEMPLATE_PATTERN
 
