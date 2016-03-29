@@ -1,6 +1,6 @@
 class Huboard
   module Contents
-    ISSUE_TEMPLATE_PATTERN = /^ISSUE_TEMPLATE\.(md|txt)/i
+    ISSUE_TEMPLATE_PATTERN = /^ISSUE_TEMPLATE\.(md|txt)$/i
 
     def issue_template
       file_list = gh.contents ''

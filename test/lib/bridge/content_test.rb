@@ -95,6 +95,9 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
 
       file_name = 'NO_ISSUE_TEMPLATE.txt'
       assert file_name !~ pattern
+
+      file_name = 'ISSUE_TEMPLATE.md5'
+      assert file_name !~ pattern
     end
   end
 end
