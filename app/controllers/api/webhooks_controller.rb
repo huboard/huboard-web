@@ -18,6 +18,9 @@ module Api
       payload = HashWithIndifferentAccess.new JSON.parse(params[:payload])
       return render json: { message: "Fail to parse message" } if payload[:pull_request].nil?
 
+      #guard against the syncronize action
+      return render json: { message: "Not implemented: `synchronize` event" } if payload[:action] == "synchronize"
+
       repo = {
         repo: {
           owner: { login: payload[:repository][:owner][:login] },
