@@ -1,13 +1,16 @@
 class Huboard
   module Contents
     ISSUE_TEMPLATE_PATTERN = /^ISSUE_TEMPLATE\.(md|txt)$/i
+    ISSUE_TEMPLATE_DIRS = ['.github']
 
     def issue_template
       file_list = gh.contents ''
-      return find_template(file_list) if file_list && file_list.size > 0
+      template = find_template(file_list)
 
-      file_list = gh.contents '.github'
-      return find_template(file_list) if file_list && file_list.size > 0
+      template || ISSUE_TEMPLATE_DIRS.find do |dir|
+        template = find_template(gh.contents dir) if file_list && file_list.any?{|f| f['name'] == dir }
+        return template
+      end
     end
 
     def issue_template_content
@@ -17,9 +20,12 @@ class Huboard
 
     :private
     def find_template(list)
-      return nil if list.first == ["message", "This repository is empty."]
-      issue = list.find {|f| ISSUE_TEMPLATE_PATTERN.match(f['name'])}
-      return gh.contents issue['path'] if issue
+      if list && list.size > 0 && list.first != ["message", "This repository is empty."]
+        file = list.find {|f| ISSUE_TEMPLATE_PATTERN.match(f['name'])}
+        return gh.contents file['path'] if file
+      end
+
+      nil
     end
   end
 end

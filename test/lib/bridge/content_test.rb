@@ -24,15 +24,20 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
       ]
 
       it 'looks for a template in the root of the repo' do
-        @mock_gh_instance.stubs(:contents).returns(file_list)
-        @mock_gh_instance.expects(:contents).with('').once
+        @mock_gh_instance.expects(:contents).with('').returns file_list
         @mock_gh_instance.expects(:contents).with('ISSUE_TEMPLATE.txt').returns(file_list[0])
 
         assert_equal file_list[0], bridge.issue_template
       end
 
+      file_list_2 = [
+        {'name' => '.github'},
+        {'name' => 'application.js'},
+        {'name' => 'huboard_is_awesome.rb'}
+      ]
+
       it 'looks for a template in the .github directory' do
-        @mock_gh_instance.expects(:contents).with('').returns []
+        @mock_gh_instance.expects(:contents).with('').returns file_list_2
         @mock_gh_instance.expects(:contents).with('.github').returns file_list
         @mock_gh_instance.expects(:contents).with('ISSUE_TEMPLATE.txt').returns(file_list[0])
 
