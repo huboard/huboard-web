@@ -48,11 +48,17 @@
 .board-not-dragging {
   .column.milestone {
     height: 100%;
+    @include flex(0 0 230px);
+    min-width: 0px;
+    max-width: 230px;
+
     .column-contents{
       height: 100%;
       @include display(flex);
       @include flex-direction(column);
       @include flex(0 0 230px);
+      min-width: 0px;
+      max-width: 230px;
     }
     .cards {
       @include flex(1 1 auto);
