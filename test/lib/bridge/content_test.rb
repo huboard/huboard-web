@@ -61,10 +61,11 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
     end
 
     describe 'the repository is empty' do
-      file_list = ["message", "This repository is empty."]
+      file_list = {"message" => "This repository is empty."}
 
       it 'it returns nil' do
         @mock_gh_instance.expects(:contents).with('').returns file_list
+        @mock_gh_instance.expects(:contents).with('.github').never
 
         assert_equal nil, bridge.issue_template
       end

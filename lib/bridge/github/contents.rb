@@ -8,7 +8,7 @@ class Huboard
       template = find_template(file_list)
 
       template || ISSUE_TEMPLATE_DIRS.find do |dir|
-        template = find_template(gh.contents dir) if file_list && file_list.any?{|f| f['name'] == dir }
+        template = find_template(gh.contents dir) if file_list.is_a?(Array) && file_list.any?{|f| f['name'] == dir }
         return template if template
         false
       end
@@ -21,7 +21,7 @@ class Huboard
 
     :private
     def find_template(list)
-      if list && list.size > 0 && list.first != ["message", "This repository is empty."]
+      if list.is_a?(Array) && list.size > 0
         file = list.find {|f| ISSUE_TEMPLATE_PATTERN.match(f['name'])}
         return gh.contents file['path'] if file
       end
