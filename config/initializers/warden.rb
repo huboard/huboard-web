@@ -75,26 +75,4 @@ class Huboard
   end
 end
 
-Warden::Proxy.class_eval do
-  ENV_SESSION_OPTIONS = 'rack.session.options'.freeze
-  def set_user(user, opts = {})
-    scope = (opts[:scope] ||= @config.default_scope)
-
-    # Get the default options from the master configuration for the given scope
-    opts = (@config[:scope_defaults][scope] || {}).merge(opts)
-    opts[:event] ||= :set_user
-    @users[scope] = user
-
-    if opts[:store] != false && opts[:event] != :fetch
-      options = env[ENV_SESSION_OPTIONS]
-      session_serializer.store(user, scope)
-    end
-
-    run_callbacks = opts.fetch(:run_callbacks, true)
-    manager._run_callbacks(:after_set_user, user, self, opts) if run_callbacks
-
-    @users[scope]
-  end
-end
-
 Rails.application.middleware.insert_before Warden::Manager, Huboard::Warden::AppRedirect

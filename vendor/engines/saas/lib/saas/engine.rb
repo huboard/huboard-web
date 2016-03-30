@@ -27,7 +27,7 @@ module Saas
           if request.referer !~ /github\.com/ && !logged_in? && !auth_request
             Analytics::PageJob.perform_later({
               'url' => "/login/#{params['action']}",
-              'session_id' => request.session.id
+              'session_id' => request.session['guid']
             })
           end
         end
