@@ -26,6 +26,7 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
       it 'looks for a template in the root of the repo' do
         @mock_gh_instance.expects(:contents).with('').returns file_list
         @mock_gh_instance.expects(:contents).with('ISSUE_TEMPLATE.txt').returns(file_list[0])
+        @mock_gh_instance.expects(:contents).with('.github').never
 
         assert_equal file_list[0], bridge.issue_template
       end
