@@ -9,7 +9,8 @@ class Huboard
 
       template || ISSUE_TEMPLATE_DIRS.find do |dir|
         template = find_template(gh.contents dir) if file_list && file_list.any?{|f| f['name'] == dir }
-        return template
+        return template if template
+        false
       end
     end
 
