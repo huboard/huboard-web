@@ -20,6 +20,12 @@ var IssuesCreateController = Ember.Controller.extend({
   isValid: function () {
     return this.get("model.title");
   }.property("model.title"),
+  issueBodyDirty: function(){
+    if(this.get('selectedRepo.issue_template')){
+      return this.get('model.body') !== this.get('selectedRepo.issue_template');
+    }
+    return !Ember.isEmpty(this.get('model.body'));
+  }.property('selectedRepo.data.repo.name', 'model.body'),
   mentions: function(){
     return _.uniq(_.compact(this.get('selectedRepo.assignees')), function(i){
       return i.login;
@@ -38,7 +44,8 @@ var IssuesCreateController = Ember.Controller.extend({
         controller.get("target").send("closeModal");
       });
     },
-    assignRepo: function(repo){
+    assignRepo: function(repo, callback){
+      if(!this.confirmChange(callback)){ return };
       var get = Ember.get;
 
       // transfer assignee if possible
@@ -57,6 +64,14 @@ var IssuesCreateController = Ember.Controller.extend({
       });
       this.set("model.labels", commonLabels);
     }
+  },
+  confirmChange: function(callback){
+    var confirmation = true;
+    if(this.get('issueBodyDirty')){
+      var confirmation = confirm('Any changes to the current issue will be lost!')
+    }
+    callback(confirmation);
+    return confirmation;
   }
 });
 
