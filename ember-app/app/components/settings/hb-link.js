@@ -8,6 +8,12 @@ var HbLinkComponent = Ember.Component.extend({
   isLinked: function(){
     return this.get("parent.board.columns.length") === this.get("link.board.columns.length");
   }.property("parent.board.columns.[]", 'link.board', "link.board.columns.[]"),
+  copyDisabled: function(){
+    return !this.get("isLinked") && this.get('link.board') != null;
+  }.property("link.board", "isLinked"),
+  buttonDisabled: function(){
+    return this.get("isDisabled") || this.get("copyDisabled");
+  }.property("isDisabled", "copyDisabled"),
   isDisabled: false,
   issueFiltersLabels: function(){
     var issue_filter = this.get("link.data.issue_filter");

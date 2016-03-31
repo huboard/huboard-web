@@ -1,12 +1,11 @@
 .account-details {
 
-  .credit-card, .coupon, .email {
+  .plan, .credit-card, .coupon, .email {
     padding: 10px;
   }
 
   margin: -5px -5px 0 -5px;
   padding: 20px;
-  border-bottom: 1px solid #ccc;
 }
 
 
@@ -15,9 +14,15 @@
     display: none;
   }
 
+  .new-account {
+    @include display(flex);
+    justify-content: space-between;
+    .trial-form {
+      min-width: 334px;
+    }
+  }
+
   form {
-    margin-top: -31px;
-    float: right;
     .hb-button {
       margin-top: -8px;
       margin-left: 6px;
@@ -28,3 +33,77 @@
   }
 }
 
+.error-container {
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  padding-top: 100px;
+}
+
+.org-item {
+  display: inline-block;
+  margin-right: 24px;
+  margin-bottom: 10px;
+  padding-right: 24px;
+  border: 1px solid $borderColor;
+  border-radius: 4px;
+  width: 225px;
+}
+
+.org-item:hover {
+  background-color: $hb-purple;
+  color: #fff;
+
+  & .org-label {
+    color: #fff;
+  }
+}
+
+.error-policeman {
+  width: 320px;
+  margin: 0 auto;
+}
+
+.org-label {
+  display: inline-block;
+  vertical-align: middle;
+  color: #4a4a4a;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 141px;
+}
+
+.orgs-container {
+  padding-bottom: 40px;
+  max-width: 80%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.org-image {
+  padding-right: 8px;
+}
+
+.account-section {
+  margin-bottom: 24px;
+}
+
+.billing-section {
+  margin-bottom: 12px;
+}
+
+.question-label {
+  margin-bottom: 12px;
+}
+
+.orgs {
+  @include display(flex);
+  justify-content: center;
+  flex-flow: row wrap;
+  .link-to-profile {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

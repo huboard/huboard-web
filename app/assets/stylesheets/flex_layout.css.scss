@@ -176,6 +176,8 @@ body {
     width: auto;
     padding: 6px 0 6px 25px;
     @include flex(0 0 230px);
+    min-width: 0px;
+    max-width: 230px;
   }
   .sidebar-wrapper {
     width: auto;
