@@ -119,7 +119,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       if(milestone){
         var copy = `${actor} changed milestone of #${message.issue.number} to ${milestone.title}`;
       } else {
-        var copy = `${actor} changed milestone of #${message.issue.number} to _nil_`;
+        var copy = `${actor} removed milestone from #${message.issue.number}`;
       }
 
       this.get("flashMessages").info(copy);
