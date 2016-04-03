@@ -111,6 +111,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       this.get("flashMessages").info(copy);
     },
     issueMsChanged: function(message){
+      if (message.suppress) { return; }
+
       var actor = message.actor.login;
       var milestone = message.issue.milestone;
 
