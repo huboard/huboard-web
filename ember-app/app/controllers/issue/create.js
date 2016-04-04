@@ -10,8 +10,10 @@ var IssuesCreateController = Ember.Controller.extend({
   repoChanged: function(){
     var template = this.get('selectedRepo.issue_template');
     var previous_template = this.get('previousRepo.issue_template');
-    if(this.get('issueBodyDirty') && !template){ return; }
+    if(this.get('issueBodyDirty') && (!template || this.get('templateActive'))){ return; }
     if(previous_template && this.get('model.body') !== previous_template){ return; }
+
+    this.set('templateActive', !Ember.isNone(template));
     this.set('model.body', template);
   }.observes('selectedRepo'),
   otherLabels: Ember.computed.alias("selectedRepo.data.other_labels"),
