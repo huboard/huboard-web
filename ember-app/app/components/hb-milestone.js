@@ -47,14 +47,14 @@ var HbMilestoneComponent = Ember.Component.extend({
       }
     },
     assignTo: function(milestone) {
-      this.set("selected", milestone);
       this.sendAction("assign", milestone);
+      this.set("selected", milestone);
       this.$().removeClass("open");
       this.set("isOpen", false);
     },
     clearMilestone: function(){
-      this.set("selected", null);
       this.sendAction("assign", "");
+      this.set("selected", null);
       this.$().removeClass("open");
       this.set("isOpen", false);
     }
