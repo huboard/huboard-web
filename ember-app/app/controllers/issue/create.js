@@ -7,6 +7,15 @@ var IssuesCreateController = Ember.Controller.extend({
   selectedRepo: function(){
     return this.get('allRepos.firstObject');
   }.property('allRepos.[]'),
+  repoChanged: function(){
+    var template = this.get('selectedRepo.issue_template');
+    var previous_template = this.get('previousRepo.issue_template');
+    if(this.get('issueBodyDirty') && (!template || this.get('templateActive'))){ return; }
+    if(previous_template && this.get('model.body') !== previous_template){ return; }
+
+    this.set('templateActive', !Ember.isNone(template));
+    this.set('model.body', template);
+  }.observes('selectedRepo'),
   otherLabels: Ember.computed.alias("selectedRepo.data.other_labels"),
   assignees: Ember.computed.alias("selectedRepo.data.assignees"),
   milestones: Ember.computed.alias("selectedRepo.data.milestones"),
@@ -17,6 +26,15 @@ var IssuesCreateController = Ember.Controller.extend({
   isValid: function () {
     return this.get("model.title");
   }.property("model.title"),
+  issueBodyDirty: function(){
+    if(this.get('previousRepo.issue_template')){
+      return this.get('model.body') !== this.get('previousRepo.issue_template');
+    }
+    return !Ember.isEmpty(this.get('model.body'));
+  }.property('selectedRepo.data.repo.name', 'model.body'),
+  promptForRepoChange: function(repo){
+    return this.get('issueBodyDirty');
+  },
   mentions: function(){
     return _.uniq(_.compact(this.get('selectedRepo.assignees')), function(i){
       return i.login;
@@ -36,6 +54,7 @@ var IssuesCreateController = Ember.Controller.extend({
       });
     },
     assignRepo: function(repo){
+      this.set('previousRepo', this.get('selectedRepo'));
       var get = Ember.get;
 
       // transfer assignee if possible

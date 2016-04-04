@@ -4,6 +4,13 @@ import Issue from "app/models/forms/create-issue";
 var HbQuickIssueComponent = Ember.Component.extend({
   classNames: ["create-issue"],
   placeholderText: "Add issue...",
+  issueTemplate: Ember.computed.alias("repo.issue_template"),
+  focusPlaceholderText: function(){
+    if(this.get("issueTemplate")){
+      return "↵ to fill this issues template"
+    }
+    return "Add title then ↵"
+  }.property("issueTemplate"),
 
   initModel: function(){
     this.set("model", Issue.createNew());
@@ -19,7 +26,7 @@ var HbQuickIssueComponent = Ember.Component.extend({
   bindToFocus: function(){
     var _self = this;
     this.$("input").on("focus.huboard", function() {
-      _self.set("placeholderText", "Add title then ↵");
+      _self.set("placeholderText", _self.get("focusPlaceholderText"));
     });
     this.$("input").on("blur.huboard", function() {
       _self.set("placeholderText", "Add issue...");
@@ -30,6 +37,12 @@ var HbQuickIssueComponent = Ember.Component.extend({
   }.on("willDestroyElement"),
 
   actions: {
+    submit: function(){
+      if(this.get("issueTemplate")){
+        return this.send('openFullScreen');
+      }
+      this.send('onQuickAdd');
+    },
     openFullScreen: function(){
       var model = Issue.createNew();
       model.set("title", this.get("model.title"));

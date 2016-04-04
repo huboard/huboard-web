@@ -43,6 +43,10 @@ var IndexRoute = Ember.Route.extend({
     createFullscreenIssue : function (model, order) {
       this.controllerFor("issue.create").set("model", model || CreateIssue.createNew());
       this.controllerFor("issue.create").set("order", order || {});
+
+      var issue_template = this.modelFor('index').get('repo.issue_template');
+      this.controllerFor("issue.create").set("model.body", issue_template);
+      
       this.send("openModal","issue.create");
     },
     openFullscreenIssue: function(model){
