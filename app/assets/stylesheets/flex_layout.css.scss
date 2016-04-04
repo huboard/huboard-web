@@ -30,6 +30,14 @@
 @import "milestone";
 @import "date_picker";
 
+#application {
+    /* IE 10-11 workaround
+     * https://github.com/philipwalton/flexbugs#3-min-height-on-a-flex-container-wont-apply-to-its-flex-items
+     */
+    @include display(flex);
+    @include flex-direction(column);
+}
+
 #application > .ember-view {
    @include display(flex);
    @include flex-direction(column);
