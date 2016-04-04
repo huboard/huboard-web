@@ -8,7 +8,11 @@ var IssuesCreateController = Ember.Controller.extend({
     return this.get('allRepos.firstObject');
   }.property('allRepos.[]'),
   repoChanged: function(){
-    this.set('model.body', this.get('selectedRepo.issue_template'));
+    var template = this.get('selectedRepo.issue_template');
+    var previous_template = this.get('previousRepo.issue_template');
+    if(this.get('issueBodyDirty') && !template){ return; }
+    if(previous_template && this.get('model.body') !== previous_template){ return; }
+    this.set('model.body', template);
   }.observes('selectedRepo'),
   otherLabels: Ember.computed.alias("selectedRepo.data.other_labels"),
   assignees: Ember.computed.alias("selectedRepo.data.assignees"),
@@ -21,11 +25,14 @@ var IssuesCreateController = Ember.Controller.extend({
     return this.get("model.title");
   }.property("model.title"),
   issueBodyDirty: function(){
-    if(this.get('selectedRepo.issue_template')){
-      return this.get('model.body') !== this.get('selectedRepo.issue_template');
+    if(this.get('previousRepo.issue_template')){
+      return this.get('model.body') !== this.get('previousRepo.issue_template');
     }
     return !Ember.isEmpty(this.get('model.body'));
   }.property('selectedRepo.data.repo.name', 'model.body'),
+  promptForRepoChange: function(repo){
+    return this.get('issueBodyDirty');
+  },
   mentions: function(){
     return _.uniq(_.compact(this.get('selectedRepo.assignees')), function(i){
       return i.login;
@@ -44,8 +51,8 @@ var IssuesCreateController = Ember.Controller.extend({
         controller.get("target").send("closeModal");
       });
     },
-    assignRepo: function(repo, callback){
-      if(!this.confirmChange(callback)){ return };
+    assignRepo: function(repo){
+      this.set('previousRepo', this.get('selectedRepo'));
       var get = Ember.get;
 
       // transfer assignee if possible
@@ -64,14 +71,6 @@ var IssuesCreateController = Ember.Controller.extend({
       });
       this.set("model.labels", commonLabels);
     }
-  },
-  confirmChange: function(callback){
-    var confirmation = true;
-    if(this.get('issueBodyDirty')){
-      var confirmation = confirm('Any changes to the current issue will be lost!')
-    }
-    callback(confirmation);
-    return confirmation;
   }
 });
 
