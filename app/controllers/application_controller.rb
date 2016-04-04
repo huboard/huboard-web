@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
 
     job_params['current_user'] = (current_user.attribs || {}).to_h
     job_params['action_controller.params'] = params
+    job_params['session_id'] = session['guid']
 
     #TODO: make sure you can safely serialize the params
     JobResolver.find_jobs(params).each do |job|

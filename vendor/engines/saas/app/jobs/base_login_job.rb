@@ -32,7 +32,8 @@ class BaseLoginJob < ActiveJob::Base
 
     {
       'current_user' => params['user'],
-      'data' => params['user']
+      'data' => params['user'],
+      'session_id' => params['session_id']
     }
   end
 end
