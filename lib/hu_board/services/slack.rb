@@ -82,35 +82,20 @@ module HuBoard
     end
 
     def transform_milestone_changed(mash)
-      if mash.payload.milestone.nil?
-        {
-          username: "#{mash.meta.user.login} via HuBoard",
-          icon_url: avatar_url(mash),
-          attachments: [
-            {
-              fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to _nil_",
-              pretext: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to _nil_",
-              text: "*Title*: #{mash.payload.issue.title}",
-              mrkdwn_in: ["text","fields","pretext"],
-                unfurl_links: true
-            }
-          ]
-        }
-      else
-        {
-          username: "#{mash.meta.user.login} via HuBoard",
-          icon_url: avatar_url(mash),
-          attachments: [
-            {
-              fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to *#{mash.payload.milestone.title}*",
-              pretext: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to *#{mash.payload.milestone.title}*",
-              text: "*Title*: #{mash.payload.issue.title}",
-              mrkdwn_in: ["text","fields","pretext"],
-                unfurl_links: true
-            }
-          ]
-        }
-      end
+      milestone = mash.payload.milestone.nil? ? "No Milestone" : mash.payload.milestone.title
+      {
+        username: "#{mash.meta.user.login} via HuBoard",
+        icon_url: avatar_url(mash),
+        attachments: [
+          {
+            fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to *#{milestone}*",
+            pretext: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> changed milestone of <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}> to *#{milestone}*",
+            text: "*Title*: #{mash.payload.issue.title}",
+            mrkdwn_in: ["text","fields","pretext"],
+              unfurl_links: true
+          }
+        ]
+      }
     end
 
     def transform_issue_status_changed(mash)
