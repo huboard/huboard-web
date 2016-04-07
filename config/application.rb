@@ -67,9 +67,14 @@ module HuboardWeb
     end
 
     Faraday::Response::RaiseGheeError.const_get("ERROR_MAP").each do |status, exception|
+      if ENV['HUBOARD_ENV'] == 'production'
+        ::Raygun.track_exception(exception, custom_data: {generated_by: 'Faraday::Response::RaiseGheeError'})
+      end
       config.action_dispatch.rescue_responses[exception.to_s] = status
     end
+
     config.action_dispatch.rescue_responses["HuBoard::Error"] = 422
+
     config.exceptions_app = self.routes
 
     if ENV['SIDEKIQ']
