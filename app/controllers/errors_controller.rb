@@ -1,6 +1,6 @@
 class ErrorsController < ApplicationController
   layout false
-  after_action :track_expection, only: [:unprocessable_entity, :server_error]
+  after_action :track_exception, only: [:unprocessable_entity, :server_error]
   def unauthenticated
     respond_to do |format|
       format.html {render :unauthenticated, status: 403}
@@ -28,11 +28,10 @@ class ErrorsController < ApplicationController
     end
   end
 
-  private
-    def 
-      if ENV['HUBOARD_ENV'] == 'production'
-        exception = env["action_dispatch.exception"]
-        ::Raygun.track_exception(exception, custom_data: {generated_by: 'Faraday::Response::RaiseGheeError'})
-      end
+  def track_exception
+    if ENV['HUBOARD_ENV'] == 'production'
+      exception = env["action_dispatch.exception"]
+      ::Raygun.track_exception(exception, custom_data: {generated_by: 'Faraday::Response::RaiseGheeError'})
     end
+  end
 end
