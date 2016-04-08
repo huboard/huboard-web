@@ -41,6 +41,7 @@
 #application > .ember-view {
    @include display(flex);
    @include flex-direction(column);
+   max-height: 100vh;
    min-height: 100vh;
 }
 .application-outlet {
@@ -143,6 +144,7 @@ body {
 
   > .sidebar {
      width: 0;
+     overflow: hidden;
      @include flex(0);
      border-right: 1px solid #ccc;
      @include box-sizing(border-box);
@@ -181,6 +183,7 @@ body {
 }
 .sidebar-open {
   > .sidebar {
+    overflow-y: auto;
     width: auto;
     padding: 6px 0 6px 25px;
     @include flex(0 0 230px);
