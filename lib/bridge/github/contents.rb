@@ -19,7 +19,7 @@ class Huboard
         template = issue_template
         content = Base64.decode64(template['content']) if template
       rescue => e
-        ::Raygun.track_exception(e, custom_data: {error_response: content.to_s})
+        ::Raygun.track_exception(e, custom_data: {error_response: template.to_s})
         content = nil
       end
 
