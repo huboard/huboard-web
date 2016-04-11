@@ -15,8 +15,14 @@ class Huboard
     end
 
     def issue_template_content
-      template = issue_template
-      return template ? Base64.decode64(template['content']) : nil
+      begin
+        template = Base64.decode64(issue_template['content'])
+      rescue => e
+        ::Raygun.track_exception(e, custom_data: {error_response: template.to_s})
+        template = nil
+      end
+
+      return template
     end
 
     :private
