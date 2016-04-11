@@ -96,6 +96,15 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
         assert_equal nil, bridge.issue_template_content
       end
     end
+
+    describe 'a template call throws' do
+      it 'is nil' do
+        bridge.stubs(:issue_template).throws("Exception")
+        Raygun.expects(:track_exception).once
+
+        assert_equal nil, bridge.issue_template_content
+      end
+    end
   end
 
   describe 'issue template pattern' do
