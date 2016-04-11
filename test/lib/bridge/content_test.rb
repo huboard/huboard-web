@@ -106,7 +106,7 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
       end
     end
 
-    describe 'The content string is not UTF-8' do
+    describe 'The content string decodes to ascii' do
       it 'force encodes an ascii string' do
         ascii= 'IyBVc2VyIHN0b3J5CgoqKkNvbW8qKgoqKmV1IHF1ZXJvKiogCioqcGFyYSBx
         dWUqKgoKIyBRQQoKIyMgQ2Vuw6FyaW86IAoqKkRhZG8qKiAKKipRdWFuZG8q
