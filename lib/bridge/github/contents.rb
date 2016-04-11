@@ -23,7 +23,7 @@ class Huboard
         content = nil
       end
 
-      return content
+      return content ? content.force_encoding("utf-8") : content
     end
 
     :private

@@ -105,6 +105,35 @@ class Huboard::ContentsTest < ActiveSupport::TestCase
         assert_equal nil, bridge.issue_template_content
       end
     end
+
+    describe 'The content string decodes to ascii' do
+      it 'force encodes an ascii string' do
+        ascii= 'IyBVc2VyIHN0b3J5CgoqKkNvbW8qKgoqKmV1IHF1ZXJvKiogCioqcGFyYSBx
+        dWUqKgoKIyBRQQoKIyMgQ2Vuw6FyaW86IAoqKkRhZG8qKiAKKipRdWFuZG8q
+        KgoqKkVudMOjbyoqIAoKIyBLZXkgcXVlc3Rpb25zCgoqKlE6KiogV2hhdCBp
+        cyBzdGF0aWMgb24gdGhlIHNjcmVlbj8KKipSOioqCgoqKlE6KiogV2hhdCBp
+        cyBkeW5hbWljIG9uIHRoZSBzY3JlZW4/CioqUjoqKgoKKipROioqIFdoZXJl
+        IGNhbiBJIGNsaWNrIG9uIHRoaXMgc2NyZWVuPwoqKlI6KioKCioqUToqKiBX
+        aGljaCB2aWV3cyBjYW4gaGlkZS9zaG93L2NoYW5nZT8KKipSOioqCgoKIyBS
+        ZWZlcsOqbmNpYXMKCiMjIENoZWNrbGlzdDoKICAtIFsgXQoKIyMgRGVmaW5p
+        dG9uIG9mIERvbmU6CiAgLSBbIF0KCiMjIERvY3VtZW50cwoqIFtNUFRdKGh0
+        dHBzOi8vZG9jcy5nb29nbGUuY29tL3NwcmVhZHNoZWV0cy9kLzFpV21HTExW
+        TFk3aW1fb29kczNFZF83c1lXUTVydkR4Rmg4dk5kR1I5SDJnL2VkaXQjZ2lk
+        PTIwMzY4NjcwNjMpCiogW1Njb3BlXShodHRwczovL2RvY3MuZ29vZ2xlLmNv
+        bS9kb2N1bWVudC9kLzE2MHd5NmI2VjZORE5XeUMyZmpzZGlvenhxbFk1aDQy
+        MFJJdnVVZzJvbXp3L2VkaXQpCiogW0ludmlzaW9uXShodHRwczovL3Byb2pl
+        Y3RzLmludmlzaW9uYXBwLmNvbS9kL21haW4vZGVmYXVsdC8jL3Byb2plY3Rz
+        LzYyNjY2MTgpCiogW0FwaWFyeV0oaHR0cDovL2RvY3Mud2Vic2VydmljZXBv
+        c3RoYXVzY29tLmFwaWFyeS5pby8jKQoKIyMgT2JzZXJ2YXRpb25zCg=='
+
+        bridge.stubs(:issue_template).returns({
+          'content' => ascii
+        })
+
+        result = bridge.issue_template_content
+        assert_equal Encoding::UTF_8, result.encoding
+      end
+    end
   end
 
   describe 'issue template pattern' do
