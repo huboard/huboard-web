@@ -39,7 +39,7 @@ export function initialize(container, application){
         const channel = this._sanitizeChannel(channel);
         this.get("sockets")[channel].callbacks.remove(callback);
       },
-      _processMessageQueue() {
+      _processMessageQueue: function() {
         const maxPerRun = 1, delay = 50, self = this;
         let processed = 0;
         if(this._messages){
