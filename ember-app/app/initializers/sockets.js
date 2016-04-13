@@ -12,7 +12,7 @@ export function initialize(container, application){
     subscribeTo: Ember.K
   });
 
-  if(application.get("socketBackend") & window.Faye){
+  if(application.get("socketBackend") &&  window.Faye){
     socket = Ember.Object.extend({
       correlationId : correlationId,
       sockets: {},
