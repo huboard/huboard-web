@@ -1,5 +1,45 @@
 import Ember from 'ember';
 
+//##Usage Info:
+//
+//Inject the `flashMessages: Ember.inject.service()` into the
+//target Ember Class
+//
+//##Standard Info Toast:
+//
+//`this.get('flashMessages').info('Some Message');
+//
+//##Sticky Toast:
+//
+//`this.get('flashMessages').add({
+//   message: 'Some Message',
+//   sticky: true,
+//   type: 'info|warning'
+//})`
+//
+//##Progress Toast:
+//
+//(Note: the callback uses the context of the flash-message component)
+//
+//`var progress = {
+//  status: true,
+//  callback: function(){
+//    this.set('message', 'completed!');
+//    this.get('flash')._setTimer('timer', 'destroyMessage', 2000)
+//  }
+//}`
+//
+//`setTimeout(function(){
+//   Ember.set(progress, 'status', false);
+//}, 10000)`
+//
+//`this.get('flashMessages').add({
+//   message: 'Some Message',
+//   sticky: true,
+//   progress: progress,
+//   type: 'info|warning'
+//})`
+
 var HbFlashMessageComponent = Ember.Component.extend({
   classNames: ['hb-flash-message'],
   flashMessages: Ember.inject.service(),
