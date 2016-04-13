@@ -2,6 +2,12 @@ import Ember from 'ember';
 
 var  HbFlashComponent = Ember.Component.extend({
   classNames: ['message'],
+  classNameBindings: ['flash.id'],
+
+  click: function(){
+    var flash = this.get('flash');
+    flash._setTimer("timer", "destroyMessage", 0);
+  },
 
   setMessage: function(){
     var message = this.get('flash.message');
