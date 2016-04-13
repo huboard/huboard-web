@@ -6,7 +6,7 @@ var  HbFlashComponent = Ember.Component.extend({
   progress: Ember.computed.alias('flash.progress.status'),
 
   click: function(){
-    if(this.get('progress'){return;})
+    if(this.get('progress')){return;}
     var flash = this.get('flash');
     flash._setTimer("timer", "destroyMessage", 0);
   },
