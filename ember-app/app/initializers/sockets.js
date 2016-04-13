@@ -6,12 +6,13 @@ export function initialize(container, application){
   let socket = Ember.Object.extend({
     correlationId : correlationId,
     sockets: {},
+    publish: Ember.K,
     subscribe: Ember.K,
     unsubscribe: Ember.K,
     subscribeTo: Ember.K
   });
 
-  if(application.get("socketBackend")){
+  if(application.get("socketBackend") &&  window.Faye){
     socket = Ember.Object.extend({
       correlationId : correlationId,
       sockets: {},
@@ -38,7 +39,7 @@ export function initialize(container, application){
         const channel = this._sanitizeChannel(channel);
         this.get("sockets")[channel].callbacks.remove(callback);
       },
-      _processMessageQueue() {
+      _processMessageQueue: function() {
         const maxPerRun = 1, delay = 50, self = this;
         let processed = 0;
         if(this._messages){
@@ -72,9 +73,7 @@ export function initialize(container, application){
         return channel.replace(/\./g, '!').toLowerCase();
       },
       subscribeTo: function(channel) {
-        const channel = this._sanitizeChannel(channel);
-
-        self = this;
+        const channel = this._sanitizeChannel(channel), self = this;
         var client = this.get('client'), 
         callbacks = Ember.$.Callbacks();
 

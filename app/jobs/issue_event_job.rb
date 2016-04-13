@@ -47,6 +47,8 @@ class IssueEventJob < ActiveJob::Base
   def perform(params)
     message = deliver payload(params)
 
+    return if params[:suppress]
+
     PublishWebhookJob.perform_later message if self.class.included_modules.include? IsPublishable
   end
 

@@ -104,6 +104,7 @@ var Repo = Model.extend({
 
       repo.set('isLoaded', true);
       repo.set('loadFailed', false);
+      repo.set('issue_template', details.data.issue_template);
 
       return repo;
     }, function(jqxhr) {

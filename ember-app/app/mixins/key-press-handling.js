@@ -17,7 +17,7 @@ var KeypressHandlingMixin = Ember.Mixin.create({
     }
   },
   metaEnter: function(e){
-    return e.keyCode === 13 && e.metaKey;
+    return e.keyCode === 13 && (e.metaKey || e.ctrlKey);
   },
 
   // Handler for Enter - Default: Disabled
