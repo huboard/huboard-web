@@ -1,9 +1,9 @@
-{{truncate message 50}}
+{{#if flash.sticky}}
+  <i class='ui-icon ui-icon-x-thin'></i>
+{{/if}}
+
+<div class='message-copy'>{{truncate message 50}}</div>
 
 {{#if progress}}
   {{hb-spinner}}
-{{/if}}
-
-{{#if flash.sticky}}
-  <i class='ui-icon ui-icon-x-thin'></i>
 {{/if}}
