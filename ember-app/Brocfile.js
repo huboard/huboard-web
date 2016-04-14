@@ -26,10 +26,13 @@ app.import('bower_components/spin.js/spin.js')
 app.import('bower_components/underscore/underscore.js')
 app.import('bower_components/fuse.js/src/fuse.js')
 app.import('bower_components/marked/marked.min.js')
-app.import('bower_components/jquery-textcomplete/dist/jquery.textcomplete.min.js')
+app.import('bower_components/jquery-textcomplete/dist/jquery.textcomplete.js')
 app.import('bower_components/jquery-color/jquery.color.js')
 app.import('app/vendor/task-list.js')
 app.import('app/vendor/autoresize.js')
+
+//Extensions
+app.import('app/utilities/core_extensions/regexp.js');
 
 
 

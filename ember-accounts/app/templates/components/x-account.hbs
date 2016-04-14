@@ -1,0 +1,89 @@
+{{#if showModal}}
+ {{#x-modal}}
+    {{component currentModal model=modalModel close='closeModal'}}
+  {{/x-modal}}
+{{/if}}
+
+<div class="alert {{if errorState 'alert-error' 'alert-success'}}">
+  <div class={{if trialing 'trialing' 'disabled'}}>
+    <p><strong> Free Trial is Active! </strong></p>
+    <p>Expires: {{stripe-date plan.trial_end}}</p>
+  </div>
+  <div class={{if trialingExpired 'trialing-expired' 'disabled'}}>
+    <p><strong> Free Trial is Expired! </strong></p>
+    <p> Upgrade your plan to enable private access </p>
+  </div>
+
+
+  <div class={{if noAccount 'new-account' 'disabled'}}>
+    <div>
+      <p>
+        <strong>All Accounts</strong> receive a <strong>15 day free trial</strong>.
+      </p>
+    </div>
+    <div class='trial-form'>
+      <form {{action "activateTrial" on="submit"}}>
+        {{input type="email" placeholder="Email Address" name="billing_email" value=emailBinding required="required"}}
+        {{input class="hb-button" type="submit" value="Activate Trial" disabled=trialButtonDisabled}}
+      </form>
+    </div>
+  </div>
+  <div class={{if active 'active' 'disabled'}}>
+    <p><strong> Subscription Active </strong></p>
+  </div>
+  <div class={{if inactive 'active' 'disabled'}}>
+    <p><strong> No Subscription Active </strong></p>
+  </div>
+  <div class={{if nonProfit 'active' 'disabled'}}>
+    <p><strong> Non-Profit Subscription </strong></p>
+  </div>
+  <div class={{if failure 'active' 'disabled'}}>
+    <p><strong> Something went wrong retrieving your account information!
+    </strong></p>
+    <p> 
+      Please try again later, or <a href="mailto:support@huboard.com">Contact Support </a>
+    </p>
+  </div>
+  <div class={{if purchaseWithTrial 'active' 'disabled'}}>
+    <p><strong> Subscription Active! </strong></p>
+    <p> 
+      As your trial is still in effect, you will not be charged until: {{stripe-date plan.trial_end}}
+    </p>
+  </div>
+</div>
+<div class='account-details'>
+  <div class='email'>
+    {{#if model.details.account_email}}
+      <strong>Email: </strong>{{model.details.account_email}} 
+      <button style="float: right" {{action 'updateEmail' model }} class="hb-button small">Update Email</button>
+    {{/if}}
+  </div>
+  <div class='credit-card'>
+    {{#if model.details.card }}
+    <img src="{{asset-path 'Plain.png'}}" /> <strong>Credit card on file.</strong> Ending in {{ model.details.card.last4 }}
+     <button style="float: right" {{action 'updateCard' model}} class="hb-button small">Update card</button>
+    {{else}}
+    <img src="{{asset-path 'Plain.png'}}" /> <strong>No credit card on file.</strong>
+    {{/if}}
+  </div>
+
+  <div class='plan'>
+    {{#if plan.purchased}}
+      <span><strong>Current Plan:</strong> {{plan.name}}</span>
+      <button style="float: right" class="hb-button hb-button-danger small" 
+      {{action 'cancel' plan}}>Cancel Plan</button>
+    {{else}}
+      <span><strong>Available Plan:</strong> {{plan.name}} ({{stripe-money
+        plan.amount }}/month)</span>
+      <button style="float: right" class="hb-button small" 
+      {{action 'purchase' plan}}>Upgrade Plan</button>
+    {{/if}}
+  </div>
+  <div class='coupon'>
+    {{#if model.details.has_plan }}
+    <img src="{{asset-path 'icn-coupon.png'}}" /> <strong> Coupon: {{{couponCode}}} </strong>
+    <button style="float: right"class="hb-button small"
+    {{action 'applyCoupon' model}}> Redeem Coupon </button>
+    {{/if}}
+  </div>
+</div>

@@ -4,10 +4,11 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
+	<%= render partial: 'shared/abtest' %>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Huboard</title>
-  <link rel="shortcut icon" href="/img/favicon.ico?v=2">
+  <link rel="shortcut icon" href="/favicon.ico?v=3">
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -60,6 +61,11 @@
 						<img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
 					</dd>
 					<dt>Your followers</dt>
+					<dd>
+						<img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+						<img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+					</dd>
+					<dt>Your email</dt>
 				</dl>
 				<dl>
 					<dd>
@@ -115,6 +121,11 @@
 						<img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
 					</dd>
 					<dt>Your followers</dt>
+					<dd>
+						<img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+						<img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+					</dd>
+					<dt>Your email</dt>
 				</dl>
 				<dl>
 					<dd>
@@ -176,5 +187,6 @@
 <!-- / footer -->
 
 <%= javascript_include_tag 'marketing' %>
+<%= render partial: 'shared/analytics' %>
 </body>
 </html>

@@ -30,6 +30,23 @@
 @import "milestone";
 @import "date_picker";
 
+#application {
+    /* IE 10-11 workaround
+     * https://github.com/philipwalton/flexbugs#3-min-height-on-a-flex-container-wont-apply-to-its-flex-items
+     */
+    @include display(flex);
+    @include flex-direction(column);
+}
+
+body {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.wrap-fix {
+  min-width: 0;
+}
+
 .ember-application > .ember-view {
    @include display(flex);
    @include flex-direction(column);
@@ -122,6 +139,8 @@
     width: 230px;
     padding: 6px 0 6px 25px;
     @include flex(0 0 230px);
+    min-width: 0px;
+    max-width: 230px;
   }
   .sidebar-wrapper {
     width: auto;

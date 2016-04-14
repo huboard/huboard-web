@@ -19,6 +19,8 @@ class IssueEventJob < ActiveJob::Base
   end
 
   def self.build_meta(params)
+    #TODO Fix this hack on remapping params to HWIA
+    params = HashWithIndifferentAccess.new(params)
     issue = HashWithIndifferentAccess.new(params['issue'])
     action = @_action.is_a?(String) ? @_action : @_action.call(params)
     HashWithIndifferentAccess.new(
@@ -44,6 +46,8 @@ class IssueEventJob < ActiveJob::Base
 
   def perform(params)
     message = deliver payload(params)
+
+    return if params[:suppress]
 
     PublishWebhookJob.perform_later message if self.class.included_modules.include? IsPublishable
   end

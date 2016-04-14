@@ -1,10 +1,10 @@
 {{#if editable}}
-<h5 {{action "toggleSelector"}}> 
+<h5 class="hb-selector-title" {{action "toggleSelector"}}> 
   <i  class="pull-right ui-icon ui-icon-gear"></i>
   {{ title }}
 </h5>
 {{else}}
-<h5> 
+<h5 class="hb-selector-title"> 
   {{ title }}
 </h5>
 {{/if}}
@@ -18,7 +18,7 @@
   </div>
   {{else}}
   <div class="hb-selected empty">
-    None yet
+    {{noLabelsMessage}}
   </div>
   {{/each}}
 </div>

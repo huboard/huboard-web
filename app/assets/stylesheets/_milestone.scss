@@ -1,6 +1,8 @@
 .milestone-create, .milestone-edit {
   .fullscreen-card {
     .flex-form-right {
+      max-width: 260px;
+      min-width: 0px;
       @include flex(0 0 260px);
     }
   }

@@ -397,7 +397,6 @@
     color: $darkGrey;
   }
   .title {
-    word-wrap: break-word;
     white-space: normal;
     text-overflow: clip;
     overflow:auto;
@@ -521,8 +520,8 @@
   padding: 80px 5px 10px 5px;
   margin: 10px 0;
 }
-.column .ui-sortable-hover {
-  background:#efefef;
+.column.ui-sortable-hover {
+  background: #efefef;
 }
 
 
@@ -592,6 +591,10 @@
 .filter {
 
   .ui-icon {
+    // start: UX Experiment 
+    display:none;
+    // end: UX Experiment 
+
     position: absolute;
     top: 13px;
     right: 3px;
@@ -610,6 +613,9 @@
   .dim:hover, .active:hover { 
     .ui-icon {
       display:inline;
+      // start: UX Experiment 
+      display:none;
+      // end: UX Experiment 
     }
   }
 }

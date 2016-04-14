@@ -48,6 +48,7 @@
         {{component "issue/activities/issue-comment" 
           model=activity
           issue=model
+          isCollaborator=isCollaborator
         }}
       {{/if}}
     {{/each}}
@@ -71,7 +72,7 @@
         {{#if isClosed}}
           <button class="hb-button hb-button-grey" {{action "reopenCard" on="click"}} disabled={{processing}}>Reopen issue </button>
         {{else}}
-          <button class="hb-button hb-button-grey" {{action "close" on="click"}} disabled={{processing}}>Close issue </button>
+          <button class="hb-button hb-button-grey" {{action "close" on="click"}} disabled={{processing}}>Mark as closed </button>
         {{/if}}
       {{/if}}
       <button disabled={{disabled}} class="hb-button">Submit comment</button>

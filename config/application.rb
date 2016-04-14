@@ -10,6 +10,7 @@ require "rails/test_unit/railtie"
 Bundler.require(*Rails.groups)
 
 require File.expand_path('../../lib/core_extensions/string', __FILE__)
+require File.expand_path('../../lib/hu_board/middleware', __FILE__)
 
 Octokit.api_endpoint = ENV["GITHUB_API_ENDPOINT"] if ENV["GITHUB_API_ENDPOINT"]
 Octokit.web_endpoint = ENV["GITHUB_WEB_ENDPOINT"] if ENV["GITHUB_WEB_ENDPOINT"]
@@ -68,7 +69,9 @@ module HuboardWeb
     Faraday::Response::RaiseGheeError.const_get("ERROR_MAP").each do |status, exception|
       config.action_dispatch.rescue_responses[exception.to_s] = status
     end
+
     config.action_dispatch.rescue_responses["HuBoard::Error"] = 422
+
     config.exceptions_app = self.routes
 
     if ENV['SIDEKIQ']
@@ -79,6 +82,7 @@ module HuboardWeb
     
     config.middleware.use Rack::Attack
     config.middleware.use PDFKit::Middleware, {print_media_type: true}, only: %r[^/settings]
+    config.middleware.use HuBoard::Middleware::Session
     
     # !!! This addresses a Rails Behaviour that coaxes empty arrays in the params hash into nils 
     # see https://github.com/rails/rails/pull/13188
