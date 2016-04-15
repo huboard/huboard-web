@@ -25,7 +25,7 @@ module HuBoard
       cus = customer && customer[:stripe][:customer]
       if cus && cus[:subscriptions][:total_count] > 0
         sub = cus[:subscriptions][:data][0]
-        return sub[:status] == "active" || sub[:status] == "trialing" || sub[:status] == 'past_due'
+        return %{ active trialing past_due }.include?(plan[:status])
       end
       false
     end
