@@ -1,13 +1,21 @@
 import Ember from "ember";
 import CardMoveMixin from "../cards/card-move";
+import sortablejs from 'npm:sortablejs';
 
 var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
    classNameBindings:["isHovering:ui-sortable-hover"],
    isHovering: false,
-  attachSortable: function(){
+   attachSortable: function(){
     var _self = this;
     var cardMove = this.cardMover;
     var columns = this.get("columnComponents");
+    this.$(".cards").each(function(){
+      var sortable = new sortablejs(this,{
+        group: 'column'
+      });
+    });
+
+    return;
     this.$(".cards").sortable({
       helper: function(ev,ui) {
         cardMove.data = {};
