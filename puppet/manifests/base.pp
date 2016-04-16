@@ -14,6 +14,7 @@ package {
     ruby_version => "2.2.1",
   } ->
   exec { 'mail-catcher':
+    path    => ["/bin", "/usr/bin"],
     command => 'gem install mailcatcher'
   }
 
