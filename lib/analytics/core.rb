@@ -1,5 +1,8 @@
 module Analytics
   class Core
+
+    @adapter = LoggerAdapter.new
+
     class << self; attr_accessor :adapter; end
 
     def self.identify(payload)

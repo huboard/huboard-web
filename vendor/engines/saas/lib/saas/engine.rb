@@ -15,8 +15,6 @@ module Saas
         Analytics::Core.adapter = Segment::Analytics.new({
           write_key: ENV["SEGMENTIO_KEY"]
         })
-      else
-        Analytics::Core.adapter = NullAnalytics.new
       end
 
       LoginController.class_eval do
