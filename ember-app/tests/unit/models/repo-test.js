@@ -27,9 +27,9 @@ test('user url is the owner name', function(assert){
 
 test('fetched board should contain issues', (assert) => {
 
-  var model = Repo.create({full_name: 'rauhryan/huboard'});
+  var model = Repo.create({full_name: 'huboard/huboard'});
 
-  fixture('/api/rauhryan/huboard/board', {
+  fixture('/api/huboard/huboard/board', {
     response: { issues:[{}]},
     jqXHR: {},
     textStatus: 'success'
