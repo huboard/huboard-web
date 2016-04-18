@@ -1,8 +1,12 @@
 @import "arrow";
 
 .container-fluid {
-   padding-right: 25px;
-   padding-left: 25px;
+   padding-right: 0;
+   padding-left: 0;
+
+   .nav {
+       margin: 0;
+   }
 }
 
 .column {
