@@ -2,7 +2,7 @@
  <div class="navbar-inner">
    <div class="container-fluid">
     <ul class="nav breadcrumbs">
-      <li><a href="/" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
+      <li><a href="/" class="home"><img alt="HuBoard" src="{{asset-path "LogoFullPurpleLight.png" }}" width="134" height="31" /></a></li>
       <li><a href="{{model.userUrl}}">{{model.repo.owner.login}}</a></li>
       <li><a href="{{model.repoUrl}}">{{model.repo.name}}</a></li>
       <li>
@@ -51,21 +51,6 @@
 {{outlet}}
 </div>
 
-<div id="footer">
-  <div class="container">
-    <div class="row">
-      <div class="span6">
-        <img class="animate-before" src="{{asset-path "LogoFullPurpleLight.png" }}"/>
-      </div>
-      <div class="links span6">
-        <a href="/site/terms">terms</a>
-        <a href="/site/privacy">privacy</a>
-        <a href="https://github.com/rauhryan/huboard">github</a>
-        <a href="mailto:support@huboard.com">contact</a>
-      </div>
-    </div>
-  </div>
-</div>
 {{outlet "loading"}}
 {{outlet "modal"}}
 
