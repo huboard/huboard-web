@@ -140,7 +140,7 @@ body {
 
 
 .main-content {
-  overflow-y: auto;
+  overflow: hidden;
   position:relative;
   @include flex(1);
   @include display(flex);
@@ -157,7 +157,7 @@ body {
     width: 0px;
   }
   > .content {
-     overflow-x: auto;
+     overflow: auto;
      padding: 6px 25px;
      @include flex(1);
      @include display(flex);
