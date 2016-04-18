@@ -1,6 +1,10 @@
 Rails.application.configure do
   #Mailer Previews
-  config.action_mailer.preview_path = Saas::Engine.root.join('test/mailers')
+  if ENV['HUBOARD_ENV'] == 'production'
+    config.action_mailer.preview_path = Saas::Engine.root.join('test/mailers')
+  else
+    config.action_mailer.preview_path = Rails.root.join('test/mailers')
+  end
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { address: 'localhost', port: '1025' }

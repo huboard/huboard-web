@@ -19,6 +19,7 @@ Dotenv::Railtie.load
 
 if ENV["HUBOARD_ENV"] == 'production'
   require 'saas'
+  require 'stripe-rails'
 end
 
 if ENV["HUBOARD_ENV"] == 'enterprise'

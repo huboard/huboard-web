@@ -53,7 +53,7 @@ gem 'saas','0.0.1', require: nil, path: "vendor/engines/saas"
 gem 'enterprise', '0.0.1', require: nil, path: "vendor/engines/enterprise"
 gem 'faye_extensions','0.0.1', path: 'vendor/gems/faye_extensions'
 gem 'responders'
-gem 'stripe-rails'
+gem 'stripe-rails', require: nil
 gem 'heroku-deflater', group: :production
 
 group :development, :test do
