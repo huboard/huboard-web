@@ -99,7 +99,7 @@ module Api
         message = {
           :issue => @issue,
           'action_controller.params' => {'correlationId' => params['correlationId']},
-          :current_user => current_user.attribs || {}
+          'current_user' => current_user.attribs || {}
         }
         generate_issue_event(data['state'], message)
       end
