@@ -29,9 +29,7 @@ class ErrorsController < ApplicationController
   end
 
   def track_exception
-    if ENV['HUBOARD_ENV'] == 'production'
-      exception = env["action_dispatch.exception"]
-      ::Raygun.track_exception(exception, custom_data: {generated_by: 'Faraday::Response::RaiseGheeError'})
-    end
+    exception = env["action_dispatch.exception"]
+    ::Raygun.track_exception(exception, custom_data: {generated_by: 'Faraday::Response::RaiseGheeError'})
   end
 end
