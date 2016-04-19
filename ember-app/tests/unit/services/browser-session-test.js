@@ -5,7 +5,7 @@ import {
 } from 'ember-qunit';
 
 var sut;
-moduleFor('service:session', {
+moduleFor('service:browser-session', {
   setup: function(){
     sut = this.subject();
     sut.focusHandlers = ['focusHandler1', 'focusHandler2'];
@@ -20,14 +20,6 @@ moduleFor('service:session', {
   }
 });
 
-// Hmm, having trouble dispatching a focus event
-//test('Runs Focus Handlers on window.focus', (assert)=>{
-//  $(window).trigger('focus');
-//
-//  assert.ok(sut.focusHandler1.called);
-//  assert.ok(sut.focusHandler2.called);
-//});
-
 test('Runs Blur Handlers on window.blur', (assert)=>{
   $(window).trigger('blur');
 
@@ -35,4 +27,23 @@ test('Runs Blur Handlers on window.blur', (assert)=>{
   assert.ok(sut.blurHandler2.called);
 });
 
+//Focus Handlers
+test('Send didFocusBrowser event with time of last blur', (assert)=>{
+  sinon.stub(sut, 'trigger');
 
+  sut.sendFocusEvent();
+  assert.ok(sut.trigger.calledWith('didFocusBrowser'));
+});
+
+//Blur Handlers
+test('Set lastBlur with time of last blur', (assert)=>{
+  var done = assert.async();
+  var current = sut.get('lastBlur');
+
+  setTimeout(()=>{
+    sut.updateLastBlur();
+    var updated = sut.get('lastBlur');
+    assert.ok((updated - current) >= 100);
+    done();
+  }, 100);
+});
