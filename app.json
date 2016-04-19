@@ -93,9 +93,6 @@
     "SECRET_KEY_BASE": {
       "required": true
     },
-    "SEGEMENTIO_KEY": {
-      "required": true
-    },
     "SEGMENTIO_KEY": {
       "required": true
     },
