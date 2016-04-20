@@ -7,14 +7,14 @@ var BrowserSessionService = Ember.Service.extend(Ember.Evented, {
       _self[`${e.type}Handlers`].forEach((h) => _self[h]());
     });
   }.on('init'),
-  lastFocus: function(){
+  setLastFocus: function(){
     var before = this.get('lastBlur');
     var now = new Date().getTime();
-    return now - before;
-  }.property('lastBlur'),
+    this.set('lastFocus', (now - before));
+  }.on('didFocusBrowser'),
 
   //Focus Handlers
-  focusHandlers: ['didFocusBrowser'],
+  focusHandlers: ['sendFocusEvent'],
   sendFocusEvent: function(){
     this.trigger('didFocusBrowser');
   },

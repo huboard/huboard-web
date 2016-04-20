@@ -27,8 +27,24 @@ test('Runs Blur Handlers on window.blur', (assert)=>{
   assert.ok(sut.blurHandler2.called);
 });
 
+test('sets last focus interval', (assert)=>{
+  var done = assert.async();
+  var interval;
+  var interval2;
+
+  sut.trigger('didFocusBrowser');
+  interval = sut.get('lastFocus');
+
+  setTimeout(()=>{
+    sut.trigger('didFocusBrowser');
+    interval2 = sut.get('lastFocus');
+    assert.ok(interval < interval2);
+    done();
+  }, 10);
+});
+
 //Focus Handlers
-test('Send didFocusBrowser event with time of last blur', (assert)=>{
+test('Send ember observable didFocusBrowser event', (assert)=>{
   sinon.stub(sut, 'trigger');
 
   sut.sendFocusEvent();
