@@ -112,7 +112,16 @@ var Board = Model.extend({
         return issue.data.assignee && issue.data.assignee.login === assignee.login;
       });
     });
-  }).property("assignees.[]", "issues.@each.assignee")
+  }).property("assignees.[]", "issues.@each.assignee"),
+  fetchIssues: function(options){
+    var promises = this.get('repos').map((repo)=>{
+      return repo.fetchIssues(options);
+    });
+
+    return Ember.RSVP.all(promises).then((issues)=>{
+      return issues;
+    });
+  }
 });
 
 Board.reopenClass({
