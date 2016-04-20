@@ -8,7 +8,7 @@ module Api
 
     def issues
       api = huboard.board(params[:user], params[:repo])
-      render json: api.issues(params[:options])
+      render json: api.issues(params[:label], params[:options])
     end
 
     def details

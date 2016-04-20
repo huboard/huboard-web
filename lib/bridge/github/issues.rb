@@ -11,9 +11,8 @@ end
 class Huboard
   module Issues
     def issues(label = nil, opts={})
-      params = {direction: "asc"}
+      params = {direction: "asc"}.merge(opts)
       params = params.merge(labels: label) if label
-      params.merge(opts)
 
       gh.issues(params).all.each{
         |i| i.extend(Card)

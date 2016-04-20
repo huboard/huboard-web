@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
 
   namespace :api do
+    get 'logged_in' => 'api#logged_in'
     get 'uploads/asset' => 'uploads#asset_uploader'
     #Webhooks
     post '/site/webhook/issue' => 'webhooks#legacy'
