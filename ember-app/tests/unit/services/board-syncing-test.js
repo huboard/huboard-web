@@ -48,14 +48,15 @@ test('fails gracefully on syncing the boards issues', (assert)=>{
 
 test('sends a flash notifier on sync', (assert)=> {
   var flash = { add: sinon.stub() };
+  sut.messageData = sinon.stub();
   sut.set('flashMessages', flash);
   sut.set('syncInProgress', true);
 
-  assert.ok(sut.get('flashMessages').add.calledWith(sut.messageData));
+  assert.ok(sut.get('flashMessages').add.calledWith(sut.messageData()));
 });
 
 test('clears flash when sync is finished', (assert)=> {
-  var flash = { queue: [sut.messageData] };
+  var flash = { queue: [sut.messageData()] };
   sut.set('flashMessages', flash);
   sut.set('syncInProgress', false);
 

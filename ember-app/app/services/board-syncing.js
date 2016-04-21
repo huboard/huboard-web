@@ -6,30 +6,33 @@ var BoardSyncingService = Ember.Service.extend({
   flashMessages: Ember.inject.service(),
   syncFlashNotifier: function(){
     if(this.get('syncInProgress')){
-      this.get('flashMessages').add(this.messageData);
+      this.get('flashMessages').add(this.messageData());
     } else {
-      var message = this.messageData.message;
+      var message = this.messageData().message;
       var flash = this.get('flashMessages.queue').find((flash)=>{
         return flash.message === message;
       });
       Ember.set(flash.progress, 'status', false);
     }
   }.observes('syncInProgress'),
-  messageData: {
-    message: 'syncing your board, please wait...',
-    sticky: true,
-    type: 'info',
-    progress: {
-      status: true,
-      callback: function(){
-        this.set('message', 'sync complete!');
-        this.get('flash')._setTimer('timer', 'destroyMessage', 3000);
+  messageData: function(){
+    return {
+      message: 'syncing your board, please wait...',
+      sticky: true,
+      type: 'info',
+      progress: {
+        status: true,
+        callback: function(){
+          this.set('message', 'sync complete!');
+          this.get('flash')._setTimer('timer', 'destroyMessage', 3000);
+        }
       }
-    }
+    };
   },
 
   //Issue Syncing
   syncIssues: function(board, opts){
+    if(this.get('syncInProgress')){ return; }
     var _self = this;
     _self.set('syncInProgress', true);
 
@@ -42,11 +45,12 @@ var BoardSyncingService = Ember.Service.extend({
     });
   },
   issueSuccess: function(board, issues){
+    if(!issues.length){ return; }
     Ember.run.once(()=>{
       board.get('issues').forEach((issue)=>{
         issues.forEach((i)=>{
-          if(i.id === issue.id){
-            Ember.set(issue, 'data', i.data);
+          if(i.id === issue.get('id')){
+            Ember.set(issue, 'data', i);
           };
         });
       });
