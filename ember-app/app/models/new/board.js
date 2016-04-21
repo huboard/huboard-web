@@ -119,7 +119,7 @@ var Board = Model.extend({
     });
 
     return Ember.RSVP.all(promises).then((issues)=>{
-      return _.compact(issues);
+      return _.flatten(issues);
     });
   }
 });
