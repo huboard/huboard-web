@@ -11,9 +11,12 @@ var IssueReferenceView = Ember.View.extend({
     var message = this.get("commit.commit.message") || "",
         newline = message.indexOf('\n');
 
-    if (newline !== -1) {
+    if (newline > 0) {
       message = message.substring(0, newline);
     }
+    message = message.trim();
+
+    if (!message) { return ""; }
 
     message = emojiParser.parse(message);
     return message.htmlSafe();
