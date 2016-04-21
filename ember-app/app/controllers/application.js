@@ -24,6 +24,25 @@ var ApplicationController = Ember.Controller.extend(
 
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
+
+  //Browser Session Checker
+  boardSyncing: Ember.inject.service(),
+  checkBrowserSession: function(){
+    var lastFocus = this.get('browser-session.lastFocus');
+    var _self = this;
+    if(lastFocus >= _self.browserCheckInterval){
+      var since = new Date(new Date().getTime() - _self.browserCheckInterval);
+      this.validateCredentials().success((response)=>{
+        _self.get('boardSyncing').syncIssues(_self.get('model.board'), {since: since.toISOString()});
+      }).fail((error)=>{
+
+      });
+    }
+  }.observes('browser-session.lastFocus').on('init'),
+  validateCredentials: function(){
+    return Ember.$.getJSON('/api/logged_in');
+  },
+  browserCheckInterval: 3600000//One Hour
 });
 
 export default ApplicationController;
