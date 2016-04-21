@@ -10,7 +10,11 @@
       </a> 
      <span class="commit-message"> 
        <span class="commit-link">-o-</span> {{hb-avatar user=model.actor width=16 height=16 }} 
-       {{view.message}}
+       {{#if view.message}}
+         {{view.message}}
+       {{else}}
+         <span class="empty">No commit message</span>
+       {{/if}}
      </span> 
     </div>
 {{else}}
