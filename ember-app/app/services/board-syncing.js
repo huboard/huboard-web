@@ -29,18 +29,28 @@ var BoardSyncingService = Ember.Service.extend({
   },
 
   //Issue Syncing
-  syncIssues: function(board){
+  syncIssues: function(board, opts){
     var _self = this;
     _self.set('syncInProgress', true);
 
-    board.fetchIssues(board).done((issues)=>{
-      _self.issueSuccess(issues);
-    }).fail((error)=>{
+    board.fetchIssues(opts).then((issues)=>{
+      _self.issueSuccess(board, issues);
+      _self.set('syncInProgress', false);
+    }, (error)=>{
       _self.issueFail();
-    }).always(()=> { _self.set('syncInProgress', false)});
+      _self.set('syncInProgress', false);
+    });
   },
-  issueSuccess: function(issues){
-
+  issueSuccess: function(board, issues){
+    Ember.run.once(()=>{
+      board.get('issues').forEach((issue)=>{
+        issues.forEach((i)=>{
+          if(i.id === issue.id){
+            Ember.set(issue, 'data', i.data);
+          };
+        });
+      });
+    });
   },
   issueFail: function(error){
   

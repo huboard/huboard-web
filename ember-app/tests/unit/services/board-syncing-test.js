@@ -21,10 +21,10 @@ test('syncs the boards issues successfuly', (assert)=>{
   sut.issueSuccess = sinon.stub();
 
   var done = assert.async();
-  sut.syncIssues(board);
+  sut.syncIssues(board, {});
   setTimeout(()=>{
-    assert.ok(board.fetchIssues.called);
-    assert.ok(sut.issueSuccess.calledWith(issues));
+    assert.ok(board.fetchIssues.calledWith({}));
+    assert.ok(sut.issueSuccess.calledWith(board, issues));
     assert.ok(sut.get('syncInProgress') === false);
     done();
   }, 10);
@@ -37,9 +37,9 @@ test('fails gracefully on syncing the boards issues', (assert)=>{
   sut.issueFail = sinon.stub();
 
   var done = assert.async();
-  sut.syncIssues(board);
+  sut.syncIssues(board, {});
   setTimeout(()=>{
-    assert.ok(board.fetchIssues.called);
+    assert.ok(board.fetchIssues.calledWith({}));
     assert.ok(sut.issueFail.called);
     assert.ok(sut.get('syncInProgress') === false);
     done();
