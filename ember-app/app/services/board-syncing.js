@@ -23,8 +23,10 @@ var BoardSyncingService = Ember.Service.extend({
       progress: {
         status: true,
         callback: function(){
-          this.set('message', 'sync complete!');
-          this.get('flash')._setTimer('timer', 'destroyMessage', 3000);
+          setTimeout(()=>{
+            this.set('message', 'sync complete!');
+            this.get('flash')._setTimer('timer', 'destroyMessage', 2000);
+          }, 1000);
         }
       }
     };
