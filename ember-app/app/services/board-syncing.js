@@ -8,9 +8,8 @@ var BoardSyncingService = Ember.Service.extend({
     if(this.get('syncInProgress')){
       this.get('flashMessages').add(this.messageData());
     } else {
-      var message = this.messageData().message;
       var flash = this.get('flashMessages.queue').find((flash)=>{
-        return flash.message === message;
+        return flash.identifier === 'sync-message';
       });
       Ember.set(flash.progress, 'status', false);
     }
@@ -20,6 +19,7 @@ var BoardSyncingService = Ember.Service.extend({
       message: 'syncing your board, please wait...',
       sticky: true,
       type: 'info',
+      identifier: 'sync-message',
       progress: {
         status: true,
         callback: function(){
@@ -59,7 +59,16 @@ var BoardSyncingService = Ember.Service.extend({
     });
   },
   issueFail: function(error){
-  
+    var flash = this.get('flashMessages.queue').find((flash)=>{
+      return flash.identifier === 'sync-message';
+    });
+    flash.progress.callback = function(){
+      setTimeout(()=>{
+        this.set('flash.type', 'warning');
+        this.set('message', 'unable to sync your board, try refreshing');
+        this.set('flash.sticky', true);
+      }, 1000);
+    };
   }
 });
 
