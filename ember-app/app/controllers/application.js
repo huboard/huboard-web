@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import BoardSubscriptions from "app/mixins/subscriptions/board";
 import Messaging from "app/mixins/messaging";
+import { throttledObserver } from 'app/utilities/observers';
 
 var ApplicationController = Ember.Controller.extend(
   BoardSubscriptions, Messaging, {
@@ -27,22 +28,14 @@ var ApplicationController = Ember.Controller.extend(
 
   //Browser Session Checker
   boardSyncing: Ember.inject.service(),
-  checkBrowserSession: function(){
+  checkBrowserSession: throttledObserver(function(){
     var lastFocus = this.get('browser-session.lastFocus');
     var _self = this;
-    if(lastFocus >= _self.browserCheckInterval){
-      var since = new Date(new Date().getTime() - _self.browserCheckInterval);
-      this.validateCredentials().success((response)=>{
-        _self.get('boardSyncing').syncIssues(_self.get('model.board'), {since: since.toISOString()});
-      }).fail((error)=>{
-
-      });
+    if(lastFocus >= 30000){
+      var since = new Date(new Date().getTime() - lastFocus);
+      this.get('boardSyncing').syncIssues(this.get('model.board'), {since: since.toISOString()});
     }
-  }.observes('browser-session.lastFocus').on('init'),
-  validateCredentials: function(){
-    return Ember.$.getJSON('/api/logged_in');
-  },
-  browserCheckInterval: 3600000//One Hour
+  },'browser-session.lastFocus', 30000).on('init')
 });
 
 export default ApplicationController;
