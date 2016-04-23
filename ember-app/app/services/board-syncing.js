@@ -18,7 +18,7 @@ var BoardSyncingService = Ember.Service.extend({
     return {
       message: 'syncing your board, please wait...',
       sticky: true,
-      type: 'info',
+      type: 'progress',
       identifier: 'sync-message',
       progress: {
         status: true,

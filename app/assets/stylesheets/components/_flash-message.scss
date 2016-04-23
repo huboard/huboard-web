@@ -33,6 +33,18 @@
     background: $hb-red;
   }
 
+  .progress.message {
+    background: $navGrey;
+    color: $hb-purple-dark;
+    font-size: 13px;
+    text-align: center;
+    padding: 8px;
+    margin-bottom: 4px;
+    border-style: solid;
+    border-color: $hb-grey-light;
+    border-width: 1px;
+   }
+
   .hb-spinner {
     position: relative;
     float: right;
