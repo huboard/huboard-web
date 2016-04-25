@@ -524,8 +524,10 @@
 .column .ui-sortable-placeholder {
   background:$borderColor;
   list-style: none;
-  padding: 80px 5px 10px 5px;
-  margin: 10px 0;
+  border: 1px dotted $hb-purple;
+  * {
+    visibility: hidden;
+  }
 }
 .column.ui-sortable-hover {
   background: #efefef;
