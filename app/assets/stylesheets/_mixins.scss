@@ -1,5 +1,13 @@
 @import "bourbon/bourbon";
 
+%abso-hax {
+   position:absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+}
+
 %u-fancy-scrollbar {
     -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar {
