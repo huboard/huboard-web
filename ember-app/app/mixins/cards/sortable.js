@@ -13,6 +13,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
       var sortable = new sortablejs(this,{
         group: 'column',
         draggable: 'li.is-draggable',
+        ghostClass: 'ui-sortable-placeholder',
         onMove: (evt) => {
           var from = $(evt.from),
             to = $(evt.to);
