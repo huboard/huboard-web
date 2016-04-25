@@ -1,64 +1,68 @@
 <div id="main-stage" class="main-content {{if isSidebarOpen 'sidebar-open'}}">
-  <div class="sidebar left">
-    <div class="sidebar-wrapper">
-      {{outlet "sidebarTop"}}
-      {{outlet "sidebarMiddle"}}
-    </div>
-  </div>
   
   <div id="content" class="content">
-  <div class="main-toolbar">
-    <div class="sidebar-toggle">
-      <a href="#" {{action "toggleSidebar" }}>Filters <i class="ui-icon {{if isSidebarOpen 'ui-icon-triangle-1-w' 'ui-icon-triangle-1-e'}}"></i></a>
-    </div>
-
-    {{#if filtersActive}}
-    <div class="filters-clear">
-      <a class="hb-icon-button hb-icon-button-purple" href="#" {{action "clearFilters"}}>
-        <i class="ui-icon ui-icon-filter ui-icon-16"></i>
-        <span class= "ui-text">Clear filters</span>
-      </a>
-    </div>
-    {{/if}}
-
-   {{#if isCollaborator}}
-      <div class="create-button">
-        <a class="hb-icon-button hb-icon-button-purple" href="#" {{action "createNewMilestone"}}>
-          <i class="ui-icon ui-icon-flag ui-icon-16"></i>
-          <span class= "ui-text"> Create milestone</span>
-        </a>
-      {{#if model.isUnhealthy}}
-        {{#link-to 'settings.health' class='hb-icon-link' }}
-          <i class="ui-icon ui-icon-24 ui-icon-alert ui-icon-error"></i>
-        {{/link-to}}
-      {{else}}
-        {{#link-to 'settings.index' class='hb-icon-link' }}
-          <i class="ui-icon ui-icon-18 ui-icon-gear"></i>
-        {{/link-to}}
-      {{/if}}
+    <div class="main-toolbar">
+      <div class="sidebar-toggle">
+        <a href="#" {{action "toggleSidebar" }}>Filters <i class="ui-icon {{if isSidebarOpen 'ui-icon-triangle-1-w' 'ui-icon-triangle-1-e'}}"></i></a>
       </div>
-    {{/if}}
 
-  </div>
-    <div class="board-wrapper">
-      <div class="board">
-        {{#each milestone_columns as |column|}}
-          {{
-            columns/hb-milestone 
-              model=column
-              columnComponents=registeredColumns
-              issues=model.issues
-              repos=model.repos
-              taskColumns=model.columns
+      {{#if filtersActive}}
+      <div class="filters-clear">
+        <a class="hb-icon-button hb-icon-button-purple" href="#" {{action "clearFilters"}}>
+          <i class="ui-icon ui-icon-filter ui-icon-16"></i>
+          <span class= "ui-text">Clear filters</span>
+        </a>
+      </div>
+      {{/if}}
 
-              registerColumn=(action "registerColumn")
-              unregisterColumn=(action "unregisterColumn")
-              createFullscreenIssue=(action "createFullscreenIssue")
-              openFullscreenIssue=(action "openFullscreenIssue")
-              createMilestoneOrAbort=(action "createMilestoneOrAbort")
-              editMilestone=(action "editMilestone")
-            }}
-        {{/each}}
+     {{#if isCollaborator}}
+        <div class="create-button">
+          <a class="hb-icon-button hb-icon-button-purple" href="#" {{action "createNewMilestone"}}>
+            <i class="ui-icon ui-icon-flag ui-icon-16"></i>
+            <span class= "ui-text"> Create milestone</span>
+          </a>
+        {{#if model.isUnhealthy}}
+          {{#link-to 'settings.health' class='hb-icon-link' }}
+            <i class="ui-icon ui-icon-24 ui-icon-alert ui-icon-error"></i>
+          {{/link-to}}
+        {{else}}
+          {{#link-to 'settings.index' class='hb-icon-link' }}
+            <i class="ui-icon ui-icon-18 ui-icon-gear"></i>
+          {{/link-to}}
+        {{/if}}
+        </div>
+      {{/if}}
+
+    </div>
+    <div class="main-canvas">
+      <div class="sidebar left">
+        <div class="sidebar-canvas">
+          <div class="sidebar-wrapper">
+            {{outlet "sidebarTop"}}
+            {{outlet "sidebarMiddle"}}
+          </div>
+        </div>
+      </div>
+      <div class="board-wrapper">
+        <div class="board">
+          {{#each milestone_columns as |column|}}
+            {{
+              columns/hb-milestone 
+                model=column
+                columnComponents=registeredColumns
+                issues=model.issues
+                repos=model.repos
+                taskColumns=model.columns
+
+                registerColumn=(action "registerColumn")
+                unregisterColumn=(action "unregisterColumn")
+                createFullscreenIssue=(action "createFullscreenIssue")
+                openFullscreenIssue=(action "openFullscreenIssue")
+                createMilestoneOrAbort=(action "createMilestoneOrAbort")
+                editMilestone=(action "editMilestone")
+              }}
+          {{/each}}
+        </div>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 @import "arrow";
 
 .main-toolbar {
+  z-index: 2;
   @include display(flex);
   @include justify-content(space-between);
   
@@ -33,6 +34,11 @@
     }
    }
 }
+.main-canvas {
+  position: relative;
+  @include display(flex);
+  @include flex(1);
+}
 
 .board-wrapper {
   @extend %u-fancy-scrollbar;
@@ -46,6 +52,9 @@
   .board {
     @extend %abso-hax;
     @include display(flex);
+    @include flex(1);
+    @include align-content(stretch);
+    @include align-items(baseline);
   }
 }
 
@@ -189,13 +198,6 @@
   .column {
     float: none;
     display: inline-block;
-  }
-}
-.sidebar {
-  .backlog {
-    .column {
-      width: 209px;
-    }
   }
 }
 
@@ -404,6 +406,7 @@
     white-space: normal;
     text-overflow: clip;
     overflow:auto;
+    word-break: break-word;
   }         
   .milestone {
     color: $lightGrey;
@@ -718,12 +721,6 @@
       }
    }
 }
- @media only screen and (max-width: 480px) {
-  @include flex-direction(column);
-  > .sidebar {
-      @include flex(0 1 auto);
-  }
- }
  @media only screen and (max-width: 959px) {
   .board {
     @include flex-direction(column);

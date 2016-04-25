@@ -29,6 +29,7 @@
 @import "markdown";
 @import "milestone";
 @import "date_picker";
+@import "sidebar";
 
 #application {
     /* IE 10-11 workaround
@@ -84,19 +85,6 @@ body {
 .main-content {
   position:relative;
 
-  > .sidebar {
-     overflow: hidden;
-     width: 0px;
-     @include flex(0);
-     border-right: 1px solid #ccc;
-     @include box-sizing(border-box);
-     @include transition(width,flex 0.2s ease-out);
-     @extend %abso-hax;
-     background: #fff;
-  }
-  .sidebar-wrapper {
-    width: 0px;
-  }
   > .content {
      @include display(flex);
      @include flex(1);
@@ -104,42 +92,14 @@ body {
 
      position: relative;
      background-color: #fafafa;
-     box-shadow: inset -1px 1px 1px rgba(0,0,0,0.2);
      @include transition(all 0.4s ease-out);
   }
+  .main-canvas {
+     //box-shadow: inset -1px 1px 1px rgba(0,0,0,0.2);
+  }
 
 }
 
-.sidebar-toggle {
-  a {
-    @include transition(all 0.1s);
-   color: #999;
-   i {
-     position: relative;
-     top: 3px;
-     @include transition(all 0.1s);
-   }
-   &:hover {
-     padding: 0 5px;
-     color: #666;
-   }
-  }
-}
-.sidebar-open {
-  > .sidebar {
-    width: 230px;
-    padding: 6px 0 6px 25px;
-    @include flex(0 0 230px);
-    min-width: 0px;
-    max-width: 230px;
-  }
-  .sidebar-wrapper {
-    width: auto;
-  }
-  > .content {
-    padding-left: 0;
-  }
-}
 
 
 /* crap crap crap */
