@@ -633,6 +633,7 @@
 }
 
 .task-column {
+  min-width: 0px;
   float:none;
   @include flex(1);
   @include display(flex);
@@ -640,6 +641,7 @@
   @include transition(all 0.4s ease-out);
 }
 .column {
+  min-width: 0px;
   //@include transition(all 0.4s ease-out);
   h3 {
     cursor: pointer;
