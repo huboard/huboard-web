@@ -33,7 +33,11 @@ var ApplicationController = Ember.Controller.extend(
     var _self = this;
     if(lastFocus >= 30000){
       var since = new Date(new Date().getTime() - lastFocus);
-      this.get('boardSyncing').syncIssues(this.get('model.board'), {since: since.toISOString()});
+      return this.get('boardSyncing').syncIssues(this.get('model.board'), {since: since.toISOString()});
+    }
+
+    if(lastFocus >= 8.64e+7){ //One Day
+      this.send('sessionErrorHandler');
     }
   },'browser-session.lastFocus', 30000).on('init')
 });
