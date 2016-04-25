@@ -35,6 +35,10 @@
 }
 
 .board-wrapper {
+  @extend %u-fancy-scrollbar;
+  margin-bottom: 5px;
+  overflow-x: auto;
+  padding: 0 50px;
   position: relative;
   @include display(flex);
   @include flex(1);

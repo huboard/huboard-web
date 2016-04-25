@@ -98,8 +98,6 @@ body {
     width: 0px;
   }
   > .content {
-     @extend %u-fancy-scrollbar;
-     overflow-x: auto;
      @include display(flex);
      @include flex(1);
      @include flex-direction(column);
