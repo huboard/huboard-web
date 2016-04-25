@@ -3,13 +3,14 @@ module ActiveSupport
     extend self
     def present_tense(word)
       keys = {
-        'opened' => 'open',
-        'reopened' => 'reopen',
-        'closed' => 'close',
-        'labeled' => 'label',
-        'unlabeled' => 'unlabel',
-        'assigned' => 'assign',
+        'opened'     => 'open',
+        'reopened'   => 'reopen',
+        'closed'     => 'close',
+        'labeled'    => 'label',
+        'unlabeled'  => 'unlabel',
+        'assigned'   => 'assign',
         'unassigned' => 'unassign',
+        'edited'     => 'edit',
       }
       keys[word]
     end

@@ -13,6 +13,7 @@ class StringExtensionTest < ActiveSupport::TestCase
     assert "unlabeled".present_tense == "unlabel"
     assert "assigned".present_tense == "assign"
     assert "unassigned".present_tense == "unassign"
+    assert "edited".present_tense == "edit"
   end
 
 end
