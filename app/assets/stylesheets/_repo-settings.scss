@@ -1,3 +1,6 @@
+.repo-settings-wrapper {
+  width: 100%;
+}
 .repo-settings {
   @include display(flex);
   @include flex(1);
