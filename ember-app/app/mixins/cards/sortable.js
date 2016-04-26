@@ -15,10 +15,9 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         draggable: 'li.is-draggable',
         ghostClass: 'ui-sortable-placeholder',
         onMove: (evt) => {
-          var from = $(evt.from),
-            to = $(evt.to);
+          var to = $(evt.to);
 
-          from.removeClass('hovering');
+          Ember.$('.cards').removeClass('hovering');
           to.addClass('hovering');
         },
         onStart: (evt) => {
@@ -29,14 +28,9 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
           var column = cardMove.findColumn(evt.item, columns);
           var card = cardMove.findCard(evt.item, column);
           cardMove.data.card = card;
-          console.log(column, card);
         },
         onEnd: (evt) => {
-          var from = $(evt.from),
-            to = $(evt.to);
-
-          from.removeClass('hovering');
-          to.removeClass('hovering');
+          Ember.$('.cards').removeClass('hovering');
         },
         onSort: (evt) => {
           if(evt.item.parentNode !== evt.to) { return; }
@@ -55,7 +49,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
           var issue = cardMove.data.card.get("issue");
 
           var cancelMove = function(){ 
-            debugger;
+            // TODO: figure out cancel
             Ember.$(ui.sender).sortable("cancel");
           };
           var moveIssue = function(){
