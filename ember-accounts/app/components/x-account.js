@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import AnalyticsMixin from '../mixins/analytics';
 
 export default Ember.Component.extend({
   active: Ember.computed('plan.status', function(){
@@ -101,4 +102,4 @@ export default Ember.Component.extend({
       this.set('currentModal', 'update-email');
     }
   }
-});
+}, AnalyticsMixin);

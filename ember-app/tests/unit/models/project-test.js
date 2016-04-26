@@ -22,15 +22,15 @@ test('it exists', function(assert) {
 test('baseUrl is based off repo.full_name', function(assert){
   var model = Repo.create(repo);
 
-  assert.equal(model.get('baseUrl'), "/api/rauhryan/huboard");
+  assert.equal(model.get('baseUrl'), "/api/huboard/huboard");
 });
 
 test('links should reference parent repo', function(assert) {
   //arrange
   var model = Repo.create(repo);
 
-  fixture('/api/rauhryan/huboard/linked/rauhryan/ghee', {
-    response: {_repo: {full_name: "rauhryan/ghee"}},
+  fixture('/api/huboard/huboard/linked/huboard/ghee', {
+    response: {_repo: {full_name: "huboard/ghee"}},
     textStatus: 'success',
     jqXHR: {}
   });

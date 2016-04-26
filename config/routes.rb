@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         post 'health/board' => 'health#treat_board'
         get 'commits' => 'board#commits', as: 'commits'
         get 'commit/:commit' => 'board#commit', as: 'commit'
+        get 'issue_template' => 'board#issue_template'
 
         #Issues
         get 'issues/:number' => 'issues#issue'
