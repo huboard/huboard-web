@@ -68,7 +68,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         var match = this.get("issue.other_labels").find((label)=>{
           return label.name === message.label.name;
         });
-        this.get("issue.other_labels").removeObject(match);
+        return this.get("issue.other_labels").removeObject(match);
       }
       this.set("issue.other_labels", message.issue.other_labels);
     }, {time: 5000, sort: function(a,b){
