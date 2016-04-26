@@ -45,6 +45,7 @@
 .board-wrapper {
   .task-board {
     @include display(flex);
+    @include flex(1 1 auto);
   }
   .board {
     @extend %u-fancy-scrollbar;
