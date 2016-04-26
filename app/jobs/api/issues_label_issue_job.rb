@@ -5,7 +5,10 @@ module Api
     action "issue_labeled"
 
     def payload(params)
-      { issue: params[:issue] }
+      {
+        issue: params[:issue],
+        label: params[:label]
+      }
     end
   end
 end

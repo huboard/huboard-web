@@ -17,7 +17,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.reordered": "reordered",
     "issues.{issue.number}.milestone_changed": "milestoneChanged",
     "issues.{issue.number}.issue_labeled": "labeled",
-    "issues.{issue.number}.issue_unlabeled": "labeled"
+    "issues.{issue.number}.issue_unlabeled": "unlabeled"
   },
   hbsubscribers: {
     statusChanged: function(message){
@@ -54,6 +54,19 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     labeled: sortedQueue(function(message) {
+      if(message.label){ //PR's do not have label arrays
+        return this.get("issue.other_labels").addObject(message.label);
+      }
+      this.set("issue.other_labels", message.issue.other_labels);
+    }, {time: 5000, sort: function(a,b){
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }}),
+    unlabeled: sortedQueue(function(message) {
+      if(message.label){ //PR's do not have label arrays
+        return this.get("issue.other_labels").removeObject(message.label);
+      }
       this.set("issue.other_labels", message.issue.other_labels);
     }, {time: 5000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
