@@ -55,7 +55,10 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     },
     labeled: sortedQueue(function(message) {
       if(message.label){ //PR's do not have label arrays
-        return this.get("issue.other_labels").addObject(message.label);
+        var match = this.get("issue.other_labels").find((label)=>{
+          return label.name === message.label.name;
+        });
+        if(!match){ return this.get("issue.other_labels").addObject(message.label); }
       }
       this.set("issue.other_labels", message.issue.other_labels);
     }, {time: 5000, sort: function(a,b){
