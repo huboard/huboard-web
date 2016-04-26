@@ -106,8 +106,6 @@
       overflow-y: auto;
       overflow-x: hidden;
       @extend %u-fancy-scrollbar;
-      // fix this
-      padding-right: 3px;
     }
     &.hb-state-collapsed {
       @include flex(0 0 90px);
