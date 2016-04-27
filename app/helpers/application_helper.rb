@@ -68,6 +68,6 @@ module ApplicationHelper
   def generate_issue_event(action, message)
     verb = action.present_tense
     constant = "Api::Issues#{verb.capitalize}IssueJob".constantize
-    constant.perform_later message
+    constant.set(wait: 1.second).perform_later message
   end
 end
