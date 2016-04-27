@@ -80,6 +80,7 @@ Rails.application.routes.draw do
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
         put 'issues/:number/label' => 'issues#label_issue'
+        put 'issues/:number/unlabel' => 'issues#unlabel_issue'
         post 'issues/:number/close' => 'issues#close_issue'
         post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'

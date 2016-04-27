@@ -18,6 +18,13 @@ class IssueEventJob < ActiveJob::Base
     @_identifier = override
   end
 
+  class_attribute :_cache_key
+
+  self._cache_key = ->(payload) { "#{payload[:meta][:action]}.#{payload[:meta][:user]["login"]}.#{payload[:meta][:identifier]}.#{payload[:meta][:timestamp]}" }
+  def self.cache_key(override)
+    self._cache_key = override
+  end
+
   def self.build_meta(params)
     #TODO Fix this hack on remapping params to HWIA
     params = HashWithIndifferentAccess.new(params)
@@ -34,30 +41,37 @@ class IssueEventJob < ActiveJob::Base
   end
 
   def guard_against_double_events
-    payload = { meta:  self.class.build_meta(self.arguments.first) }
+    message = build_message(self.arguments.first)
     willPublish = true
+
     Rails.cache.with do |dalli|
-      key = "#{payload[:meta][:action]}.#{payload[:meta][:user]["login"]}.#{payload[:meta][:identifier]}.#{payload[:meta][:timestamp]}"
+      key = self._cache_key.call(message)
       willPublish = false if dalli.get(key)
-      dalli.set(key, payload.to_s)
+      dalli.set(key, key)
     end
+
     yield if willPublish
   end
 
+  def build_message(params)
+    payload = payload(params)
+    payload['actor'] = self.arguments.first['current_user']
+
+    message = HashWithIndifferentAccess.new({
+      meta: self.class.build_meta(arguments.first),
+      payload: payload
+    })
+  end
+
   def perform(params)
-    message = deliver payload(params)
+    message = deliver build_message(params)
 
     return if params[:suppress]
 
     PublishWebhookJob.perform_later message if self.class.included_modules.include? IsPublishable
   end
 
-  def deliver(payload)
-    payload['actor'] = self.arguments.first['current_user']
-    message = { 
-      meta: self.class.build_meta(arguments.first),
-      payload: payload
-    }
+  def deliver(message)
     client = ::Faye::Redis::Publisher.new({})
     Rails.logger.debug ["/" + message[:meta][:repo_full_name], message]
     channel = message[:meta][:repo_full_name].downcase
