@@ -64,6 +64,7 @@ module Api
 
       message = HashWithIndifferentAccess.new(
         :issue => payload[:issue],
+        :label => payload[:label],
         "action_controller.params" => {},
         :current_user => payload[:sender]
       )
