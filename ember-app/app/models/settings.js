@@ -71,5 +71,6 @@ function storage(name) {
 }
 
 var Settings = storage('localStorage');
+var Session = storage('sessionStorage');
 
-export default Settings;
+export { Settings, Session };
