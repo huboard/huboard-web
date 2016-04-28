@@ -2,25 +2,30 @@ class IssueEventJob < ActiveJob::Base
 
   around_perform :guard_against_double_events
 
-  def self.action(action)
-    @_action = action
-  end
-
-  @_timestamp = Proc.new { Time.now.utc.iso8601 }
-  def self.timestamp(override=nil)
-    if override
-      @_timestamp = override
-    else
-      @_timestamp
-    end
-  end
-  def self.identifier(override=nil)
-    @_identifier = override
-  end
-
+  class_attribute :_action
   class_attribute :_cache_key
+  class_attribute :_timestamp
+  class_attribute :_identifier
 
-  self._cache_key = ->(payload) { "#{payload[:meta][:action]}.#{payload[:meta][:user]["login"]}.#{payload[:meta][:identifier]}.#{payload[:meta][:timestamp]}" }
+  def self.action(action)
+    self._action = action
+  end
+
+  self._timestamp = Proc.new { Time.now.utc.iso8601 }
+
+  def self.timestamp(override)
+    self._timestamp = override
+  end
+
+  self._identifier = ->(p){ p['issue']['number'] }
+
+  def self.identifier(override=nil)
+    self._identifier = override
+  end
+
+
+  self._cache_key = ->(message) { "#{message[:meta][:action]}.#{message[:meta][:user]["login"]}.#{message[:meta][:identifier]}.#{message[:meta][:timestamp]}" }
+  
   def self.cache_key(override)
     self._cache_key = override
   end
@@ -29,13 +34,14 @@ class IssueEventJob < ActiveJob::Base
     #TODO Fix this hack on remapping params to HWIA
     params = HashWithIndifferentAccess.new(params)
     issue = HashWithIndifferentAccess.new(params['issue'])
-    action = @_action.is_a?(String) ? @_action : @_action.call(params)
+    action = self._action.is_a?(String) ? self._action : self._action.call(params)
+
     HashWithIndifferentAccess.new(
       action: action,
-      timestamp: (@_timestamp || Proc.new{Time.now.utc.iso8601}).call(params),
+      timestamp: self._timestamp.call(params),
       correlationId: params['action_controller.params']['correlationId'],
       user: params['current_user'],
-      identifier: (@_identifier || ->(p){ p['issue']['number']}).call(params),
+      identifier: self._identifier.call(params),
       repo_full_name: "#{issue[:repo][:owner][:login]}/#{issue[:repo][:name]}"
     )
   end
