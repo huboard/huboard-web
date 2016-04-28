@@ -54,11 +54,11 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     labeled: sortedQueue(function(message) {
-      if(message.label){ //PR's do not have label arrays
-        var match = this.get("issue.other_labels").find((label)=>{
+      if(message.label){
+        var match = this.get("issue.data.other_labels").find((label)=>{
           return label.name === message.label.name;
         });
-        if(!match){ return this.get("issue.other_labels").addObject(message.label); }
+        if(!match){ return this.get("issue.data.other_labels").addObject(message.label); }
       }
     }, {time: 5000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
@@ -66,12 +66,12 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       return timeA - timeB;
     }}),
     unlabeled: sortedQueue(function(message) {
-      if(message.label){ //PR's do not have label arrays
-        var match = this.get("issue.other_labels").find((label)=>{
+      if(message.label){
+        var match = this.get("issue.data.other_labels").find((label)=>{
           return label.name === message.label.name;
         });
         if(match){
-          this.get("issue.other_labels").removeObject(match);
+          this.get("issue.data.other_labels").removeObject(match);
         }
       }
     }, {time: 5000, sort: function(a,b){
