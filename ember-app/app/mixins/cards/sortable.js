@@ -9,8 +9,6 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
     var _self = this;
     var cardMove = this.cardMover;
     var columns = this.get("columnComponents");
-//    return this.$(".cards").sortable();
-
     this.$(".cards").each(function(){
       var sortable = new sortablejs(this,{
         group: 'column',
@@ -52,7 +50,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
 
           var cancelMove = function(){ 
             // TODO: figure out cancel
-            alert('Have to figure out how to cancel!');
+            Ember.$(ui.sender).sortable("cancel");
           };
           var moveIssue = function(){
             column.moveIssue(issue, issue_order, cancelMove);

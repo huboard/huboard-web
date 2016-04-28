@@ -66,21 +66,12 @@
   @include display(flex);
   @include flex(1);
   @include align-content(stretch);
-
-  .board--task-board {
+  .board {
+    @extend %abso-hax;
     @include display(flex);
     @include flex(1);
     @include align-content(stretch);
     @include align-items(baseline);
-  }
-
-  .board--milestones {
-    display: block;
-    white-space: nowrap;
-  }
-
-  .board {
-    @extend %abso-hax;
   }
 }
 
@@ -90,8 +81,6 @@
     @include flex(0 0 230px);
     min-width: 0px;
     max-width: 230px;
-    display: inline-block;
-    width: 230px;
 
     .column-contents{
       height: 100%;
@@ -109,7 +98,6 @@
     }
     &.hb-state-collapsed {
       @include flex(0 0 90px);
-      width: 90px;
     }
     @include transition(all 0.4s ease-out);
   }
