@@ -3,7 +3,9 @@ module Api
     timestamp ->(params) { params[:issue]['updated_at'] }
     action "issue_unlabeled"
     cache_key ->(message) {
-      "#{message[:meta][:action]}.#{message[:meta][:user]["login"]}.#{message[:meta][:identifier]}.#{message[:meta][:timestamp]}.#{ message[:payload][:label] }"
+      label_name = message[:payload][:label] ? message[:payload][:label]['name'] : ""
+
+      "#{message[:meta][:action]}.#{message[:meta][:user]["login"]}.#{message[:meta][:identifier]}.#{message[:meta][:timestamp]}.#{ label_name }"
     }
 
     def payload(params)
