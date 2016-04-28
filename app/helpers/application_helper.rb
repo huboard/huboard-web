@@ -69,10 +69,10 @@ module ApplicationHelper
     verb = action.present_tense
     constant = "Api::Issues#{verb.capitalize}IssueJob".constantize
 
-    if Rails.env.production? # sucker_punch doesn't support enqueue
-      constant.set(wait: 1.second).perform_later message
-    else
+    if Rails.configuration.active_job.queue_adapter == :sucker_punch # sucker_punch doesn't support enqueue
       constant.perform_later message
+    else
+      constant.set(wait: 1.second).perform_later message
     end
   end
 end
