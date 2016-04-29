@@ -23,6 +23,7 @@ class MilestoneEventJob < ActiveJob::Base
     self._identifier = override
   end
 
+
   self._cache_key = ->(message) { "#{message[:meta][:action]}.#{message[:meta][:user]["login"]}.#{message[:meta][:identifier]}.#{message[:meta][:timestamp]}" }
   
   def self.cache_key(override)
@@ -34,6 +35,7 @@ class MilestoneEventJob < ActiveJob::Base
     params = HashWithIndifferentAccess.new(params)
     milestone = HashWithIndifferentAccess.new(params['milestone'])
     action = self._action.is_a?(String) ? self._action : self._action.call(params)
+
     HashWithIndifferentAccess.new(
       action: action,
       timestamp: self._timestamp.call(params),
