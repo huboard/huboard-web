@@ -1,4 +1,5 @@
 class IssueEventJob < ActiveJob::Base
+  # TODO: DRY this up relative to MilestoneEventJob
 
   around_perform :guard_against_double_events
 
