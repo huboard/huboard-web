@@ -26,23 +26,20 @@ function getStore(name){
     };
 }
 
-function storage(name) {
+function storage(name, dataKey, defaults) {
   var store = getStore(name);
   return Ember.Object.extend({
     init: function (){
       this._super.apply(this, arguments);
       this.set("data", this.loadData()[this.get('dataKey')] || {});
     },
-    metaEnterEnabled: attr(true),
-    enterEnabled: attr(false),
-    showColumnCounts: attr(false),
     data: {},
     loadData: function () {
       var storage = store.getItem(`${name}:${this.get("storageKey")}`);
       return storage ? JSON.parse(storage) : {};
     },
     storageKey: Ember.computed.alias("repo.repo.full_name"),
-    dataKey: 'settings',
+    dataKey: dataKey,
     changed: 0,
     saveKey: function(key, value) {
       this.set("data." + key, value);
@@ -67,10 +64,14 @@ function storage(name) {
     available: function(){
       return !store.fake;
     }.property("")
-  });
+  }, defaults || {});
 }
 
-var Settings = storage('localStorage');
-var Session = storage('sessionStorage');
+var Settings = storage('localStorage', 'settings', {
+    metaEnterEnabled: attr(true),
+    enterEnabled: attr(false),
+    showColumnCounts: attr(false),
+});
+var Session = storage('sessionStorage', 'session');
 
 export { Settings, Session };
