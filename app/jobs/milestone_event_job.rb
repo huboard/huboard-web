@@ -52,7 +52,7 @@ class MilestoneEventJob < ActiveJob::Base
       key = self._cache_key.call(message)
       willPublish = false if dalli.get(key)
       Rails.logger.debug [self.class, 'ActiveJob:cache_key', key, 'willPublish', willPublish]
-      dalli.set(key, key)
+      dalli.set(key, "")
     end
 
     yield if willPublish
