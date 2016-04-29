@@ -8,7 +8,18 @@ var IssueReferenceView = Ember.View.extend({
   commit: null,
   commitUrl: Ember.computed.alias("commit.html_url"),
   message: function(){
-    var message = emojiParser.parse(this.get("commit.commit.message"));
+    var message = this.get("commit.commit.message") || "",
+        newline = message.indexOf('\n');
+
+    if (newline > 0) {
+      message = message.substring(0, newline);
+    }
+    message = message.trim();
+
+    if (!message) { return ""; }
+
+    message = Ember.Handlebars.Utils.escapeExpression(message)
+    message = emojiParser.parse(message);
     return message.htmlSafe();
   }.property("commit.commit.message"),
   shortSha: function(){
