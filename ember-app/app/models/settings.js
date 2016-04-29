@@ -31,11 +31,13 @@ function storage(name, dataKey, defaults) {
   return Ember.Object.extend({
     init: function (){
       this._super.apply(this, arguments);
+      this.set('store', store);
+      this.set('name', name);
       this.set("data", this.loadData()[this.get('dataKey')] || {});
     },
     data: {},
     loadData: function () {
-      var storage = store.getItem(`${name}:${this.get("storageKey")}`);
+      var storage = this.get('store').getItem(`${name}:${this.get("storageKey")}`);
       return storage ? JSON.parse(storage) : {};
     },
     storageKey: Ember.computed.alias("repo.repo.full_name"),
@@ -51,7 +53,7 @@ function storage(name, dataKey, defaults) {
 
       data[this.get('dataKey')] = this.get("data");
 
-      store.setItem(`${name}:${this.get("storageKey")}`, JSON.stringify(data));
+      this.get('store').setItem(`${name}:${this.get("storageKey")}`, JSON.stringify(data));
       this.incrementProperty('changed');
     },
     setUnknownProperty: function(key, value) {
@@ -62,7 +64,7 @@ function storage(name, dataKey, defaults) {
       return this.get("data." + key);
     },
     available: function(){
-      return !store.fake;
+      return !this.get('store').fake;
     }.property("")
   }, defaults || {});
 }
