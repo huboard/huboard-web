@@ -25,6 +25,14 @@ module Api
     def label_issue
       api = huboard.board(params[:user], params[:repo])
       @issue = api.issue(params[:number]).update(params)
+      @label = params["selectedLabel"]
+      render json: @issue
+    end
+
+    def unlabel_issue
+      api = huboard.board(params[:user], params[:repo])
+      @issue = api.issue(params[:number]).update(params)
+      @label = params["selectedLabel"]
       render json: @issue
     end
 

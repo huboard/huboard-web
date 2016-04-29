@@ -130,12 +130,8 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       this.get("flashMessages").info(copy);
     }, {time: 5000}),
     issueUnlabeled: sortedQueue(function(message) {
-      var timeA = Date.parse(message.issue.updated_at);
-      var timeB = Date.parse(this.get("issue.data.updated_at"));
-      if(timeA > timeB){
-        var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
-        this.get("flashMessages").info(copy);
-      }
+      var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
+      this.get("flashMessages").info(copy);
     }, {time: 5000}) 
   }
 });

@@ -68,6 +68,11 @@ module ApplicationHelper
   def generate_issue_event(action, message)
     verb = action.present_tense
     constant = "Api::Issues#{verb.capitalize}IssueJob".constantize
-    constant.perform_later message
+
+    if Rails.configuration.active_job.queue_adapter == :sucker_punch # sucker_punch doesn't support enqueue
+      constant.perform_later message
+    else
+      constant.set(wait: 1.second).perform_later message
+    end
   end
 end

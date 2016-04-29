@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/site/privacy' => 'site#privacy'
   post '/site/webhook/issues' => 'api/webhooks#publish_issue_event', as: 'issues_webhook'
   post '/site/webhook/issue_comment' => 'api/webhooks#log_comment', as: 'issue_comment_webhook'
+  post '/site/webhook/pull_request' => 'api/webhooks#publish_pull_request_event', as: 'pull_request_webhook'
 
   # errors
   match '/404', to: 'errors#not_found', constraints: { status: /\d{3}/ }, via: :all
@@ -79,6 +80,7 @@ Rails.application.routes.draw do
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
         put 'issues/:number/label' => 'issues#label_issue'
+        put 'issues/:number/unlabel' => 'issues#unlabel_issue'
         post 'issues/:number/close' => 'issues#close_issue'
         post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'
