@@ -10,8 +10,8 @@ end
 
 class Huboard
   module Issues
-    def issues(label = nil)
-      params = {direction: "asc"}
+    def issues(label = nil, opts={})
+      params = {direction: "asc"}.merge(opts)
       params = params.merge(labels: label) if label
 
       gh.issues(params).all.each{

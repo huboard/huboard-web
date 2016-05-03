@@ -222,7 +222,11 @@ var Repo = Model.extend({
   },
   assigneesLength: function(){
     return this.get("assignees.length");
-  }.property("assignees.[]")
+  }.property("assignees.[]"),
+  fetchIssues: function(options){
+    var url = `/api/${this.get('data.repo.full_name')}/issues`
+    return Ember.$.getJSON(url,{ options: options });
+  }
 });
 
 export default Repo;
