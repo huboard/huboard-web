@@ -90,6 +90,12 @@ var Repo = Model.extend({
     var repo = this;
     var opts = {data: {issue_filter: repo.data.issue_filter || []}};
     return this.get('ajax')(`${this.get('baseUrl')}/details`, opts).then(function(details){
+      repo.set('issues', []);
+      repo.set('milestones', []);
+      repo.set('other_labels', []);
+      repo.set('columns', []);
+      repo.set('assignees', []);
+      repo.set('issue_filter', []);
       Ember.run.next(()=>{
         // map the issues
         var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
@@ -103,10 +109,10 @@ var Repo = Model.extend({
         repo.set('assignees', details.data.assignees);
         repo.set('columns', details.data.columns);
 
-        repo.set('isLoaded', true);
-        repo.set('loadFailed', false);
         repo.set('issue_template', details.data.issue_template);
       });
+      repo.set('isLoaded', true);
+      repo.set('loadFailed', false);
       return repo;
     }, function(jqxhr) {
       repo.set('isLoaded', true);
