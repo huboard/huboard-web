@@ -11,6 +11,7 @@ var BoardSyncingService = Ember.Service.extend({
       var flash = this.get('flashMessages.queue').find((flash)=>{
         return flash.identifier === 'sync-message';
       });
+      if(!flash){ return; }
       Ember.set(flash.progress, 'status', false);
     }
   }.observes('syncInProgress'),
@@ -62,6 +63,7 @@ var BoardSyncingService = Ember.Service.extend({
     var flash = this.get('flashMessages.queue').find((flash)=>{
       return flash.identifier === 'sync-message';
     });
+    if(!flash){ return; }
     flash.progress.callback = function(){
       setTimeout(()=>{
         this.set('flash.type', 'warning');
