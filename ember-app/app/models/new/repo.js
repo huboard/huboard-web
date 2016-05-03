@@ -90,22 +90,23 @@ var Repo = Model.extend({
     var repo = this;
     var opts = {data: {issue_filter: repo.data.issue_filter || []}};
     return this.get('ajax')(`${this.get('baseUrl')}/details`, opts).then(function(details){
-      // map the issues
-      var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
-      repo.set('issues', issues);
+      Ember.run.next(()=>{
+        // map the issues
+        var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
+        repo.set('issues', issues);
 
-      //map the milestones
-      var milestones = details.data.milestones.map((x) => Milestone.create({data: x, repo: repo}));
-      repo.set('milestones', milestones);
+        //map the milestones
+        var milestones = details.data.milestones.map((x) => Milestone.create({data: x, repo: repo}));
+        repo.set('milestones', milestones);
 
-      repo.set('other_labels', details.data.other_labels);
-      repo.set('assignees', details.data.assignees);
-      repo.set('columns', details.data.columns);
+        repo.set('other_labels', details.data.other_labels);
+        repo.set('assignees', details.data.assignees);
+        repo.set('columns', details.data.columns);
 
-      repo.set('isLoaded', true);
-      repo.set('loadFailed', false);
-      repo.set('issue_template', details.data.issue_template);
-
+        repo.set('isLoaded', true);
+        repo.set('loadFailed', false);
+        repo.set('issue_template', details.data.issue_template);
+      });
       return repo;
     }, function(jqxhr) {
       repo.set('isLoaded', true);

@@ -42,11 +42,9 @@ var SettingsLinksIndexController = Ember.Controller.extend({
       var model = this.get("model.repo");
       this.set("isDisabled", true);
 
-      Ember.run.once(()=>{
-        model.createLink(name, _self.get("issue_filter")).then(()=> {
-          _self.resetForm();
-        }, (jqXHR)=> _self.errorHandler(jqXHR) );
-      });
+      model.createLink(name, _self.get("issue_filter")).then(()=> {
+        _self.resetForm();
+      }, (jqXHR)=> _self.errorHandler(jqXHR) )
     },
     validate: function(){
       var _self = this;
