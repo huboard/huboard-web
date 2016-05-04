@@ -296,8 +296,7 @@ GEM
     pry-byebug (3.2.0)
       byebug (~> 5.0)
       pry (~> 0.10)
-    puma (2.11.1)
-      rack (>= 1.1, < 2.0)
+    puma (3.4.0)
     rack (1.6.4)
     rack-attack (4.2.0)
       rack
