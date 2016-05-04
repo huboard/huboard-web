@@ -160,7 +160,7 @@
 
 	@include e(btn) {
 		@include span-columns(7);
-		margin-top: 10%;
+		margin-top: 5%;
 		text-align: center;
 	}
 
@@ -188,7 +188,6 @@
 .footer-nav {
 	background: url(asset-path('marketing/separator.png')) no-repeat bottom center;
 	margin: 0 auto;
-	text-align: left;
 	@include row();
 	@include rem((
 		max-width: 500px,
