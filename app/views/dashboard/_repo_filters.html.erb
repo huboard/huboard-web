@@ -7,17 +7,11 @@
   end
 %>
 <ul class='nav nav-tabs'>
-    <li class='pull-right <%= current_page_class :private %>'>
+    <li class='pull-right <%= current_page_class :private %><%= @auth_scope_private ? '' : 'disabled' %>'>
       <a rel='nofollow' href="<%= repositories_private_path user['login'] %>">
-        <%if @auth_scope_private %>
-          <span class="label label-warning">
-              Private
-          </span>
-        <% else %>
-          <span class="label label-warning" data-repo-list-tooltip="Selecting private will prompt for additional permissions with GitHub" data-repo-list-tooltip-position="top" >
-            Private*
-          </span>
-        <% end %>
+        <span class="label <%= @auth_scope_private ? 'label-warning' : 'label-warning-grey' %>">
+            Private
+        </span>
       </a>
     </li>
   <li class='pull-right <%= current_page_class :public %>'>

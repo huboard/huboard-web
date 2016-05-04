@@ -75,6 +75,19 @@ ul.repos li a.btn {
     &.label-warning {
       padding: 4px;
     }
+    &.label-warning-grey {
+      padding: 4px;
+      background-color: $lightGrey;
+    }
+  }
+
+  .nav-tabs {
+    .disabled {
+      cursor: not-allowed;
+      a {
+        pointer-events: none;
+      }
+    }
   }
 }
 
@@ -91,71 +104,18 @@ ul.repos li a.btn {
     bottom: 10px;
     text-align: center;
   }
+
+  &.public-only-hero:before {
+    content: '';
+    width: 0px; height: 5px;
+    margin: -20px 25px 0px auto;
+    border-bottom: 15px solid rgb(251, 238, 213);
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    float: right;
+  }
   &.alert {
     display: block;
     margin-bottom: 0px;
   }
-}
-
-//Tooltip Mojo taken from http://stackoverflow.com/questions/1055581/how-do-i-add-a-tool-tip-to-a-span-element
-[data-repo-list-tooltip] {
-    display: inline-block;
-    position: relative;
-    padding: 4px;
-}
-[data-repo-list-tooltip]:before {
-    content: attr(data-repo-list-tooltip);
-    display: none;
-    position: absolute;
-    background: $hb-purple;
-    color: white;
-    padding: 4px 8px;
-    font-size: 10px;
-    line-height: 1.4;
-    min-width: 120px;
-    text-align: center;
-    border-radius: 4px;
-    white-space: normal;
-}
-
-/* Dynamic horizontal centering */
-[data-repo-list-tooltip-position="top"]:before,
-[data-repo-list-tooltip-position="bottom"]:before {
-    left: 50%;
-    -ms-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-}
-[data-repo-list-tooltip-position="top"]:before {
-    bottom: 100%;
-    margin-bottom: 6px;
-}
-
-/* Tooltip arrow styling/placement */
-[data-repo-list-tooltip]:after {
-    content: '';
-    display: none;
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-}
-/* Dynamic horizontal centering for the tooltip */
-[data-repo-list-tooltip-position="top"]:after,
-[data-repo-list-tooltip-position="bottom"]:after {
-    left: 50%;
-    margin-left: -6px;
-}
-[data-repo-list-tooltip-position="top"]:after {
-    bottom: 100%;
-    border-width: 6px 6px 0;
-    border-top-color: $hb-purple;
-}
-/* Show the tooltip when hovering */
-[data-repo-list-tooltip]:hover:before,
-[data-repo-list-tooltip]:hover:after {
-    display: block;
-    z-index: 50;
 }

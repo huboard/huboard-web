@@ -24,7 +24,7 @@
       <% if !@auth_scope_private && @private != 0 %>
         <div class="dashboard--alert public-only-hero">
           <span class="alert dashboard--alert" >
-            Only public repositories are currently visible!
+            Only public repositories are currently visible! <a href="/login/private">Click here to allow private access</a>
           </span>
         </div>
       <% end %>
