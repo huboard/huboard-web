@@ -31,7 +31,7 @@
 @import "date_picker";
 @import "sidebar";
 
-#application {
+#xapplication {
     /* IE 10-11 workaround
      * https://github.com/philipwalton/flexbugs#3-min-height-on-a-flex-container-wont-apply-to-its-flex-items
      */
@@ -42,6 +42,7 @@
 body {
   word-wrap: break-word;
   overflow-wrap: break-word;
+  overflow:hidden;
 }
 
 .wrap-fix {
@@ -53,6 +54,10 @@ body {
    @include flex-direction(column);
    min-height: 100vh;
    position: relative;
+}
+
+.ember-application > .card {
+   min-height: auto; //<- jank! https://github.com/emberjs/ember.js/issues/11486
 }
 
 .application-outlet {
