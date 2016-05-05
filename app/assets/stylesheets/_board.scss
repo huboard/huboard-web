@@ -1,8 +1,12 @@
 @import "arrow";
 
 .container-fluid {
-   padding-right: 25px;
-   padding-left: 25px;
+   padding-right: 0;
+   padding-left: 0;
+
+   .nav {
+       margin: 0;
+   }
 }
 
 .column {
@@ -103,6 +107,7 @@
 
 .column h3 {
   line-height: 20px;
+  min-height: 42px;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #e5e5e5;

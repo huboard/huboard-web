@@ -143,14 +143,10 @@ ul.nav.breadcrumbs {
       padding: 6px;
       padding-right: 15px;
       background-color: #fff;
-      &.home {
-        padding: 8px 6px 4px 6px;
-        &:hover {
-          padding: 8px 6px 4px 6px;
-        }
-        .ui-icon {
-          height: auto;
-        }
+      &.home, &.home:hover {
+        background: none;
+        border-color: transparent;
+        padding: 0 6px 0 6px;
       }
 
       span, small {

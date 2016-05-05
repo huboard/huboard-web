@@ -41,9 +41,11 @@
 #application > .ember-view {
    @include display(flex);
    @include flex-direction(column);
+   max-height: 100vh;
    min-height: 100vh;
 }
 .application-outlet {
+   overflow: hidden;
 
    @include display(flex);
    @include flex(1);
@@ -125,6 +127,7 @@ body {
     }
   }
    height: 40px;
+   min-height: 40px;
    line-height: 40px;
    padding: 0 25px;
    box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
@@ -137,12 +140,14 @@ body {
 
 
 .main-content {
+  overflow: hidden;
   position:relative;
   @include flex(1);
   @include display(flex);
 
   > .sidebar {
      width: 0;
+     overflow: hidden;
      @include flex(0);
      border-right: 1px solid #ccc;
      @include box-sizing(border-box);
@@ -152,7 +157,7 @@ body {
     width: 0px;
   }
   > .content {
-     overflow-x: auto;
+     overflow: auto;
      padding: 6px 25px;
      @include flex(1);
      @include display(flex);
@@ -181,6 +186,7 @@ body {
 }
 .sidebar-open {
   > .sidebar {
+    overflow-y: auto;
     width: auto;
     padding: 6px 0 6px 25px;
     @include flex(0 0 230px);
