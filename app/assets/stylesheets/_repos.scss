@@ -96,7 +96,7 @@ ul.repos li a.btn {
     i.ui-icon-alert {
       position: relative;
       top: 1px;
-      color: #ee9c49;
+      color: black;
     }
   }
   &.public-only-hero {
@@ -108,7 +108,7 @@ ul.repos li a.btn {
   &.public-only-hero:before {
     content: '';
     width: 0px; height: 5px;
-    margin: -20px 25px 0px auto;
+    margin: -19px 25px 0px auto;
     border-bottom: 15px solid rgb(251, 238, 213);
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
