@@ -93,10 +93,11 @@ ul.repos li a.btn {
 
 .dashboard--alert {
   h5 {
+    color: black;
     i.ui-icon-alert {
       position: relative;
       top: 1px;
-      color: black;
+      color: #ee9c49;
     }
   }
   &.public-only-hero {
