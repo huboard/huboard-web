@@ -17,15 +17,16 @@ class LoginController < ApplicationController
     redirect_to params[:redirect_to] || "/"
   end
 
-  def github_login
+  def github
     github_authenticate! :default
   end
 
-  def github_login_callback
+  def github_callback
     puts ">>>>>>>>>>>>>>"
     puts ">>>>>>>>>>>>>>"
     puts current_user.id
     puts ">>>>>>>>>>>>>>"
     puts ">>>>>>>>>>>>>>"
+    redirect_to params[:redirect_to] || "/"
   end
 end

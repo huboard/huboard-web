@@ -5,7 +5,7 @@ Rails.application.middleware.insert_after ActionDispatch::Flash, Warden::Manager
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
     scope:         'user:email',
-    redirect_uri: '/github_login_callback'
+    redirect_uri: 'github_callback'
   }
   config.scope_defaults :public, strategies: [:github],
     config: {

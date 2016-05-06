@@ -33,13 +33,13 @@ Rails.application.routes.draw do
   get 'logout' => 'login#logout'
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
+  get 'login/github' => 'login#github'
+  get 'login/github_callback' => 'login#github_callback'
 
   get '/repositories/private/:user' => 'dashboard#private', as: 'repositories_private'
 
   get '/repositories/public/:user' => 'dashboard#public', as: 'repositories_public'
 
-  get '/github_login' => 'login#github_login'
-  get '/github_login_callback' => 'login#github_login_callback'
 
   namespace :api do
     get 'uploads/asset' => 'uploads#asset_uploader'
