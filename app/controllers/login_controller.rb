@@ -8,12 +8,12 @@ class LoginController < ApplicationController
     github_authenticate! :default
     @user = gh.user
     @emails = @user.emails.all
-    redirect_to params[:redirect_to] || "/"
+    redirect_to params[:redirect_to] || "/dashboard"
   end
   def private
     github_authenticate! :private
     @user = gh.user
     @emails = @user.emails.all
-    redirect_to params[:redirect_to] || "/"
+    redirect_to params[:redirect_to] || "/dashboard"
   end
 end
