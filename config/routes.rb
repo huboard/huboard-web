@@ -38,6 +38,8 @@ Rails.application.routes.draw do
 
   get '/repositories/public/:user' => 'dashboard#public', as: 'repositories_public'
 
+  get '/github_login' => 'login#github_login'
+  get '/github_login_callback' => 'login#github_login_callback'
 
   namespace :api do
     get 'uploads/asset' => 'uploads#asset_uploader'

@@ -5,7 +5,7 @@ class LoginController < ApplicationController
     redirect_to "/"
   end
   def public
-    github_authenticate! :default
+    github_authenticate! :public
     @user = gh.user
     @emails = @user.emails.all
     redirect_to params[:redirect_to] || "/"
@@ -15,5 +15,17 @@ class LoginController < ApplicationController
     @user = gh.user
     @emails = @user.emails.all
     redirect_to params[:redirect_to] || "/"
+  end
+
+  def github_login
+    github_authenticate! :default
+  end
+
+  def github_login_callback
+    puts ">>>>>>>>>>>>>>"
+    puts ">>>>>>>>>>>>>>"
+    puts current_user.id
+    puts ">>>>>>>>>>>>>>"
+    puts ">>>>>>>>>>>>>>"
   end
 end
