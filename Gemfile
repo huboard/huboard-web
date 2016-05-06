@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.2.3' if ENV['DYNO']
+ruby '2.3.1' if ENV['DYNO']
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.6'
 gem 'dotenv-rails', '~> 2.0.0', :require => 'dotenv/rails-now'
 # gem 'pg'
 gem 'sass-rails', '~> 5.0'
