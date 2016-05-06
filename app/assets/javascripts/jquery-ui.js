@@ -1,6 +1,21 @@
 
 (function($) {
 
+  var mouseIsOverElement = function mouseIsOverElement(ev, rect){
+    return ev.left >= rect.left
+      && rect.right > ev.left;
+  }
+
+  var findHoveredList = function findHoveredList(ev) {
+    var columns = $('.column');
+    for(var i = 0; i < columns.length; i++){
+      if(mouseIsOverElement(ev, columns[i].getBoundingClientRect())){
+        return $(columns[i]).find('.cards')[0];
+      }
+    }
+    return null;
+  }
+
   $.widget('huboard.superSortable', $.ui.sortable, {
     _mouseDrag: function(event, noPropagation){
       this._superApply(arguments);
@@ -23,7 +38,7 @@
         helperRect: this.helper[ 0 ].getBoundingClientRect()
       }
 
-      console.log(things.position, things.boundingClientRect, things.helperRect);
+      //console.log(things.position, things.boundingClientRect, things.helperRect);
       //console.log(this.direction, (things.boundingClientRect.right - things.helperRect.right) - scrollContailer.scrollLeft)
 
       var isOverright = ((things.boundingClientRect.right - things.helperRect.right) - scrollContailer.scrollLeft) < 0
@@ -34,6 +49,19 @@
       } else if (things.helperRect.left < 20 && scrollContailer.scrollLeft > 0) {
         scrollContailer.scrollLeft -= 20;
       }
+
+      var hoveredList = findHoveredList(position);
+
+      if(hoveredList){
+        var hoveredRect = hoveredList.getBoundingClientRect();
+        var isOvertop = (things.helperRect.top - hoveredRect.top) < 0;
+        if(isOvertop) {
+          hoveredList.scrollTop -= 20;
+        } else if (things.helperRect.bottom > hoveredRect.bottom) {
+          hoveredList.scrollTop += 20;
+        }
+      }
+
 
     } 
 
