@@ -2,6 +2,11 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+#Grab the bridge classes
+Dir.glob(Rails.root.join('lib', 'bridge', 'github', '*')).each do |file|
+  require_relative file
+end
+
 require 'minitest/autorun'
 require 'mocha/mini_test'
 

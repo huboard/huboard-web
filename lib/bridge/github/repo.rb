@@ -3,6 +3,7 @@ class Huboard
     include Assignees
     include Labels
     include Issues
+    include Contents
 
     attr_accessor :user, :repo, :connection
 
@@ -30,6 +31,7 @@ class Huboard
           link['user'] == repo.user && l['repo'] == repo.repo
         end
 
+        payload[:issue_filter] = link['labels']
         links << payload if !payload[:repo]["message"]
       end
       return links
@@ -41,13 +43,14 @@ class Huboard
       end
     end
 
-    def details
+    def details(data={})
       gh_repos = gh
       columns = column_labels
       raise "failed to load board" if columns.empty?
       first_column = columns.first
 
-      issues = issues().concat(closed_issues(columns.last['name'])).map do |i|
+      issue_filter = data[:issue_filter] ? data[:issue_filter].join(',') : nil
+      issues = issues(issue_filter).concat(closed_issues(issue_filter)).map do |i|
         i['current_state'] = first_column if i['current_state']['name'] == "__nil__"
         i['current_state'] = columns.find { |c| c['name'] == i['current_state']['name'] }
         i
@@ -59,7 +62,8 @@ class Huboard
         other_labels: other_labels.sort_by {|l| l['name'].downcase },
         link_labels: link_labels,
         assignees: assignees,
-        issues: issues
+        issues: issues,
+        issue_template: issue_template_content
       }
     end
 

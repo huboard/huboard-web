@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <%= render partial: 'shared/abtest' %>
     <title><%= content_for :title %>HuBoard</title>
     <meta name="description" content="Instant project management for GitHub issues">
      <%= csrf_meta_tags %>
@@ -16,7 +17,7 @@
          <div class="navbar-inner">
            <div class="container">
             <ul class="nav breadcrumbs">
-              <li><a href="/" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
+              <li><a href="/dashboard" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
               <%= content_for :breadcrumb %>
             </ul>
              <ul class="nav pull-right">
@@ -50,7 +51,7 @@
           <div class="links span6">
             <a href="/site/terms">terms</a>
             <a href="/site/privacy">privacy</a>
-            <a href="https://github.com/rauhryan/huboard">github</a>
+            <a href="https://github.com/huboard/huboard">github</a>
             <a href="mailto:support@huboard.com">contact</a>
           </div>
         </div>

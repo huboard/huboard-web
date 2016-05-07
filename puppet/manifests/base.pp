@@ -8,9 +8,13 @@ package {
   'npm': ensure => "present";
   'couchdb': ensure => "present";
   'libffi-dev': ensure => "present";
+  'libsqlite3-dev': ensure => "present";
   } ->
   class { 'ruby_install': 
     ruby_version => "2.2.1",
+  } ->
+  exec { 'mail-catcher':
+    command => 'gem install mailcatcher'
   }
 
   class { 'wkhtmltox':
@@ -43,6 +47,13 @@ package {
       ],
   }
 
+  exec { 'migrate-couch-debug':
+    command => '/bin/sleep 5 && /usr/local/node/node-default/bin/couchapp -dc push /srv/huboard/couch/debug http://127.0.0.1:5984/huboard',
+    path    => ["/bin", "/usr/bin", "/usr/local/node/node-default/bin"],
+    require => [
+      Exec['run-couchapp'],
+      ],
+  }
 
   class { 'memcached':
     max_memory => '12%',
@@ -97,3 +108,9 @@ package {
       createdb      => true,
       createrole    => true,
     }
+
+  exec { "echo 'cd /srv/huboard' >> .bashrc":
+    cwd    => "/home/vagrant",
+    path   => "/usr/bin:/usr/sbin:/bin",
+    unless => "grep -q '^cd /srv/huboard$' .bashrc"
+  }

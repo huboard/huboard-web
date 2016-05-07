@@ -67,6 +67,8 @@
     .flex-form-right {
       padding-left: 10px;
       @include flex(0 0 210px);
+      min-width: 0px;
+      max-width: 210px;
     }
   }
   label {

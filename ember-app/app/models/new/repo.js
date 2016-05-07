@@ -5,6 +5,7 @@ import Issue from './issue';
 import Milestone from './milestone';
 import Integration from 'app/models/integration';
 import Health from 'app/models/health';
+import Link from 'app/models/link';
 import ajax from 'ic-ajax';
 import correlationId from 'app/utilities/correlation-id';
 
@@ -87,7 +88,8 @@ var Repo = Model.extend({
   isLoaded: false,
   load: function(){
     var repo = this;
-    return this.get('ajax')(`${this.get('baseUrl')}/details`).then(function(details){
+    var opts = {data: {issue_filter: repo.data.issue_filter || []}};
+    return this.get('ajax')(`${this.get('baseUrl')}/details`, opts).then(function(details){
       // map the issues
       var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
       repo.set('issues', issues);
@@ -102,6 +104,7 @@ var Repo = Model.extend({
 
       repo.set('isLoaded', true);
       repo.set('loadFailed', false);
+      repo.set('issue_template', details.data.issue_template);
 
       return repo;
     }, function(jqxhr) {
@@ -131,34 +134,38 @@ var Repo = Model.extend({
     if(this._settings) {return this._settings;}
     return Ember.$.getJSON("/api/" + this.get("data.repo.full_name") + "/settings");
   },
-  createLink(name) {
+  createLink(name, issue_filter) {
     var parent = this;
-    return ajax({
-      url: `/api/${this.get('data.repo.full_name')}/links/validate`,
-      dataType: 'json',
-      type: 'POST',
-      data: {
-        link: name
-      }
-    }).then(() => {
-      return ajax({
-        url: `/api/${this.get('data.repo.full_name')}/links`,
-        dataType: 'json',
-        type: 'POST',
-        data: {
-          link: name
+    var repo = this.get('data.repo.full_name');
+      
+    return Link.build(name, repo, issue_filter).then((response) => {
+      parent.get('data.links').pushObject(response);
+      parent.set('links.lastObject.data.issue_filter', issue_filter);
+      return parent.get('links.lastObject').load().then((repo) => {
+        if(!repo.get('loadFailed')){
+          var board = Board.create({repo: repo});
+          repo.set('isLoaded', true);
+          repo.set('board', board);
         }
-      }).then((response) => {
-        parent.get('data.links').pushObject(response);
-        return parent.get('links.lastObject').load().then((repo) => {
-          if(!repo.get('loadFailed')){
-            var board = Board.create({repo: repo});
-            repo.set('isLoaded', true);
-            repo.set('board', board);
-          }
-        });
       });
     });
+  },
+  updateLink: function(link){
+    var link = this.get("links").find((l) => {
+      return l.get("data.repo.full_name") === link.data.repo.full_name;
+    });
+    var repo = this.get('data.repo.full_name');
+
+    return Link.update(link, repo).then((response) => {
+      var issues = response.data.issues.map((x) => Issue.create({data: x, repo: link}));
+      link.set('issues', issues);
+      link.set('other_labels', response.data.other_labels);
+      return link;
+    });
+  },
+  validateLink: function(name){
+    var repo = this.get('data.repo.full_name');
+    return Link.validate(name, repo);
   },
   createMilestone: function(milestone, order) {
     var repo = this;
@@ -215,7 +222,11 @@ var Repo = Model.extend({
   },
   assigneesLength: function(){
     return this.get("assignees.length");
-  }.property("assignees.[]")
+  }.property("assignees.[]"),
+  fetchIssues: function(options){
+    var url = `/api/${this.get('data.repo.full_name')}/issues`
+    return Ember.$.getJSON(url,{ options: options });
+  }
 });
 
 export default Repo;

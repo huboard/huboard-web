@@ -36,6 +36,7 @@ class BoardController < ApplicationController
     def create
       begin
         huboard.board(params[:user], params[:repo]).create_board
+        @event = 'board_created'
       rescue Ghee::UnprocessableEntity
         redirect_to "/#{params[:user]}/#{params[:repo]}/"
       end

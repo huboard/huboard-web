@@ -28,4 +28,13 @@ class Analytics::CoreTest < ActiveSupport::TestCase
     adapter.expects(:track).with({some: :payload})
     sut.track({some: :payload})
   end
+
+  test 'track page views from a user' do
+    FakeAnalytics.stubs(:page)
+    sut.adapter = FakeAnalytics
+
+    adapter = Analytics::Core.adapter
+    adapter.expects(:page).with({some: :payload})
+    sut.page({some: :payload})
+  end
 end

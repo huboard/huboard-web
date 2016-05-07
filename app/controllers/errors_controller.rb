@@ -1,5 +1,6 @@
 class ErrorsController < ApplicationController
   layout false
+  after_action :track_exception, only: [:unprocessable_entity, :server_error]
   def unauthenticated
     respond_to do |format|
       format.html {render :unauthenticated, status: 403}
@@ -25,5 +26,10 @@ class ErrorsController < ApplicationController
       format.html {render :server_error, status: 500 }
       format.json { render json: { status: 500, error: @exception.message, message: @exception.message}, status: 500  }
     end
+  end
+
+  def track_exception
+    exception = env["action_dispatch.exception"]
+    ::Raygun.track_exception(exception, custom_data: {generated_by: 'Faraday::Response::RaiseGheeError'})
   end
 end

@@ -1,4 +1,16 @@
 Rails.application.configure do
+  #Mailer Previews
+  if ENV['HUBOARD_ENV'] == 'production'
+    config.action_mailer.preview_path = Saas::Engine.root.join('test/mailers')
+  else
+    config.action_mailer.preview_path = Rails.root.join('test/mailers')
+  end
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: 'localhost', port: '1025' }
+
+  config.action_mailer.raise_delivery_errors = true
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -12,9 +24,6 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
-
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

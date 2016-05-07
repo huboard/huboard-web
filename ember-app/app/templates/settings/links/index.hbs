@@ -1,9 +1,11 @@
-<form class="flex-form" {{action 'submit'  on='submit'}}>
+<form class="flex-form" {{action 'submit'  on='submit'}} accept-charset="UTF-8">
   <div class="{{if shouldDisplayError 'error'}} control-group">
   <label>
     {{input value=repoFullName placeholder='owner/repo'}}
-    
   </label>
+  {{#if labelChooserEnabled}}
+    {{settings/hb-label-chooser labels=labels selected=issue_filter}}
+  {{/if}}
     {{#if shouldDisplayError }}
     <span class="help-block">
       {{errorMessage}}

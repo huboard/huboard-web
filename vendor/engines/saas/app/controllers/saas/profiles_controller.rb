@@ -46,7 +46,7 @@ module Saas
       if customer.rows && customer.rows.size > 0
         customer_doc = customer.rows.first.value
         begin
-          charges = Stripe::Charge.all(customer: customer_doc.stripe.customer.id)['data']
+          charges = Stripe::Charge.all(customer: customer_doc.stripe.customer.id, limit: 20)['data']
         rescue Exception => e
           return render json: {
             charges:[]

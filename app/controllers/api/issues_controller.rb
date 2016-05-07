@@ -6,6 +6,11 @@ module Api
       render json: api.issue(params[:number])
     end
 
+    def issues
+      api = huboard.board(params[:user], params[:repo])
+      render json: api.issues(params[:label], params[:options])
+    end
+
     def details
       api = huboard.board(params[:user], params[:repo])
       render json: api.issue(params[:number]).activities
@@ -25,6 +30,14 @@ module Api
     def label_issue
       api = huboard.board(params[:user], params[:repo])
       @issue = api.issue(params[:number]).update(params)
+      @label = params["selectedLabel"]
+      render json: @issue
+    end
+
+    def unlabel_issue
+      api = huboard.board(params[:user], params[:repo])
+      @issue = api.issue(params[:number]).update(params)
+      @label = params["selectedLabel"]
       render json: @issue
     end
 
@@ -40,7 +53,7 @@ module Api
       render json: @issue
     end
 
-    #TODO original api checks if comment['message'] exists
+    #TODO Implement create_comment in bridge
     def create_comment
       data = {body: params['markdown']}
       @issue =  huboard.board(params[:user], params[:repo]).
@@ -99,7 +112,7 @@ module Api
         message = {
           :issue => @issue,
           'action_controller.params' => {'correlationId' => params['correlationId']},
-          :current_user => current_user.attribs || {}
+          'current_user' => current_user.attribs || {}
         }
         generate_issue_event(data['state'], message)
       end

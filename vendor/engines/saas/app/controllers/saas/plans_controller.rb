@@ -32,6 +32,9 @@ module Saas
         plan_doc.trial = "expired"
         couch.customers.save plan_doc
 
+        @event = 'plan_canceling'
+        @repo_owner = plan_doc.github.account.login
+
         render json: {success: true, message: "Sorry to see you go"}
       else
         render json: {success: false, message: "Unable to find plan"}

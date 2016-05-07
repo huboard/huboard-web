@@ -111,14 +111,13 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       this.get("flashMessages").info(copy);
     },
     issueMsChanged: function(message){
+      if (message.suppress) { return; }
+
       var actor = message.actor.login;
       var milestone = message.issue.milestone;
+      var title = milestone ? milestone.title : 'No Milestone';
 
-      if(milestone){
-        var copy = `${actor} changed milestone of #${message.issue.number} to ${milestone.title}`;
-      } else {
-        var copy = `${actor} changed milestone of #${message.issue.number} to _nil_`;
-      }
+      var copy = `${actor} changed milestone of #${message.issue.number} to ${title}`;
 
       this.get("flashMessages").info(copy);
     },
@@ -130,13 +129,9 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
       this.get("flashMessages").info(copy);
     }, {time: 5000}),
-    issueUnlabled: sortedQueue(function(message) {
-      var timeA = Date.parse(message.issue.updated_at);
-      var timeB = Date.parse(this.get("issue.data.updated_at"));
-      if(timeA > timeB){
-        var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
-        this.get("flashMessages").info(copy);
-      }
+    issueUnlabeled: sortedQueue(function(message) {
+      var copy = `${message.actor.login} changed #${message.issue.number}'s labels`;
+      this.get("flashMessages").info(copy);
     }, {time: 5000}) 
   }
 });

@@ -10,6 +10,7 @@ require_relative "github/board"
 require_relative "github/user"
 require_relative "github/comments"
 require_relative "github/commits"
+require_relative "github/contents"
 require_relative "github/repo"
 require_relative "middleware"
 require "addressable/uri"
@@ -24,7 +25,7 @@ class Huboard
   end
 
   def self.link_pattern
-    /^Link <=> (?<user_name>.*)\/(?<repo>.*)/
+    /^Link <=> (?<user_name>.*)\/(?<repo>[^\/?\ ]*)($|(.*)\=(?<labels>.*))/
   end
 
   def self.settings_pattern
@@ -82,5 +83,6 @@ class Huboard
     include Hooks
     include Comments
     include Commits
+    include Contents
   end
 end

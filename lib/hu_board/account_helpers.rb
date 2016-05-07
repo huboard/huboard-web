@@ -10,19 +10,33 @@ module HuBoard
       customer && customer[:trial] == "active"
     end
 
+    def trial_expired?(customer)
+      customer && customer[:trial] == "expired"
+    end
+
     def non_profit?(customer)
-      customer[:stripe][:plan] && 
+      customer &&
+        customer[:stripe][:plan] &&
         customer[:stripe][:plan][:plan_id] == "non_profit"
     end
 
     def subscription_active?(customer)
       return true if non_profit?(customer)
-      cus = customer[:stripe][:customer]
-      if cus[:subscriptions][:total_count] > 0
+      cus = customer && customer[:stripe][:customer]
+      if cus && cus[:subscriptions][:total_count] > 0
         sub = cus[:subscriptions][:data][0]
-        return sub[:status] == "active" || sub[:status] == "trialing"
+        return %{ active trialing past_due }.include?(sub[:status])
       end
       false
+    end
+
+    def subscription_canceled?(customer)
+      cus = customer && customer[:stripe][:customer]
+      if cus && cus[:subscriptions][:total_count] > 0
+        sub = cus[:subscriptions][:data][0]
+        return sub[:status] == "canceled"
+      end
+      true
     end
 
     def account_exists?(customer_doc)
@@ -60,7 +74,7 @@ module HuBoard
       plan[:amount] = user_or_org == "User" ? 700 : 2400
       plan[:id] = user_or_org == "User" ? "user_basic_v1" : "org_basic_v1"
       plan[:name] = user_or_org
-      trial_and_sub = plan[:status] == "trialing" && customer.cards.total_count > 0
+      trial_and_sub = %{ trialing past_due }.include?(plan[:status]) && customer.cards.total_count > 0
       plan[:purchased] = plan[:status] == "active" || trial_and_sub
       plan[:card] = customer.cards.data[0] rescue false
       plan

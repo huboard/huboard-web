@@ -1,0 +1,127 @@
+{
+  "name": "huboard-web",
+  "scripts": {
+  },
+  "env": {
+    "AWS_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AWS_S3_BUCKET": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "BUILDPACK_URL": {
+      "required": true
+    },
+    "CLOUDFRONT_URL": {
+      "required": true
+    },
+    "COUCH_DATABASE": {
+      "required": true
+    },
+    "COUCH_URL": {
+      "required": true
+    },
+    "ELASTICSEARCH_URL": {
+      "required": true
+    },
+    "GITHUB_API_ENDPOINT": {
+      "required": true
+    },
+    "GITHUB_AUTH_STRATEGY": {
+      "required": true
+    },
+    "GITHUB_CLIENT_ID": {
+      "required": true
+    },
+    "GITHUB_SECRET": {
+      "required": true
+    },
+    "GITHUB_WEB_ENDPOINT": {
+      "required": true
+    },
+    "GITHUB_WEBHOOK_ENDPOINT": {
+      "required": true
+    },
+    "HEROKU_APP_ID": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_PARENT_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_RELEASE_VERSION": {
+      "required": true
+    },
+    "HEROKU_SLUG_COMMIT": {
+      "required": true
+    },
+    "HEROKU_SLUG_DESCRIPTION": {
+      "required": true
+    },
+    "HUBOARD_ENV": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "MAX_THREADS": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "RAYGUN_APIKEY": {
+      "required": true
+    },
+    "REDIS_URL": {
+      "required": true
+    },
+    "SECRET_KEY": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SEGMENTIO_KEY": {
+      "required": true
+    },
+    "SESSION_SECRET": {
+      "required": true
+    },
+    "SOCKET_BACKEND": {
+      "required": true
+    },
+    "STRIPE_API": {
+      "required": true
+    },
+    "STRIPE_PUBLISHABLE_API": {
+      "required": true
+    },
+    "STRIPE_SECRET_KEY": {
+      "required": true
+    },
+    "WARDEN_GITHUB_VERIFIER_SECRET": {
+      "required": true
+    }
+  },
+  "addons": [
+    "rediscloud",
+    "memcachier"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-multi"
+    }
+  ]
+}

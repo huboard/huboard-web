@@ -16,11 +16,14 @@ Rails.application.routes.draw do
   get '/site/privacy' => 'site#privacy'
   post '/site/webhook/issues' => 'api/webhooks#publish_issue_event', as: 'issues_webhook'
   post '/site/webhook/issue_comment' => 'api/webhooks#log_comment', as: 'issue_comment_webhook'
+  post '/site/webhook/pull_request' => 'api/webhooks#publish_pull_request_event', as: 'pull_request_webhook'
 
   # errors
   match '/404', to: 'errors#not_found', constraints: { status: /\d{3}/ }, via: :all
   match '/422', to: 'errors#unprocessable_entity', constraints: { status: /\d{3}/ }, via: :all
   match '/500', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
+  match '/503', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
+  match '/400', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
   match '/403', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
   match 'unauthenticated', to: 'errors#unauthenticated', via: :all
 
@@ -30,6 +33,8 @@ Rails.application.routes.draw do
   get 'logout' => 'login#logout'
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
+
+  get '/dashboard' => 'dashboard#index'
 
   get '/repositories/private/:user' => 'dashboard#private', as: 'repositories_private'
 
@@ -59,15 +64,18 @@ Rails.application.routes.draw do
         resources :links, only: [:index, :create]
         delete 'links' => 'links#destroy'
         post 'links/validate' => 'links#validate'
+        put 'links/update' => 'links#update'
         put 'columns' => 'columns#update'
         get 'settings' => 'settings#index'
         get 'health/board' => 'health#board'
         post 'health/board' => 'health#treat_board'
         get 'commits' => 'board#commits', as: 'commits'
         get 'commit/:commit' => 'board#commit', as: 'commit'
+        get 'issue_template' => 'board#issue_template'
 
         #Issues
         get 'issues/:number' => 'issues#issue'
+        get 'issues' => 'issues#issues'
         get 'issues/:number/details' => 'issues#details'
         get 'issues/:number/status' => 'issues#status'
         post 'issues' => 'issues#open_issue'
@@ -75,6 +83,7 @@ Rails.application.routes.draw do
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
         put 'issues/:number/label' => 'issues#label_issue'
+        put 'issues/:number/unlabel' => 'issues#unlabel_issue'
         post 'issues/:number/close' => 'issues#close_issue'
         post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'

@@ -5,13 +5,15 @@ class LoginController < ApplicationController
     redirect_to "/"
   end
   def public
-    request.env['warden'].logout if github_authenticated? :private
     github_authenticate! :default
-    redirect_to params[:redirect_to] || "/"
+    @user = gh.user
+    @emails = @user.emails.all
+    redirect_to params[:redirect_to] || "/dashboard"
   end
   def private
-    request.env['warden'].logout if github_authenticated? :default
     github_authenticate! :private
-    redirect_to params[:redirect_to] || "/"
+    @user = gh.user
+    @emails = @user.emails.all
+    redirect_to params[:redirect_to] || "/dashboard"
   end
 end

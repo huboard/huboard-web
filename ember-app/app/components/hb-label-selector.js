@@ -2,9 +2,11 @@ import Ember from 'ember';
 
 var HbLabelSelectorComponent = Ember.Component.extend({
   classNames: ["hb-selector-component", "dropdown"],
+  classNameBindings: ["customClass"],
   isOpen: function(){
     return false;
   }.property(),
+  noLabelsMessage: "None yet",
   editable: true,
   selected: [],
   values: [],
@@ -26,19 +28,34 @@ var HbLabelSelectorComponent = Ember.Component.extend({
         this.set("filterLabels", "");
 
       } else {
+        this.$().trigger("selectorClosed");
         this.$().removeClass("open");
       }
     },
     select : function (label) {
       var selected = this.get("selected");
+      var action = "";
       if(selected.anyBy("name", label.name)) {
+        action = "unlabel";
          selected.removeObject(selected.findBy("name", label.name));
       } else {
+        action = "label";
         selected.pushObject(label);
       }
       this.set("values", selected);
-      this.sendAction("labelsChanged");
+      this.sendAction("labelsChanged", label, action);
     }
+  },
+  didInsertElement: function(){
+    var _self = this;
+    Ember.$("body").on("click.outside", (event)=>{
+      if(_self.$().is(".open")){
+        _self.send("toggleSelector");
+      }
+    });
+  },
+  willDestroyElement: function(){
+    Ember.$("body").off("click.outside");
   }
 });
 

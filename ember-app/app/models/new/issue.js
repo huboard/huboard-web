@@ -42,13 +42,15 @@ var Issue = Model.extend({
       })
     })
   },
-  updateLabels : function () {
+  updateLabels : function (label, action) {
     this.set("processing", true);
     return Ember.$.ajax( {
-      url: `${this.get("apiUrl")}/label`,
+      url: `${this.get("apiUrl")}/${action}`,
       data: JSON.stringify({
         labels: this.data.other_labels,
-        correlationId: this.get("correlationId")
+        correlationId: this.get("correlationId"),
+        selectedLabel: label,
+        action: action
       }),
       dataType: 'json',
       type: "PUT",
