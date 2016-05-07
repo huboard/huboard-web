@@ -37,8 +37,15 @@ var HbMarkdownComposerComponent = Ember.Component.extend({
       fd.append('policy', response.policy);
       fd.append('signature', response.signature);
       fd.append('success_action_status', "201");
-      fd.append('file', file);
 
+      if(HUBOARD_ENV.FEATURES.ENCRYPTED_UPLOADS) {
+        fd.append('x-amz-server-side-encryption',"AES256");
+        if(HUBOARD_ENV.CONFIG && HUBOARD_ENV.CONFIG.AWS_KMS_KEY_ID) {
+          fd.append('x-amz-server-side-encryption-aws-kms-key-id', HUBOARD_ENV.CONFIG.AWS_KMS_KEY_ID);
+        }
+      }
+
+      fd.append('file', file);
       var request = new XMLHttpRequest();
       request.addEventListener('readystatechange', function(){
         if(request.readyState === 4) {
@@ -53,6 +60,7 @@ var HbMarkdownComposerComponent = Ember.Component.extend({
           component.set('uploading', false);
         }
       });
+
 
       request.open('POST', response.upload_url, true);
       request.send(fd);
