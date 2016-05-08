@@ -4,29 +4,41 @@ Rails.application.middleware.insert_after ActionDispatch::Flash, Warden::Manager
     config: {
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
-    scope:         'user:email',
-    redirect_uri: 'github_callback'
+    #scope:         'user:email',
+    redirect_uri: '/oauth/github/callback'
   }
   config.scope_defaults :public, strategies: [:github],
     config: {
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
-    scope:         'read:org,public_repo,user:email'
+    scope:         'read:org,public_repo,user:email',
+    redirect_uri: '/oauth/github/callback'
   }
   config.scope_defaults :private, strategies: [:github],
     config: {
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
     scope:         'read:org,repo,user:email',
+    redirect_uri: '/oauth/github/callback'
   }
 
   config.failure_app = Rails.application.routes
 
 end
 
+Warden::Manager.serialize_from_session do |key| 
+  #binding.pry
+  Rails.logger.info "    =>"
+  Rails.logger.info ["    serialize_from_session", key]
+  p Warden::GitHub::Verifier.load(key) 
+end
 
-Warden::Manager.serialize_from_session { |key| Warden::GitHub::Verifier.load(key) }
-Warden::Manager.serialize_into_session { |user| Warden::GitHub::Verifier.dump(user) }
+Warden::Manager.serialize_into_session do |user| 
+  #binding.pry
+  Rails.logger.info "    =>"
+  Rails.logger.info ["    serialize_into_session", user]
+  p Warden::GitHub::Verifier.dump(user) 
+end
 
 require 'uri'
 

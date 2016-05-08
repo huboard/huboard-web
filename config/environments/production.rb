@@ -89,4 +89,6 @@ Rails.application.configure do
                      :pool_size => 5
                     }
   
+  config.middleware.use Rack::Attack
+
 end
