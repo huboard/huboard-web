@@ -10,8 +10,6 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 gem "ember-cli-rails", '0.1.13', require: nil
 gem 'ember-rails-assets'
-#gem "warden-github-rails" , github: "huboard/warden-github-rails"
-gem 'warden-github', '~> 1.3.0'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'foreman'
@@ -47,6 +45,7 @@ gem 'private_pub', '1.0.3'
 gem 'sidekiq', "~> 3.0"
 
 # BUNDLE_WITHOUT="development:test:saas"
+gem 'warden-github', '~> 1.3.0', path: 'vendor/gems/warden-github'
 gem 'saas','0.0.1', require: nil, path: "vendor/engines/saas"
 gem 'faye_extensions','0.0.1', path: 'vendor/gems/faye_extensions'
 gem 'responders'

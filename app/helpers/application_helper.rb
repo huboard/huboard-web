@@ -1,28 +1,32 @@
 require 'bridge/huboard'
 module ApplicationHelper
   def logged_in?
-    github_authenticated?(:private) || 
-      github_authenticated?(:public) || 
-      github_authenticated?(:default)
+    is_default = github_authenticated?(:default)
+    return is_default
   end
+  
   def current_user
-    github_user(:private) || github_user(:default) || github_user(:public) || OpenStruct.new
+    github_user(:default) || github_user(:private) || github_user(:public) || OpenStruct.new
   end
   def controller? *controller
     (controller.include?(params[:controller]) || controller.include?(params[:action])) ? "nav__btn--active nav__item--current": ''
   end
+
   def user_token
-    current_user ? current_user.token : nil
+    current_user.token
   end
+
   def github_config
     {
       client_id: ENV['GITHUB_CLIENT_ID'],
       client_secret: ENV['GITHUB_SECRET'],
     }
   end
+
   def huboard(token = nil)
     Huboard::Client.new(token || user_token, github_config)
   end
+
   def gh
     huboard.connection
   end
@@ -48,8 +52,9 @@ module ApplicationHelper
   end
 
   def github_user(scope=:default)
-    request.env['warden'].user(scope)
+    User.new(request.env['warden'].user(scope)) if request.env['warden'].user(scope)
   end
+
   def github_session(scope=:default)
     request.env['warden'].session(scope)  if github_authenticated?(scope)
   end

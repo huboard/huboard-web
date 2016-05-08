@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   match '/403', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
   match 'unauthenticated', to: 'errors#unauthenticated', via: :all
 
+  resources :welcome, only: [:index]
   get 'integrations' => 'marketing#integrations'
   get 'pricing' => 'marketing#pricing'
   get 'login' => 'login#index'
@@ -34,7 +35,7 @@ Rails.application.routes.draw do
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
   get 'login/github' => 'login#github'
-  get 'login/github_callback' => 'login#github_callback'
+  get 'oauth/github/callback' => 'login#github_callback'
 
   get '/repositories/private/:user' => 'dashboard#private', as: 'repositories_private'
 
