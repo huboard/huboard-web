@@ -44,7 +44,7 @@
 		@include rem((
 			padding-top: 80px,
 			padding-bottom: 80px,
-			max-width: $slim-container-width
+			max-width: 885px
 		));
 
 		// Breakpoints
@@ -57,6 +57,14 @@
 			));
 		}
 	}
+
+  .nav {
+    .btn-octocat {
+      position: relative;
+      right: 6px;
+      top: 2px;
+    }
+  }
 }
 
 

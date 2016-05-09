@@ -24,6 +24,7 @@
       color:rgba(#ee9c49, 0.7);
     }
   }
+
 }
 
 ul.repos, ul.repos li {
@@ -66,4 +67,56 @@ ul.repos li a.btn {
  margin-top:7px;
 }
 
+.repo-list {
+  .label {
+    &.label-success {
+      padding: 4px;
+    }
+    &.label-warning {
+      padding: 4px;
+    }
+    &.label-warning-grey {
+      padding: 4px;
+      background-color: $lightGrey;
+    }
+  }
 
+  .nav-tabs {
+    .disabled {
+      cursor: not-allowed;
+      a {
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.dashboard--alert {
+  h5 {
+    color: black;
+    i.ui-icon-alert {
+      position: relative;
+      top: 1px;
+      color: #ee9c49;
+    }
+  }
+  &.public-only-hero {
+    position: relative;
+    bottom: 10px;
+    text-align: center;
+  }
+
+  &.public-only-hero:before {
+    content: '';
+    width: 0px; height: 5px;
+    margin: -19px 25px 0px auto;
+    border-bottom: 15px solid rgb(251, 238, 213);
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    float: right;
+  }
+  &.alert {
+    display: block;
+    margin-bottom: 0px;
+  }
+}
