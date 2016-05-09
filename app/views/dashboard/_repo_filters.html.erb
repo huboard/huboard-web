@@ -7,13 +7,13 @@
   end
 %>
 <ul class='nav nav-tabs'>
-    <li class='pull-right <%= current_page_class :private %><%= @auth_scope_private ? '' : 'disabled' %>'>
-      <a rel='nofollow' href="<%= repositories_private_path user['login'] %>">
-        <span class="label <%= @auth_scope_private ? 'label-warning' : 'label-warning-grey' %>">
-            Private
-        </span>
-      </a>
-    </li>
+  <li class='pull-right <%= current_page_class :private %><%= @auth_scope_private ? '' : 'disabled' %>'>
+    <a rel='nofollow' href="<%= repositories_private_path user['login'] %>">
+      <span class="label <%= @auth_scope_private ? 'label-warning' : 'label-warning-grey' %>">
+        Private
+      </span>
+    </a>
+  </li>
   <li class='pull-right <%= current_page_class :public %>'>
     <a rel='nofollow' href="<%= repositories_public_path user['login'] %>">
       <span class="label label-success">
