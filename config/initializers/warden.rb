@@ -1,23 +1,16 @@
 
 Rails.application.middleware.insert_after ActionDispatch::Flash, Warden::Manager do |config|
-  config.scope_defaults :default, strategies: [:github],
-    config: {
-    client_id:     ENV["GITHUB_CLIENT_ID"],
-    client_secret: ENV["GITHUB_SECRET"],
-    scope:         'user:email',
-    redirect_uri: 'github_callback'
-  }
-  config.scope_defaults :public, strategies: [:github],
-    config: {
-    client_id:     ENV["GITHUB_CLIENT_ID"],
-    client_secret: ENV["GITHUB_SECRET"],
-    scope:         'read:org,public_repo,user:email'
-  }
   config.scope_defaults :private, strategies: [:github],
     config: {
     client_id:     ENV["GITHUB_CLIENT_ID"],
     client_secret: ENV["GITHUB_SECRET"],
-    scope:         'read:org,repo,user:email',
+    scope:         'read:org,repo,user:email'
+  }
+  config.scope_defaults :default, strategies: [:github],
+    config: {
+    client_id:     ENV["GITHUB_CLIENT_ID"],
+    client_secret: ENV["GITHUB_SECRET"],
+    scope:         'read:org,public_repo,user:email'
   }
 
   config.failure_app = Rails.application.routes

@@ -11,7 +11,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem "ember-cli-rails", '0.1.13', require: nil
 gem 'ember-rails-assets'
 #gem "warden-github-rails" , github: "huboard/warden-github-rails"
-gem 'warden-github', '~> 1.3.0'
+gem 'warden-github'
+# TODO: replace this
+gem 'sinatra_auth_github'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'foreman'

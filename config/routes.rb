@@ -33,8 +33,6 @@ Rails.application.routes.draw do
   get 'logout' => 'login#logout'
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
-  get 'login/github' => 'login#github'
-  get 'login/github_callback' => 'login#github_callback'
 
   get '/repositories/private/:user' => 'dashboard#private', as: 'repositories_private'
 
