@@ -27,12 +27,15 @@ Rails.application.routes.draw do
   match '/403', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
   match 'unauthenticated', to: 'errors#unauthenticated', via: :all
 
+  get 'welcome' => 'welcome#index', as: :welcome
   get 'integrations' => 'marketing#integrations'
   get 'pricing' => 'marketing#pricing'
   get 'login' => 'login#index'
   get 'logout' => 'login#logout'
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
+  get 'login/github' => 'login#github'
+  get 'oauth/github/callback' => 'login#github_callback'
 
   get '/dashboard' => 'dashboard#index'
 

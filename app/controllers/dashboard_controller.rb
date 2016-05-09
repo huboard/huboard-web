@@ -1,11 +1,14 @@
 class DashboardController < ApplicationController
   before_action :login, only: :private
+
   def index
+    return redirect_to(welcome_path) unless current_user.has_scope? 'read:org'
     @private = nil
     @user = gh.users(current_user.login)
     @repos = huboard.all_repos
-    @auth_scope_private = github_authenticated? :private
+    @auth_scope_private = current_user.has_scope? :repo
   end
+
   def user
     user =   gh.users(params[:user]).raw
     not_found unless user.status == 200
@@ -18,6 +21,7 @@ class DashboardController < ApplicationController
 
     @user = user.body
     @private = nil
+    @auth_scope_private = current_user.has_scope? :repo
     render :index
   end
 
@@ -27,7 +31,7 @@ class DashboardController < ApplicationController
     @private = 0
     @user = user.body
     @repos = huboard.repos_by_user(params[:user]).select {|r| !r['private'] }
-    @auth_scope_private = github_authenticated? :private
+    @auth_scope_private = current_user.has_scope? :repo
     render :index
   end
 
