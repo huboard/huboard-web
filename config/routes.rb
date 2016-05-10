@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   get 'welcome' => 'welcome#index', as: :welcome
   get 'integrations' => 'marketing#integrations'
   get 'pricing' => 'marketing#pricing'
-  get 'login' => 'login#index'
+  get 'login', to: redirect('/login/github')
   get 'logout' => 'login#logout'
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
