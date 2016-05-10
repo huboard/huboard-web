@@ -1,10 +1,15 @@
 require 'bridge/huboard'
 module ApplicationHelper
+
   def logged_in?
-    github_authenticated?(:default)
+    is_default = github_authenticated?(:default)
+    is_private = github_authenticated?(:private)
+    is_public = github_authenticated?(:public)
+    return is_default || is_private || is_public
   end
+
   def current_user
-    github_user(:default) || github_user(:private) || github_user(:public) || OpenStruct.new
+    github_user(:default) || github_user(:private) || github_user(:public) || User.new(OpenStruct.new())
   end
   def controller? *controller
     (controller.include?(params[:controller]) || controller.include?(params[:action])) ? "nav__btn--active nav__item--current": ''

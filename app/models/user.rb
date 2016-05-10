@@ -10,7 +10,7 @@ class User
   end
 
   def has_scope?(scope)
-    self.scope.empty? ? false : self.scope.split(',').include?(scope.to_s)
+    (self.scope || "").empty? ? false : self.scope.split(',').include?(scope.to_s)
   end
 
   def_delegators :@warden, :token, :scope, :attribs, :safe_avatar_url
