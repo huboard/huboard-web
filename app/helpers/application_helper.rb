@@ -34,7 +34,9 @@ module ApplicationHelper
   # Initiates the OAuth flow if not already authenticated for the
   #         # specified scope.
   def github_authenticate!(scope=:default)
+    request.session[:scope] = scope
     request.env['warden'].authenticate!(scope: scope)
+    request.env['warden'].set_user(request.env['warden'].user(scope), scope: :default)
   end
 
   # Logs out a user if currently logged in for the specified scope.
