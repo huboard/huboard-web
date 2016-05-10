@@ -8,7 +8,7 @@ class LoginController < ApplicationController
   
   def public
     session[:scope] = :public
-    github_authenticate! :default
+    github_authenticate! :public
     warden.set_user(warden.user(:public), scope: :default)
     @user = gh.user
     @emails = @user.emails.all
