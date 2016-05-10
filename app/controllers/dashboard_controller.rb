@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
   before_action :determine_auth_scope
 
   def index
+    github_authenticate!(:default) unless github_authenticate?(:default)
     return redirect_to(welcome_path) unless logged_in? && current_user.has_scope?('read:org')
     @private = nil
     @user = gh.users(current_user.login)
