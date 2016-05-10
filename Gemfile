@@ -10,14 +10,13 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 gem "ember-cli-rails", '0.1.13', require: nil
 gem 'ember-rails-assets'
-#gem "warden-github-rails" , github: "huboard/warden-github-rails"
-gem 'warden-github'
-# TODO: replace this
-gem 'sinatra_auth_github'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'foreman'
 gem 'sprockets-rails','3.0.0.beta1', :require => 'sprockets/railtie'
+
+# warden
+gem 'warden-github', '1.4.0', github: 'huboard/warden-github'
 
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
