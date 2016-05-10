@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/huboard/warden-github.git
-  revision: cf9bb2df886bede9f196e1852caa101a2af8bee6
+  revision: 459903681fa00820065348c27639b9f27db9fa55
   specs:
     warden-github (1.4.0)
       activesupport (> 3.0)
@@ -59,7 +59,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.7)
+    addressable (2.4.0)
     analytics-ruby (2.0.13)
     annotate (2.6.8)
       activerecord (>= 3.2, <= 4.3)

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   end
 
   root to: 'dashboard#index', constraints: LoggedInConstraint.new 
+  get '/dashboard' => 'dashboard#index', constraints: LoggedInConstraint.new 
+  get '/dashboard', to: redirect('/')
   root to: 'marketing#index', as: 'marketing_root'
 
   get '/site/terms' => 'site#terms'
@@ -37,7 +39,6 @@ Rails.application.routes.draw do
   get 'login/github' => 'login#github'
   get 'oauth/github/callback' => 'login#github_callback'
 
-  get '/dashboard' => 'dashboard#index'
 
   get '/repositories/private/:user' => 'dashboard#private', as: 'repositories_private'
 
