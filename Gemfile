@@ -45,6 +45,7 @@ gem 'redcarpet'
 gem 'pdfkit'
 gem 'wkhtmltopdf-heroku'
 gem 'private_pub', '1.0.3'
+gem 'sinatra', :require => nil
 gem 'sidekiq', "~> 3.0"
 
 # BUNDLE_WITHOUT="development:test:saas"
