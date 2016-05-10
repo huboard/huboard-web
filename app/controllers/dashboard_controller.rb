@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
   before_action :determine_auth_scope
 
   def index
-    return redirect_to(welcome_path) unless current_user.has_scope? 'read:org'
+    return redirect_to(welcome_path) unless logged_in? && current_user.has_scope?('read:org')
     @private = nil
     @user = gh.users(current_user.login)
     @repos = huboard.all_repos
