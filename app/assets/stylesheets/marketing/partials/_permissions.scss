@@ -1,0 +1,145 @@
+/**
+ * Permissions
+ */
+.permissions {
+	@include row();
+	@include rem((
+		margin: 0 auto 20px,
+		max-width: 850px,
+	));
+
+	.btn {
+		display: block;
+		text-align: center;
+    margin-bottom: 30px;
+	}
+
+	/**
+	 * Opening copy
+	 */
+	@include e(copy) {
+		text-align: center;
+		position: relative;
+		@include rem((
+			font-size: 20px,
+			margin-bottom: 100px
+		));
+
+		&:before {
+			background: rgba(white, 0.1);
+			content: " ";
+			display: block;
+			height: 3px;
+			width: 30%;
+			@include rem((
+				margin: 32px auto
+			));
+		}
+
+		// Breakpoints
+		@include media($tall) {
+			@include rem((
+				margin-bottom: 40px
+			));
+		}
+	}
+
+	/**
+	 * Column containers
+	 */
+	@include e(col) {
+		@include span-columns(6);
+		@include rem((
+			margin-bottom: 40px
+		));
+
+		// Breakpoints
+		@include media($tall) {
+			@include span-columns(12);
+		}
+	}
+	@include e(heading) {
+		line-height: 1;
+		text-align: center;
+		@include rem((
+			font-size: 32px
+		));
+
+		img {
+			display: inline-block;
+			vertical-align: middle;
+			@include rem((
+				margin-right: 10px
+			));
+		}
+	}
+
+	/**
+	 * Permissions details
+	 */
+	@include e(list) {
+		background: white;
+		border-radius: 5px;
+		color: #3C3C3C;
+		@include rem((
+			padding: 30px
+		));
+
+		dl, dt, dd {
+			margin: 0;
+			padding: 0;
+		}
+		dl {
+			border-bottom: 1px solid #E8E8E8;
+			@include rem((
+				padding-bottom: 12px,
+				margin-bottom: 24px
+			));
+		}
+		dt {
+			@include rem((
+				line-height: 18px,
+				margin-bottom: 12px
+			));
+		}
+		dd {
+			float: left;
+			@include rem((
+				margin-right: 10px
+			));
+		}
+		img {
+			display: inline-block;
+			@include rem((
+				margin-right: 10px
+			));
+		}
+
+		// Breakpoints
+		@include media($tall) {
+			dl {
+				text-align: center;
+				@include rem((
+					padding-bottom: 1px
+				));
+			}
+			dt {
+				line-height: 1.5;
+				@include rem((
+					margin-bottom: 24px
+				));
+			}
+			dd {
+				float: none;
+				margin-right: 0;
+			}
+			img {
+				@include rem((
+					margin: 0 10px
+				));
+			}
+		}
+	}
+
+}
+

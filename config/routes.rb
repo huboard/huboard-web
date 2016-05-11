@@ -10,12 +10,15 @@ Rails.application.routes.draw do
   end
 
   root to: 'dashboard#index', constraints: LoggedInConstraint.new 
+  get '/dashboard' => 'dashboard#index', constraints: LoggedInConstraint.new 
+  get '/dashboard', to: redirect('/')
   root to: 'marketing#index', as: 'marketing_root'
 
   get '/site/terms' => 'site#terms'
   get '/site/privacy' => 'site#privacy'
   post '/site/webhook/issues' => 'api/webhooks#publish_issue_event', as: 'issues_webhook'
   post '/site/webhook/issue_comment' => 'api/webhooks#log_comment', as: 'issue_comment_webhook'
+  post '/site/webhook/pull_request' => 'api/webhooks#publish_pull_request_event', as: 'pull_request_webhook'
 
   # errors
   match '/404', to: 'errors#not_found', constraints: { status: /\d{3}/ }, via: :all
@@ -26,12 +29,16 @@ Rails.application.routes.draw do
   match '/403', to: 'errors#server_error', constraints: { status: /\d{3}/ }, via: :all
   match 'unauthenticated', to: 'errors#unauthenticated', via: :all
 
+  get 'welcome' => 'welcome#index', as: :welcome
   get 'integrations' => 'marketing#integrations'
   get 'pricing' => 'marketing#pricing'
-  get 'login' => 'login#index'
+  get 'login', to: redirect('/login/github')
   get 'logout' => 'login#logout'
   get 'login/public' => 'login#public'
   get 'login/private' => 'login#private'
+  get 'login/github' => 'login#github'
+  get 'oauth/github/callback' => 'login#github_callback'
+
 
   get '/repositories/private/:user' => 'dashboard#private', as: 'repositories_private'
 
@@ -72,6 +79,7 @@ Rails.application.routes.draw do
 
         #Issues
         get 'issues/:number' => 'issues#issue'
+        get 'issues' => 'issues#issues'
         get 'issues/:number/details' => 'issues#details'
         get 'issues/:number/status' => 'issues#status'
         post 'issues' => 'issues#open_issue'
@@ -79,6 +87,7 @@ Rails.application.routes.draw do
         put 'issues/comments/:id' => 'issues#update_comment'
         put 'issues/:number' => 'issues#update_issue'
         put 'issues/:number/label' => 'issues#label_issue'
+        put 'issues/:number/unlabel' => 'issues#unlabel_issue'
         post 'issues/:number/close' => 'issues#close_issue'
         post 'issues/:number/open' => 'issues#reopen_issue'
         put 'issues/:number/blocked' => 'issues#block'

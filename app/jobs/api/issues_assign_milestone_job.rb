@@ -2,7 +2,7 @@ module Api
   class IssuesAssignMilestoneJob < IssueEventJob
     include IsPublishable
     action 'milestone_changed'
-    timestamp Proc.new { Time.now.utc.iso8601}
+    timestamp ->(params) { params[:issue]['updated_at'] }
 
     ## suppress if the milestone didn't change
     #

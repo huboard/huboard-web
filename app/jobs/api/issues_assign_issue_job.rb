@@ -2,7 +2,7 @@ module Api
   class IssuesAssignIssueJob < IssueEventJob
     include IsPublishable
     action 'assigned'
-    timestamp Proc.new { Time.now.utc.iso8601}
+    timestamp ->(params) { params[:issue]['updated_at'] }
     def payload(params)
       {
         issue: params[:issue],
