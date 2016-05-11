@@ -12,6 +12,7 @@ gem "ember-cli-rails", '0.1.13', require: nil
 gem 'ember-rails-assets'
 gem 'rails_12factor', group: :production
 gem 'puma'
+gem 'puma_worker_killer', '0.0.6'
 gem 'foreman'
 gem 'sprockets-rails','3.0.0.beta1', :require => 'sprockets/railtie'
 
