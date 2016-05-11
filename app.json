@@ -78,7 +78,7 @@
     "LANG": {
       "required": true
     },
-    WEB_CONCURRENCY: {
+    "WEB_CONCURRENCY": {
       "value": "2"
     },
     "MAX_THREADS": {
