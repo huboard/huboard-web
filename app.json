@@ -1,5 +1,10 @@
 {
-  "name": "huboard-web",
+  "name": "HuBoard",
+  "description":"Instant priority management for your GitHub issues!",
+  "website": "https://huboard.com",
+  "repository": "https://github.com/huboard/huboard",
+  "logo": "https://huboard.com/assets/github/HuDark@2x.png",
+  "success_url":"/",
   "scripts": {
   },
   "env": {
@@ -19,16 +24,17 @@
       "required": true
     },
     "COUCH_DATABASE": {
-      "required": true
+      "required": false
     },
     "COUCH_URL": {
-      "required": true
+      "required": false
     },
     "ELASTICSEARCH_URL": {
-      "required": true
+      "required": false
     },
     "GITHUB_API_ENDPOINT": {
-      "required": true
+      "required": true,
+      "value": "https://api.github.com/"
     },
     "GITHUB_AUTH_STRATEGY": {
       "required": true
@@ -40,10 +46,12 @@
       "required": true
     },
     "GITHUB_WEB_ENDPOINT": {
-      "required": true
+      "required": true,
+      "value": "https://github.com/"
     },
     "GITHUB_WEBHOOK_ENDPOINT": {
-      "required": true
+      "required": true,
+      "description": "HuBoard needs the url to your application, ie; https://funky-huboard.herokuapp.com/site"
     },
     "HEROKU_APP_ID": {
       "required": true
@@ -64,34 +72,39 @@
       "required": true
     },
     "HUBOARD_ENV": {
-      "required": true
+      "required": true,
+      "value": "oss"
     },
     "LANG": {
       "required": true
     },
+    WEB_CONCURRENCY: {
+      "value": "2"
+    },
     "MAX_THREADS": {
-      "required": true
+      "required": true,
+      "value": "3"
     },
     "RACK_ENV": {
-      "required": true
+      "required": true,
+      "value": "production"
     },
     "RAILS_ENV": {
-      "required": true
+      "required": true,
+      "value": "production"
     },
     "RAILS_SERVE_STATIC_FILES": {
       "required": true
     },
     "RAYGUN_APIKEY": {
-      "required": true
+      "required": false
     },
     "REDIS_URL": {
       "required": true
     },
-    "SECRET_KEY": {
-      "required": true
-    },
     "SECRET_KEY_BASE": {
-      "required": true
+      "required": true,
+      "generator": "secret"
     },
     "SEGMENTIO_KEY": {
       "required": true
@@ -112,7 +125,8 @@
       "required": true
     },
     "WARDEN_GITHUB_VERIFIER_SECRET": {
-      "required": true
+      "required": true,
+      "generator": "secret"
     }
   },
   "addons": [
