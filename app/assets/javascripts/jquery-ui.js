@@ -1,113 +1,77 @@
 
 (function($) {
 
-  var mouseIsOverElement = function mouseIsOverElement(ev, rect){
-    return ev.left >= rect.left
-      && rect.right > ev.left;
-  }
-
-  var findHoveredList = function findHoveredList(ev) {
-    var columns = $('.column');
-    for(var i = 0; i < columns.length; i++){
-      if(mouseIsOverElement(ev, columns[i].getBoundingClientRect())){
-        return $(columns[i]).find('.cards')[0];
-      }
-    }
-    return null;
-  }
-
   $.widget('huboard.superSortable', $.ui.sortable, {
+    _mouseIsOverElement: function mouseIsOverElement(ev, rect){
+      return ev.left >= rect.left
+      && rect.right > ev.left;
+    },
+    _findHoveredList: function findHoveredList(ev) {
+      var columns = $('.column');
+      for(var i = 0; i < columns.length; i++){
+        if(this._mouseIsOverElement(ev, columns[i].getBoundingClientRect())){
+          return $(columns[i]).find('.cards')[0];
+        }
+      }
+      return null;
+    },
+    _mouseStart: function(event){
+      var superResult = this._superApply(arguments);
+
+      var el = this;
+      this._autoscrollPid = setInterval(function(){
+      }, 1e3/60);
+
+      return superResult;
+    },
+    _mouseStop: function(event){
+      var superResult = this._superApply(arguments);
+
+      if(this._autoscrollPid){
+        clearInterval(this._autoscrollPid);
+      }
+
+      return superResult;
+    },
     _mouseDrag: function(event, noPropagation){
       this._superApply(arguments);
 
-      var i, item, itemElement, intersection,
-      o = this.options,
-      scrolled = false;
+      var o = this.options;
 
       var position = this._generatePosition( event, true );
 
-      
-    if(true || this.scrollParent[0] !== document && this.scrollParent[0].tagName !== "HTML") {
-      var scrollContailer = $('.board')[0];
+      var scrollContainer = $('.board')[0];
 
-      var things = {
-        position: position,
-        lastPositionAbs: this.lastPositionAbs,
-        overflowOffset: this.overflowOffset,
-        boundingClientRect: scrollContailer.getBoundingClientRect(),
-        helperRect: this.helper[ 0 ].getBoundingClientRect()
+      var boxes = {
+        boundingClientRect: scrollContainer.getBoundingClientRect(),
+        helperClientRect: this.helper[ 0 ].getBoundingClientRect()
       }
 
-      //console.log(things.position, things.boundingClientRect, things.helperRect);
-      //console.log(this.direction, (things.boundingClientRect.right - things.helperRect.right) - scrollContailer.scrollLeft)
-
-      var isOverright = ((things.boundingClientRect.right - things.helperRect.right) - scrollContailer.scrollLeft) < 0
+      var isOverright = (boxes.helperClientRect.right - (boxes.boundingClientRect.right - 100)) > 0;
+      var isOverleft = ((boxes.boundingClientRect.left + 100) - boxes.helperClientRect.left) > 0;
 
       if(isOverright){
-        scrollContailer.scrollLeft += 20;
+        scrollContainer.scrollLeft += 20;
         this.helper[0].style.left += 20;
-      } else if (things.helperRect.left < 20 && scrollContailer.scrollLeft > 0) {
-        scrollContailer.scrollLeft -= 20;
+      } else if (isOverleft) {
+        scrollContainer.scrollLeft -= 20;
       }
 
-      var hoveredList = findHoveredList(position);
+      var hoveredList = this._findHoveredList(position);
 
       if(hoveredList){
         var hoveredRect = hoveredList.getBoundingClientRect();
-        var isOvertop = (things.helperRect.top - hoveredRect.top) < 0;
+        var isOvertop = ((hoveredRect.top + 50) - boxes.helperClientRect.top) > 0;
+        var isOverbottom = (boxes.helperClientRect.bottom - (hoveredRect.bottom - 50)) > 0;
         if(isOvertop) {
           hoveredList.scrollTop -= 20;
-        } else if (things.helperRect.bottom > hoveredRect.bottom) {
+        } else if (isOverbottom) {
           hoveredList.scrollTop += 20;
         }
       }
 
-
-    } 
-
       return false;
     }
   });
-  return;
-
-  var _mouseDrag = $.ui.sortable.prototype._mouseDrag;
-  $.ui.sortable.prototype._mouseDrag = function(event) {
-    var i, item, itemElement, intersection,
-    o = this.options,
-    scrolled = false;
-
-    //this._contactContainers(event);
-
-    //Do scrolling
-    if(this.scrollParent[0] !== document && this.scrollParent[0].tagName !== "HTML") {
-      this.overflowOffset = this.currentContainer.element.offset();
-      var scrollContailer = this.currentContainer.element[0];
-      if((this.overflowOffset.top + scrollContailer.offsetHeight) - event.pageY < o.scrollSensitivity) {
-        scrollContailer.scrollTop = scrolled = scrollContailer.scrollTop + o.scrollSpeed;
-      } else if(event.pageY - this.overflowOffset.top < o.scrollSensitivity) {
-        scrollContailer.scrollTop = scrolled = scrollContailer.scrollTop - o.scrollSpeed;
-      }
-      if((this.overflowOffset.left + scrollContailer.offsetWidth) - event.pageX < o.scrollSensitivity) {
-        scrollContailer.scrollLeft = scrolled = scrollContailer.scrollLeft + o.scrollSpeed;
-      } else if(event.pageX - this.overflowOffset.left < o.scrollSensitivity) {
-        scrollContailer.scrollLeft = scrolled = scrollContailer.scrollLeft - o.scrollSpeed;
-      }
-
-    } else {
-
-      if(event.pageY - $(document).scrollTop() < o.scrollSensitivity) {
-        scrolled = $(document).scrollTop($(document).scrollTop() - o.scrollSpeed);
-      } else if($(window).height() - (event.pageY - $(document).scrollTop()) < o.scrollSensitivity) {
-        scrolled = $(document).scrollTop($(document).scrollTop() + o.scrollSpeed);
-      }
-    }
-
-
-    if(scrolled !== false && $.ui.ddmanager && !o.dropBehaviour) {
-      $.ui.ddmanager.prepareOffsets(this, event);
-    }
-    return _mouseDrag.apply(this, arguments);
-  };
-
 
 })(jQuery);
