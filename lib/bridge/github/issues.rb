@@ -14,7 +14,10 @@ class Huboard
       params = {direction: "asc"}.merge(opts)
       params = params.merge(labels: label) if label
 
-      gh.issues(params).all.each{
+      issues_response = gh.issues(params)
+      raise Ghee::NotFound if issues_response.first == ["message", "Not Found"]
+
+      issues_response.all.each{
         |i| i.extend(Card)
       }.each{ |i|
         i.merge!(:repo => {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
