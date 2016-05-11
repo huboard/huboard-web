@@ -20,11 +20,9 @@
     "BUILDPACK_URL": {
       "required": true
     },
-    "CLOUDFRONT_URL": {
-      "required": true
-    },
     "COUCH_DATABASE": {
-      "required": false
+      "required": false,
+      "value": "huboard"
     },
     "COUCH_URL": {
       "required": false
@@ -36,14 +34,13 @@
       "required": true,
       "value": "https://api.github.com/"
     },
-    "GITHUB_AUTH_STRATEGY": {
-      "required": true
-    },
     "GITHUB_CLIENT_ID": {
-      "required": true
+      "required": true,
+      "description": "The client id property from you GitHub developer application"
     },
     "GITHUB_SECRET": {
-      "required": true
+      "required": true,
+      "description": "The secret key property from you GitHub developer application"
     },
     "GITHUB_WEB_ENDPOINT": {
       "required": true,
@@ -76,7 +73,8 @@
       "value": "oss"
     },
     "LANG": {
-      "required": true
+      "required": true,
+      "value": "en_US.UTF-8"
     },
     "WEB_CONCURRENCY": {
       "value": "2"
@@ -93,36 +91,18 @@
       "required": true,
       "value": "production"
     },
-    "RAILS_SERVE_STATIC_FILES": {
-      "required": true
-    },
-    "RAYGUN_APIKEY": {
-      "required": false
-    },
-    "REDIS_URL": {
-      "required": true
-    },
     "SECRET_KEY_BASE": {
       "required": true,
       "generator": "secret"
     },
-    "SEGMENTIO_KEY": {
-      "required": true
-    },
-    "SESSION_SECRET": {
-      "required": true
+    "SELF_HOST_FAYE": {
+      "description": "Mounts faye as a rack middleware",
+      "required": true,
+      "value": "true"
     },
     "SOCKET_BACKEND": {
-      "required": true
-    },
-    "STRIPE_API": {
-      "required": true
-    },
-    "STRIPE_PUBLISHABLE_API": {
-      "required": true
-    },
-    "STRIPE_SECRET_KEY": {
-      "required": true
+      "required": true,
+      "value": "/site/pubsub"
     },
     "WARDEN_GITHUB_VERIFIER_SECRET": {
       "required": true,
