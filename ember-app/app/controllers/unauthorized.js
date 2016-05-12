@@ -1,16 +1,17 @@
 import Ember from 'ember';
 
 var UnauthorizedController = Ember.Controller.extend({
-  authLevel: function(){
-    return App.get("authLevel").capitalize();
-  }.property("authLevel"),
+  flashMessages: Ember.inject.service(),
+  clearFlashMessages: function(){
+    this.set('flashMessages', []);
+  }.on('init'),
 
   loginUrl: function(){
     var url = `/login/github?redirect_to=/`;
     var location = this.get("model.repo.full_name");
     var redirectParam = encodeURIComponent(location);
     return url + redirectParam;
-  }.property("authLevel"),
+  }.property("model.repo.full_name"),
 });
 
 export default UnauthorizedController;
