@@ -69,9 +69,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
       });
     } else {
       
-      var stopQueue = [];
       this.$(".cards").superSortable({
-        //appendTo: $('.board'),
         appendTo: document.body,
         helper: function(ev,ui) {
           cardMove.data = {};
@@ -83,18 +81,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
           return ui.clone();
         },
         start: function(ev, ui){
-          stopQueue = [];
           ui.placeholder.height(ui.item.outerHeight());
-          //ui.placeholder.width(ui.item.outerWidth());
-          stopQueue.push(function(){
-            console.log('onStop');
-          })
-        },
-        stop: function(){
-          var _self = this;
-          stopQueue.forEach(function(q){
-            q.call(_self);
-          });
         },
         scroll:false,
         items: ".is-draggable",

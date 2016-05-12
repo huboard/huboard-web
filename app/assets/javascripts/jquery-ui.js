@@ -20,6 +20,34 @@
 
       var el = this;
       this._autoscrollPid = setInterval(function(){
+        var scrollContainer = $('.board')[0];
+
+        var boxes = {
+          boundingClientRect: scrollContainer.getBoundingClientRect(),
+          helperClientRect: el.helper[ 0 ].getBoundingClientRect()
+        }
+
+        var pxOverright = (boxes.helperClientRect.right - (boxes.boundingClientRect.right - 100));
+        var pxOverleft = ((boxes.boundingClientRect.left + 100) - boxes.helperClientRect.left);
+
+        if(pxOverright > 0 && el.mouseDirection[1] == "right"){
+          scrollContainer.scrollLeft += pxOverright * .1;
+        } else if (pxOverleft > 0 && el.mouseDirection[1] == "left") {
+          scrollContainer.scrollLeft -= pxOverleft * .1;
+        }
+
+        var hoveredList = el.lastHoveredList;
+
+        if(hoveredList){
+          var hoveredRect = hoveredList.getBoundingClientRect();
+          var pxOvertop = ((hoveredRect.top + 50) - boxes.helperClientRect.top);
+          var pxOverbottom = (boxes.helperClientRect.bottom - (hoveredRect.bottom - 50));
+          if(pxOvertop > 0 && el.mouseDirection[0] == "up") {
+            hoveredList.scrollTop -= pxOvertop * .1;
+          } else if (pxOverbottom > 0 && el.mouseDirection[0] == "down") {
+            hoveredList.scrollTop += pxOverbottom * .1;
+          }
+        }
       }, 1e3/60);
 
       return superResult;
@@ -33,42 +61,39 @@
 
       return superResult;
     },
+    _calculateMouseDelta: function(){
+      var lastPosition, currentPosition, originalPosition, currentDelta;
+
+      currentPosition = this.lastPositionAbs;
+      originalPosition = this.originalPosition;
+      lastPosition = this.cachedPosition || originalPosition;
+
+      this.cachedPosition = currentPosition;
+
+      currentDelta = {
+        top: lastPosition.top - currentPosition.top,
+        left: lastPosition.left - currentPosition.left
+      }
+
+      return currentDelta;
+
+    },
+    _calculateMouseDirection: function(delta){
+      var previousDirection = this.previousDirection || ["up", "right"];
+
+      var verticalDirection = delta.top == 0 ? previousDirection[0] : delta.top > 0 ? "up" : "down";
+      var horizontalDirection = delta.left == 0 ? previousDirection[1] : delta.left > 0 ? "left" : "right";
+
+      return this.previousDirection = [verticalDirection, horizontalDirection];
+    },
     _mouseDrag: function(event, noPropagation){
       this._superApply(arguments);
 
-      var o = this.options;
+      var mouseDelta = this.mouseDelta = this._calculateMouseDelta();
 
-      var position = this._generatePosition( event, true );
+      this.mouseDirection = this._calculateMouseDirection(mouseDelta);
 
-      var scrollContainer = $('.board')[0];
-
-      var boxes = {
-        boundingClientRect: scrollContainer.getBoundingClientRect(),
-        helperClientRect: this.helper[ 0 ].getBoundingClientRect()
-      }
-
-      var isOverright = (boxes.helperClientRect.right - (boxes.boundingClientRect.right - 100)) > 0;
-      var isOverleft = ((boxes.boundingClientRect.left + 100) - boxes.helperClientRect.left) > 0;
-
-      if(isOverright){
-        scrollContainer.scrollLeft += 20;
-        this.helper[0].style.left += 20;
-      } else if (isOverleft) {
-        scrollContainer.scrollLeft -= 20;
-      }
-
-      var hoveredList = this._findHoveredList(position);
-
-      if(hoveredList){
-        var hoveredRect = hoveredList.getBoundingClientRect();
-        var isOvertop = ((hoveredRect.top + 50) - boxes.helperClientRect.top) > 0;
-        var isOverbottom = (boxes.helperClientRect.bottom - (hoveredRect.bottom - 50)) > 0;
-        if(isOvertop) {
-          hoveredList.scrollTop -= 20;
-        } else if (isOverbottom) {
-          hoveredList.scrollTop += 20;
-        }
-      }
+      this.lastHoveredList = this._findHoveredList(this.lastPositionAbs);
 
       return false;
     }
