@@ -3,7 +3,7 @@ import Ember from 'ember';
 var UnauthorizedController = Ember.Controller.extend({
   flashMessages: Ember.inject.service(),
   clearFlashMessages: function(){
-    this.set('flashMessages', []);
+    this.get('flashMessages').clearMessages();
   }.on('init'),
 
   loginUrl: function(){
