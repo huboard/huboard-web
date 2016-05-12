@@ -6,7 +6,7 @@ var UnauthorizedController = Ember.Controller.extend({
   }.property("authLevel"),
 
   loginUrl: function(){
-    var url = "/login/" + App.get("authLevel") + "?redirect_to=/";
+    var url = `/login/github?redirect_to=/`;
     var location = this.get("model.repo.full_name");
     var redirectParam = encodeURIComponent(location);
     return url + redirectParam;
