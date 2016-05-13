@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.2.3' if ENV['DYNO']
+ruby '2.3.1' if ENV['DYNO']
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.6'
 gem 'dotenv-rails', '~> 2.0.0', :require => 'dotenv/rails-now'
 # gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -10,14 +10,13 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 gem "ember-cli-rails", '0.1.13', require: nil
 gem 'ember-rails-assets'
-#gem "warden-github-rails" , github: "huboard/warden-github-rails"
-gem 'warden-github'
-# TODO: replace this
-gem 'sinatra_auth_github'
 gem 'rails_12factor', group: :production
 gem 'puma'
 gem 'foreman'
 gem 'sprockets-rails','3.0.0.beta1', :require => 'sprockets/railtie'
+
+# warden
+gem 'warden-github', '1.4.0', github: 'huboard/warden-github'
 
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
@@ -46,6 +45,7 @@ gem 'redcarpet'
 gem 'pdfkit'
 gem 'wkhtmltopdf-heroku'
 gem 'private_pub', '1.0.3'
+gem 'sinatra', :require => nil
 gem 'sidekiq', "~> 3.0"
 
 # BUNDLE_WITHOUT="development:test:saas"

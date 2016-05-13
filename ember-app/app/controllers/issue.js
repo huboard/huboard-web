@@ -46,9 +46,9 @@ var IssueController = Ember.Controller.extend(
     return this.get("model.data.state") === "closed";
   }.property("model.data.state"),
   actions: {
-    labelsChanged: function () {
+    labelsChanged: function (label, action) {
        Ember.run.once(function () {
-         this.get("model").updateLabels();
+         this.get("model").updateLabels(label, action);
        }.bind(this));
     },
     assignUser: function(login){

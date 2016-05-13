@@ -34,13 +34,16 @@ var HbLabelSelectorComponent = Ember.Component.extend({
     },
     select : function (label) {
       var selected = this.get("selected");
+      var action = "";
       if(selected.anyBy("name", label.name)) {
+        action = "unlabel";
          selected.removeObject(selected.findBy("name", label.name));
       } else {
+        action = "label";
         selected.pushObject(label);
       }
       this.set("values", selected);
-      this.sendAction("labelsChanged");
+      this.sendAction("labelsChanged", label, action);
     }
   },
   didInsertElement: function(){

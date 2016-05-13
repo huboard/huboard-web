@@ -21,7 +21,7 @@ class Huboard
       return urls & expected == urls
     end
 
-    ['issues', 'issue_comment'].each do |event_name|
+    ['issues', 'issue_comment', 'pull_request'].each do |event_name|
       define_method "create_#{event_name}_hook" do
         url = ENV['GITHUB_WEBHOOK_ENDPOINT']
         gh.hooks.create(
@@ -51,7 +51,7 @@ class Huboard
 
       url = ENV['GITHUB_WEBHOOK_ENDPOINT']
 
-      ['issues', 'issue_comment'].each do |event_name|
+      ['issues', 'issue_comment', 'pull_request'].each do |event_name|
         self.send("create_#{event_name}_hook")
       end
     end

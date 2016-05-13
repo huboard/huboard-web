@@ -12,12 +12,12 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     "issues.{issue.number}.issue_reopened": "opened",
     "local.{issue.number}.issue_reopened": "opened",
     "issues.{issue.number}.assigned": "assigned",
-    "issues.{issue.number}.unassigned": "assigned",
+    "issues.{issue.number}.unassigned": "unassigned",
     "issues.{issue.number}.moved": "moved",
     "issues.{issue.number}.reordered": "reordered",
     "issues.{issue.number}.milestone_changed": "milestoneChanged",
     "issues.{issue.number}.issue_labeled": "labeled",
-    "issues.{issue.number}.issue_unlabeled": "labeled"
+    "issues.{issue.number}.issue_unlabeled": "unlabeled"
   },
   hbsubscribers: {
     statusChanged: function(message){
@@ -34,6 +34,11 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     },
     assigned: function(message){
      this.get("issue").set("assignee", message.issue.assignee);
+    },
+    unassigned: function(message){
+     if(!message.issue.assignee){
+       this.get("issue").set("assignee", null);
+     }
     },
     moved: function (message) {
       this.get('issue').setProperties({
@@ -54,7 +59,26 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       });
     },
     labeled: sortedQueue(function(message) {
-      this.set("issue.other_labels", message.issue.other_labels);
+      if(message.label){
+        var match = this.get("issue.data.other_labels").find((label)=>{
+          return label.name === message.label.name;
+        });
+        if(!match){ return this.get("issue.data.other_labels").addObject(message.label); }
+      }
+    }, {time: 5000, sort: function(a,b){
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }}),
+    unlabeled: sortedQueue(function(message) {
+      if(message.label){
+        var match = this.get("issue.data.other_labels").find((label)=>{
+          return label.name === message.label.name;
+        });
+        if(match){
+          this.get("issue.data.other_labels").removeObject(match);
+        }
+      }
     }, {time: 5000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
       var timeB = Date.parse(b.issue.updated_at);

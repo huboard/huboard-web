@@ -11,10 +11,14 @@ class ApplicationController < ActionController::Base
 
   protected
   def ghee_unauthorized
-    request.env['warden'].logout
     respond_to do |format|
       format.json { render json: {error: 'GitHub token is expired'}, status: 422}
-      format.html { redirect_to '/login' }
+      format.html do
+        #only logout if html
+        request.env['warden'].logout
+
+        redirect_to '/login/github' 
+      end
     end
   end
   def csrf_failed
