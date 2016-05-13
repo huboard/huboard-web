@@ -8,6 +8,7 @@ var Issue = Model.extend({
   order: Ember.computed.alias("data._data.order"),
   milestoneOrder: Ember.computed.alias("data._data.milestone_order"),
   milestoneTitle: Ember.computed.alias("milestone.title"),
+  commentCount: Ember.computed.alias("data.comments"),
   isArchived: function(){
     return this.get("customState") === "archived";
   }.property("customState"),
