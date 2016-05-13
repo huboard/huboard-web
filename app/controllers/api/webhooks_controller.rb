@@ -31,6 +31,7 @@ module Api
       payload[:pull_request].extend(Huboard::Issues::Card).merge!(repo)
 
       message = HashWithIndifferentAccess.new(
+        :pull_request => true,
         :issue => payload[:pull_request],
         :label => payload[:label],
         "action_controller.params" => {},
