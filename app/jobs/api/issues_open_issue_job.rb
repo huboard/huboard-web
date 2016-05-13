@@ -6,6 +6,7 @@ module Api
 
     def payload(params)
       {
+        pull_request: params[:pull_request],
         issue: params[:issue]
       }
     end
