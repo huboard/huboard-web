@@ -13,6 +13,10 @@ package {
   class { 'ruby_install': 
     ruby_version => "2.2.1",
   } ->
+  exec { 'apt-install ruby-dev':
+    path    => ["/bin", "/usr/bin", "/sbin"],
+    command => "apt-get install ruby-dev -y"
+  } ->
   exec { 'mail-catcher':
     path    => ["/bin", "/usr/bin"],
     command => 'gem install mailcatcher'
