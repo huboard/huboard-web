@@ -28,6 +28,7 @@ export function initialize(container, application){
         _self._nextProcess = Ember.run.later(_self, _self._processMessageQueue, 50);
       },
       subscribe: function (channel, callback) {
+        if(channel == "null") { return Ember.K; }
         const channel = this._sanitizeChannel(channel);
         if(!this.get("sockets")[channel]){
           this.subscribeTo(channel);
@@ -76,6 +77,7 @@ export function initialize(container, application){
         const channel = this._sanitizeChannel(channel), self = this;
         var client = this.get('client'), 
         callbacks = Ember.$.Callbacks();
+
 
         client.disable("eventsource");
         var source = client.subscribe("/" + channel, function(message){
