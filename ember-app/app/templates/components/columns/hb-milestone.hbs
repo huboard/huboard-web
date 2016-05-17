@@ -13,7 +13,7 @@
     createFullscreenIssue=(action attrs.createFullscreenIssue)
   }}
 {{/if}}
-<ul class="cards sortable">
+<div class="cards sortable">
   {{#each sortedIssues as |issue|}}
     {{
       hb-milestone-card
@@ -25,6 +25,6 @@
         cardClick=(action attrs.openFullscreenIssue issue)
     }}
   {{/each}}
-</ul>
+</div>
 <div class="collapsed"></div>
 </div>

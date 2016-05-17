@@ -84,10 +84,17 @@
   }
 }
 
+.column.task-column{
+  .cards {
+    @include flex(1 1 auto);
+  }
+}
+
 .column.milestone {
   height: 100%;
   min-width: 0px;
   max-width: 230px;
+  width:230px;
   display: inline-block;
 
   .column-contents{
@@ -669,12 +676,6 @@
   .hb-column-header {
     cursor: pointer;
   }
-  ul {
-    @include flex(1);
-    li {
-      box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
-    }
-  }
   .collapsed {
     cursor: pointer;
     display: none;
@@ -705,7 +706,7 @@
       display:none;
     }
 
-    .sortable {
+    .cards {
       @include flex(0 1 auto !important);
       min-height: 0;
       border:0;
@@ -713,7 +714,7 @@
       margin: 0;
       width: 0;
       height: 0;
-      li {
+      .card {
         border:0;
         padding: 0;
         margin: 0;

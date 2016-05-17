@@ -37,6 +37,7 @@ export function initialize(container, application){
         return callback;
       },
       unsubscribe: function(channel, callback) {
+        if(channel == "null") { return Ember.K; }
         const channel = this._sanitizeChannel(channel);
         this.get("sockets")[channel].callbacks.remove(callback);
       },
