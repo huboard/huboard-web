@@ -84,42 +84,35 @@
   }
 }
 
-.board-not-dragging {
-  .column.milestone {
+.column.milestone {
+  height: 100%;
+  min-width: 0px;
+  max-width: 230px;
+  display: inline-block;
+
+  .column-contents{
     height: 100%;
+    @include display(flex);
+    @include flex-direction(column);
     @include flex(0 0 230px);
     min-width: 0px;
     max-width: 230px;
-    display: inline-block;
-    width: 230px;
-
-    .column-contents{
-      height: 100%;
-      @include display(flex);
-      @include flex-direction(column);
-      @include flex(0 0 230px);
-      min-width: 0px;
-      max-width: 230px;
-    }
-    .cards {
-      @include flex(1 1 auto);
-      overflow-y: auto;
-      overflow-x: hidden;
-      @extend %u-fancy-scrollbar;
-    }
-    &.hb-state-collapsed {
-      @include flex(0 0 90px);
-      width: 90px;
-    }
-    @include transition(all 0.4s ease-out);
   }
+  .cards {
+    @include flex(1 1 auto);
+    overflow-y: auto;
+    overflow-x: hidden;
+    @extend %u-fancy-scrollbar;
+  }
+  &.hb-state-collapsed {
+    @include flex(0 0 90px);
+    width: 90px;
+  }
+  @include transition(width 0.4s ease-out);
 }
 
 .board-dragging {
   .column.milestone {
-    min-width: 230px;
-    max-width: 230px;
-    @include display(block);
     &.hb-state-collapsed {
       .text {
         display: inline-block;
@@ -127,10 +120,10 @@
     }
   }
   .collapsed {
-    min-height: 100vh;
+    width: 70px;
   }
 
-  @include transition(all 0s);
+  @include transition(width 0s);
 }
 
 
@@ -547,10 +540,12 @@
   color: $lightGrey;
   padding-right:2px;
 }
+
 .column .ui-sortable-placeholder {
   background: $borderColor;
   list-style: none;
   border: 1px dotted $hb-purple;
+  margin-bottom: 10px;
   * {
     visibility: hidden;
   }
