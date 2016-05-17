@@ -16,9 +16,9 @@ class Huboard
 
       issues_response = gh.issues(params) do |request|
         request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview"
-      end
+      end.all
 
-      issues_response.all.each{
+      issues_response.each{
         |i| i.extend(Card)
       }.each{ |i|
         i.merge!(:repo => {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
