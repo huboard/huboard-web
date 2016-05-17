@@ -6,8 +6,6 @@ var MilestonesView = Ember.View.extend({
   setupDragging: function(){
     var that = this;
     this.$(".board").sortable({
-      axis: 'x',
-      tolerance: 'pointer',
       handle: 'h3',
       placeholder: "milestone-placeholder",
       items: ".milestone:gt(0)",
