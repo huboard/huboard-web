@@ -18,7 +18,7 @@ module Saas
       end
 
       LoginController.class_eval do
-        before_action :page_job, only: [:public, :private]
+        before_action :page_job, only: [:github, :public, :private]
 
         :private
 
