@@ -19,8 +19,8 @@
   <div class="card-labels">
       {{#each label in cardLabels }}
         <div class="card-label-wrapper"> 
-           <div class="card-label active small {{label.customColor}}"></div>
-           <div class="card-label active large {{label.customColor}}">
+           <div class="card-label active small" style="{{label.customStyle}}"></div>
+           <div class="card-label active large" style="{{label.customStyle}}">
             <span>{{label.name}}</span>
            </div>
         </div>

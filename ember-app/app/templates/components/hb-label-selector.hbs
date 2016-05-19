@@ -10,8 +10,8 @@
 {{/if}}
 
 <div class="hb-display-items">
-  {{#each sortedSelected as |label|}}
-  <div class="hb-display-item background -x{{unbound label.color}}">
+  {{#each label in selected}}
+  <div class="hb-display-item background -x{{unbound label.color}}" style="background: #{{unbound label.color}}; color: {{contrast-color label.color}};">
   <span>
     {{label.name}}
   </span>
@@ -31,10 +31,10 @@
     {{input placeholder="Filter labels" value=filterLabels}}
   </div>
   <div class="hb-label-items">
-    {{#each sortedListItems as |label|}}
-    {{#hb-label label=label.item}}
+    {{#each label in listItems}}
+    {{#hb-label label=label}}
     <span>
-      {{label.item.name}}
+      {{label.name}}
     </span>
     {{/hb-label}}
     {{/each}}
