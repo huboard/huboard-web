@@ -1,8 +1,6 @@
 class MilestoneEventJob < ActiveJob::Base
   # TODO: DRY this up relative to IssueEventJob
 
-  around_perform :guard_against_double_events
-
   class_attribute :_action
   class_attribute :_cache_key
   class_attribute :_timestamp
@@ -47,20 +45,6 @@ class MilestoneEventJob < ActiveJob::Base
     )
   end
 
-  def guard_against_double_events
-    message = build_message(self.arguments.first)
-    willPublish = true
-
-    Rails.cache.with do |dalli|
-      key = self._cache_key.call(message)
-      willPublish = false if dalli.get(key)
-      Rails.logger.debug [self.class, 'ActiveJob:cache_key', key, 'willPublish', willPublish]
-      dalli.set(key, "")
-    end
-
-    yield if willPublish
-  end
-
   def build_message(params)
     payload = payload(params)
     payload['actor'] = self.arguments.first['current_user']
@@ -72,18 +56,11 @@ class MilestoneEventJob < ActiveJob::Base
   end
 
   def perform(params)
-    message = deliver build_message(params)
+    message = build_message(params)
+    message[:cache_key] = self._cache_key.call(message)
+    Rails.logger.debug [self.class, 'ActiveJob:cache_key', message[:cache_key]]
 
-    return if params[:suppress]
-
-    PublishWebhookJob.perform_later message if self.class.included_modules.include? IsPublishable
-  end
-
-  def deliver(message)
-    client = ::Faye::Redis::Publisher.new({})
-    Rails.logger.debug ["/" + message[:meta][:repo_full_name], message]
-    channel = message[:meta][:repo_full_name].downcase
-    client.publish "/" + channel, message
-    return message
+    message[:webhook_publishable] = self.class.included_modules.include? IsPublishable
+    CachedJob.perform_later(message)
   end
 end
