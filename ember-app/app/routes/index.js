@@ -15,10 +15,6 @@ var IndexRoute = Ember.Route.extend({
     if (model.get("isLoaded")) {
       return;
     }
-    var cssView = CssView.create({
-      content: model
-    });
-    cssView.appendTo("head");
   },
   renderTemplate: function() {
     this._super.apply(this, arguments);
