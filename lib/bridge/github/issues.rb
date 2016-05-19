@@ -16,7 +16,7 @@ class Huboard
 
       issues_response = gh.issues(params) do |request|
         request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview"
-      end.all
+      end.to_a
 
       issues_response.each{
         |i| i.extend(Card)
