@@ -7,10 +7,6 @@ var CssView = Ember.View.extend({
   type: "text/css",
   template:template,
   combinedLabels: function(){
-    Ember.$.Color.fn.contrastColor = function() {
-      var r = this._rgba[0], g = this._rgba[1], b = this._rgba[2];
-      return (((r*299)+(g*587)+(b*144))/1000) >= 131.5 ? "#333" : "white";
-    };
 
     var labels = Ember.copy(this.get('content.labels'))
       .map((l) => Ember.get(l, 'labels'))
