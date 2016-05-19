@@ -11,6 +11,12 @@
 
   <div class="flex-crumbs">
   </div>
+  <div class="hb-column-indicator">
+    {{#each columnIndicator as |column| }}
+      <div class='hb-column-indicator__bar {{if column.selected "selected"}}'></div>
+    {{/each}}
+    {{issue.current_state.text}}
+  </div>
 
 
   <div class="card-labels">

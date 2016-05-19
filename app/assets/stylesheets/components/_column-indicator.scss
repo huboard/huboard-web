@@ -1,0 +1,18 @@
+.hb-column-indicator {
+  @include display(inline-block);
+  line-height: 24px;
+  padding: 0 6px;
+  border: 1px solid $borderColor;
+  color: $lightGrey;
+
+  &__bar {
+    @include display(inline-block);
+    height: 14px;
+    width: 3px;
+    background-color: $hb-grey-light;
+    vertical-align: middle;
+    &.selected {
+      background-color: $hb-purple;
+    }
+  }
+}
