@@ -1,4 +1,3 @@
-import CssView from 'app/views/css';
 import Board from 'app/models/new/board';
 import CreateIssue from 'app/models/forms/create-issue';
 import Milestone from 'app/models/new/milestone';
