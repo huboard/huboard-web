@@ -1,9 +1,14 @@
 class CachedJob < ActiveJob::Base
   def perform(params)
     Rails.cache.with do |dalli|
+      uuid = SecureRandom.uuid
       if params[:cache_key] && !dalli.get(params[:cache_key])
-        dalli.set(params[:cache_key], "set")
+        dalli.set(params[:cache_key], uuid)
+      end
+
+      if dalli.get(params[:cache_key]) === uuid
         message = deliver params
+
         return if params[:suppress]
         PublishWebhookJob.perform_later message if params[:webhook_publishable]
       end
