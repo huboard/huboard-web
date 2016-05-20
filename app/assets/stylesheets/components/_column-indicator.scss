@@ -1,9 +1,10 @@
 .hb-column-indicator {
   @include display(inline-block);
   line-height: 16px;
-  padding: 0 6px;
+  padding: 1px 6px;
   border: 1px solid $borderColor;
   border-radius: 2px;
+
 
   &__text {
     color: $lightGrey;
@@ -23,6 +24,39 @@
       border-left-color: $hb-purple;
       height: 11px;
       margin-top: 3px;
+    }
+  }
+
+  .card-states {
+    position:static;
+    float: right;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    margin: 1px 0px 1px 5px;
+
+    img {
+      position: relative;
+      left: 3px;
+      bottom: 1px;
+      &.hb-state-blocked {
+        left: 4px;
+      }
+    }
+
+    &:after {
+      display:none;
+     }
+  }
+}
+
+@each $state, $color in ("ready":$hb-state-ready, "blocked":$hb-state-blocked, "closed":$hb-state-closed) {
+  .hb-state-#{$state} {
+    .hb-column-indicator {
+      border-color: $color;
+      &__bar.selected {
+        border-left-color: $color;
+      }
     }
   }
 }
