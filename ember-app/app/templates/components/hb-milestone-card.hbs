@@ -9,28 +9,30 @@
     </div>
   </div>
 
-  <div class="hb-column-indicator">
-    <div class="card-states">
-      <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
-      <img src="{{asset-path 'arrow.png'}}" class="hb-state-ready"/>
-      <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
-    </div>
-    {{#each columnIndicator as |column| }}
-      <div class='hb-column-indicator__bar {{if column.selected "selected"}}'></div>
-    {{/each}}
-    <span class="hb-column-indicator__text">{{issue.current_state.text}}</span>
-  </div>
-
-
-  <div class="card-labels">
-      {{#each label in cardLabels }}
-        <div class="card-label-wrapper"> 
-           <div class="card-label active small" style="{{label.customStyle}}"></div>
-           <div class="card-label active large" style="{{label.customStyle}}">
-            <span>{{label.name}}</span>
-           </div>
-        </div>
+  <div class="card-footer">
+    <div class="hb-column-indicator">
+      <div class="card-states">
+        <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
+        <img src="{{asset-path 'arrow.png'}}" class="hb-state-ready"/>
+        <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
+      </div>
+      {{#each columnIndicator as |column| }}
+        <div class='hb-column-indicator__bar {{if column.selected "selected"}}'></div>
       {{/each}}
+      <span class="hb-column-indicator__text">{{issue.current_state.text}}</span>
+    </div>
+
+
+    <div class="card-labels">
+        {{#each label in cardLabels }}
+          <div class="card-label-wrapper"> 
+             <div class="card-label active small" style="{{label.customStyle}}"></div>
+             <div class="card-label active large" style="{{label.customStyle}}">
+              <span>{{label.name}}</span>
+             </div>
+          </div>
+        {{/each}}
+    </div>
   </div>
 </div>
 
