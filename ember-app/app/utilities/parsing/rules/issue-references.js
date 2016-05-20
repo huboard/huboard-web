@@ -1,8 +1,11 @@
-//TODO implement the logic and write a spec
+import Ember from 'ember';
 
 export default {
   name: 'issue-references',
   condition: function(input){
-    //Return an array of issue reference matches
+    var matches = Ember.$(input).find('a.js-issue-link').toArray();
+    return matches.map((match)=> {
+      return Ember.$(match).text();
+    });
   }
 }
