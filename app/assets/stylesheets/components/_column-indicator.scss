@@ -1,18 +1,28 @@
 .hb-column-indicator {
   @include display(inline-block);
-  line-height: 24px;
+  line-height: 16px;
   padding: 0 6px;
   border: 1px solid $borderColor;
-  color: $lightGrey;
+  border-radius: 2px;
+
+  &__text {
+    color: $lightGrey;
+    margin-left: 3px;
+    font-size: 12px;
+  }
 
   &__bar {
     @include display(inline-block);
-    height: 14px;
-    width: 3px;
-    background-color: $hb-grey-light;
-    vertical-align: middle;
+    height: 9px;
+    float:left;
+    border-right: 2px solid transparent;
+    border-left: 3px solid $hb-grey-light;
+    margin-top: 4px;
+
     &.selected {
-      background-color: $hb-purple;
+      border-left-color: $hb-purple;
+      height: 11px;
+      margin-top: 3px;
     }
   }
 }
