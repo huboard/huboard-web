@@ -32,14 +32,6 @@
 @import "date_picker";
 @import "sidebar";
 
-#xapplication {
-    /* IE 10-11 workaround
-     * https://github.com/philipwalton/flexbugs#3-min-height-on-a-flex-container-wont-apply-to-its-flex-items
-     */
-    @include display(flex);
-    @include flex-direction(column);
-}
-
 body {
   word-wrap: break-word;
   overflow-wrap: break-word;
