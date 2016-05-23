@@ -22,6 +22,7 @@
 
   &::-webkit-scrollbar-track-piece {
       background: #d6dadc;
+      background: rgba(0,0,0, 0.15);
   }
 
   &::-webkit-scrollbar-track-piece:vertical:start {
@@ -42,6 +43,7 @@
 
   &::-webkit-scrollbar-thumb:horizontal,&::-webkit-scrollbar-thumb:vertical {
       background: $lightGrey;
+      background: rgba(0,0,0, 0.2);
       border-radius: 5px;
       display: block;
       height: 50px;
