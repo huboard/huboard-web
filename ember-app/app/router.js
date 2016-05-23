@@ -31,7 +31,6 @@ Router.map(function() {
   });
 
   this.resource("sync-issues");
-  this.route("unauthorized");
 });
 
 export default Router;

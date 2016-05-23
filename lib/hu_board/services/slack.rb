@@ -127,13 +127,14 @@ module HuBoard
     end
 
     def transform_issue_opened(mash)
+      type = mash.payload.pull_request.nil? ? "issue" : "pull request"
       {
         username: "#{mash.meta.user.login} via HuBoard",
         icon_url: avatar_url(mash),
         attachments: [
           {
-            fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> opened a new issue <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
-            pretext: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> opened a new issue <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
+            fallback: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> opened a new #{type} <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
+            pretext: "<#{URI.join(github_url,mash.meta.user.login)}|@#{mash.meta.user.login}> opened a new #{type} <#{mash.payload.issue.html_url}|#{mash.meta.repo_full_name}##{mash.payload.issue.number}>",
             fields: [
               {title: "#{mash.payload.issue.title}", value: "#{mash.payload.issue.body_text.split("\n").take(3).join("\n")}", short: false},
             ],
