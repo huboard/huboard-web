@@ -54,6 +54,7 @@ body {
    @include display(flex);
    @include flex-direction(column);
    min-height: 100vh;
+   height: 100vh; //<- required by IE11
    position: relative;
 }
 
