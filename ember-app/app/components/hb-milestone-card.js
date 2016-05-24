@@ -33,7 +33,6 @@ var HbMilestoneCard = HbCard.extend({
       .forEach((x) => { set(x, 'selected', true); })
 
     return columns;
-
   }.property('issue.data.current_state', 'taskColumns')
 });
 
