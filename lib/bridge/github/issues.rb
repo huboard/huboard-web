@@ -14,9 +14,9 @@ class Huboard
       params = {direction: "asc"}.merge(opts)
       params = params.merge(labels: label) if label
 
-      issues_response = gh.issues(params) do |request|
+      issues_response = gh.issues(params).all do |request|
         request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview"
-      end.to_a
+      end
 
       issues_response.each{
         |i| i.extend(Card)
