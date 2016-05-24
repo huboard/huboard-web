@@ -2,25 +2,35 @@
 (function($) {
 
   $.widget('huboard.superSortable', $.ui.sortable, {
+    options: {
+      scroll: false,
+      scrollContainer: '.board',
+      scrollList: '.column',
+      scrollTarget: '.cards'
+    },
     _mouseIsOverElement: function mouseIsOverElement(ev, rect){
       return ev.left >= rect.left
       && rect.right > ev.left;
     },
     _findHoveredList: function findHoveredList(ev) {
-      var columns = $('.column');
+      const scrollList = this.options.scrollList,
+        scrollTarget = this.options.scrollTarget;
+
+      var columns = $(scrollList);
       for(var i = 0; i < columns.length; i++){
         if(this._mouseIsOverElement(ev, columns[i].getBoundingClientRect())){
-          return $(columns[i]).find('.cards')[0];
+          return $(columns[i]).find(scrollTarget)[0];
         }
       }
       return null;
     },
     _mouseStart: function(event){
       var superResult = this._superApply(arguments);
+      var scrollContainerSelector = this.options.scrollContainer;
 
       var el = this;
       this._autoscrollPid = setInterval(function(){
-        var scrollContainer = $('.board')[0];
+        var scrollContainer = $(scrollContainerSelector)[0];
 
         var boxes = {
           boundingClientRect: scrollContainer.getBoundingClientRect(),
