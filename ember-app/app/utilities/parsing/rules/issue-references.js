@@ -6,6 +6,8 @@ export default {
     var matches = Ember.$(input).find('a.js-issue-link').toArray();
     return matches.map((match)=> {
       return Ember.$(match).text();
+    }).filter((reference)=> {
+      return !reference.match(/\(comment\)/);
     });
   }
 }

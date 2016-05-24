@@ -21,9 +21,9 @@ test('is named correctly', (assert) =>{
 
 test('discovers issue references', (assert) => {
   var result = sut.condition(html);
-  assert.ok(_.contains(result, '#1'));
-  assert.ok(_.contains(result, '#2'));
-  assert.ok(_.contains(result, 'discorick/huboard-test#2'));
+  var expected = ['#1', '#2', 'discorick/huboard-test#2'];
+
+  assert.deepEqual(result, expected);
 });
 
 test('handles no matches gracefully', (assert) => {
