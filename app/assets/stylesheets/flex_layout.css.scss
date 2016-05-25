@@ -145,6 +145,10 @@ body {
   @include flex(1);
   @include display(flex);
 
+  padding: 50px; /* make room for fixed column header */
+  background-color: #fafafa;
+  box-shadow: inset -1px 1px 1px rgba(0,0,0,0.2);
+
   > .sidebar {
      width: 0;
      overflow: hidden;
@@ -162,8 +166,6 @@ body {
      @include flex(1);
      @include display(flex);
      position: relative;
-     background-color: #fafafa;
-     box-shadow: inset -1px 1px 1px rgba(0,0,0,0.2);
      @include transition(all 0.4s ease-out);
   }
 

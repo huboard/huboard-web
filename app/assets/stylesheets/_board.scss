@@ -127,6 +127,9 @@
 
 .hb-task-column h3 {
   @extend .arrow;
+
+  position: fixed;
+  top: 90px;
 }
 
 .column > ul {
