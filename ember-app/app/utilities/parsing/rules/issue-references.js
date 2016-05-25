@@ -5,13 +5,14 @@ export default {
   condition: function(input){
     var matches = Ember.$(input).find('a.js-issue-link').toArray();
     return matches.map((match)=> {
+      var $match = Ember.$(match);
       return {
-        url: Ember.$(match).attr('href'),
-        id: new Number(Ember.$(match).attr('data-id')),
-        text: Ember.$(match).text()
+        url: $match.attr('href'),
+        id: +$match.attr('data-id'),
+        text: $match.text()
       };
     }).filter((reference)=> {
       return !reference.text.match(/\(comment\)/);
     });
   }
-}
+};
