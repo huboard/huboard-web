@@ -1,0 +1,6 @@
+language: ruby
+
+branches:
+  only:
+  - enterprise
+  - master
