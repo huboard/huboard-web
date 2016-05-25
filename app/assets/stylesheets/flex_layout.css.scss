@@ -145,7 +145,7 @@ body {
   @include flex(1);
   @include display(flex);
 
-  padding: 50px; /* make room for fixed column header */
+  padding-top: 50px; /* make room for fixed column header */
   background-color: #fafafa;
   box-shadow: inset -1px 1px 1px rgba(0,0,0,0.2);
 
