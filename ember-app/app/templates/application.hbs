@@ -38,8 +38,9 @@
         </li>
       {{else}}
          <li>
-           <form action="/login" method="GET">
-            <button class="hb-button"> Sign in </button>
+           <form action="/login/github" method="GET">
+             <input type="hidden" name="redirect_to" value="/{{model.repo.full_name}}" />
+             <button class="hb-button"> Sign in </button>
           </form>
          </li>
       {{/if}}

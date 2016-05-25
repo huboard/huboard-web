@@ -4,7 +4,6 @@ class BoardController < ApplicationController
       success do
         @repo = huboard.repo(params[:user],params[:repo]).fetch
         @repo[:repo].merge!(is_collaborator: is_collaborator?(@repo[:repo]))
-        @auth_level = github_authenticated?(:private) ? "private" : "public"
         render :index, layout: "ember"
       end
 

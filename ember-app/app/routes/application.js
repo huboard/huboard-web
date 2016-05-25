@@ -7,7 +7,11 @@ var ApplicationRoute = Ember.Route.extend({
 
   actions: {
     sessionErrorHandler: function(){
-      this.transitionTo("unauthorized");
+      this.render("unauthorized", {
+        into: 'application',
+        outlet: 'modal',
+        model: this.modelFor('application')
+      });
     },
     toggleSidebar: function(){
       this.controllerFor("application").toggleProperty("isSidebarOpen");
