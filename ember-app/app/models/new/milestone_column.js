@@ -5,7 +5,7 @@ var MilestoneColumn = Ember.Object.extend(Ember.PromiseProxyMixin, {
   isFirst: false,
   isLast: false,
   title: Ember.computed('milestone', 'milestone.data.title', {
-    get: function(key){
+    get: function(){
       return this.get('milestone') ? this.get('milestone.title') : "No milestone";
     }
   }),

@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import correlationId from 'app/utilities/correlation-id';
 
 var MilestonesController = Ember.Controller.extend({
   application: Ember.inject.controller(),

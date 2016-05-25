@@ -46,7 +46,7 @@ test("Emoji height is adjustable", (assert) =>{
 });
 
 test("Returns the original string if nothing matches", (assert) =>{
-  var target = "No Emojis here!"
+  var target = "No Emojis here!";
 
   var result = sut.parse(target);
   assert.equal(result, target);
