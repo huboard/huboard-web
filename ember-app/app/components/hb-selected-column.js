@@ -9,7 +9,7 @@ var HbSelectedColumnComponent = Ember.Component.extend({
   }.property("stateClass"),
   isEnabled: function() {
     return (this.get("issue.repo.isCollaborator") &&
-      this.get("issue.data.state") !== "closed")
+      this.get("issue.data.state") !== "closed");
   }.property("issue.repo.isCollaborator", "issue.data.state", "previewOnly"),
   stateClass: function(){
     var github_state = this.get("issue.data.state");

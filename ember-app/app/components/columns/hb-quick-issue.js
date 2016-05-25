@@ -7,9 +7,9 @@ var HbQuickIssueComponent = Ember.Component.extend({
   issueTemplate: Ember.computed.alias("repo.issue_template"),
   focusPlaceholderText: function(){
     if(this.get("issueTemplate")){
-      return "↵ to fill this issues template"
+      return "↵ to fill this issues template";
     }
-    return "Add title then ↵"
+    return "Add title then ↵";
   }.property("issueTemplate"),
 
   initModel: function(){

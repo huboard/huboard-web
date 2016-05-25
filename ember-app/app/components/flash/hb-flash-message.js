@@ -49,7 +49,7 @@ var HbFlashMessageComponent = Ember.Component.extend({
   currentFlash: [],
   processQueue: function(){
     var queue = this.get('flashMessages.queue');
-    var max = this.get("messageMax")
+    var max = this.get("messageMax");
     var current = this.get('currentFlash');
 
     var _self = this;
@@ -86,7 +86,7 @@ var HbFlashMessageComponent = Ember.Component.extend({
 
     if(this.get("removingFlash")){
       Ember.run.later(this, ()=> {
-        this.scheduleRemove(flash)
+        this.scheduleRemove(flash);
       }, 400);
     } else { this.removeFlash(flash, callback); }
   },
@@ -108,9 +108,9 @@ var HbFlashMessageComponent = Ember.Component.extend({
     flash._cancelTimer("exitTimer");
     flash._setTimer("timer", "destroyMessage", time);
   },
-  determineIndex: function(flash){
+  determineIndex: function(){
     var current = this.get('currentFlash');
-    var sticky = current.find((f)=> {return f.sticky});
+    var sticky = current.find((f)=> {return f.sticky;});
     if(sticky){
       return current.indexOf(sticky) + 1;
     }

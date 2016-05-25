@@ -24,7 +24,7 @@ Link.reopenClass({
       dataType: 'json',
       type: data.type,
       data: data
-    })
+    });
   }
 });
 

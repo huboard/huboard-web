@@ -101,11 +101,12 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     issueAssigned: function(message){
       var actor = message.actor.login;
       var assignee = message.issue.assignee;
+      var copy;
 
       if(assignee){
-        var copy = `${actor} assigned #${message.issue.number} to ${assignee.login}`;
+        copy = `${actor} assigned #${message.issue.number} to ${assignee.login}`;
       } else {
-        var copy = `${actor} unassigned #${message.issue.number}`;
+        copy = `${actor} unassigned #${message.issue.number}`;
       }
 
       this.get("flashMessages").info(copy);

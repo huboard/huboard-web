@@ -32,7 +32,7 @@ var IssuesCreateController = Ember.Controller.extend({
     }
     return !Ember.isEmpty(this.get('model.body'));
   }.property('selectedRepo.data.repo.name', 'model.body'),
-  promptForRepoChange: function(repo){
+  promptForRepoChange: function(){
     return this.get('issueBodyDirty');
   },
   mentions: function(){

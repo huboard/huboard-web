@@ -46,7 +46,7 @@ var IssueSubscriptionMixin = Ember.Mixin.create({
         event: event,
         created_at: issue.updated_at,
         actor: issue.closed_by
-      }
+      };
     },
     _comment: function(message){
       var issue = message.issue;
@@ -58,7 +58,7 @@ var IssueSubscriptionMixin = Ember.Mixin.create({
         issue_url: message.comment.issue_url,
         created_at: issue.updated_at,
         user: message.comment.user
-      }
+      };
     }
   }
 });

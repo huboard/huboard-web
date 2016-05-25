@@ -31,7 +31,7 @@ var MilestonesMissingController = Ember.Controller.extend({
         controller.get("model").onAccept(response);
         controller.set("disabled", false);
         controller.get('target').send('closeModal');
-      })
+      });
 
     }
   }

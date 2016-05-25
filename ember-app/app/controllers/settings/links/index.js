@@ -44,7 +44,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
 
       model.createLink(name, _self.get("issue_filter")).then(()=> {
         _self.resetForm();
-      }, (jqXHR)=> _self.errorHandler(jqXHR) )
+      }, (jqXHR)=> _self.errorHandler(jqXHR) );
     },
     validate: function(){
       var _self = this;
@@ -54,7 +54,7 @@ var SettingsLinksIndexController = Ember.Controller.extend({
       model.validateLink(name).then((link)=>{
         _self.set("isDisabled", false);
         _self.set("labels", link.other_labels);
-      }, (jqXHR)=> _self.errorHandler(jqXHR) )
+      }, (jqXHR)=> _self.errorHandler(jqXHR) );
     },
   }
 });

@@ -50,7 +50,7 @@ var HbCardComponent = Ember.Component.extend(
       return "";
     }.property("filters.hideFilters", "filters.dimFilters", "issue.milestoneTitle", "issue.other_labels.[]"),
     click: function(ev){
-      if(this.get("isFiltered") === "filter-hidden" || $(ev.target).is("a.xnumber")){
+      if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
       }
       this.sendAction("cardClick");

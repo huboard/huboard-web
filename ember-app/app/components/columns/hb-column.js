@@ -13,14 +13,13 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
   moveIssue: function(issue, order, cancelMove){
     var self = this;
-    var last = this.get("columns.lastObject");
     if(issue.data.state === "closed" && !this.get("model.isLastColumn")){
       return this.attrs.reopenIssueOrAbort({
         issue: issue,
         column: self.get("model"),
         onAccept: function(){ self.moveIssue(issue, order); },
-        onReject: function(){ cancelMove() }
-      })
+        onReject: function(){ cancelMove(); }
+      });
     }
 
     this.get("model.sortedIssues").removeObject(issue);
