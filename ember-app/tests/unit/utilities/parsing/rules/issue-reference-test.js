@@ -21,7 +21,23 @@ test('is named correctly', (assert) =>{
 
 test('discovers issue references', (assert) => {
   var result = sut.condition(html);
-  var expected = ['#1', '#2', 'discorick/huboard-test#2'];
+  var expected = [
+    {
+      url: 'https://github.com/discorick/skipping.stones/issues/1',
+      id: 115312754,
+      text: '#1'
+    },
+    {
+      url: 'https://github.com/discorick/skipping.stones/issues/2',
+      id: 115312772,
+      text: '#2'
+    },
+    {
+      url: 'https://github.com/discorick/huboard-test/issues/2',
+      id: 63784173,
+      text: 'discorick/huboard-test#2'
+    }
+  ];
 
   assert.deepEqual(result, expected);
 });
