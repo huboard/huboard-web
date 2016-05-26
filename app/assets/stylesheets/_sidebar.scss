@@ -13,11 +13,11 @@
   @include transform(translateX(-230px));
   @include transition(transform 0.2s ease-in);
 }
-.sidebar-canvas {
-}
+
 .sidebar-wrapper {
   padding: 6px 0 6px 25px;
 }
+
 .board-wrapper {
   @include transition(margin 0.2s ease-in);
 }
@@ -39,19 +39,19 @@
       position: relative;
       top: 3px;
       @include transition(all 0.1s);
- }
- &:hover {
-   padding: 0 5px;
-   color: #666;
- }
-}
+   }
+   &:hover {
+     padding: 0 5px;
+     color: #666;
+   }
+  }
 }
 
 @media only screen and (max-width: 480px) {
   .board {
     @include flex-direction(column);
-}
-.sidebar {
-  @include flex(0 1 auto);
-}
+  }
+  .sidebar {
+    @include flex(0 1 auto);
+  }
  }
