@@ -84,11 +84,6 @@
   }
 }
 
-.column.task-column{
-  .cards {
-    @include flex(1 1 auto);
-  }
-}
 
 .column.milestone {
   height: 100%;
@@ -97,6 +92,8 @@
   width:230px;
   display: inline-block;
 
+}
+.column {
   .column-contents{
     height: 100%;
     @include display(flex);
@@ -104,19 +101,27 @@
     @include flex(0 0 230px);
     min-width: 0px;
     max-width: 230px;
-  }
-  .cards {
-    @include flex(1 1 auto);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 1px;
-    @extend %u-fancy-scrollbar;
+    .cards {
+      @include flex(1 1 auto);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 1px;
+      @extend %u-fancy-scrollbar;
+    }
   }
   &.hb-state-collapsed {
     @include flex(0 0 90px);
     width: 90px;
   }
   @include transition(width 0.4s ease-out);
+
+}
+
+.column.task-column{
+  height: 100%;
+  .column-contents {
+    @include flex(1 1 auto);
+  }
 }
 
 .board-dragging {
