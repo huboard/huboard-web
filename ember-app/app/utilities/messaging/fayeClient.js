@@ -24,7 +24,7 @@ export default function(backend){
             };
             callback(message);
           }
-        }, function(error){
+        }, function(){
           message.ext = {
             private_pub_timestamp: "",
             private_pub_signature: ""

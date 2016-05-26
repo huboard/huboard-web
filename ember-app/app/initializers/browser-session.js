@@ -10,5 +10,5 @@ export default {
   name: 'browser-session',
   after: 'advanceReadiness',
   initialize: initialize
-}
+};
 
