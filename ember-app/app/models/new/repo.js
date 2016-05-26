@@ -224,7 +224,7 @@ var Repo = Model.extend({
     return this.get("assignees.length");
   }.property("assignees.[]"),
   fetchIssues: function(options){
-    var url = `/api/${this.get('data.repo.full_name')}/issues`
+    var url = `/api/${this.get('data.repo.full_name')}/issues`;
     return Ember.$.getJSON(url,{ options: options });
   }
 });

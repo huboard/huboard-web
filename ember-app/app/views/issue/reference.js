@@ -18,7 +18,7 @@ var IssueReferenceView = Ember.View.extend({
 
     if (!message) { return ""; }
 
-    message = Ember.Handlebars.Utils.escapeExpression(message)
+    message = Ember.Handlebars.Utils.escapeExpression(message);
     message = emojiParser.parse(message);
     return message.htmlSafe();
   }.property("commit.commit.message"),
