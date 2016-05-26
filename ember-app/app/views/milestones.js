@@ -9,6 +9,7 @@ var MilestonesView = Ember.View.extend({
       handle: 'h3',
       placeholder: "milestone-placeholder",
       items: ".milestone:gt(0)",
+      delay: 75,
       over: function () {
         that.set("isHovering", true);
       },
