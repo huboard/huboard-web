@@ -8,12 +8,16 @@ var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
     attributeBindings: ['style'],
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.repo.data.repo.color:border", "stateClass"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass"],
     filters: Ember.inject.service(),
-    style: Ember.computed('issue.repo.data.repo.color.color', {
+    style: Ember.computed('issue.linkedColor', {
       get: function(){
-        const color = this.get("issue.repo.data.repo.color.color");
-        return Ember.String.htmlSafe(`border-left-color: #${color}`);
+        const color = this.get("issue.linkedColor");
+        if(color) {
+          return Ember.String.htmlSafe(`border-left-color: #${color}`);
+        } else {
+          return Ember.String.htmlSafe("");
+        }
       }
     }),
     isCollaborator: function(){
