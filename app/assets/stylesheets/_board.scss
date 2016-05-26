@@ -20,7 +20,7 @@
     .hb-icon-link {
       padding: 6px;
       color: #999;
-      @include transition(all .5s);
+      @include transition(color .5s);
       .ui-icon {
         position: relative;
         top: 3px;
