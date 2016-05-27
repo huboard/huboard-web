@@ -142,7 +142,7 @@ Board.reopenClass({
     return Ember.RSVP.all(promises).then(function(repos){
       repos.forEach((x) => {
         if(!x.get('loadFailed')){
-          var board = Board.create({repo: x, isLoaded: true});
+          var board = Board.create({repo: x});
           x.set('board', board);
           x.set('isLoaded', true);
         }       

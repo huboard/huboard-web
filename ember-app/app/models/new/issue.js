@@ -30,7 +30,7 @@ var Issue = Model.extend({
   }.property('data.body_html'),
   buildIssueReferences: function(){
     this.accept(issueReferenceVisitor);
-  }.observes('repo.board.isLoaded'),
+  }.observes('repo.isLoaded'),
 
   loadDetails: function () {
     this.set("processing", true);
