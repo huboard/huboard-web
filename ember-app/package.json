@@ -38,8 +38,6 @@
     "ember-cli-uglify": "1.0.1",
     "ember-export-application-global": "^1.0.2",
     "ember-moment": "1.1.1",
-    "ember-sinon": "0.0.3",
-    "rx": "^4.1.0",
-    "sortablejs": "^1.4.2"
+    "ember-sinon": "0.0.3"
   }
 }
