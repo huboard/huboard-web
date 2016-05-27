@@ -1,3 +1,4 @@
+// Lifted from https://github.com/jquery/jquery-color#extensibility.
 (function($){
   $.Color.fn.contrastColor = function() {
     var r = this._rgba[0], g = this._rgba[1], b = this._rgba[2];
