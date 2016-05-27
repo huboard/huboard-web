@@ -91,6 +91,11 @@ var Board = Model.extend({
       return combined;
     }
   }),
+  issuesById: function(){
+    return _.groupBy(this.get('issues'), (issue)=> {
+      return issue.get('id');
+    });
+  }.property('issues.[]'),
   topIssueOrder: function(){
     var issues = this.get("repo.parent") ? 
       this.get("repo.parent.board.issues") : this.get("issues");
@@ -137,7 +142,7 @@ Board.reopenClass({
     return Ember.RSVP.all(promises).then(function(repos){
       repos.forEach((x) => {
         if(!x.get('loadFailed')){
-          var board = Board.create({repo: x});
+          var board = Board.create({repo: x, isLoaded: true});
           x.set('board', board);
           x.set('isLoaded', true);
         }       

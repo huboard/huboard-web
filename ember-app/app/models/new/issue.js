@@ -3,6 +3,8 @@ import Model from '../model';
 import correlationId from 'app/utilities/correlation-id';
 import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
 
+import issueReferenceVisitor from 'app/visitors/issue/references';
+
 var Issue = Model.extend({
   blacklist: ["repo"],
   columnIndex: Ember.computed.alias("data.current_state.index"),
@@ -23,12 +25,12 @@ var Issue = Model.extend({
 
   //Relationships
   cardRelationships: function(){
-    var html_body = this.get('html_body');
+    var html_body = this.get('body_html');
     return CardRelationshipParser.parse(html_body);
-  }.property('data.html_body'),
-  issueReferences: function(){
-    return this.get('cardRelationships')['issue-references'] || [];
-  }.property('cardRelationships'),
+  }.property('data.body_html'),
+  buildIssueReferences: function(){
+    this.accept(issueReferenceVisitor);
+  }.observes('repo.board.isLoaded'),
 
   loadDetails: function () {
     this.set("processing", true);
