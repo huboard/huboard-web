@@ -7,7 +7,6 @@ var IssueReferencesVisitor = Ember.Object.create({
     )
 
     issue.set('issueReferences', references);
-    if(references.length){ console.log(issue); }
   },
 
   discoverIssues: function(issue){
