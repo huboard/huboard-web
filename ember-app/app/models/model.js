@@ -13,7 +13,10 @@ var HuBoardModel = Ember.Object.extend(
   onDataChanged: function(){
     this.set('content', this.get('data'));
   }.observes('data'),
-  ajax: ajax
+  ajax: ajax,
+  accept: function(visitor){
+    visitor.visit(this);
+  }
 });
 
 export default HuBoardModel;
