@@ -96,6 +96,11 @@ var Board = Model.extend({
       return issue.get('id');
     });
   }.property('issues.[]'),
+  issuesByRepo: function(){
+    return _.groupBy(this.get('issues'), (issue)=> {
+      return issue.get('repo.data.repo.full_name');
+    });
+  }.property('issues.[]'),
   topIssueOrder: function(){
     var issues = this.get("repo.parent") ? 
       this.get("repo.parent.board.issues") : this.get("issues");

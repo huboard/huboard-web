@@ -7,7 +7,8 @@ import {
 } from 'qunit';
 
 var sut;
-var issues;
+var issuesById;
+var issuesByRepo;
 var board;
 var repo;
 var issue;
@@ -18,11 +19,17 @@ module('Visitors/Issue/References', {
     sut = _.clone(IssueReferencesVisitor);
 
     //Build an Issue model with everything the visitor needs to succeed
-    issues = {};
+    issuesById = {};
     for(var i=1; i<3; i++){
-      issues[i] = {id: i, name: `issue${i}`};
+      issuesById[i] = Ember.Object.create({id: i, name: `issue${i}`});
+    }
+
+    issuesByRepo = {
+      'parent/repo': {id: 4, name: 'issue4'},
+      'huboard/huboard': {id: 5, name: 'issue5'}
     };
-    board = Ember.Object.create({ issuesById: issues });
+
+    board = Ember.Object.create({ issuesById: issuesById, issuesByRepo: issuesByRepo });
     repo = Ember.Object.create({ board: board });
     issue = Ember.Object.create({repo: repo});
 
@@ -38,6 +45,16 @@ module('Visitors/Issue/References', {
           url: 'www.anotherissue.com',
           id: 2,
           text: '#2'
+        },
+        {
+          url: 'www.aclosedissue.com',
+          id: 4,
+          text: '#4'
+        },
+        {
+          url: 'www.alinkedclosedissue.com',
+          id: 5,
+          text: 'huboard/huboard#5'
         }
       ]
     };
@@ -46,8 +63,8 @@ module('Visitors/Issue/References', {
 });
 
 test('visit', (assert) => {
-  var discovered_issues_promise;
-  sut.run = sinon.stub().returns(discovered_issues_promise);
+  var issue_promise = sinon.stub();
+  sut.run = sinon.stub().returns(issue_promise);
 
   var references = [
     [{issue1: 'issue1'}],
@@ -63,7 +80,7 @@ test('visit', (assert) => {
   ];
 
   sut.visit(issue);
-  assert.ok(Ember.RSVP.all.calledWith([discovered_issues_promise]));
+  assert.ok(Ember.RSVP.all.calledWith([issue_promise, issue_promise]));
 
   var done = assert.async();
   setTimeout(()=>{
@@ -76,5 +93,11 @@ test('discovers referenced issues in the model', (assert) =>{
   var result = sut.discoverIssues(issue);
   assert.equal(result[0].name, 'issue1', 'Discovers the first reference');
   assert.equal(result[1].name, 'issue2', 'Discovers the references');
+});
+
+test('discovers missing closed issues, returns a reference with a status', (assert) => {
+  var result = sut.discoverClosedIssues(issue);
+  assert.equal(result[0].state, 'closed', 'Infers the existence of a closed issue');
+  assert.equal(result[1].state, 'closed', 'Infers the existence of a linked closed issue');
 });
 
