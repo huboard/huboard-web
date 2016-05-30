@@ -29,8 +29,10 @@ var Issue = Model.extend({
     return CardRelationshipParser.parse(html_body);
   }.property('data.body_html'),
   buildIssueReferences: function(){
-    this.accept(issueReferenceVisitor);
-  }.observes('repo.isLoaded'),
+    if(this.get('repo.board')){
+      this.accept(issueReferenceVisitor);
+    }
+  }.observes('repo.board', 'data.body_html'),
 
   loadDetails: function () {
     this.set("processing", true);

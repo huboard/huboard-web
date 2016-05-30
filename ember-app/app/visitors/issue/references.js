@@ -2,11 +2,20 @@ import Ember from 'ember';
 
 var IssueReferencesVisitor = Ember.Object.create({
   visit: function(issue){
-    var references = _.flatten(
-      this.discoverIssues(issue)
-    )
+    var promises = [
+      this.run(this.discoverIssues, issue)
+    ];
 
-    issue.set('issueReferences', references);
+    Ember.RSVP.all(promises).then((references)=> {
+      issue.set('issueReferences', _.flatten(references));
+    });
+  },
+
+  run: function(discovery, issue){
+    return new Ember.RSVP.Promise((resolve, reject)=>{
+      resolve(discovery(issue));
+      reject([]);
+    });
   },
 
   discoverIssues: function(issue){

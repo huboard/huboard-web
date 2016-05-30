@@ -14,7 +14,8 @@ var issue;
 
 module('Visitors/Issue/References', {
   setup: function(){
-    sut = IssueReferencesVisitor;
+    //Clones so any stubs dont pollute other tests
+    sut = _.clone(IssueReferencesVisitor);
 
     //Build an Issue model with everything the visitor needs to succeed
     issues = {};
@@ -44,9 +45,36 @@ module('Visitors/Issue/References', {
   }
 });
 
+test('visit', (assert) => {
+  var discovered_issues_promise;
+  sut.run = sinon.stub().returns(discovered_issues_promise);
+
+  var references = [
+    [{issue1: 'issue1'}],
+    [{issue2: 'issue2'}],
+    []
+  ];
+  var success = $.ajax().then(()=>{return references});
+  Ember.RSVP.all = sinon.stub().returns(success);
+
+  var flat_references = [
+    {issue1: 'issue1'},
+    {issue2: 'issue2'}
+  ];
+
+  sut.visit(issue);
+  assert.ok(Ember.RSVP.all.calledWith([discovered_issues_promise]));
+
+  var done = assert.async();
+  setTimeout(()=>{
+    assert.deepEqual(issue.get('issueReferences'), flat_references);
+    done();
+  });
+});
+
 test('discovers referenced issues in the model', (assert) =>{
   var result = sut.discoverIssues(issue);
-  assert.equal(result[0].name, 'issue1', 'Discovers the references');
+  assert.equal(result[0].name, 'issue1', 'Discovers the first reference');
   assert.equal(result[1].name, 'issue2', 'Discovers the references');
 });
 
