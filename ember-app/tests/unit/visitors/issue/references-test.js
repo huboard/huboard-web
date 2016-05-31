@@ -21,12 +21,12 @@ module('Visitors/Issue/References', {
     //Build an Issue model with everything the visitor needs to succeed
     issuesById = {};
     for(var i=1; i<3; i++){
-      issuesById[i] = Ember.Object.create({id: i, name: `issue${i}`});
+      issuesById[i] = [Ember.Object.create({id: i, name: `issue${i}`})];
     }
 
     issuesByRepo = {
-      'parent/repo': {id: 4, name: 'issue4'},
-      'huboard/huboard': {id: 5, name: 'issue5'}
+      'parent/repo': [],
+      'huboard/huboard': []
     };
 
     board = Ember.Object.create({ issuesById: issuesById, issuesByRepo: issuesByRepo });

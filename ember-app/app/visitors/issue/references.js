@@ -13,8 +13,9 @@ var IssueReferencesVisitor = Ember.Object.create({
   },
 
   run: function(discovery, issue){
+    var _self = this;
     return new Ember.RSVP.Promise((resolve, reject)=>{
-      resolve(discovery(issue));
+      resolve(discovery.call(_self, issue));
       reject([]);
     });
   },
@@ -24,7 +25,7 @@ var IssueReferencesVisitor = Ember.Object.create({
     var issuesById = issue.get('repo.board.issuesById');
     return references.map((reference)=>{
       if(issuesById.hasOwnProperty(reference.id)){
-        return issuesById[reference.id];
+        return issuesById[reference.id][0];
       }
     }).compact();
   },
@@ -38,7 +39,7 @@ var IssueReferencesVisitor = Ember.Object.create({
     }).filter((missing_reference)=>{
       var match = missing_reference.text.replace(this.repoNamePattern, '');
       if(Ember.isBlank(match)){ return true }
-      return issuesByRepo[match];
+      return issuesByRepo.hasOwnProperty(match);
     });
     closed.forEach((ref)=>{ ref.state = 'closed' });
 
