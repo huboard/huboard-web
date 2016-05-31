@@ -21,7 +21,7 @@ module('Visitors/Issue/References', {
     //Build an Issue model with everything the visitor needs to succeed
     issuesById = {};
     for(var i=1; i<3; i++){
-      issuesById[i] = [Ember.Object.create({id: i, name: `issue${i}`})];
+      issuesById[i] = Ember.Object.create({id: i, name: `issue${i}`});
     }
 
     issuesByRepo = {
@@ -92,7 +92,7 @@ test('visit', (assert) => {
 test('discovers referenced issues in the model', (assert) =>{
   var result = sut.discoverIssues(issue);
   assert.equal(result[0].name, 'issue1', 'Discovers the first reference');
-  assert.equal(result[1].name, 'issue2', 'Discovers the references');
+  assert.equal(result[1].name, 'issue2', 'Discovers the second reference');
 });
 
 test('discovers missing closed issues, returns a reference with a status', (assert) => {
