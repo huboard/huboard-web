@@ -468,9 +468,23 @@
       cursor: none;
     }
     .hb-avatar-tooltip {
+      &:hover {
+        p {
+          display: inline-table;
+          visibility: visible;
+        }
+      }
       p {
-        bottom: auto;
-        top: -24px;
+        bottom: 42px;
+        top: 5px;
+        left: 34px;
+        line-height: 16px;
+        &:after {
+          content: "\25C0";
+          color: $hb-purple;
+          left: -6px;
+          bottom: 1px;
+        }
       }
       display: inline;
       img {
