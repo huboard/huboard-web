@@ -8,6 +8,7 @@ var MilestonesView = Ember.View.extend({
     this.$(".board").sortable({
       handle: 'h3',
       placeholder: "milestone-placeholder",
+      axis: "x",
       items: ".milestone:gt(0)",
       delay: 75,
       over: function () {
