@@ -12,6 +12,42 @@ module Api
       render json: { message: "Webhook received" }
     end
 
+    def publish_pull_request_event
+      return render json: { message: "pong" } if request.env["HTTP_X_GITHUB_EVENT"] == "ping"
+
+      payload = HashWithIndifferentAccess.new JSON.parse(params[:payload])
+      return render json: { message: "Fail to parse message" } if payload[:pull_request].nil?
+
+      #guard against the syncronize action
+      return render json: { message: "Not implemented: `synchronize` event" } if payload[:action] == "synchronize"
+
+      repo = {
+        repo: {
+          owner: { login: payload[:repository][:owner][:login] },
+          name: payload[:repository][:name],
+          full_name: payload[:repository][:full_name]
+        }
+      }
+      payload[:pull_request].extend(Huboard::Issues::Card).merge!(repo)
+
+      message = HashWithIndifferentAccess.new(
+        :pull_request => true,
+        :issue => payload[:pull_request],
+        :label => payload[:label],
+        "action_controller.params" => {},
+        :current_user => payload[:sender]
+      )
+
+      is_column = Huboard.column_pattern
+      if payload[:label] && !!payload[:label][:name].match(is_column)
+        return render json: { message: "Webhook received" }
+      end
+
+      generate_issue_event(payload[:action], message)
+      render json: { message: "Webhook received" }
+    end
+
+
     def publish_issue_event
       return render json: { message: "pong" } if request.env["HTTP_X_GITHUB_EVENT"] == "ping"
 
@@ -29,6 +65,7 @@ module Api
 
       message = HashWithIndifferentAccess.new(
         :issue => payload[:issue],
+        :label => payload[:label],
         "action_controller.params" => {},
         :current_user => payload[:sender]
       )

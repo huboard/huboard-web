@@ -89,7 +89,6 @@ module HuboardWeb
       config.active_job.queue_adapter = :sucker_punch
     end
     
-    config.middleware.use Rack::Attack
     config.middleware.use PDFKit::Middleware, {print_media_type: true}, only: %r[^/settings]
     config.middleware.use HuBoard::Middleware::Session
     

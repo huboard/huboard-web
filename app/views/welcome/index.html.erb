@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <%= render partial: 'shared/abtest' %>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>HuBoard - Login</title>
+  <link rel="shortcut icon" href="/favicon.ico?v=3">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Stylesheets -->
+  <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet" type="text/css">
+  <%= stylesheet_link_tag 'marketing/main' %>
+
+  <!-- Javascript -->
+  <!--[if lt IE 9]>
+  <script src="assets/js/vendor/html5shiv.js"></script>
+  <script src="assets/js/vendor/respond.js"></script>
+  <script src="assets/js/vendor/selectivizr-min.js"></script>
+  <![endif]-->
+
+</head>
+<body class="login-page">
+<!-- top container -->
+<div class="top"><div class="top-inner">
+	<header class="header" id="header"><div class="container">
+	</div></header>
+  <!-- hero -->
+  <section class="hero"><div class="container">
+      <h2 class="hero__title">
+        HuBoard needs third-party access to your GitHub account
+        <small class="learn-more">
+          <a class="nav__btn" href="https://github.com/huboard/huboard/wiki/General-Support" target="blank">Learn more</a>
+        </small>
+      </h2>
+  </div></section>
+  <!-- / hero -->
+</div></div>
+<!-- / top container -->
+<!-- main content area -->
+<div class="main"><div class="container">
+
+  <!-- permissions -->
+  <div class="permissions">
+    <div class="permissions__col">
+      <h3 class="permissions__heading">
+        <img src="<%= image_path 'marketing/permissions-icon--public.png' %>" alt="">
+        Public Access
+      </h3>
+      <div class="permissions__list">
+        <a href="/login/public" class="btn btn--flat">
+          <img class="btn-octocat" src="<%= image_path 'GitHub-Mark-Light-32px.png' %>" width="16px"> Allow Public Access
+        </a>
+        <dl>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your user profile</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your followers</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your email</dt>
+        </dl>
+        <dl>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read--false.png' %>" alt="">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your private repositories and organizations</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read--false.png' %>" alt="">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Commit status</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read--false.png' %>" alt="">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Notifications</dt>
+        </dl>
+        <dl>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Your public repositories and organizations</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Commit status</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Notifications</dt>
+        </dl>
+      </div>
+    </div>
+    <div class="permissions__col">
+      <h3 class="permissions__heading">
+        <img src="<%= image_path 'marketing/permissions-icon--private.png' %>" alt="">
+        Private Access
+      </h3>
+      <div class="permissions__list">
+        <a href="/login/private" class="btn btn--flat">
+          <img class="btn-octocat" src="<%= image_path 'GitHub-Mark-Light-32px.png' %>" width="16px"> Allow Private Access
+        </a>
+        <dl>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your user profile</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your followers</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write--false.png' %>" alt="">
+          </dd>
+          <dt>Your email</dt>
+        </dl>
+        <dl>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Your private repositories and organizations</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Commit status</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Notifications</dt>
+        </dl>
+        <dl>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Your public repositories and organizations</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Commit status</dt>
+          <dd>
+            <img src="<%= image_path 'marketing/permissions-read.png' %>" alt="Read" title="Read">
+            <img src="<%= image_path 'marketing/permissions-write.png' %>" alt="Write" title="Write">
+          </dd>
+          <dt>Notifications</dt>
+        </dl>
+      </div>
+    </div>
+  </div>
+  
+</div></div>
+<!-- / main content area -->
+<!-- footer -->
+<footer class="footer" id="footer"><div class="container">
+
+  <!-- copyright -->
+  <p class="copyright">
+    Copyright &copy; 2014-2016 HuBoard, Inc.
+    <a href="/site/terms">Terms of Service</a>
+    <a href="/site/privacy">Privacy Policy</a>
+    <br />
+    Cover photo credit with slight modification.
+    <a href="https://www.flickr.com/photos/9511824@N05/4858486575/">DaveFayram</a> 
+    <a href="https://creativecommons.org/licenses/by/2.0/">cc</a>
+  </p>
+</div></footer>
+<!-- / footer -->
+
+<%= javascript_include_tag 'marketing' %>
+<%= render partial: 'shared/analytics' %>
+</body>
+</html>

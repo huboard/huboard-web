@@ -10,6 +10,7 @@
      <%= render partial: "shared/fontdeck" %>
      <%= stylesheet_link_tag 'bootstrap' %>
      <%= stylesheet_link_tag 'application' %>
+     <%= content_for :head %>
    </head>
    <body class="<%= ENV['HUBOARD_ENV'] %>">
      <div id="wrapper">
@@ -17,7 +18,7 @@
          <div class="navbar-inner">
            <div class="container">
             <ul class="nav breadcrumbs">
-              <li><a href="/" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
+              <li><a href="/dashboard" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
               <%= content_for :breadcrumb %>
             </ul>
              <ul class="nav pull-right">

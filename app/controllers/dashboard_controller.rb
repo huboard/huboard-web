@@ -1,10 +1,15 @@
 class DashboardController < ApplicationController
   before_action :login, only: :private
+  before_action :determine_auth_scope
+
   def index
+    github_authenticate!(:default) unless github_authenticated?(:default)
+    return redirect_to(welcome_path) unless logged_in? && current_user.has_scope?('read:org')
     @private = nil
     @user = gh.users(current_user.login)
     @repos = huboard.all_repos
   end
+
   def user
     user =   gh.users(params[:user]).raw
     not_found unless user.status == 200
@@ -45,6 +50,10 @@ class DashboardController < ApplicationController
   :protected
     def login
       github_authenticate! :private
+    end
+
+    def determine_auth_scope
+      @auth_scope_private = logged_in? && current_user.has_scope?(:repo)
     end
 
 end

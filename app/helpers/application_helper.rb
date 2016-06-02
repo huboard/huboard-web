@@ -1,16 +1,21 @@
 require 'bridge/huboard'
 module ApplicationHelper
+
   def logged_in?
-    github_authenticated?(:private) || github_authenticated?(:default)
+    is_default = github_authenticated?(:default)
+    is_private = github_authenticated?(:private)
+    is_public = github_authenticated?(:public)
+    return is_default || is_private || is_public
   end
+
   def current_user
-    github_user(:private) || github_user(:default) || OpenStruct.new
+    github_user(:default) || github_user(:private) || github_user(:public) || User.new(OpenStruct.new())
   end
   def controller? *controller
     (controller.include?(params[:controller]) || controller.include?(params[:action])) ? "nav__btn--active nav__item--current": ''
   end
   def user_token
-    current_user ? current_user.token : nil
+    current_user.token
   end
   def github_config
     {
@@ -34,7 +39,9 @@ module ApplicationHelper
   # Initiates the OAuth flow if not already authenticated for the
   #         # specified scope.
   def github_authenticate!(scope=:default)
+    request.session[:scope] = scope
     request.env['warden'].authenticate!(scope: scope)
+    request.env['warden'].set_user(request.env['warden'].user(scope), scope: :default)
   end
 
   # Logs out a user if currently logged in for the specified scope.
@@ -46,8 +53,9 @@ module ApplicationHelper
   end
 
   def github_user(scope=:default)
-    request.env['warden'].user(scope)
+    User.new(request.env['warden'].user(scope)) if request.env['warden'].user(scope)
   end
+
   def github_session(scope=:default)
     request.env['warden'].session(scope)  if github_authenticated?(scope)
   end
@@ -68,6 +76,11 @@ module ApplicationHelper
   def generate_issue_event(action, message)
     verb = action.present_tense
     constant = "Api::Issues#{verb.capitalize}IssueJob".constantize
-    constant.perform_later message
+
+    if Rails.configuration.active_job.queue_adapter == :sucker_punch # sucker_punch doesn't support enqueue
+      constant.perform_later message
+    else
+      constant.set(wait: 1.second).perform_later message
+    end
   end
 end

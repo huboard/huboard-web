@@ -30,7 +30,7 @@ Router.map(function() {
 
   });
 
-  this.route("unauthorized");
+  this.resource("sync-issues");
 });
 
 export default Router;

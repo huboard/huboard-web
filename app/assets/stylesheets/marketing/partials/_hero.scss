@@ -38,6 +38,19 @@
 		color: white;
 		font-family: $alt-font-family;
 		font-weight: 300;
+    .nav__btn {
+      display: inline;
+      &:before {
+        display: none;
+      }
+    }
+    .learn-more {
+      font-size: 26%;
+      color: white;
+      padding-left: 2px;
+      vertical-align: middle;
+    }
+
 		@include rem((
 			font-size: 52px,
 			margin-bottom: 17px

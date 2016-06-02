@@ -2,7 +2,7 @@
  <div class="navbar-inner">
    <div class="container-fluid">
     <ul class="nav breadcrumbs">
-      <li><a href="/" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
+      <li><a href="/dashboard" class="home"><i class="ui-icon ui-icon-menu"></i></a></li>
       <li><a href="{{model.userUrl}}">{{model.repo.owner.login}}</a></li>
       <li><a href="{{model.repoUrl}}">{{model.repo.name}}</a></li>
       <li>
@@ -38,8 +38,9 @@
         </li>
       {{else}}
          <li>
-           <form action="/login" method="GET">
-            <button class="hb-button"> Sign in </button>
+           <form action="/login/github" method="GET">
+             <input type="hidden" name="redirect_to" value="/{{model.repo.full_name}}" />
+             <button class="hb-button"> Sign in </button>
           </form>
          </li>
       {{/if}}

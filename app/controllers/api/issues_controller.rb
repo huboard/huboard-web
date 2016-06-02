@@ -6,6 +6,11 @@ module Api
       render json: api.issue(params[:number])
     end
 
+    def issues
+      api = huboard.board(params[:user], params[:repo])
+      render json: api.issues(params[:label], params[:options])
+    end
+
     def details
       api = huboard.board(params[:user], params[:repo])
       render json: api.issue(params[:number]).activities
@@ -25,6 +30,14 @@ module Api
     def label_issue
       api = huboard.board(params[:user], params[:repo])
       @issue = api.issue(params[:number]).update(params)
+      @label = params["selectedLabel"]
+      render json: @issue
+    end
+
+    def unlabel_issue
+      api = huboard.board(params[:user], params[:repo])
+      @issue = api.issue(params[:number]).update(params)
+      @label = params["selectedLabel"]
       render json: @issue
     end
 

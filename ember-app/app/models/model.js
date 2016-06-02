@@ -10,6 +10,9 @@ var HuBoardModel = Ember.Object.extend(
   _onInit: function(){
     this.set('content', this.get('data'));
   }.on('init'),
+  onDataChanged: function(){
+    this.set('content', this.get('data'));
+  }.observes('data'),
   ajax: ajax
 });
 

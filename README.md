@@ -2,6 +2,7 @@
 
 [![HuBoard logo](https://raw.github.com/huboard/huboard-web/master/app/assets/images/HuBoardSplash960.png)](https://huboard.com)
 
+[![Build Status](https://travis-ci.org/huboard/huboard-web.svg)](https://travis-ci.org/huboard/huboard-web)
 Check out our [parent repository](https://github.com/huboard/huboard#github-issues-made-awesome) for details!
 
 ## License

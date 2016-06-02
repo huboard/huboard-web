@@ -8,6 +8,7 @@ var Issue = Model.extend({
   order: Ember.computed.alias("data._data.order"),
   milestoneOrder: Ember.computed.alias("data._data.milestone_order"),
   milestoneTitle: Ember.computed.alias("milestone.title"),
+  commentCount: Ember.computed.alias("data.comments"),
   isArchived: function(){
     return this.get("customState") === "archived";
   }.property("customState"),
@@ -42,13 +43,15 @@ var Issue = Model.extend({
       })
     })
   },
-  updateLabels : function () {
+  updateLabels : function (label, action) {
     this.set("processing", true);
     return Ember.$.ajax( {
-      url: `${this.get("apiUrl")}/label`,
+      url: `${this.get("apiUrl")}/${action}`,
       data: JSON.stringify({
         labels: this.data.other_labels,
-        correlationId: this.get("correlationId")
+        correlationId: this.get("correlationId"),
+        selectedLabel: label,
+        action: action
       }),
       dataType: 'json',
       type: "PUT",
