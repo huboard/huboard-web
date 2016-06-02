@@ -8,7 +8,7 @@
   }}
 {{/if}}
 
-<ul class="cards sortable">
+<div class="cards sortable">
   {{#each sortedIssues as |issue|}}
     {{
       hb-task-card
@@ -19,5 +19,5 @@
         isLastColumn=model.isLastColumn
     }}
   {{/each}}
-</ul>
+</div>
 <div class="collapsed"></div>

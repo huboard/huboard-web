@@ -1,14 +1,19 @@
 import Ember from "ember";
 import CardMoveMixin from "../cards/card-move";
 
+
 var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
    classNameBindings:["isHovering:ui-sortable-hover"],
    isHovering: false,
-  attachSortable: function(){
+   attachSortable: function(){
+
     var _self = this;
     var cardMove = this.cardMover;
     var columns = this.get("columnComponents");
-    this.$(".cards").sortable({
+    var newSortable = _self.get('newSortable');
+    var sortableFx = newSortable ? "superSortable" : "sortable";
+    this.$(".cards")[sortableFx]({
+      appendTo: newSortable ? document.body : "parent",
       helper: function(ev,ui) {
         cardMove.data = {};
         cardMove.data.originIndex = ui.index();
@@ -16,11 +21,14 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         var column = cardMove.findColumn(ui, columns);
         var card = cardMove.findCard(ui, column);
         cardMove.data.card = card;
-        return ui;
+        return ui.clone();
       },
-      items: "li.is-draggable",
+      start: function(ev, ui){
+        ui.placeholder.height(ui.item.outerHeight());
+      },
+      items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
-      connectWith: "ul.cards",
+      connectWith: ".cards",
       over: function(){
         _self.set('isHovering', true);
       },
@@ -29,6 +37,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
       },
       update: function(ev, ui){
         if (this !== ui.item.parent()[0]){return ;}
+
         var column = cardMove.findColumn(ui.item, columns);
         cardMove.data.column = column;
 
@@ -44,7 +53,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         var issue = cardMove.data.card.get("issue");
 
         var cancelMove = function(){ 
-          Ember.$(ui.sender).sortable("cancel");
+          Ember.$(ui.sender)[sortableFx]("cancel");
         };
         var moveIssue = function(){
           column.moveIssue(issue, issue_order, cancelMove);
@@ -53,14 +62,14 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         _self.executeAfterBrowserPaint(moveIssue);
       },
     });
-  }.on("didInsertElement"),
+   }.on("didInsertElement"),
 
-  executeAfterBrowserPaint: function(callback){
-    if(window.requestAnimationFrame){
-      return window.requestAnimationFrame(callback);
-    }
-    callback();
-  }
+   executeAfterBrowserPaint: function(callback){
+     if(window.requestAnimationFrame){
+       return window.requestAnimationFrame(callback);
+     }
+     callback();
+   }
 });
 
 export default SortableMixin;

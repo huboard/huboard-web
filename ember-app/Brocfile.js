@@ -28,6 +28,7 @@ app.import('bower_components/fuse.js/src/fuse.js')
 app.import('bower_components/marked/marked.min.js')
 app.import('bower_components/jquery-textcomplete/dist/jquery.textcomplete.js')
 app.import('bower_components/jquery-color/jquery.color.js')
+app.import('app/vendor/jquery.color.contrast.js')
 app.import('app/vendor/task-list.js')
 app.import('app/vendor/autoresize.js')
 

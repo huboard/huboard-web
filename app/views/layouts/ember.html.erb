@@ -11,12 +11,8 @@
      <%= stylesheet_link_tag 'bootstrap' %>
      <%= stylesheet_link_tag 'flex_layout' %>
 
-
   </head>
-  <body class="flex-body">
-     <div id="application">
-     </div>
-     <%= content_for :overlay %>
+  <body class="flex-body" id="application">
 
      <%= render partial: "shared/analytics" %>
      <script>
