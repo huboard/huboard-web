@@ -74,9 +74,8 @@ class Huboard
 
       issue = gh.issues(number) do |request|
         request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview.full+json"
-      end
+      end.extend(Card).merge!(repo: {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
 
-      issue.extend(Card).merge!(repo: {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
       issue[:repo][:is_collaborator] = gh['permissions'] ? gh['permissions']['push'] : nil
       issue.attach_client connection_factory
       issue
