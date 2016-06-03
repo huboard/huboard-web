@@ -153,6 +153,7 @@
     }
   }
   .create-issue {
+    @include flex(0 0 auto);
     position: relative;
 
     margin-bottom: 6px;
@@ -230,6 +231,7 @@
 }
 
 .column .hb-column-header {
+  @include flex(0 0 auto);
   line-height: 20px;
   margin-bottom: 10px;
   padding: 10px;
@@ -238,6 +240,7 @@
 
   font-size: 100%;
   @extend %font-headings;
+
   small {
     float:right;
     line-height: 20px;

@@ -51,7 +51,8 @@ body {
 }
 
 .ember-application > .card {
-   min-height: auto; //<- jank! https://github.com/emberjs/ember.js/issues/11486
+   min-height: 0px; //<- jank! https://github.com/emberjs/ember.js/issues/11486
+   height: auto;
 }
 
 .application-outlet {
