@@ -10,7 +10,7 @@
       </div>
   </div>
   <div class="fullscreen-card-right">
-    {{#if controllers.application.loggedIn }}
+    {{#if application.loggedIn }}
       {{#if statusChangeable }}
       <div>
         <label>
@@ -63,7 +63,7 @@
     {{/if}}
   {{/if}}
 
-  {{#if controllers.application.loggedIn }}
+  {{#if application.loggedIn }}
   <hr>
   <form {{action "submitComment" on="submit"}} class="flex-form">
     {{hb-markdown-editor markdown=controller.commentBody mentions=mentions}}

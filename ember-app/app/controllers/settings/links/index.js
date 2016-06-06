@@ -2,13 +2,13 @@ import Ember from 'ember';
 import { debouncedObserver } from 'app/utilities/observers';
 
 var SettingsLinksIndexController = Ember.Controller.extend({
-  needs: ['application', 'settings/links'],
+  links: Ember.inject.controller('settings/links'),
   repoFullName: '',
   isDisabled: true,
   issue_filter: [],
   labels: [],
   labelChooserEnabled: false,
-  shouldDisplayWarning: Ember.computed.alias("controllers.settings/links.shouldDisplayWarning"),
+  shouldDisplayWarning: Ember.computed.alias("links.shouldDisplayWarning"),
   shouldDisplayError: false,
   errorMessage: '',
   resetForm: function(){

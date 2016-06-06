@@ -4,7 +4,7 @@ import Messaging from "app/mixins/messaging";
 
 var IssueController = Ember.Controller.extend(
   IssueSubscriptions, Messaging, {
-  needs: ["application"],
+  application: Ember.inject.controller(),
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
 
@@ -14,7 +14,7 @@ var IssueController = Ember.Controller.extend(
   isCollaborator: function(){
     return this.get("model.repo.isCollaborator");
   }.property("model.repo.isCollaborator"),
-  columns: Ember.computed.alias("controllers.application.model.board.columns"),
+  columns: Ember.computed.alias("application.model.board.columns"),
   isReady: function(key, value){
     if(value !== undefined) {
       if(value) {

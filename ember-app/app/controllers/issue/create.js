@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 var IssuesCreateController = Ember.Controller.extend({
-  needs: ["application"],
+  application: Ember.inject.controller(),
   isCollaborator: Ember.computed.alias("selectedRepo.isCollaborator"),
-  allRepos: Ember.computed.alias('controllers.application.model.repos'),
+  allRepos: Ember.computed.alias('application.model.repos'),
   selectedRepo: function(){
     return this.get('allRepos.firstObject');
   }.property('allRepos.[]'),
