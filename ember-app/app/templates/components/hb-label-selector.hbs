@@ -11,7 +11,7 @@
 
 <div class="hb-display-items">
   {{#each label in selected}}
-  <div class="hb-display-item background -x{{unbound label.color}}">
+  <div class="hb-display-item background" style={{selected-label-style label.color}}>
   <span>
     {{label.name}}
   </span>

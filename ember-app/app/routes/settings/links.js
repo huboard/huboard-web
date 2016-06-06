@@ -1,4 +1,3 @@
-import CssView from 'app/views/css';
 import Board from 'app/models/new/board';
 import Ember from 'ember';
 
@@ -11,10 +10,6 @@ var SettingsLinksRoute = Ember.Route.extend({
     if (model.get("isLoaded")) {
       return;
     }
-    var cssView = CssView.create({
-      content: model
-    });
-    cssView.appendTo("head");
   }
 });
 

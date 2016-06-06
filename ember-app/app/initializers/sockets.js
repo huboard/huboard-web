@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import correlationId from 'app/utilities/correlation-id';
 import faye from 'app/utilities/messaging/fayeClient';
 import ajax from 'ic-ajax';
@@ -28,6 +29,12 @@ export function initialize(container, application){
         _self._nextProcess = Ember.run.later(_self, _self._processMessageQueue, 50);
       },
       subscribe: function (channel, callback) {
+        if(channel === "null") { return Ember.K; }
+        /* jshint ignore:start */
+        // == null catchs null or undefined
+        if(channel == null) { return Ember.K; }
+        /* jshint ignore:end */
+
         const channel = this._sanitizeChannel(channel);
         if(!this.get("sockets")[channel]){
           this.subscribeTo(channel);
@@ -36,6 +43,9 @@ export function initialize(container, application){
         return callback;
       },
       unsubscribe: function(channel, callback) {
+        if(channel === "null") { return Ember.K; }
+        if(channel == null) { return Ember.K; }
+
         const channel = this._sanitizeChannel(channel);
         this.get("sockets")[channel].callbacks.remove(callback);
       },
@@ -76,6 +86,7 @@ export function initialize(container, application){
         const channel = this._sanitizeChannel(channel), self = this;
         var client = this.get('client'), 
         callbacks = Ember.$.Callbacks();
+
 
         client.disable("eventsource");
         var source = client.subscribe("/" + channel, function(message){

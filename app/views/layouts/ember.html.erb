@@ -13,10 +13,7 @@
 
 
   </head>
-  <body class="<%= ENV['HUBOARD_ENV'] %> flex-body">
-     <div id="application">
-     </div>
-     <%= content_for :overlay %>
+  <body class="<%= ENV['HUBOARD_ENV'] %> flex-body" id="application">
 
      <%= render partial: "shared/analytics" %>
      <script>

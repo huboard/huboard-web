@@ -4,6 +4,21 @@ var HbFilterComponent = Ember.Component.extend({
   tagName: "li",
   classNames: ["filter"],
   classNameBindings: ["customColor", "reportTagType"],
+  style: function(){
+    const color = Ember.$.Color('#' + (this.get('color') || "7965cc"));
+    var style = `border-left-color: ${color.toString()};`;
+
+    switch(this.get("modeClass")){
+      case "dim":
+        style = style + `color: ${color.contrastColor()}; background-color: ${color.alpha(0.6).toString()}`;
+        break;
+      case "active":
+        style = style + `color: ${color.contrastColor()}; background-color: ${color.alpha(1).toString()}`;
+        break;
+    }
+
+    return Ember.String.htmlSafe(style);
+  }.property('color', 'modeClass'),
   reportTagType: function() {
     return this.get('tagType');
   }.property('tagType'),
