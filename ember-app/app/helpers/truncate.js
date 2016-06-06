@@ -9,4 +9,4 @@ export function truncate(params) {
   return `${string.substring(0, length)}...`;
 }
 
-export default Ember.HTMLBars.makeBoundHelper(truncate);
+export default Ember.Helper.helper(truncate);
