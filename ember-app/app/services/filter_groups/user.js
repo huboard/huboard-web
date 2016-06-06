@@ -8,7 +8,7 @@ var UserFilters = Ember.Service.extend({
     this.set("filters", [
       Ember.Object.create({
         name: "Unassigned issues",
-        queryParam: "member",
+        queryParam: "assignee",
         mode: 0,
         condition: function(i){
           return !i.data.assignee;
@@ -20,7 +20,7 @@ var UserFilters = Ember.Service.extend({
       this.get("filters").insertAt(0, 
         Ember.Object.create({
           name: "Assigned to me",
-          queryParam: "member",
+          queryParam: "assignee",
           mode: 0,
           condition: function(i){
             return i.data.assignee && i.data.assignee.login === App.get("currentUser").login;
@@ -29,7 +29,7 @@ var UserFilters = Ember.Service.extend({
       this.get("filters").insertAt(1, 
         Ember.Object.create({
           name: "Assigned to others",
-          queryParam: "member",
+          queryParam: "assignee",
           mode: 0,
           condition: function(i){
             return i.data.assignee && i.data.assignee.login !== App.get("currentUser").login;
