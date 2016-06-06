@@ -7,12 +7,6 @@ GIT
       fog
       uuidtools
 
-PATH
-  remote: vendor/engines/enterprise
-  specs:
-    enterprise (0.0.1)
-      rails (~> 4.2.0)
-
 GIT
   remote: git://github.com/huboard/warden-github.git
   revision: 459903681fa00820065348c27639b9f27db9fa55
@@ -21,6 +15,11 @@ GIT
       activesupport (> 3.0)
       octokit (> 2.1.0)
       warden (> 1.0)
+
+PATH
+  remote: vendor/engines/enterprise
+  specs:
+    enterprise (0.0.1)
 
 PATH
   remote: vendor/engines/saas
@@ -539,3 +538,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   warden-github (= 1.4.0)!
   wkhtmltopdf-heroku
+
+BUNDLED WITH
+   1.11.2
