@@ -8,7 +8,7 @@ window.deprecationWorkflow.config = {
     { handler: "throw", matchId: "ember-views.view-deprecated" },
     { handler: "throw", matchMessage: "Controller#needs is deprecated, please use Ember.inject.controller() instead" },
     { handler: "throw", matchMessage: "Using the same function as getter and setter is deprecated." },
-    { handler: "silence", matchId: "ember-metal.@each-dependent-key-leaf" },
+    { handler: "throw", matchId: "ember-metal.@each-dependent-key-leaf" },
     { handler: "silence", matchMessage: "Ember.create is deprecated in favor of Object.create" },
     { handler: "silence", matchId: "ember-views.dispatching-modify-property" }
   ]
