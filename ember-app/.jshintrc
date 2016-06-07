@@ -2,6 +2,7 @@
   "predef": [
     "document",
     "window",
+    "jQuery",
     "-Promise",
     "Faye",
     "HUBOARD_ENV",
