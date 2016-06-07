@@ -12,6 +12,7 @@ var issuesByRepo;
 var board;
 var repo;
 var issue;
+var relationships;
 
 module('Visitors/Issue/References', {
   setup: function(){
@@ -34,7 +35,7 @@ module('Visitors/Issue/References', {
     issue = Ember.Object.create({repo: repo});
 
     //Mock up discovered issue references on the issue:
-    var relationships = {
+    relationships = {
       'issue-references': [
         {
           url: 'www.anissue.com',
@@ -63,13 +64,13 @@ module('Visitors/Issue/References', {
 });
 
 test('visit', (assert) => {
-  var issue_promise = sinon.stub();
-  sut.run = sinon.stub().returns(issue_promise);
+  var promise = sinon.stub();
+  sut.run = sinon.stub().returns(promise);
 
   var references = [
-    [{issue1: 'issue1'}],
-    [{issue2: 'issue2'}],
-    []
+    {issue1: 'issue1'},
+    {issue2: 'issue2'},
+    undefined
   ];
   var success = $.ajax().then(()=>{return references});
   Ember.RSVP.all = sinon.stub().returns(success);
@@ -80,24 +81,35 @@ test('visit', (assert) => {
   ];
 
   sut.visit(issue);
-  assert.ok(Ember.RSVP.all.calledWith([issue_promise, issue_promise]));
+
+  var message = 'ensure theres a promise per reference';
+  assert.ok(Ember.RSVP.all.calledWith([promise, promise, promise, promise]), message);
 
   var done = assert.async();
   setTimeout(()=>{
-    assert.deepEqual(issue.get('issueReferences'), flat_references);
+    assert.deepEqual(issue.get('issueReferences'), flat_references, 'returns the issues');
     done();
   });
 });
 
 test('discovers referenced issues in the model', (assert) =>{
-  var result = sut.discoverIssues(issue);
-  assert.equal(result[0].name, 'issue1', 'Discovers the first reference');
-  assert.equal(result[1].name, 'issue2', 'Discovers the second reference');
+  var references = relationships['issue-references'];
+
+  var result = sut.discoverIssue(issue, references[0]);
+  assert.equal(result.name, 'issue1', 'Discovers the first reference');
+
+  result = sut.discoverIssue(issue, references[1]);
+  assert.equal(result.name, 'issue2', 'Discovers the second reference');
 });
 
+
 test('discovers missing closed issues, returns a reference with a status', (assert) => {
-  var result = sut.discoverClosedIssues(issue);
-  assert.equal(result[0].state, 'closed', 'Infers the existence of a closed issue');
-  assert.equal(result[1].state, 'closed', 'Infers the existence of a linked closed issue');
+  var references = relationships['issue-references'];
+
+  var result = sut.discoverIssue(issue, references[2]);
+  assert.equal(result.state, 'closed', 'Infers the existence of a closed issue');
+
+  result = sut.discoverIssue(issue, references[3]);
+  assert.equal(result.state, 'closed', 'Infers the existence of a linked closed issue');
 });
 

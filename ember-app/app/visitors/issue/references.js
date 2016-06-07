@@ -2,51 +2,49 @@ import Ember from 'ember';
 
 var IssueReferencesVisitor = Ember.Object.create({
   visit: function(issue){
-    var promises = [
-      this.run(this.discoverIssues, issue),
-      this.run(this.discoverClosedIssues, issue)
-    ];
+    var references = issue.get('cardRelationships')['issue-references'] || [];
+    var _self = this;
+    var promises = references.map((reference)=> {
+      return _self.run(_self.discoverIssue, issue, reference);
+    });
 
     Ember.RSVP.all(promises).then((references)=> {
-      issue.set('issueReferences', _.flatten(references));
+      issue.set('issueReferences', _.compact(references));
     });
   },
 
-  run: function(discovery, issue){
+  run: function(discovery, issue, reference){
     var _self = this;
     return new Ember.RSVP.Promise((resolve, reject)=>{
-      resolve(discovery.call(_self, issue));
-      reject([]);
+      resolve(discovery.call(_self, issue, reference));
+      reject();
     });
   },
 
-  discoverIssues: function(issue){
-    var references = issue.get('cardRelationships')['issue-references'] || [];
+  discoverIssue: function(issue, reference){
     var issuesById = issue.get('repo.board.issuesById');
-    return references.map((reference)=>{
-      if(issuesById.hasOwnProperty(reference.id)){
-        return issuesById[reference.id];
-      }
-    }).compact();
+    if(issuesById.hasOwnProperty(reference.id)){
+      return issuesById[reference.id];
+    }
+    return this.otherIssue(issue, reference);
   },
-  discoverClosedIssues: function(issue){
-    var references = issue.get('cardRelationships')['issue-references'] || [];
-    var discovered_issues = this.discoverIssues(issue);
+
+  otherIssue: function(issue, reference){
+    return this.discoverClosedIssue(issue, reference) ||
+      this.discoverMissingIssue(issue, reference);
+  },
+
+  discoverClosedIssue: function(issue, reference){
+    var match = reference.text.replace(this.repoNamePattern, '');
     var issuesByRepo = issue.get('repo.board.issuesByRepo');
-
-    var closed = references.filter((reference)=>{
-      return !discovered_issues.any((issue)=>{ return issue.get('id') === reference.id });
-    }).filter((missing_reference)=>{
-      var match = missing_reference.text.replace(this.repoNamePattern, '');
-      if(Ember.isBlank(match)){ return true }
-      return issuesByRepo.hasOwnProperty(match);
-    });
-    closed.forEach((ref)=>{ ref.state = 'closed' });
-
-    return closed;
+    if(Ember.isBlank(match) || issuesByRepo.hasOwnProperty(match)){ 
+      reference.state = 'closed'
+      return reference;
+    }
   },
-  discoverMissingIssues: function(){
-    //Logic for discovering issue references from non-linked repos
+  discoverMissingIssue: function(){
+    //currently a noop
+    return;
   },
   repoNamePattern: /#.+/
 });
