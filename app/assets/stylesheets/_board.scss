@@ -330,6 +330,10 @@
 }
 
 .card {
+  &.task-card {
+    display: inline-block;
+    width: 96%;
+  }
   cursor:pointer;
   list-style: none;
   padding: 5px 5px 6px 5px;
@@ -338,7 +342,6 @@
   background-color: #fff;
   border: 1px solid #e5e5e5;
   border-bottom-color: darken(#e5e5e5, 5%); 
-  overflow: hidden;
   @include transform(translateZ(0));
   .hb-avatar-tooltip {
     position: static;

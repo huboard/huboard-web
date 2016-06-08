@@ -19,6 +19,7 @@ var takeWhile = function(list, callback, context) {
 
 var HbMilestoneCard = HbCard.extend({
   classNames: ["card", "card--milestone"],
+  taskCard: false,
   columnIndicator: function(){
     let currentState = get(this, 'issue.current_state');
     var columns = this.get('taskColumns').map((c) => {

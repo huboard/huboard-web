@@ -8,7 +8,8 @@ var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
     attributeBindings: ['style'],
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
+    taskCard: true,
     filters: Ember.inject.service(),
     style: Ember.computed('issue.linkedColor', {
       get: function(){
