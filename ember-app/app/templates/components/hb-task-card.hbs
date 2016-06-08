@@ -19,6 +19,20 @@
     </div>
   </div>
 
+  <div class="card-details-wrapper">
+    <div class="card-details">
+      <div class="comment-count">
+        <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
+      </div>
+
+      {{#if issue.linkedColor}}
+        <div class="linked-repo" style="color:#{{issue.linkedColor}}">
+          {{issue.data.repo.full_name}}
+        </div>
+      {{/if}}
+    </div>
+  </div>
+
   <div class="card-labels">
       {{#each cardLabels as |label|}}
         <div class="card-label-wrapper"> 

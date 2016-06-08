@@ -70,7 +70,7 @@ var HbCardComponent = Ember.Component.extend(
         return this.get("issue.data.other_labels").map(function(l){
           var color = Ember.$.Color('#' + l.color);
 
-          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}`;
+          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}; border-color: ${color.toString()}`;
 
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         }).slice(0,4);
