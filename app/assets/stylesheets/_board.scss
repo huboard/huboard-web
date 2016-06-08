@@ -343,7 +343,6 @@
     position: static;
   }
 
-
   &.border {
     border-top-color: #e5e5e5;
     border-right-color: #e5e5e5;
@@ -394,43 +393,47 @@
      border-color: red;
   }
   .card-labels {
-    padding: 5px 0px;
-    position: absolute;
-    bottom: -8px;
+    position: relative;
+    clear: left;
     .card-label-wrapper {
       float:left;
       margin-right: 5px;
-      .card-label {
-        z-index: 10;
-      }
-      .card-label.active.small {
-        height: 4px;
-        width: 40px;
-        display:block;
-      }
       .card-label.active.large {
         position: relative;
         top: 6px;
 
-        display: none;
         padding: 2px 10px;
         font-size: 12px;
       }
     }
-      &:hover {
-        .card-label.active.small {
-          display: none;
-        }
-        .card-label.active.large {
-          display:block;
-        }
-      }
   }
 
   .card-header {
-    border-bottom: 1px solid $borderColor;
     padding: 5px 0;
     color: $darkGrey;
+
+    &.task-card {
+      float: left;
+      width: 85%;
+    }
+  }
+  .card-right-wrapper {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    float: right;
+    height: 100%;
+    .card-right {
+      position: relative;
+      height: 100%;
+
+      .hb-avatar-tooltip {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        padding: 5px;
+      }
+    }
   }
   .title {
     white-space: normal;
@@ -442,21 +445,20 @@
     font-size:11px;
   }         
   img {
-    position: absolute;
-    bottom:5px;
-    left: 5px;
+    max-width: 24px;
   }          
   .number {
-    position: absolute;
+    position: relative;
     vertical-align: bottom;
-    bottom:5px;
     right: 5px;
-    font-size:2em;
+    font-size:1em;
     small {
       color: #999;
-      margin-right: -7px;
     }
   }               
+  .type {
+    float: left;
+  }
 
   &.card--milestone {
     &.border {
@@ -498,10 +500,39 @@
       border-bottom: none;
     }
     .card-labels {
+      padding: 5px 0px;
+      position: absolute;
       bottom: auto;
       top: -8px;
-    }
+      .card-label-wrapper {
+        float:left;
+        margin-right: 5px;
+        .card-label {
+          z-index: 10;
+        }
+        .card-label.active.small {
+          height: 4px;
+          width: 40px;
+          display:block;
+        }
+        .card-label.active.large {
+          position: relative;
+          top: 6px;
 
+          display: none;
+          padding: 2px 10px;
+          font-size: 12px;
+        }
+      }
+      &:hover {
+        .card-label.active.small {
+          display: none;
+        }
+        .card-label.active.large {
+          display:block;
+        }
+      }
+    }
   }
 }
 
@@ -641,7 +672,6 @@
 }
 
 .task-column {
-  min-width: 0px;
   float:none;
   @include flex(1);
   @include display(flex);
@@ -649,7 +679,7 @@
   @include transition(all 0.4s ease-out);
 }
 .column {
-  min-width: 0px;
+  min-width: 300px;
   //@include transition(all 0.4s ease-out);
   .hb-column-header {
     cursor: pointer;

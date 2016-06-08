@@ -73,7 +73,7 @@ var HbCardComponent = Ember.Component.extend(
           var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}`;
 
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
-        });
+        }).slice(0,4);
     }.property("issue.data.other_labels.[]"),
     stateClass: function(){
        var github_state = this.get("issue.data.state");
