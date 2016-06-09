@@ -21,10 +21,15 @@ var CardMoveMixin = Ember.Mixin.create({
       return (above_order + below_order) / 2;
     },
     moveToTop: function(issue, issue_below){
-      return (issue_below._data[this.get("orderKey")]) / 2;
+      var order = (issue_below._data[this.get("orderKey")]) / this.orderMultiplier;
+      if(order < (this.orderMultiplier * Number.MIN_VALUE)){
+        return issue_below.get('data.id') * Number.MIN_VALUE;
+      }
+
+      return order;
     },
     moveToBottom: function(issue, issue_above){
-      return issue_above._data[this.get("orderKey")] + 1;
+      return issue_above._data[this.get("orderKey")] * this.orderMultiplier;
     },
     findCard: function(element, column){
       return column.get("cards").find(function(card){
@@ -59,7 +64,8 @@ var CardMoveMixin = Ember.Mixin.create({
       //Adjust based on issue dragging up or down
       if(column_changed){ return 0; }
       return index >= this.data.originIndex ? 1 : 0;
-    }
+    },
+    orderMultiplier: 1.0001
   })
 });
 

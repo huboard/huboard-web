@@ -45,9 +45,11 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       return a.data._data.milestone_order - b.data._data.milestone_order;
     });
     if(issues.length){
+      var top_issue = issues.get("firstObject.data");
+      var top_milestone_issue = milestone_issues.get("firstObject.data");
       return {
-        order: issues.get("firstObject.data._data.order") / 2,
-        milestone_order: milestone_issues.get("firstObject.data._data.milestone_order") / 2
+        order: this.cardMover.moveToTop({}, top_issue),
+        milestone_order: this.cardMover.moveToTop({}, top_milestone_issue)
       };
     } else {
       return {};

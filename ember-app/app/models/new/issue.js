@@ -187,7 +187,13 @@ var Issue = Model.extend({
       this.set("data.body_html", response.body_html);
       return this;
     }.bind(this), "json");
-  }
+  },
+  maxMinOrderFix: function(){
+    if(this.get('order') < (Number.MIN_VALUE * 1e4)){
+      var adjusted_order = (this.get('data.number') * 1e4) * Number.MIN_VALUE;
+      this.set('order', adjusted_order);
+    }
+  }.observes('order').on('init')
 });
 
 export default Issue;
