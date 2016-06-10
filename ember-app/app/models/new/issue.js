@@ -14,6 +14,7 @@ var Issue = Model.extend({
   }.property("customState"),
   correlationId: correlationId,
   assignee: Ember.computed.alias("data.assignee"),
+  linkedColor: Ember.computed.alias("repo.data.repo.color.color"),
   apiUrl: function(){
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;

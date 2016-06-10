@@ -15,7 +15,7 @@ class Huboard
       params = params.merge(labels: label) if label
 
       issues_response = gh.issues(params).all do |request|
-        request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview"
+        request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview.full+json"
       end
 
       issues_response.each{
@@ -73,10 +73,9 @@ class Huboard
       raise "number is nil" unless number
 
       issue = gh.issues(number) do |request|
-        request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview"
-      end
+        request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview.full+json"
+      end.extend(Card).merge!(repo: {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
 
-      issue.extend(Card).merge!(repo: {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
       issue[:repo][:is_collaborator] = gh['permissions'] ? gh['permissions']['push'] : nil
       issue.attach_client connection_factory
       issue

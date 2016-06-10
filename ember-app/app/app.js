@@ -25,7 +25,6 @@ var HuBoard = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver,
-  rootElement: "#application",
   dimFilters: [],
   hideFilters: [],
   searchFilter: null,
