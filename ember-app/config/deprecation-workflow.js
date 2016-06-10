@@ -10,6 +10,6 @@ window.deprecationWorkflow.config = {
     { handler: "throw", matchMessage: "Using the same function as getter and setter is deprecated." },
     { handler: "throw", matchId: "ember-metal.@each-dependent-key-leaf" },
     { handler: "throw", matchMessage: "Ember.create is deprecated in favor of Object.create" },
-    { handler: "silence", matchId: "ember-views.dispatching-modify-property" }
+    { handler: "throw", matchId: "ember-views.dispatching-modify-property" }
   ]
 };
