@@ -1,6 +1,6 @@
 @import "bourbon/bourbon";
-@import "mixins";
 @import "colors";
+@import "mixins";
 @import "font";
 @import "fonts";
 @import "buttons";
@@ -14,6 +14,7 @@
 @import "credit_cards";
 @import "breadcrumbs";
 @import "account";
+@import "sidebar";
 
 form {
   margin: 0;

@@ -6,13 +6,20 @@ import Messaging from "app/mixins/messaging";
 
 var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
-    tagName: "li",
+    attributeBindings: ['style'],
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "colorLabel", "issue.repo.data.repo.color:border", "stateClass"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass"],
     filters: Ember.inject.service(),
-    colorLabel: function () {
-      return "-x" + this.get("issue.repo.data.repo.color.color");
-    }.property("issue.color"),
+    style: Ember.computed('issue.linkedColor', {
+      get: function(){
+        const color = this.get("issue.linkedColor");
+        if(color) {
+          return Ember.String.htmlSafe(`border-left-color: #${color}`);
+        } else {
+          return Ember.String.htmlSafe("");
+        }
+      }
+    }),
     isCollaborator: function(){
       return this.get("issue.repo.isCollaborator");
     }.property("issue.repo.isCollaborator"),
@@ -61,7 +68,11 @@ var HbCardComponent = Ember.Component.extend(
     }.property("issue.data.state", "isCollaborator"),
     cardLabels: function () {
         return this.get("issue.data.other_labels").map(function(l){
-          return Ember.Object.create(_.extend(l,{customColor: "-x"+l.color}));
+          var color = Ember.$.Color('#' + l.color);
+
+          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}`
+
+          return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         });
     }.property("issue.data.other_labels.[]"),
     stateClass: function(){
