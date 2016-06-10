@@ -27,11 +27,19 @@ var queryParamsService = Ember.Service.extend({
   filterNames: ["repo", "assignee", "milestone", "label", "card"],
   allFilterParams: function(){
     var self = this;
-    var filters = this.get("filterNames").map(function(param){
-      return self.get(`${param}Params`);
+    var filters = {length: 0};
+    this.get("filterNames").forEach(function(param){
+      filters.length = filters.length + 1;
+      filters[param] = self.get(`${param}Params`);
     });
-    return _.flatten(filters);
+    return filters;
   }.property("{repo,assignee,milestone,label,card}Params"),
+  anyParamsPresent: function(){
+    var allFilterParams = this.get('allFilterParams');
+    return this.get('filterNames').any((param)=>{
+      return allFilterParams[param].length;
+    });
+  }.property('allFilterParams.{repo,assignee,milestone,label,card}.length'),
 
   filtersReady: function(){
     if(this.get("filters.filtersReady")){
@@ -66,33 +74,29 @@ var queryParamsService = Ember.Service.extend({
   //Pushes URL filters down to the filter objects on load
   applyFilterParams: function(){
     var legacyMatch = this.legacyFilterMatch;
-    var all_filters = this.get("filters.allFilters");
-    this.get("allFilterParams").forEach(function(param){
-      var filters = all_filters.filter(function(filter){
-        return filter.name === param || legacyMatch(filter.name) === param;
-      });
-      filters.setEach("mode", 2);
+    var allFilterParams = this.get('allFilterParams');
+    this.get('filters.allFilters').forEach((filter)=>{
+      var paramsForFilter = allFilterParams[filter.queryParam];
+      if(paramsForFilter && paramsForFilter.length){
+        var filterIsPresent = paramsForFilter.any((p)=> {
+          return p === filter.name || p === legacyMatch(filter.name);
+        });
+        if(filterIsPresent){ filter.set('mode', 2); }
+      }
     });
   },
 
   //Buffer the Filter Params for transitions (controllers initialization wipes them)
   filterParamsBuffer: {},
   updateFilterParamsBuffer: function(){
-    if(this.get("allFilterParams").length){
-      this.set("filterParamsBuffer", {
-        active: true,
-        repo: this.get("repoParams"),
-        assignee: this.get("assigneeParams"),
-        milestone: this.get("milestoneParams"),
-        label: this.get("labelParams"),
-        card: this.get("cardParams")
-      });
+    if(this.get('anyParamsPresent')){
+      this.set("filterParamsBuffer", this.get('allFilterParams'));
+      this.set("filterParamsBuffer.active", true);
     }
-  }.observes("allFilterParams.[]"),
+  }.observes("anyParamsPresent", "allFilterParams"),
   applyFilterBuffer: function(){
     var buffer = this.get("filterParamsBuffer");
-    var params = this.get("allFilterParams");
-    if(buffer.active && !params.length){
+    if(buffer.active && !this.get('anyParamsPresent')){
       this.set("repoParams", buffer.repo);
       this.set("assigneeParams", buffer.assignee);
       this.set("milestoneParams", buffer.milestone);
