@@ -11,8 +11,8 @@ var CardMoveMixin = Ember.Mixin.create({
     calculateIssueOrder: function(issue_above, issue_below){
       var issue = this.data.card.get("issue.data");
       if(!issue_above && !issue_below){return issue._data.order; }
-      if(!issue_above){ return this.moveToTop(issue, issue_below); }
-      if(!issue_below){ return this.moveToBottom(issue, issue_above); }
+      if(!issue_above){ return this.moveToTop(issue_below); }
+      if(!issue_below){ return this.moveToBottom(issue_above); }
       return this.move(issue, issue_above, issue_below);
     },
     move: function(issue, issue_above, issue_below){
@@ -20,16 +20,19 @@ var CardMoveMixin = Ember.Mixin.create({
       var below_order = issue_below._data[this.get("orderKey")];
       return (above_order + below_order) / 2;
     },
-    moveToTop: function(issue, issue_below){
-      var order = (issue_below._data[this.get("orderKey")]) / this.orderMultiplier;
-      if(order < (this.orderMultiplier * Number.MIN_VALUE)){
-        return issue_below.get('data.id') * Number.MIN_VALUE;
-      }
+    moveToTop: function(issue_below){
+      var below_order = issue_below._data[this.get("orderKey")]
+      var order = below_order / this.orderMultiplier;
+      while(order < this.minThreshold){ order *= 10; }
 
       return order;
     },
-    moveToBottom: function(issue, issue_above){
-      return issue_above._data[this.get("orderKey")] * this.orderMultiplier;
+    moveToBottom: function(issue_above){
+      var above_order = issue_above._data[this.get("orderKey")];
+      var order = above_order * this.orderMultiplier;
+      while(order > this.maxThreshold){ order /= 10; }
+
+      return order;
     },
     findCard: function(element, column){
       return column.get("cards").find(function(card){
@@ -65,7 +68,9 @@ var CardMoveMixin = Ember.Mixin.create({
       if(column_changed){ return 0; }
       return index >= this.data.originIndex ? 1 : 0;
     },
-    orderMultiplier: 1.0001
+    orderMultiplier: 1.0001,
+    minThreshold: 1e-319,
+    maxThreshold: 1e307
   })
 });
 

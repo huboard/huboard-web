@@ -189,11 +189,12 @@ var Issue = Model.extend({
     }.bind(this), "json");
   },
   maxMinOrderFix: function(){
-    if(this.get('order') < (Number.MIN_VALUE * 1e4)){
-      var adjusted_order = (this.get('data.number') * 1e4) * Number.MIN_VALUE;
-      this.set('order', adjusted_order);
-    }
-  }.observes('order').on('init')
+    var order = this.get('order');
+    while(order < 1e-319){ order *= 10; }
+    while(order > 1e307){ order /= 10; }
+
+    this.set('order', order);
+  }.on('init')
 });
 
 export default Issue;
