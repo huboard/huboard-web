@@ -3,8 +3,8 @@ import ajax from 'ic-ajax';
 
 var SettingsIntegrationsIndexController = Ember.Controller.extend({
   application: Ember.inject.controller(),
-  settings: Ember.inject.controller('settings/integrations'),
-  possibleIntegrations: Ember.computed.alias('settings.possibleIntegrations'),
+  integrations: Ember.inject.controller('settings/integrations'),
+  possibleIntegrations: Ember.computed.alias('integrations.possibleIntegrations'),
   disabled: function(){
     return this.get("processing") || this.get("editing.disabled");
   }.property("processing","editing.disabled"),

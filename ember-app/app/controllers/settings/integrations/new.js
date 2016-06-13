@@ -3,14 +3,14 @@ import Integration from 'app/models/integration';
 
 var SettingsIntegrationsNewController = Ember.Controller.extend({
   application: Ember.inject.controller(),
-  settings: Ember.inject.controller('settings/integrations'),
+  integrations: Ember.inject.controller('settings/integrations'),
   disabled: function(){
     return this.get("processing") || this.get("model.disabled");
   }.property("processing","model.disabled"),
   actions: {
     submit: function(){
       var self = this;
-      var controller = this.get("settings"),
+      var controller = this.get("integrations"),
         endpoint = "/api/" + this.get("application.model.data.repo.full_name") + "/integrations";
 
         this.set("processing", true);
