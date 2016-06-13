@@ -23,6 +23,7 @@ var CardMoveMixin = Ember.Mixin.create({
     moveToTop: function(issue_below){
       var below_order = issue_below._data[this.get("orderKey")];
       var order = below_order / this.orderMultiplier;
+
       if(order <= 0){ order = issue_below.get('data.id') * this.minThreshold; }
       while(order < this.minThreshold){ order *= 10; }
 
