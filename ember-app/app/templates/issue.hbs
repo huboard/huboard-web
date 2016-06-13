@@ -23,8 +23,8 @@
       {{/if}}
     {{/if}}
       {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=model.data.other_labels selected=model.data.other_labels title="Labels" labels=model.repo.data.other_labels}}
-      {{hb-assignee editable=isCollaborator assign="assignUser" selected=controller.model.assignee assignees=model.repo.data.assignees}}
-      {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=controller.model.milestone milestones=model.repo.data.milestones}}
+      {{hb-assignee editable=isCollaborator assign="assignUser" selected=model.assignee assignees=model.repo.data.assignees}}
+      {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=model.milestone milestones=model.repo.data.milestones}}
   </div>
 <div class="fullscreen-card-left">
   {{issue/hb-body
@@ -66,7 +66,7 @@
   {{#if application.loggedIn }}
   <hr>
   <form {{action "submitComment" on="submit"}} class="flex-form">
-    {{hb-markdown-editor markdown=controller.commentBody mentions=mentions}}
+    {{hb-markdown-editor markdown=commentBody mentions=mentions}}
     <div class="submit-comment-buttons">
       {{#if isCollaborator}}
         {{#if isClosed}}

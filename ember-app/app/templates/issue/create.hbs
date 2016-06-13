@@ -14,8 +14,8 @@
       {{hb-repo-selector editable=true selected=selectedRepo repos=allRepos assignRepo="assignRepo"}}
       {{#if isCollaborator}}
         {{hb-label-selector values=model.labels selected=model.labels title="Labels" labels=otherLabels}}
-        {{hb-assignee editable=true  selected=model.assignee assignees=controller.assignees}}
-        {{hb-milestone editable=true selected=model.milestone milestones=controller.milestones}}
+        {{hb-assignee editable=true  selected=model.assignee assignees=assignees}}
+        {{hb-milestone editable=true selected=model.milestone milestones=milestones}}
       {{/if}}
     </div>
   </form>
