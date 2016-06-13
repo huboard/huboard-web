@@ -188,14 +188,21 @@ var Issue = Model.extend({
       return this;
     }.bind(this), "json");
   },
-  maxMinOrderFix: function(){
-    var order = this.get('order');
+  runMaxMinOrderFix: function(){
+    var order = this.maxMinOrderFix(this.get('order'));
+    var milestone_order = this.maxMinOrderFix(this.get('milestone_order'));
+
+    if(order != this.get('order')){this.set('order', order)};
+    if(milestone_order != this.get('milestone_order')){ 
+      this.set('milestone_order', milestone_order)
+    };
+  }.on('init'),
+  maxMinOrderFix: function(order){
     if(order <= 0 || order === Infinity){ order = this.get('data.id') * Number.MIN_VALUE }
     while(order < 1e-319){ order *= 10; }
     while(order > 1e307){ order /= 10; }
-
-    this.set('order', order);
-  }.on('init')
+    return order;
+  }
 });
 
 export default Issue;
