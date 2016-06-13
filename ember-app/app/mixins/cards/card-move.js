@@ -23,6 +23,7 @@ var CardMoveMixin = Ember.Mixin.create({
     moveToTop: function(issue_below){
       var below_order = issue_below._data[this.get("orderKey")]
       var order = below_order / this.orderMultiplier;
+      if(order <= 0){ order = issue_below.get('data.id') * this.minThreshold; }
       while(order < this.minThreshold){ order *= 10; }
 
       return order;
@@ -30,6 +31,8 @@ var CardMoveMixin = Ember.Mixin.create({
     moveToBottom: function(issue_above){
       var above_order = issue_above._data[this.get("orderKey")];
       var order = above_order * this.orderMultiplier;
+
+      if(order === Infinity){ order = issue_above.get('data.id') / this.maxThreshold; }
       while(order > this.maxThreshold){ order /= 10; }
 
       return order;

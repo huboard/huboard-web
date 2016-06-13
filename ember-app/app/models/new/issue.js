@@ -190,6 +190,7 @@ var Issue = Model.extend({
   },
   maxMinOrderFix: function(){
     var order = this.get('order');
+    if(order <= 0 || order === Infinity){ order = this.get('data.id') * Number.MIN_VALUE }
     while(order < 1e-319){ order *= 10; }
     while(order > 1e307){ order /= 10; }
 
