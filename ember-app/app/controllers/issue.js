@@ -52,8 +52,11 @@ var IssueController = Ember.Controller.extend(
          this.get("model").updateLabels(label, action);
        }.bind(this));
     },
-    assignUser: function(login){
-      return this.get("model").assignUser(login);
+    assignUsers: function(logins){
+      return this.get("model").assignUsers(logins);
+    },
+    unassignUsers: function(logins){
+      return this.get("model").unassignUsers(logins);
     },
     assignMilestone: function(milestone) {
       this.get("model").assignMilestone(this.get("model.data.number"), milestone);
@@ -134,7 +137,13 @@ var IssueController = Ember.Controller.extend(
     return _.uniq(_.compact(union), function(i){
       return i.login;
     });
-  }.property('model.repo.assignees.[]','allActivities')
+  }.property('model.repo.assignees.[]','allActivities'),
+  assignees: function(){
+    if(this.get('model.assignees')){
+      return this.get('model.assignees');
+    }
+    return [this.get('model.assignee')];
+  }.property('model.assignee', 'model.assignees.[]')
 });
 
 export default IssueController;

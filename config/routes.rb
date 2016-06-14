@@ -97,6 +97,7 @@ Rails.application.routes.draw do
         post 'issues/:number/dragcard' => 'issues#drag_card'
         put 'issues/:number/archived' => 'issues#archive_issue'
         post 'issues/:number/assigncard' => 'issues#assign_issue'
+        post 'issues/:number/unassigncard' => 'issues#unassign_issue'
         post 'issues/:number/assignmilestone' => 'issues#assign_milestone'
 
         post 'milestones/:number/reorder' => 'milestones#reorder'

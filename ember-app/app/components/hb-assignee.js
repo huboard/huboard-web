@@ -11,7 +11,6 @@ var HbAssigneeComponent = Ember.Component.extend({
 
 
   listItems: function () {
-
     return this.get("assignees")
     .filter(function(item) {
       var term = this.get("filterPeople") || "";
@@ -20,13 +19,11 @@ var HbAssigneeComponent = Ember.Component.extend({
     .map(function(item) {
 
       return this.ListItem.create({
-        selected: item.id === this.get("selected.id"),
+        selected: this.get("selected").anyBy("login", item.login),
         item: item
       });
-
     }.bind(this));
-
-  }.property("assignees.[]","selected","filterPeople"),
+  }.property("assignees.[]","selected.[]","filterPeople"),
 
   ListItem: Ember.Object.extend({
     selected: false,
@@ -46,10 +43,16 @@ var HbAssigneeComponent = Ember.Component.extend({
       }
     },
     assignTo: function(assignee) {
-      this.set("selected", assignee);
-      this.sendAction("assign", assignee.login);
-      this.$().removeClass("open");
-      this.set("isOpen", false);
+      var selected = this.get('selected');
+      if(selected.anyBy('login', assignee.login)){
+        var action = 'unassign'
+        var obj = selected.find((select)=>{ return select.login === assignee.login });
+        selected.removeObject(obj);
+      } else {
+        var action = 'assign'
+        selected.pushObject(assignee);
+      }
+      this.sendAction(action, [assignee.login]);
     },
     assignToCurrentUser : function() {
       var currentUser = this.get("currentUser");
