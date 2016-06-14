@@ -244,12 +244,14 @@ class Huboard
             if !data["order"].is_a?(Numeric) || data["order"] <= 0
               data["order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
+              self['body'] = self['body'].to_s.gsub /@huboard:.*/, "@huboard:#{MultiJson.dump(data)}"
             end
 
             data["milestone_order"] = self['number'] unless data["milestone_order"]
             if !data["milestone_order"].is_a?(Numeric) || data["milestone_order"] <= 0
               data["milestone_order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
+              self['body'] = self['body'].to_s.gsub /@huboard:.*/, "@huboard:#{MultiJson.dump(data)}"
             end
 
             return data

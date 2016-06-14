@@ -80,14 +80,15 @@ var HbMilestoneComponent = HbColumn.extend(
         return a.data._data.order - b.data._data.order;
       }).get("firstObject");
     if(issues.length){
-      var order = { milestone_order: issues.get("firstObject.data._data.milestone_order") / 2};
+      var milestone_order = this.cardMover.moveToTop(issues.get("firstObject.data"));
+      var order = { milestone_order: milestone_order};
       if(first){
-        order.order = first.data._data.order / 2;
+        order.order = this.cardMover.moveToTop(first.data);
       }
       return order;
     } else {
       if(first){
-        return { order: first.data._data.order / 2 };
+        return { order: this.cardMover.moveToTop(first.data) };
       }
       return {};
     }

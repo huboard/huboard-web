@@ -187,6 +187,23 @@ var Issue = Model.extend({
       this.set("data.body_html", response.body_html);
       return this;
     }.bind(this), "json");
+  },
+  runMaxMinOrderFix: function(){
+    var order = this.maxMinOrderFix(this.get('order'));
+    var milestone_order = this.maxMinOrderFix(this.data._data.milestone_order);
+
+    if(order !== this.get('order')){
+      this.set('order', order);
+    }
+    if(milestone_order !== this.data._data.milestone_order){
+      this.data._data.milestone_order = milestone_order;
+    }
+  }.on('init'),
+  maxMinOrderFix: function(order){
+    if(order <= 0 || order === Infinity){ order = this.get('data.id') * Number.MIN_VALUE; }
+    while(order < 1e-319){ order *= 10; }
+    while(order > 1e307){ order /= 10; }
+    return order;
   }
 });
 
