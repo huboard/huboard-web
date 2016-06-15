@@ -2,6 +2,7 @@ import Ember from 'ember';
 import config from '../config/environment'; //jshint ignore:line
 import MarkdownParsing from '../mixins/markdown-parsing';
 
+//TODO: see huboard/huboard-web#317
 var HbTaskListComponent = Ember.Component.extend(MarkdownParsing, {
   classNames: ["js-task-list-container", "comment-text"],
   onBodyChange: function(){
@@ -9,15 +10,16 @@ var HbTaskListComponent = Ember.Component.extend(MarkdownParsing, {
       this.set("bodyMarkup", this.get('body_html'));
     });
   }.observes('body_html'),
-  bodyMarkup: function(key, value){
-    if(arguments.length > 1){
+  bodyMarkup: Ember.computed({
+    get: function(){
+      return this.get("body_html");
+    },
+    set: function(key, value){
       this.cleanUp();
       Ember.run.schedule('afterRender', this, "wireUp");
       return this.commitParser(value);
-    } else {
-      return this.get("body_html");
     }
-  }.property(),
+  }),
   wireUp: function(){
     if (this.get('canEdit') && this._state === "inDOM") {
       var component = this;

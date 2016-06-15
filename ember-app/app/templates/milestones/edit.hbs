@@ -17,7 +17,7 @@
     </div>
     <div class="flex-form-right">
       <h5> 
-        Due date: {{format-date dueDate}} 
+        Due date: {{moment-format dueDate "L"}} 
         <small> <a href="#" {{action "clearDueDate"}}> clear </a> </small>
       </h5>
       {{hb-date-picker dueDate=bufferedContent.due_on processing=processing }}

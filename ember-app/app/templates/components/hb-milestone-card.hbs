@@ -24,7 +24,7 @@
 
 
     <div class="card-labels">
-        {{#each label in cardLabels }}
+        {{#each cardLabels as |label|}}
           <div class="card-label-wrapper"> 
              <div class="card-label active small" style={{label.customStyle}} ></div>
              <div class="card-label active large" style={{label.customStyle}} >

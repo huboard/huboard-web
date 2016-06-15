@@ -39,7 +39,7 @@
       </div>
     </div>
     {{/if}}
-    {{#each listItem in listItems}}
+    {{#each listItems as |listItem|}}
     <div class="hb-menu-item {{if listItem.selected 'checked'}}">
       <div {{action "assignTo" listItem.item}} >
         <i class="ui-icon ui-icon-checkmark"></i>

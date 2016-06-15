@@ -2,7 +2,7 @@ import Ember from 'ember';
 import correlationId from 'app/utilities/correlation-id';
 
 var MilestonesController = Ember.Controller.extend({
-  needs: ["application"],
+  application: Ember.inject.controller(),
   registeredColumns: Ember.A(),
 
   qps: Ember.inject.service("query-params"),
@@ -22,7 +22,7 @@ var MilestonesController = Ember.Controller.extend({
     return this.get("model.repo.isCollaborator");
   }.property('model.repo.isCollaborator'),
 
-  isSidebarOpen: Ember.computed.alias("controllers.application.isSidebarOpen"),
+  isSidebarOpen: Ember.computed.alias("application.isSidebarOpen"),
 
   left_column: function() {
     return Ember.Object.create({

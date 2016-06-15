@@ -7,7 +7,7 @@ import ajax from 'ic-ajax';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
-Ember.LinkView.reopen({
+Ember.LinkComponent.reopen({
   init: function(){
     this._super.apply(this, arguments);
 

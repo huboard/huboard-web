@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 var MilestonesCreateController = Ember.Controller.extend({
-  needs: ["application"],
   errors: false,
   clearErrors: function(){
     this.set("errors", false);
