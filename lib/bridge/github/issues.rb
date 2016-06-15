@@ -15,7 +15,7 @@ class Huboard
       params = params.merge(labels: label) if label
 
       issues_response = gh.issues(params).all do |request|
-        request.headers["Accept"] = "application/vnd.github.cerberus-preview"
+        request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
       end
 
       issues_response.each{
@@ -73,7 +73,7 @@ class Huboard
       raise "number is nil" unless number
 
       issue = gh.issues(number) do |request|
-        request.headers["Accept"] = "application/vnd.github.cerberus-preview"
+        request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
       end.extend(Card).merge!(repo: {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
 
       issue[:repo][:is_collaborator] = gh['permissions'] ? gh['permissions']['push'] : nil
@@ -280,16 +280,12 @@ class Huboard
       end
 
       def add_assignees(assignees)
-        client.assignees.add({assignees: assignees}) do |request|
-          request.headers["Accept"] = "application/vnd.github.cerberus-preview+json"
-        end
+        client.assignees.add(assignees)
         self
       end
 
       def remove_assignees(assignees)
-        client.assignees.remove({assignees: assignees}) do |request|
-          request.headers["Accept"] = "application/vnd.github.cerberus-preview+json"
-        end
+        client.assignees.remove(assignees)
         self
       end
     end
