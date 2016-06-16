@@ -4,4 +4,4 @@ export function initialize(container, application){
 export default {
   name: 'deferReadiness',
   initialize: initialize
-}
+};

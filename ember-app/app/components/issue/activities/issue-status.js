@@ -11,7 +11,7 @@ var IssueStatusComponent = Ember.Component.extend({
   fetchStatus: function(){
     var repo = this.get("issue.repo.data.repo.full_name");
     var number = this.get("issue.number");
-    var url = `/api/${repo}/issues/${number}/status`
+    var url = `/api/${repo}/issues/${number}/status`;
     var _self = this;
     Ember.$.get(url).then(function(response){
       _self.set("status", response);
@@ -43,7 +43,7 @@ var IssueStatusComponent = Ember.Component.extend({
     if(this.get('anyPending')){
       return "pending";
     } else {
-      return this.get('status.state')
+      return this.get('status.state');
     }
   }.property("anyPending"),
   anyPending: function(){

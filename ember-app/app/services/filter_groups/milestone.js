@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 function attr(modelProp, map) {
   return Ember.computed("model." + modelProp, {
-    get: function(key){
+    get: function(){
       var filters = this.get("model." + modelProp).map(map);
       filters.insertAt(0, Ember.Object.create({
         name: 'No milestone',
@@ -34,7 +34,7 @@ var MilestoneFilters = Ember.Service.extend({
   filters: [],
   strategy: "inclusive",
 
-  create: function(model){
+  create: function(){
     this.set("filters", attr("milestones", function(m){
       return Ember.Object.create({
         name: m.milestone.data.title,

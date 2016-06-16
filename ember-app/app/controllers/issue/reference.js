@@ -14,7 +14,7 @@ var IssueReferenceController = Ember.Controller.extend({
             commit: {
               message: "(currently unable to fetch this commit message)"
             }
-          }
+          };
         }
         return response;
       });

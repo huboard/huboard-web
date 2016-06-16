@@ -15,7 +15,7 @@ moduleFor('service:board-syncing', {
 
 test('syncs the boards issues successfuly', (assert)=>{
   var issues = ['issue1', 'issue2'];
-  var success = $.ajax().then(()=>{return issues});
+  var success = $.ajax().then(()=>{return issues;});
   var board = { fetchIssues: sinon.stub().returns(success) };
   sut.syncFlashNotifier = sinon.stub();
   sut.issueSuccess = sinon.stub();

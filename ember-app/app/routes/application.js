@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import Repo from 'app/models/new/repo';
-import ajax from 'ic-ajax';
 
 var ApplicationRoute = Ember.Route.extend({
   filters: Ember.inject.service(),
@@ -28,7 +27,7 @@ var ApplicationRoute = Ember.Route.extend({
        });
     });
   },
-  setupController: function(controller){
+  setupController: function(){
     this._super.apply(this, arguments);
 
     Ember.$(document).ajaxError(function(event, xhr){

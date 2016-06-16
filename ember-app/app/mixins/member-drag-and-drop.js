@@ -6,7 +6,6 @@ var MemberDragAndDropMixin = Ember.Mixin.create({
     return contains_type  && this.isAssignable();
   },
   isAssignable: function(){
-    var self = this;
     var login = Ember.$("#application").find(".assignees .is-flying")
       .data("assignee");
 

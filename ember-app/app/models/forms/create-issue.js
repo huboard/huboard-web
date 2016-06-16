@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import correlationId from 'app/utilities/correlation-id';
-import Issue from 'app/models/new/issue';
 import Serializable from 'app/mixins/serializable';
 
 var CreateIssue = Ember.Object.extend(Serializable,{

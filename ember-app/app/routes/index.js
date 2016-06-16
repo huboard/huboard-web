@@ -48,13 +48,12 @@ var IndexRoute = Ember.Route.extend({
       this.transitionTo("index.issue", model);
     },
     reopenIssueOrAbort: function(args){
-      var controller = this.controllerFor("issue.reopen");
       this.render("issue.reopen", {
         into: "application",
         outlet: "modal",
         controller: "issue.reopen",
         model: args
-      })
+      });
     },
     openModal: function (view){
       this.render(view, {

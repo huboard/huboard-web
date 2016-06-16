@@ -23,14 +23,14 @@ var Repo = Model.extend({
   }),
   isAdmin: Ember.computed.alias('data.repo.permissions.admin'),
   hasErrors: Ember.computed('isLoaded', 'loadFailed', 'columns', 'columns.[]', {
-    get: function(key) {
+    get: function() {
       return this.get('loadFailed') ||
         (this.get('parent') &&
          this.get('columns.length') !== this.get('parent.columns.length'));
     }
   }), 
   health: Ember.computed({
-    get: function(key){
+    get: function(){
       return PromiseObject.create({
         promise: Health.fetch(this)
       });
@@ -40,7 +40,7 @@ var Repo = Model.extend({
     get: function(){
       var health = this.get('health');
       if(health.get('isFulfilled')){
-        return health.get('content.hasErrors')
+        return health.get('content.hasErrors');
       }
       return false;
     }
@@ -65,7 +65,7 @@ var Repo = Model.extend({
       if(self.__links) {
         var repo = self.__links.find((r) => {
           return get(r, 'data.repo.full_name') === get(link, 'repo.full_name');
-        })
+        });
         if(repo) {
           response.pushObject(repo);
         } else {
@@ -107,7 +107,7 @@ var Repo = Model.extend({
       repo.set('issue_template', details.data.issue_template);
 
       return repo;
-    }, function(jqxhr) {
+    }, function() {
       repo.set('isLoaded', true);
       repo.set('loadFailed', true);
       return repo;
@@ -218,13 +218,13 @@ var Repo = Model.extend({
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify({comment: comment})
-    })
+    });
   },
   assigneesLength: function(){
     return this.get("assignees.length");
   }.property("assignees.[]"),
   fetchIssues: function(options){
-    var url = `/api/${this.get('data.repo.full_name')}/issues`
+    var url = `/api/${this.get('data.repo.full_name')}/issues`;
     return Ember.$.getJSON(url,{ options: options });
   }
 });

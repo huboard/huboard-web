@@ -23,7 +23,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     statusChanged: function(message){
       this.get("issue").set("_data", message.issue._data);
     },
-    archived: function(message){
+    archived: function(){
       this.get('issue').set('isArchived', true);
     },
     closed: function(message){
