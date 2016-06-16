@@ -22,7 +22,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
         var issues = {
           "moved": "issueMoved",
           "assigned": "issueAssigned",
-          "unassigned": "issueAssigned",
+          "unassigned": "issueUnassigned",
           "issue_closed": "issueClosed",
           "issue_reopened": "issueReopened",
           "issue_status_changed": "issueStatusChanged",
@@ -100,15 +100,16 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     },
     issueAssigned: function(message){
       var actor = message.actor.login;
-      var assignee = message.issue.assignee;
-      var copy;
+      var assignee = message.assignee.login ? message.assignee.login : message.assignee;
 
-      if(assignee){
-        copy = `${actor} assigned #${message.issue.number} to ${assignee.login}`;
-      } else {
-        copy = `${actor} unassigned #${message.issue.number}`;
-      }
+      var copy = `${actor} assigned #${message.issue.number} to ${assignee}`;
+      this.get("flashMessages").info(copy);
+    },
+    issueUnassigned: function(message){
+      var actor = message.actor.login;
+      var assignee = message.assignee.login ? message.assignee.login : message.assignee;
 
+      var copy = `${actor} unassigned ${assignee} from #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     },
     issueMsChanged: function(message){

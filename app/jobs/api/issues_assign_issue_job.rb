@@ -4,14 +4,14 @@ module Api
     action 'assigned'
     timestamp ->(params) { params[:issue]['updated_at'] }
     cache_key ->(message) {
-      assignees = message[:payload][:assignees].map{|assignee| assignee[:login] }.to_s
-      "assigned.#{message[:meta][:user]["login"]}.#{message[:meta][:identifier]}.#{message[:meta][:timestamp]}.#{assignees}"
+      assignee = message[:payload][:assignee]['login'] ? message[:payload][:assignee]['login'] : message[:payload][:assignee]
+      "assigned.#{message[:meta][:user]["login"]}.#{message[:meta][:identifier]}.#{message[:meta][:timestamp]}.#{assignee}"
     }
 
     def payload(params)
       {
         issue: params[:issue],
-        assignees: params[:issue]["assignees"]
+        assignee: params[:assignee]
       }
     end
   end

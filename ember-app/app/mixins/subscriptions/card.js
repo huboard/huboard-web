@@ -32,29 +32,26 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     opened: function(message){
      this.get("issue").set("state", message.issue.state);
     },
-    assigned: sortedQueue(function(message){
-      if(this.get("issue.assignees")){
-        this.set("issue.assignees", message.assignees);
+    assigned: function(message){
+      if(message.assignee.login){
+        this.get("issue.assignees").pushObject(message.assignee);
       } else {
-        this.set("issue.assignee", message.issue.assignee);
+        var assignee = this.get("issue.repo.assignees").find((a)=>{
+          return a.login === message.assignee;
+        });
+        this.get("issue.assignees").pushObject(assignee);
       }
-    }, {time: 5000, sort: function(a,b){
-      var timeA = Date.parse(a.issue.updated_at);
-      var timeB = Date.parse(b.issue.updated_at);
-      return timeA - timeB;
-    }}),
-    unassigned: sortedQueue(function(message){
-      if(this.get("issue.assignees")){
-        this.set("issue.assignees", message.issue.assignees);
+    },
+    unassigned: function(message){
+      if(message.assignee.login){
+        this.get("issue.assignees").removeObject(message.assignee);
+      } else {
+        var assignee = this.get("issue.assignees").find((a)=>{
+          return a.login === message.assignee;
+        });
+        this.get("issue.assignees").removeObject(assignee);
       }
-      if(!message.issue.assignee){
-        this.get("issue").set("assignee", null);
-      }
-    }, {time: 5000, sort: function(a,b){
-      var timeA = Date.parse(a.issue.updated_at);
-      var timeB = Date.parse(b.issue.updated_at);
-      return timeA - timeB;
-    }}),
+    },
     moved: function (message) {
       this.get('issue').setProperties({
         current_state : message.issue.current_state,
