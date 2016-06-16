@@ -280,12 +280,12 @@ class Huboard
       end
 
       def add_assignees(assignees)
-        client.assignees.add(assignees)
+        self['assignees'] = client.assignees.add(assignees)['assignees']
         self
       end
 
       def remove_assignees(assignees)
-        client.assignees.remove(assignees)
+        self['assignees'] = client.assignees.remove(assignees)['assignees']
         self
       end
     end

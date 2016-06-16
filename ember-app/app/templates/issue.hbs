@@ -23,13 +23,8 @@
       {{/if}}
     {{/if}}
       {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=model.data.other_labels selected=model.data.other_labels title="Labels" labels=model.repo.data.other_labels}}
-<<<<<<< ac42884128a41b7ff73e0f4256f3705ba3673657
-      {{hb-assignee editable=isCollaborator assign="assignUser" selected=model.assignee assignees=model.repo.data.assignees}}
+      {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=issueAssignees assignees=model.repo.data.assignees}}
       {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=model.milestone milestones=model.repo.data.milestones}}
-=======
-      {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=controller.assignees assignees=model.repo.data.assignees}}
-      {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=controller.model.milestone milestones=model.repo.data.milestones}}
->>>>>>> Begins works in supporting multiple assignees
   </div>
 <div class="fullscreen-card-left">
   {{issue/hb-body

@@ -19,7 +19,7 @@ var HbAssigneeComponent = Ember.Component.extend({
     .map(function(item) {
 
       return this.ListItem.create({
-        selected: this.get("selected").anyBy("login", item.login),
+        selected: this.get("selected").isAny("login", item.login),
         item: item
       });
     }.bind(this));
@@ -45,7 +45,7 @@ var HbAssigneeComponent = Ember.Component.extend({
     assignTo: function(assignee) {
       var action;
       var selected = this.get('selected');
-      if(selected.anyBy('login', assignee.login)){
+      if(selected.isAny('login', assignee.login)){
         action = 'unassign'
         var obj = selected.find((select)=>{ return select.login === assignee.login });
         selected.removeObject(obj);

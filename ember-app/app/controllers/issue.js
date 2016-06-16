@@ -138,7 +138,7 @@ var IssueController = Ember.Controller.extend(
       return i.login;
     });
   }.property('model.repo.assignees.[]','allActivities'),
-  assignees: function(){
+  issueAssignees: function(){
     if(this.get('model.assignees')){
       return this.get('model.assignees');
     }
