@@ -11,7 +11,7 @@
 
 {{#if selected.length}}
   {{#each selected as |assignee|}}
-  <div class="hb-selected">
+  <div class="hb-selected hb-selected-assignee">
     {{hb-avatar user=assignee}} {{assignee.login}}
   </div>
   {{/each}}
@@ -33,21 +33,13 @@
   </div>
 
   <div class="hb-menu-items">
-    {{#if selected}}
-    <div class="hb-menu-item">
-      <div {{action "clearAssignee" }} >
-        <i class="ui-icon ui-icon-x-thin"></i>
-        Clear assignee
-      </div>
-    </div>
-    {{/if}}
     {{#each listItems as |listItem|}}
-    <div class="hb-menu-item {{if listItem.selected 'checked'}}">
-      <div {{action "assignTo" listItem.item}} >
-        <i class="ui-icon ui-icon-checkmark"></i>
-        {{hb-avatar user=listItem.item}} {{listItem.item.login}}
+      <div class="hb-menu-item {{if listItem.selected 'checked'}}">
+        <div {{action "assignTo" listItem.item}} >
+          <i class="ui-icon ui-icon-checkmark"></i>
+          {{hb-avatar user=listItem.item}} {{listItem.item.login}}
+        </div>
       </div>
-    </div>
     {{/each}}
   </div>
 </div>

@@ -25,6 +25,9 @@
       cursor: pointer;
       text-decoration: none;
     }
+    &.hb-selected-assignee {
+      padding-bottom: 6px;
+    }
   }
 
   h5 {

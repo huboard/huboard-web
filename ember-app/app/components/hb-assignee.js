@@ -57,15 +57,9 @@ var HbAssigneeComponent = Ember.Component.extend({
     },
     assignToCurrentUser : function() {
       var currentUser = this.get("currentUser");
-      this.set("selected", currentUser);
-      this.sendAction("assign", currentUser.login);
+      this.get("selected").pushObject(currentUser);
+      this.sendAction("assign", [currentUser.login]);
     },
-    clearAssignee: function(){
-      this.set("selected", null);
-      this.sendAction("assign", "");
-      this.$().removeClass("open");
-      this.set("isOpen", false);
-    }
   },
   didInsertElement: function() {
     Ember.$('body').on('keyup.flyout', function(event) {
