@@ -32,14 +32,29 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     opened: function(message){
      this.get("issue").set("state", message.issue.state);
     },
-    assigned: function(message){
-     this.get("issue").set("assignee", message.issue.assignee);
-    },
-    unassigned: function(message){
-     if(!message.issue.assignee){
-       this.get("issue").set("assignee", null);
-     }
-    },
+    assigned: sortedQueue(function(message){
+      if(this.get("issue.assignees")){
+        this.set("issue.assignees", message.assignees);
+      } else {
+        this.set("issue.assignee", message.issue.assignee);
+      }
+    }, {time: 5000, sort: function(a,b){
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }}),
+    unassigned: sortedQueue(function(message){
+      if(this.get("issue.assignees")){
+        this.set("issue.assignees", message.issue.assignees);
+      }
+      if(!message.issue.assignee){
+        this.get("issue").set("assignee", null);
+      }
+    }, {time: 5000, sort: function(a,b){
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }}),
     moved: function (message) {
       this.get('issue').setProperties({
         current_state : message.issue.current_state,
