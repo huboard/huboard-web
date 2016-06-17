@@ -137,7 +137,8 @@ var IssueController = Ember.Controller.extend(
     return _.uniq(_.compact(union), function(i){
       return i.login;
     });
-  }.property('model.repo.assignees.[]','allActivities')
+  }.property('model.repo.assignees.[]','allActivities'),
+  assigneesEnabled: Ember.computed.bool('model.assignees')
 });
 
 export default IssueController;

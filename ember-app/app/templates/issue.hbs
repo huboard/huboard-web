@@ -23,7 +23,7 @@
       {{/if}}
     {{/if}}
       {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=model.data.other_labels selected=model.data.other_labels title="Labels" labels=model.repo.data.other_labels}}
-      {{#if model.assignees}}
+      {{#if assigneesEnabled}}
         {{hb-multi-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=model.assignees assignees=model.repo.data.assignees}}
       {{else}}
         {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=model.assignee assignees=model.repo.data.assignees}}
