@@ -281,14 +281,14 @@ class Huboard
 
       def add_assignees(assignees)
         issue = client.assignees.add(assignees)
-        self['assignees'], self['updated_at'] = issue['assignees'], issue['updated_at']
-        self
+        issue.extend(Card).merge!(:repo => self[:repo])
+        issue
       end
 
       def remove_assignees(assignees)
         issue = client.assignees.remove(assignees)
-        self['assignees'], self['updated_at'] = issue['assignees'], issue['updated_at']
-        self
+        issue.extend(Card).merge!(:repo => self[:repo])
+        issue
       end
     end
 
