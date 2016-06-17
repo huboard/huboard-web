@@ -23,7 +23,11 @@
       {{/if}}
     {{/if}}
       {{hb-label-selector labelsChanged="labelsChanged" editable=isCollaborator values=model.data.other_labels selected=model.data.other_labels title="Labels" labels=model.repo.data.other_labels}}
-      {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=issueAssignees assignees=model.repo.data.assignees}}
+      {{#if model.assignees}}
+        {{hb-multi-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=model.assignees assignees=model.repo.data.assignees}}
+      {{else}}
+        {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=model.assignee assignees=model.repo.data.assignees}}
+      {{/if}}
       {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=model.milestone milestones=model.repo.data.milestones}}
   </div>
 <div class="fullscreen-card-left">

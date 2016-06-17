@@ -137,13 +137,7 @@ var IssueController = Ember.Controller.extend(
     return _.uniq(_.compact(union), function(i){
       return i.login;
     });
-  }.property('model.repo.assignees.[]','allActivities'),
-  issueAssignees: function(){
-    if(this.get('model.assignees')){
-      return this.get('model.assignees');
-    }
-    return [this.get('model.assignee')];
-  }.property('model.assignee', 'model.assignees.[]')
+  }.property('model.repo.assignees.[]','allActivities')
 });
 
 export default IssueController;

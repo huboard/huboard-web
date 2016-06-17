@@ -33,23 +33,28 @@ var CardSubscriptionMixin = Ember.Mixin.create({
      this.get("issue").set("state", message.issue.state);
     },
     assigned: function(message){
-      if(message.assignee.login){
-        this.get("issue.assignees").pushObject(message.assignee);
-      } else {
-        var assignee = this.get("issue.repo.assignees").find((a)=>{
-          return a.login === message.assignee;
-        });
-        this.get("issue.assignees").pushObject(assignee);
+      if(this.get("issue.assignees")){
+        if(message.assignee.login){
+          this.get("issue.assignees").pushObject(message.assignee);
+        } else {
+          var assignee = this.get("issue.repo.assignees").find((a)=>{
+            return a.login === message.assignee;
+          });
+          this.get("issue.assignees").pushObject(assignee);
+        }
       }
+      this.set("issue.assignee", message.issue.assignee);
     },
     unassigned: function(message){
-      if(message.assignee.login){
-        this.get("issue.assignees").removeObject(message.assignee);
-      } else {
-        var assignee = this.get("issue.assignees").find((a)=>{
-          return a.login === message.assignee;
-        });
-        this.get("issue.assignees").removeObject(assignee);
+      if(this.get("issue.assignees")){
+        if(message.assignee.login){
+          this.get("issue.assignees").removeObject(message.assignee);
+        } else {
+          var assignee = this.get("issue.assignees").find((a)=>{
+            return a.login === message.assignee;
+          });
+          this.get("issue.assignees").removeObject(assignee);
+        }
       }
     },
     moved: function (message) {

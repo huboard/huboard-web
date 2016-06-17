@@ -108,9 +108,11 @@ var Issue = Model.extend({
       assignees: logins, 
       correlationId: this.get("correlationId")
     }, function(){}, "json").then(function( response ){
-      if(response.assignees.any((assignee)=>{ assignee.login === logins.first })){
+      var assignees = response.assignees;
+      if(assignees && assignees.any((assignee)=>{ assignee.login === logins.first })){
         _self.set("assignees", response.assignees);
       }
+      _self.set("assignee", response.assignee);
       return _self;
     });
   },
@@ -120,9 +122,11 @@ var Issue = Model.extend({
       assignees: logins, 
       correlationId: this.get("correlationId")
   }, function(){}, "json").then(function( response ){
-      if(response.assignees.any((assignee)=>{ assignee.login === logins.first })){
+      var assignees = response.assignees;
+      if(assignees && assignees.any((assignee)=>{ assignee.login === logins.first })){
         _self.set("assignees", response.assignees);
       }
+      _self.set("assignee", response.assignee);
       return _self;
     });
   },
