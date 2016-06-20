@@ -32,8 +32,9 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     opened: function(message){
      this.get("issue").set("state", message.issue.state);
     },
-    assigned: function(message){
-      if(this.get("issue.assignees")){
+    assigned: sortedQueue(function(message){
+      var assignees = this.get("issue.assignees");
+      if(assignees && !assignees.isAny("login", message.assignee.login)){
         if(message.assignee.login){
           this.get("issue.assignees").pushObject(message.assignee);
         } else {
@@ -44,8 +45,12 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         }
       }
       this.set("issue.assignee", message.issue.assignee);
-    },
-    unassigned: function(message){
+    }, {time: 5000, sort: function(a,b){
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }}),
+    unassigned: sortedQueue(function(message){
       if(this.get("issue.assignees")){
         if(message.assignee.login){
           this.get("issue.assignees").removeObject(message.assignee);
@@ -56,7 +61,11 @@ var CardSubscriptionMixin = Ember.Mixin.create({
           this.get("issue.assignees").removeObject(assignee);
         }
       }
-    },
+    }, {time: 5000, sort: function(a,b){
+      var timeA = Date.parse(a.issue.updated_at);
+      var timeB = Date.parse(b.issue.updated_at);
+      return timeA - timeB;
+    }}),
     moved: function (message) {
       this.get('issue').setProperties({
         current_state : message.issue.current_state,
