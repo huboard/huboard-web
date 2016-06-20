@@ -52,7 +52,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
     }}),
     unassigned: sortedQueue(function(message){
       if(this.get("issue.assignees")){
-        if(message.assignee.login){
+        if(message.assignee && message.assignee.login){
           this.get("issue.assignees").removeObject(message.assignee);
         } else {
           var assignee = this.get("issue.assignees").find((a)=>{
