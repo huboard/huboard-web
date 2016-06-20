@@ -98,21 +98,21 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
       var copy = `${message.actor.login} archived #${message.issue.number}`;
       this.get("flashMessages").info(copy);
     },
-    issueAssigned: function(message){
+    issueAssigned: sortedQueue(function(message){
       var actor = message.actor.login;
       var assignee = message.assignee.login ? message.assignee.login : message.assignee;
 
       var copy = `${actor} assigned #${message.issue.number} to ${assignee}`;
       this.get("flashMessages").info(copy);
-    },
-    issueUnassigned: function(message){
+    }, {time: 5000}),
+    issueUnassigned: sortedQueue(function(message){
       var actor = message.actor.login;
       var assignee = message.assignee ? message.assignee : "a member";
       assignee = assignee.login ? assignee.login : assignee;
 
       var copy = `${actor} unassigned ${assignee} from #${message.issue.number}`;
       this.get("flashMessages").info(copy);
-    },
+    }, {time: 5000}),
     issueMsChanged: function(message){
       if (message.suppress) { return; }
 
