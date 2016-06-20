@@ -21,6 +21,9 @@ var MemberFilters = Ember.Service.extend({
          mode: 0,
          queryParam: 'assignee',
          condition: function (i) {
+            if(i.data.assignees){
+              return i.data.assignees.anyBy("login", a.login);
+            }
             return i.data.assignee && i.data.assignee.login === a.login;
          }
        });

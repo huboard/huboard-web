@@ -11,6 +11,7 @@ var UserFilters = Ember.Service.extend({
         queryParam: "assignee",
         mode: 0,
         condition: function(i){
+          if(i.data.assignees){ return !i.data.assignees.length }
           return !i.data.assignee;
         }
       })
@@ -23,7 +24,11 @@ var UserFilters = Ember.Service.extend({
           queryParam: "assignee",
           mode: 0,
           condition: function(i){
-            return i.data.assignee && i.data.assignee.login === App.get("currentUser").login;
+            var current_user = App.get("currentUser").login;
+            if(i.data.assignees){
+              return i.data.assignees.anyBy("login", current_user);
+            }
+            return i.data.assignee && i.data.assignee.login === current_user;
           }
       }));
       this.get("filters").insertAt(1, 
@@ -32,7 +37,11 @@ var UserFilters = Ember.Service.extend({
           queryParam: "assignee",
           mode: 0,
           condition: function(i){
-            return i.data.assignee && i.data.assignee.login !== App.get("currentUser").login;
+            var current_user = App.get("currentUser").login;
+            if(i.data.assignees){
+              return !i.data.assignees.anyBy("login", current_user) && i.data.assignees.length;
+            }
+            return i.data.assignee && i.data.assignee.login !== current_user;
           }
       }));
     }
