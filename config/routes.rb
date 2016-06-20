@@ -46,7 +46,8 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    get 'uploads/asset' => 'uploads#asset_uploader'
+    get  'uploads/asset' => 'uploads#asset_uploader'
+    post 'uploads/asset' => 'uploads#local_uploader'
     #Webhooks
     post '/site/webhook/issue' => 'webhooks#legacy'
     post '/site/webhook/comment' => 'webhooks#legacy'
