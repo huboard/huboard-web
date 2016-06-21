@@ -128,18 +128,24 @@ module Api
     def assign_issue
       user, repo, number, assignees = params[:user], params[:repo], params[:number], params[:assignees]
       issue = huboard.board(user, repo).issue(number)
-      @issue = issue.add_assignees(assignees) if issue['assignees']
-      @issue = issue.patch('assignee' => assignees.first) if !issue['assignees'] 
       @assignee = assignees.first
+      if issue['assignees']
+        @issue = issue.add_assignees(assignees)
+      else
+        @issue = issue.patch('assignee' => @assignee)
+      end
       render json: @issue
     end
 
     def unassign_issue
       user, repo, number, assignees = params[:user], params[:repo], params[:number], params[:assignees]
       issue = huboard.board(user, repo).issue(number)
-      @issue = issue.remove_assignees(assignees) if issue['assignees']
-      @issue = issue.patch('assignee' => assignees.first) if !issue['assignees'] 
       @assignee = assignees.first
+      if issue['assignees']
+        @issue = issue.remove_assignees(assignees)
+      else
+        @issue = issue.patch('assignee' => @assignee)
+      end
       render json: @issue
     end
 

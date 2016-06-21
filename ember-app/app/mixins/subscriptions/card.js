@@ -38,9 +38,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         if(message.assignee.login){
           this.get("issue.assignees").pushObject(message.assignee);
         } else {
-          var assignee = this.get("issue.repo.assignees").find((a)=>{
-            return a.login === message.assignee;
-          });
+          var assignee = this.get("issue.repo.assignees").findBy("login", message.assignee);
           this.get("issue.assignees").pushObject(assignee);
         }
       }
@@ -55,9 +53,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         if(message.assignee && message.assignee.login){
           this.get("issue.assignees").removeObject(message.assignee);
         } else {
-          var assignee = this.get("issue.assignees").find((a)=>{
-            return a.login === message.assignee;
-          });
+          var assignee = this.get("issue.assignees").findBy("login", message.assignee);
           this.get("issue.assignees").removeObject(assignee);
         }
       }

@@ -107,7 +107,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
     }, {time: 5000}),
     issueUnassigned: sortedQueue(function(message){
       var actor = message.actor.login;
-      var assignee = message.assignee ? message.assignee : "a member";
+      var assignee = message.assignee ? message.assignee : "someone";
       assignee = assignee.login ? assignee.login : assignee;
 
       var copy = `${actor} unassigned ${assignee} from #${message.issue.number}`;
