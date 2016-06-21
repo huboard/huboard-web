@@ -109,7 +109,7 @@ var Board = Model.extend({
     return this.get("assignees").filter(function (assignee) {
       return _.find(issues, function (issue) {
         if(issue.data.assignees){
-          return issue.data.assignees.anyBy("login", assignee.login);
+          return issue.data.assignees.isAny("login", assignee.login);
         }
         return issue.data.assignee && issue.data.assignee.login === assignee.login;
       });
