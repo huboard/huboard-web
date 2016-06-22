@@ -1,18 +1,28 @@
 <div class="ember-view">
+  <div class="card-labels">
+      {{#each cardLabels as |label|}}
+        <div class="card-label-wrapper"> 
+           <div class="card-label active large" style={{label.customStyle}} >
+             <span>{{label.name}}</span>
+           </div>
+        </div>
+      {{/each}}
+  </div>
+
   <div class="card-header task-card">
     <div class="type">
       {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
     </div>
     <div class="title" title="{{issue.title}}">
       {{issue.title}}
-        <a class="xnumber" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
-          #{{issue.number}}
-        </a>
     </div>
   </div>
 
   <div class="card-right-wrapper">
     <div class="card-right task-card">
+      <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+        #{{issue.number}}
+      </a>
       {{#if issue.assignee }}
         {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
       {{/if}}
@@ -27,20 +37,10 @@
 
       {{#if issue.linkedColor}}
         <div class="linked-repo" style="color:#{{issue.linkedColor}}">
-          {{issue.data.repo.full_name}}
+          <i class="ui-icon-note"></i>{{issue.data.repo.full_name}}
         </div>
       {{/if}}
     </div>
-  </div>
-
-  <div class="card-labels">
-      {{#each cardLabels as |label|}}
-        <div class="card-label-wrapper"> 
-           <div class="card-label active large" style={{label.customStyle}} >
-             <span>{{label.name}}</span>
-           </div>
-        </div>
-      {{/each}}
   </div>
 
   {{#if isLast}}

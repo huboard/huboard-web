@@ -398,16 +398,15 @@
   }
   .card-labels {
     position: relative;
-    clear: left;
+    padding-left: 4px;
     .card-label-wrapper {
-      padding-bottom: 5px;
       float:left;
       margin-right: 5px;
+      padding-bottom: 4px;
       .card-label.active.large {
         position: relative;
-        top: 6px;
 
-        padding: 2px 10px;
+        padding: 0px 8px;
         font-size: 12px;
 
         border-style: solid;
@@ -418,10 +417,11 @@
   }
 
   .card-header {
-    padding: 5px 0;
+    padding-bottom: 4px;
     color: $darkGrey;
 
     &.task-card {
+      clear: left;
       float: left;
       width: 85%;
     }
@@ -429,10 +429,8 @@
   .title {
     white-space: normal;
     text-overflow: clip;
-    overflow:auto;
-    .xnumber {
-      color: $lightGrey;
-    }
+    overflow: visible;
+    padding-left: 4px;
   }         
   .milestone {
     color: $lightGrey;
@@ -444,15 +442,15 @@
   .number {
     position: relative;
     vertical-align: bottom;
-    right: 5px;
+    right: 4px;
+    top: 4px;
     font-size:1em;
-    small {
-      color: #999;
-    }
+    color: $lightGrey;
   }               
   .type {
+    position: relative;
     float: left;
-    margin-top: 2px;
+    top: 2px;
 
     i {
       font-size: 14px;
@@ -482,13 +480,14 @@
     clear: left;
     margin-left: 2px;
 
+    i {
+      padding: 0px 4px 0px 2px;
+      vertical-align: text-bottom;
+    }
+
     .comment-count {
       float: left;
       color: $lightGrey;
-      i {
-        padding: 0px 4px 0px 2px;
-        vertical-align: text-bottom;
-      }
     }
 
     .linked-repo {
@@ -535,6 +534,10 @@
     }
     .card-header {
       border-bottom: none;
+      padding: 5px 0px;
+    }
+    .title {
+      padding-left: 0px;
     }
     .card-labels {
       padding: 5px 0px;
