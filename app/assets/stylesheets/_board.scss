@@ -720,6 +720,7 @@
 }
 .column {
   min-width: 300px;
+  max-width: 372px;
   //@include transition(all 0.4s ease-out);
   .hb-column-header {
     cursor: pointer;
@@ -800,11 +801,14 @@
       }
    }
 }
- @media only screen and (max-width: 959px) {
+@media only screen and (max-width: 959px) {
   .board {
-    @include flex-direction(column);
+    .task-board {
+      @include flex-direction(column);
+    }
     .column {
       @include flex(0 1 auto);
+      max-width: 959px;
 
       .sortable {
         min-height: 72px;
@@ -833,5 +837,4 @@
       }
     }
   }
-
- }
+}
