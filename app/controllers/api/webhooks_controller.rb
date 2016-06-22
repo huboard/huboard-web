@@ -34,6 +34,7 @@ module Api
         :pull_request => true,
         :issue => payload[:pull_request],
         :label => payload[:label],
+        :assignee => payload[:assignee],
         "action_controller.params" => {},
         :current_user => payload[:sender]
       )
@@ -66,6 +67,7 @@ module Api
       message = HashWithIndifferentAccess.new(
         :issue => payload[:issue],
         :label => payload[:label],
+        :assignee => payload[:assignee],
         "action_controller.params" => {},
         :current_user => payload[:sender]
       )

@@ -35,7 +35,7 @@ var HbLabelSelectorComponent = Ember.Component.extend({
     select : function (label) {
       var selected = this.get("selected");
       var action = "";
-      if(selected.anyBy("name", label.name)) {
+      if(selected.isAny("name", label.name)) {
         action = "unlabel";
          selected.removeObject(selected.findBy("name", label.name));
       } else {

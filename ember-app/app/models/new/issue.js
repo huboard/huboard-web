@@ -102,14 +102,25 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
-  assignUser: function(login){
+  assignUsers: function(logins){
+    var _self = this;
     return Ember.$.post(`${this.get("apiUrl")}/assigncard`, {
-      assignee: login, 
+      assignees: logins, 
       correlationId: this.get("correlationId")
     }, function(){}, "json").then(function( response ){
-      this.set("assignee", response.assignee);
-      return this;
-    }.bind(this));
+      _self.set("assignee", response.assignee);
+      return _self;
+    });
+  },
+  unassignUsers: function(logins){
+    var _self = this;
+    return Ember.$.post(`${this.get("apiUrl")}/unassigncard`, {
+      assignees: logins, 
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function( response ){
+      _self.set("assignee", response.assignee);
+      return _self;
+    });
   },
   assignMilestone: function(index, milestone){
     var changedMilestones = false;
