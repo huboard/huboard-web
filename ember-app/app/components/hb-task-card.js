@@ -93,7 +93,7 @@ var HbCardComponent = Ember.Component.extend(
       var visibleLabels = [];
       var charCount = 0;
       for(var i=0;i<labels.length;i++){
-        if((labels[i].name.length + charCount) <= 32){//max char count before labels overflow
+        if((labels[i].name.length + charCount) <= 28){//max char count before labels overflow
           visibleLabels.pushObject(labels[i]);
           charCount += labels[i].name.length;
         } else { break; }
