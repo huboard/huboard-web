@@ -67,15 +67,39 @@ var HbCardComponent = Ember.Component.extend(
       return this.get("issue.data.state") === "closed" &&
         App.get("loggedIn") && this.get("isCollaborator");
     }.property("issue.data.state", "isCollaborator"),
-    cardLabels: function () {
+    cardLabels: function(){
+      var allLabels = this.get("allCardLabels");
+      var labelFilters = this.get("filters.labelFilters").filter((filter)=>{
+        return filter.mode > 0
+      });
+      if(!this.get("isFiltered") && labelFilters.length){
+        return allLabels.filter((label) => {
+          return labelFilters.isAny("name", label.name);
+        });
+      }
+      return allLabels;
+    }.property("allCardLabels.[]", "isFiltered"),
+    allCardLabels: function () {
         return this.get("issue.data.other_labels").map(function(l){
           var color = Ember.$.Color('#' + l.color);
 
           var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}; border-color: ${color.toString()}`;
 
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
-        }).slice(0,4);
+        });
     }.property("issue.data.other_labels.[]"),
+    visibleLabels: function(){
+      var labels = this.get("cardLabels");
+      var visibleLabels = [];
+      var charCount = 0;
+      for(var i=0;i<labels.length;i++){
+        if((labels[i].name.length + charCount) <= 32){//max char count before labels overflow
+          visibleLabels.pushObject(labels[i]);
+          charCount += labels[i].name.length;
+        } else { break; }
+      }
+      return visibleLabels;
+    }.property("cardLabels.[]"),
     stateClass: function(){
        var github_state = this.get("issue.data.state");
        if(github_state === "closed"){

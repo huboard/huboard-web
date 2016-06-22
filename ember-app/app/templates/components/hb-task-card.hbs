@@ -1,6 +1,6 @@
 <div class="ember-view">
   <div class="card-labels">
-      {{#each cardLabels as |label|}}
+      {{#each visibleLabels as |label|}}
         <div class="card-label-wrapper"> 
            <div class="card-label active large" style={{label.customStyle}} >
              <span>{{label.name}}</span>
