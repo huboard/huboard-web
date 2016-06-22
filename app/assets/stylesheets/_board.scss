@@ -330,7 +330,7 @@
 }
 
 .card {
-  &.task-card {
+  &.task-card:not(.filter-hidden){
     display: inline-block;
     width: 96%;
   }
