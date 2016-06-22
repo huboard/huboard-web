@@ -724,6 +724,9 @@
   .hb-column-header {
     cursor: pointer;
   }
+  &.hb-state-collapsed {
+    min-width: 90px;
+  }
   .collapsed {
     cursor: pointer;
     display: none;
