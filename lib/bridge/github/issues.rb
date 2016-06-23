@@ -49,10 +49,13 @@ class Huboard
         body: issue.body,
         labels: [labels.first['name']].concat((issue.labels || []).map{|l| l["name"]}),
         assignee: assignee,
+        assignees: issue['assignees'],
         milestone: milestone
       }
 
-      result = gh.issues.create(attributes).extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
+      result = gh.issues.create(attributes) do |request|
+        request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
+      end.extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
       result[:repo][:is_collaborator] = gh['permissions'] ? gh['permissions']['push'] : nil
 
       result['current_state'] = labels.first if result.current_state["name"] == "__nil__"
