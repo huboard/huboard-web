@@ -4,6 +4,8 @@ import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
 import CardSubscriptions from "app/mixins/subscriptions/card";
 import Messaging from "app/mixins/messaging";
 
+import cardLabelsVisitor from "app/visitors/cards/labels";
+
 var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
     attributeBindings: ['style'],
@@ -67,19 +69,7 @@ var HbCardComponent = Ember.Component.extend(
       return this.get("issue.data.state") === "closed" &&
         App.get("loggedIn") && this.get("isCollaborator");
     }.property("issue.data.state", "isCollaborator"),
-    cardLabels: function(){
-      var allLabels = this.get("allCardLabels");
-      var labelFilters = this.get("filters.labelFilters").filter((filter)=>{
-        return filter.mode > 0
-      });
-      if(!this.get("isFiltered") && labelFilters.length){
-        return allLabels.filter((label) => {
-          return labelFilters.isAny("name", label.name);
-        });
-      }
-      return allLabels;
-    }.property("allCardLabels.[]", "isFiltered"),
-    allCardLabels: function () {
+    cardLabels: function () {
         return this.get("issue.data.other_labels").map(function(l){
           var color = Ember.$.Color('#' + l.color);
 
@@ -88,18 +78,11 @@ var HbCardComponent = Ember.Component.extend(
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         });
     }.property("issue.data.other_labels.[]"),
-    visibleLabels: function(){
-      var labels = this.get("cardLabels");
-      var visibleLabels = [];
-      var charCount = 0;
-      for(var i=0;i<labels.length;i++){
-        if((labels[i].name.length + charCount) <= 28){//max char count before labels overflow
-          visibleLabels.pushObject(labels[i]);
-          charCount += labels[i].name.length;
-        } else { break; }
-      }
-      return visibleLabels;
-    }.property("cardLabels.[]"),
+    applyCardLabels: function(){
+      Ember.run.schedule('afterRender', this, ()=>{
+        this.accept(cardLabelsVisitor);
+      });
+    }.observes('cardLabels.[]').on('didInsertElement'),
     stateClass: function(){
        var github_state = this.get("issue.data.state");
        if(github_state === "closed"){
