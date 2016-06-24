@@ -4,7 +4,9 @@ import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
 import CardSubscriptions from "app/mixins/subscriptions/card";
 import Messaging from "app/mixins/messaging";
 
+//Visitors
 import cardLabelsVisitor from "app/visitors/cards/labels";
+import cardAssigneesVisitor from "app/visitors/cards/assignees";
 
 var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
@@ -83,6 +85,11 @@ var HbCardComponent = Ember.Component.extend(
         this.accept(cardLabelsVisitor);
       });
     }.observes('cardLabels.[]', 'isFiltered').on('didInsertElement'),
+    applyCardAssignees: function(){
+      Ember.run.schedule('afterRender', this, ()=>{
+        this.accept(cardAssigneesVisitor);
+      });
+    }.observes('issue.assignees.[]', 'isFiltered').on('didInsertElement'),
     stateClass: function(){
        var github_state = this.get("issue.data.state");
        if(github_state === "closed"){

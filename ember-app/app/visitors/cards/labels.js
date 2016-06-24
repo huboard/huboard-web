@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 var CardLabelsVisitor = Ember.Object.create({
   visit: function(card){
+    if(card.get('isFiltered')){ return }
     var labels = card.get('cardLabels');
     labels = this.checkForFilteredLabels(card, labels);
     labels = this.compactVisibleLabels(card, labels);
@@ -15,7 +16,7 @@ var CardLabelsVisitor = Ember.Object.create({
     var labelFilters = card.get("filters.labelFilters").filter((filter)=>{
       return filter.mode > 0
     });
-    if(!card.get("isFiltered") && labelFilters.length){
+    if(labelFilters.length){
       return labels.filter((label) => {
         return labelFilters.isAny("name", label.name);
       });

@@ -25,7 +25,7 @@
       </a>
       <div class="avatar-wrapper">
         {{#if issue.assignees}}
-          {{#each issue.assignees as |assignee index|}}
+          {{#each visibleAssignees as |assignee index|}}
             {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
           {{/each}}
         {{else}}
