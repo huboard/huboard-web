@@ -23,9 +23,17 @@
       <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
         #{{issue.number}}
       </a>
-      {{#if issue.assignee }}
-        {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
-      {{/if}}
+      <div class="avatar-wrapper">
+        {{#if issue.assignees}}
+          {{#each issue.assignees as |assignee index|}}
+            {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
+          {{/each}}
+        {{else}}
+          {{#if issue.assignee }}
+            {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
+          {{/if}}
+        {{/if}}
+      </div>
     </div>
   </div>
 

@@ -82,7 +82,7 @@ var HbCardComponent = Ember.Component.extend(
       Ember.run.schedule('afterRender', this, ()=>{
         this.accept(cardLabelsVisitor);
       });
-    }.observes('cardLabels.[]').on('didInsertElement'),
+    }.observes('cardLabels.[]', 'isFiltered').on('didInsertElement'),
     stateClass: function(){
        var github_state = this.get("issue.data.state");
        if(github_state === "closed"){

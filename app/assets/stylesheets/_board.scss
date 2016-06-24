@@ -343,9 +343,6 @@
   border: 1px solid #e5e5e5;
   border-bottom-color: darken(#e5e5e5, 5%); 
   @include transform(translateZ(0));
-  .hb-avatar-tooltip {
-    position: static;
-  }
 
   &.border {
     border-top-color: #e5e5e5;
@@ -441,6 +438,7 @@
   }          
   .number {
     position: relative;
+    float: right;
     vertical-align: bottom;
     right: 4px;
     top: 4px;
@@ -460,19 +458,40 @@
   }
   .card-right-wrapper {
     position: absolute;
+    width: 10%;
     right: 0px;
     bottom: 0px;
     float: right;
     height: 100%;
+
     .card-right {
       position: relative;
       height: 100%;
 
-      .hb-avatar-tooltip {
+      .avatar-wrapper {
         position: absolute;
         bottom: 0px;
         right: 0px;
-        padding: 5px;
+        width: 300%;
+        padding: 0px 4px 4px 0px;
+
+        .hb-avatar-tooltip {
+          &.multi {
+            position: relative;
+            display: inline;
+            float: right;
+            margin-left: -6px;
+          }
+        }
+
+        .hb-avatar-tooltip {
+          &.single{
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            padding: 5px;
+          }
+        }
       }
     }
   }
