@@ -329,6 +329,9 @@
   }
 }
 
+.task-card-container{
+  position: relative;
+}
 .card {
   &.task-card:not(.filter-hidden){
     display: inline-block;
@@ -350,42 +353,6 @@
     border-bottom-color: #e5e5e5;
     border-left-width: 3px;
   }
-
-  &.closable {
-    background-color: #f5f5f5;
-    .actions-close {
-      display:block;
-    }
-  }
-  .actions-close {
-    display:none;
-  }
-  
-  .hb-action {
-    position: absolute;
-    width: 100%;
-
-    button {
-      opacity: 0.3;
-      position: absolute;
-      top:0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      width: 100px;
-      height: 30px;
-      margin:auto;
-      @include transition(opacity 0.2s);
-    }
-  }
-  &:hover {
-    .hb-action {
-        button {
-        opacity: 1;
-      }
-    }
-  }
-
 
   &.assignee-accept {
      border-color: #0069D6;
@@ -441,7 +408,7 @@
     float: right;
     vertical-align: bottom;
     right: 4px;
-    top: 4px;
+    top: 2px;
     font-size:1em;
     color: $lightGrey;
   }               
@@ -470,10 +437,9 @@
 
       .avatar-wrapper {
         position: absolute;
-        bottom: 0px;
+        bottom: -2px;
         right: 0px;
         width: 300%;
-        padding: 0px 4px 4px 0px;
 
         .hb-avatar-tooltip {
           &.multi {
@@ -496,6 +462,8 @@
     }
   }
   .card-details-wrapper {
+    position: relative;
+    height: 20px;
     clear: left;
     margin-left: 2px;
 
@@ -512,6 +480,63 @@
     .linked-repo {
       float: left;
       padding-left: 6px;
+    }
+  }
+
+  .hb-card-trays {
+    position: relative;
+    float: left;
+    //Hacks to stretch the trays in proportion to the parent(card) padding
+    width: calc(100% + 12px);
+    margin-left: -6px;
+    bottom: -7px;
+    border-collapse: collapse;
+
+    .hb-card-tray {
+      height: 24px;
+      border-style: solid;
+      border-width: 1px;
+      background: $hb-grey-light;
+
+      .hb-tray-message {
+        position: relative;
+        top: 1px;
+        padding-left: 8px;
+        font-size: 0.95em;
+      }
+      &.state-closable {
+        background-color: rgba(206, 166, 27, 0.1);
+        border-color: $hb-pending;
+        color: $hb-pending;
+      }
+      &.state-archive {
+        background-color: rgba(130, 116, 214, 0.1);
+        border-color: $hb-state-closed;
+        color: $hb-state-closed;
+      }
+    }
+
+    .hb-tray-button {
+      background-color: white;
+      position: relative;
+      float: right;
+      height: 20px;
+      top: 2px;
+      right: 8px;
+      font-size: 12px;
+      line-height: 1;
+      border-width: 1px;
+      border-radius: 4px;
+      width: 60px;
+
+      &.state-closable {
+        color: $hb-pending;
+        border-color: $hb-pending;
+      }
+      &.state-archive {
+        color: $hb-state-closed;
+        border-color: $hb-state-closed;
+      }
     }
   }
 

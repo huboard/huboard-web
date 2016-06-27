@@ -1,4 +1,4 @@
-<div class="ember-view">
+<div class="ember-view task-card-container">
   <div class="card-labels">
       {{#each visibleLabels as |label|}}
         <div class="card-label-wrapper"> 
@@ -50,18 +50,23 @@
       {{/if}}
     </div>
   </div>
-
-  {{#if isLast}}
-    <div class="hb-action actions-close">
-      <button class="hb-button" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
-    </div>                                                      
-  {{/if}}
+</div>
+<div class="hb-card-trays">
 
   {{#if canArchive}}
-
-  <div class="hb-action actions-archive">
-    <button class="hb-button-icon hb-button hb-button-grey" disabled={{processing}} {{action "archive" bubbles=false}}><i class="ui-icon ui-icon-box-add"></i>Archive</button>
-  </div>                                                      
+    {{#hb-card-tray type='state-archive'}}
+      <div class="hb-action actions-archive">
+        <span class="hb-tray-message"> Deployed </span>
+        <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+      </div>
+    {{/hb-card-tray}}
+  {{else if isLast}}
+    {{#hb-card-tray type='state-closable'}}
+      <div class="hb-action actions-close">
+        <span class='hb-tray-message'> Pending deployment ... </span>
+        <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
+      </div>
+    {{/hb-card-tray}}
   {{/if}}
 
   <!--
