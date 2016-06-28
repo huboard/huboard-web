@@ -1,5 +1,6 @@
 <div class="ember-view task-card-container">
   <div class="card-labels">
+    <div class="visible-labels">
       {{#each visibleLabels as |label|}}
         <div class="card-label-wrapper"> 
            <div class="card-label active large" style={{label.customStyle}} >
@@ -7,6 +8,16 @@
            </div>
         </div>
       {{/each}}
+    </div>
+    <div class="all-labels">
+      {{#each cardLabels as |label|}}
+        <div class="card-label-wrapper">
+           <div class="card-label active large" style={{label.customStyle}} >
+             <span>{{label.name}}</span>
+           </div>
+        </div>
+      {{/each}}
+    </div>
   </div>
 
   <div class="card-header task-card">

@@ -363,6 +363,21 @@
   .card-labels {
     position: relative;
     padding-left: 4px;
+
+    .all-labels {
+      display: none;
+    }
+    &:hover {
+      .all-labels {
+        position: relative;
+        display: block;
+        z-index: 1;
+      }
+      .visible-labels {
+        display: none;
+      }
+    }
+
     .card-label-wrapper {
       float:left;
       margin-right: 5px;
