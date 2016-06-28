@@ -101,6 +101,8 @@ var HbCardComponent = Ember.Component.extend(
        }
        return "hb-state-open";
     }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
+    isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
+    isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
 
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));

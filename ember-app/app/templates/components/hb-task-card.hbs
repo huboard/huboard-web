@@ -69,6 +69,26 @@
     {{/hb-card-tray}}
   {{/if}}
 
+  {{#if isReady}}
+    {{#hb-card-tray type='state-ready'}}
+      <div class="ready">
+        <span class='hb-tray-message'> Ready for next stage </span>
+        <button class="hb-tray-button state-ready" disabled=true>
+          Pull card<i class='ui-icon-arrow-1-e'></i>
+        </button>
+      </div>
+    {{/hb-card-tray}}
+  {{/if}}
+
+  {{#if isBlocked}}
+    {{#hb-card-tray type='state-blocked'}}
+      <div class="blocked">
+        <i class='ui-icon-x'></i>
+        <span class='hb-tray-message'> Blocked: waiting for 'ready'</span>
+      </div>
+    {{/hb-card-tray}}
+  {{/if}}
+
   <!--
   <div class="card-states">
      <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>

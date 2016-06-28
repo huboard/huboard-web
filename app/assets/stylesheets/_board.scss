@@ -514,6 +514,23 @@
         border-color: $hb-state-closed;
         color: $hb-state-closed;
       }
+      &.state-ready {
+        background-color: rgba(34, 209, 134, 0.1);
+        border-color: $hb-state-ready;
+        color: $hb-state-ready;
+      }
+      &.state-blocked {
+        background-color: rgba(249, 100, 110, 0.1);
+        border-color: $hb-state-blocked;
+        color: $hb-state-blocked;
+        i {
+          position: relative;
+          padding-left: 6px;
+          margin-right: -6px;
+          top: 1px;
+          font-size: 10px;
+        }
+      }
     }
 
     .hb-tray-button {
@@ -527,7 +544,7 @@
       line-height: 1;
       border-width: 1px;
       border-radius: 4px;
-      width: 60px;
+      width: 80px;
 
       &.state-closable {
         color: $hb-pending;
@@ -536,6 +553,15 @@
       &.state-archive {
         color: $hb-state-closed;
         border-color: $hb-state-closed;
+      }
+      &.state-ready {
+        border-color: $hb-state-ready;
+        color: $hb-state-ready;
+        i {
+          position: relative;
+          top: 1px;
+          padding-left: 4px;
+        }
       }
     }
   }
