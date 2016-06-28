@@ -425,7 +425,6 @@
     right: 4px;
     top: 2px;
     font-size:1em;
-    color: $lightGrey;
   }               
   .type {
     position: relative;
@@ -455,6 +454,25 @@
         bottom: -2px;
         right: 0px;
         width: 300%;
+
+        .all-assignees {
+          display: none;
+        }
+
+        &:hover {
+          width: auto;
+
+          .all-assignees {
+            @include display(inline-flex);
+            @include flex-direction(row-reverse);
+            .multi {
+              padding-left: 8px;
+            }
+          }
+          .visible-assignees {
+            display: none;
+          }
+        }
 
         .hb-avatar-tooltip {
 
