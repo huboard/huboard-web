@@ -48,10 +48,10 @@ class Huboard
         title: issue.title,
         body: issue.body,
         labels: [labels.first['name']].concat((issue.labels || []).map{|l| l["name"]}),
-        assignee: assignee,
         assignees: issue['assignees'],
         milestone: milestone
       }
+      attributes[:assignee] = issue['assignee'] if issue['assignee']
 
       result = gh.issues.create(attributes) do |request|
         request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
