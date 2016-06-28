@@ -35,7 +35,7 @@ var CardLabelsVisitor = Ember.Object.create({
   },
   maxCharCount: function(card){
     var width = card.$().width();
-    return width / this.fontSize;
+    return width / (this.fontSize - 2);
   },
   fontSize: 12
 });
