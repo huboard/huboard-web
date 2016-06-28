@@ -48,7 +48,7 @@ class Huboard
         title: issue.title,
         body: issue.body,
         labels: [labels.first['name']].concat((issue.labels || []).map{|l| l["name"]}),
-        assignees: issue['assignees'],
+        assignees: issue['assignees'] || [],
         milestone: milestone
       }
       attributes[:assignee] = issue['assignee'] if issue['assignee']
