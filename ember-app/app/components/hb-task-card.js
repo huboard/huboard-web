@@ -15,6 +15,14 @@ var HbCardComponent = Ember.Component.extend(
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
     taskCard: true,
     filters: Ember.inject.service(),
+    repoName: function(){
+      var parent_owner = this.get('issue.repo.parent.repo.owner.login');
+      var current_owner = this.get('issue.data.repo.owner.login');
+      if(parent_owner === current_owner){
+        return this.get('issue.data.repo.name');
+      }
+      return this.get('issue.data.repo.full_name');
+    }.property('issue.data.repo.full_name'),
     style: Ember.computed('issue.linkedColor', {
       get: function(){
         const color = this.get("issue.linkedColor");
