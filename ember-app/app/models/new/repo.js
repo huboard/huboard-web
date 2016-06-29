@@ -189,6 +189,7 @@ var Repo = Model.extend({
     var issue = form.serialize(["repo"]),
       repo = this;
     if(issue.assignees && issue.assignees.length){
+      issue.assignee = null;
       issue.assignees = issue.assignees.map((assignee)=>{  return assignee.login; });
     }
     return ajax({

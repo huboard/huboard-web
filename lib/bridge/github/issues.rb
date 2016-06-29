@@ -51,7 +51,7 @@ class Huboard
         assignees: issue['assignees'] || [],
         milestone: milestone
       }
-      attributes[:assignee] = issue['assignee'] if issue['assignee']
+      attributes[:assignee] = assignee if assignee
 
       result = gh.issues.create(attributes) do |request|
         request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
