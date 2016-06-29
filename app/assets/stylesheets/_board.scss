@@ -331,12 +331,10 @@
 
 .task-card-container{
   position: relative;
+  padding-left: 4px;
+  padding-right: 10%;
 }
 .card {
-  &.task-card:not(.filter-hidden){
-    display: inline-block;
-    width: 96%;
-  }
   cursor:pointer;
   list-style: none;
   padding: 5px 5px 6px 5px;
@@ -362,7 +360,6 @@
   }
   .card-labels {
     position: relative;
-    padding-left: 4px;
 
     .all-labels {
       display: none;
@@ -398,18 +395,11 @@
   .card-header {
     padding-bottom: 4px;
     color: $darkGrey;
-
-    &.task-card {
-      clear: left;
-      float: left;
-      width: 85%;
-    }
   }
   .title {
     white-space: normal;
     text-overflow: clip;
     overflow: visible;
-    padding-left: 4px;
   }         
   .milestone {
     color: $lightGrey;
@@ -434,6 +424,7 @@
     i {
       font-size: 14px;
       padding: 4px;
+      padding-left: 0px;
       color: $hb-purple;
     }
   }
@@ -451,7 +442,7 @@
 
       .avatar-wrapper {
         position: absolute;
-        bottom: -2px;
+        bottom: 0px;
         right: 0px;
         width: 300%;
 
@@ -505,12 +496,9 @@
   }
   .card-details-wrapper {
     position: relative;
-    height: 20px;
-    clear: left;
-    margin-left: 2px;
 
     i {
-      padding: 0px 4px 0px 2px;
+      padding-right: 4px;
       vertical-align: text-bottom;
     }
 
@@ -527,25 +515,15 @@
 
   .hb-card-trays {
     position: relative;
-    float: left;
-    //Hacks to stretch the trays in proportion to the parent(card) padding
-    width: calc(100% + 12px);
-    margin-left: -6px;
-    bottom: -7px;
-    border-collapse: collapse;
+    margin: 7px -6px -7px;
 
     .hb-card-tray {
-      height: 24px;
+      @include box-sizing(border-box);
       border-style: solid;
       border-width: 1px;
       background: $hb-grey-light;
+      padding: 2px 6px;
 
-      .hb-tray-message {
-        position: relative;
-        top: 1px;
-        padding-left: 8px;
-        font-size: 0.95em;
-      }
       &.state-closable {
         background-color: rgba(206, 166, 27, 0.1);
         border-color: $hb-pending;
@@ -566,10 +544,6 @@
         border-color: $hb-state-blocked;
         color: $hb-state-blocked;
         i {
-          position: relative;
-          padding-left: 6px;
-          margin-right: -6px;
-          top: 1px;
           font-size: 10px;
         }
       }
@@ -577,16 +551,12 @@
 
     .hb-tray-button {
       background-color: white;
-      position: relative;
       float: right;
       height: 20px;
-      top: 2px;
-      right: 2px;
       font-size: 12px;
       line-height: 1;
       border-width: 1px;
       border-radius: 4px;
-      width: 80px;
 
       &.state-closable {
         color: $hb-pending;

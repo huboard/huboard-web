@@ -1,6 +1,6 @@
 <div class="ember-view task-card-container">
   <div class="card-labels">
-    <div class="visible-labels">
+    <div class="visible-labels clearfix">
       {{#each visibleLabels as |label|}}
         <div class="card-label-wrapper"> 
            <div class="card-label active large" style={{label.customStyle}} >
@@ -9,7 +9,7 @@
         </div>
       {{/each}}
     </div>
-    <div class="all-labels">
+    <div class="all-labels clearfix">
       {{#each cardLabels as |label|}}
         <div class="card-label-wrapper">
            <div class="card-label active large" style={{label.customStyle}} >
@@ -56,7 +56,7 @@
   </div>
 
   <div class="card-details-wrapper">
-    <div class="card-details">
+    <div class="card-details clearfix">
       <div class="comment-count">
         <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
       </div>
@@ -74,15 +74,15 @@
   {{#if canArchive}}
     {{#hb-card-tray type='state-archive'}}
       <div class="hb-action actions-archive">
-        <span class="hb-tray-message"> Deployed </span>
         <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+        <span class="hb-tray-message"> Deployed </span>
       </div>
     {{/hb-card-tray}}
   {{else if isLast}}
     {{#hb-card-tray type='state-closable'}}
       <div class="hb-action actions-close">
-        <span class='hb-tray-message'> Pending deployment ... </span>
         <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
+        <span class='hb-tray-message'> Pending deployment ... </span>
       </div>
     {{/hb-card-tray}}
   {{/if}}
@@ -90,10 +90,10 @@
   {{#if isReady}}
     {{#hb-card-tray type='state-ready'}}
       <div class="ready">
-        <span class='hb-tray-message'> Ready for next stage </span>
-        <button class="hb-tray-button state-ready" disabled=true>
-          Pull card<i class='ui-icon-arrow-1-e'></i>
+        <button class="hb-tray-button state-ready" disabled={{true}} >
+          Pull card <i class='ui-icon-arrow-1-e'></i>
         </button>
+        <span class='hb-tray-message'> Ready for next stage </span>
       </div>
     {{/hb-card-tray}}
   {{/if}}

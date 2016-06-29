@@ -24,7 +24,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         return ui.clone();
       },
       start: function(ev, ui){
-        ui.placeholder.height(ui.item.outerHeight());
+        ui.placeholder.height(ui.helper.outerHeight());
       },
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
