@@ -38,16 +38,6 @@ test('the card has no assignees', (assert) => {
   assert.ok(card.get('visibleAssignees').length === 0, 'No assignees are visible');
 });
 
-test('only the first three assignees are visible', (assert) => {
-  card.set('issue.assignees', assignees)
-  sut.visit(card);
-
-  assert.ok(card.get('visibleAssignees').length === 3, 'Only three assignees are visible');
-  assert.ok(card.get('visibleAssignees')[0].login === 'ricki', 'ricki is visible');
-  assert.ok(card.get('visibleAssignees')[1].login === 'ryan', 'ryan is visible');
-  assert.ok(card.get('visibleAssignees')[2].login === 'keith', 'keith is visible');
-});
-
 test('assignee filters are active', (assert) => {
   card.get('filters.memberFilters').pushObject({name: 'pete', mode: 1});
   card.get('filters.memberFilters').pushObject({name: 'keith', mode: 2});

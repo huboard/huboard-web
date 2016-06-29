@@ -6,7 +6,6 @@ var CardAssigneesVisitor = Ember.Object.create({
     if(card.get('isFiltered') || !assignees){ return; }
     
     assignees = this.checkForFilteredAssignees(card, assignees);
-    assignees = assignees.slice(0,3);
     card.set('visibleAssignees', assignees); 
   },
   
