@@ -1,16 +1,16 @@
 <div class="ember-view task-card-container">
   <div class="card-header task-card">
-    <div class="type">
-      {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
-    </div>
+    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+      #{{issue.number}}
+    </a>
     {{#if issue.linkedColor}}
       <div class="linked-repo" style="color:#{{issue.linkedColor}}">
         <i class="ui-icon-note"></i>{{repoName}}
       </div>
     {{/if}}
-    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
-      #{{issue.number}}
-    </a>
+    <div class="type">
+      {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
+    </div>
   </div>
 
   <div class="card-body">
@@ -25,11 +25,6 @@
         {{#if issue.assignees}}
           <div class="visible-assignees">
             {{#each visibleAssignees as |assignee index|}}
-              {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
-            {{/each}}
-          </div>
-          <div class="all-assignees">
-            {{#each issue.assignees as |assignee index|}}
               {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
             {{/each}}
           </div>

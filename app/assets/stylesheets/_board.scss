@@ -336,8 +336,8 @@
 .card {
   cursor:pointer;
   list-style: none;
-  padding: 5px 5px 6px 5px;
-  margin-bottom: 10px;
+  padding: 4px 5px 6px 5px;
+  margin-bottom: 6px;
   position:relative;
   background-color: #fff;
   border: 1px solid #e5e5e5;
@@ -386,6 +386,9 @@
       padding-right: 4px;
     }
 
+    .number {
+      padding-right: 6px;
+    }
     .linked-repo {
       padding-right: 6px;
       i {
@@ -429,22 +432,17 @@
 
     .avatar-wrapper {
       float: right;
-      .all-assignees {
-        display: none;
-      }
 
       &:hover {
         width: auto;
 
-        .all-assignees {
+        .visible-assignees {
           @include display(inline-flex);
           @include flex-direction(row-reverse);
           .multi {
+            border-left-style: none;
             padding-left: 8px;
           }
-        }
-        .visible-assignees {
-          display: none;
         }
       }
 
@@ -455,6 +453,8 @@
           display: inline;
           float: right;
           margin-left: -6px;
+          border-left-style: solid;
+          border-width: 1px;
         }
 
         &.single {
