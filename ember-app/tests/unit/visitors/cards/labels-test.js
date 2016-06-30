@@ -38,15 +38,13 @@ test('visit and the card has no labels', (assert) => {
   assert.ok(card.get('visibleLabels').length === 0, 'No labels are visible');
 });
 
-test('sets visible labels based on display width', (assert) => {
+test('sets the labels', (assert) => {
   card.set('cardLabels', labels);
   sut.checkForFilteredLabels = sinon.stub().returns(labels);
   sut.visit(card);
 
   var result = card.get('visibleLabels');
-  assert.ok(result.length === 2, 'Only the first 2 labels are visible');
-  assert.ok(result[0].name === 'bug');
-  assert.ok(result[1].name === 'performance');
+  assert.ok(result.length === 4, 'All of the labels are visible');
 });
 
 test('label filters are active', (assert) => {

@@ -332,7 +332,6 @@
 .task-card-container{
   position: relative;
   padding-left: 4px;
-  padding-right: 10%;
 }
 .card {
   cursor:pointer;
@@ -361,20 +360,6 @@
   .card-labels {
     position: relative;
 
-    .all-labels {
-      display: none;
-    }
-    &:hover {
-      .all-labels {
-        position: relative;
-        display: block;
-        z-index: 1;
-      }
-      .visible-labels {
-        display: none;
-      }
-    }
-
     .card-label-wrapper {
       float:left;
       margin-right: 5px;
@@ -382,8 +367,8 @@
       .card-label.active.large {
         position: relative;
 
-        padding: 0px 8px;
-        font-size: 12px;
+        padding: 0px 4px;
+        font-size: 11px;
 
         border-style: solid;
         border-width: 1px;
@@ -393,14 +378,34 @@
   }
 
   .card-header {
-    padding-bottom: 4px;
+    @include display(flex);
+    padding-bottom: 2px;
     color: $darkGrey;
+    i {
+      position: relative;
+      padding-right: 4px;
+    }
+
+    .linked-repo {
+      padding-right: 6px;
+      i {
+        top: 2px;
+      }
+    }
+    .type {
+      i {
+        font-size: 14px;
+        padding-right: 6px;
+        color: $hb-purple;
+        top: 1px;
+      }
+    }
   }
-  .title {
-    white-space: normal;
-    text-overflow: clip;
-    overflow: visible;
-  }         
+
+  .card-body {
+    padding-bottom: 2px;
+    font-size: 13px;
+  }
   .milestone {
     color: $lightGrey;
     font-size:11px;
@@ -408,94 +413,10 @@
   img {
     max-width: 24px;
   }          
-  .number {
-    position: relative;
-    float: right;
-    vertical-align: bottom;
-    right: 4px;
-    top: 2px;
-    font-size:1em;
-  }               
-  .type {
-    position: relative;
-    float: left;
-    top: 2px;
 
-    i {
-      font-size: 14px;
-      padding: 4px;
-      padding-left: 0px;
-      color: $hb-purple;
-    }
-  }
-  .card-right-wrapper {
-    position: absolute;
-    width: 10%;
-    right: 0px;
-    bottom: 0px;
-    float: right;
-    height: 100%;
-
-    .card-right {
-      position: relative;
-      height: 100%;
-
-      .avatar-wrapper {
-        position: absolute;
-        bottom: 0px;
-        right: 0px;
-        width: 300%;
-
-        .all-assignees {
-          display: none;
-        }
-
-        &:hover {
-          width: auto;
-
-          .all-assignees {
-            @include display(inline-flex);
-            @include flex-direction(row-reverse);
-            .multi {
-              padding-left: 8px;
-            }
-          }
-          .visible-assignees {
-            display: none;
-          }
-        }
-
-        .hb-avatar-tooltip {
-
-          &.multi {
-            position: relative;
-            display: inline;
-            float: right;
-            margin-left: -6px;
-          }
-
-          &.single {
-            position: absolute;
-            bottom: 0px;
-            right: 0px;
-            padding: 5px;
-          }
-
-          &:hover {
-            p {
-              right: 0px;
-              white-space: nowrap;
-              &:after{
-                left: 66%;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
   .card-details-wrapper {
     position: relative;
+    padding-bottom: 4px;
 
     i {
       padding-right: 4px;
@@ -503,13 +424,56 @@
     }
 
     .comment-count {
-      float: left;
       color: $lightGrey;
     }
 
-    .linked-repo {
-      float: left;
-      padding-left: 6px;
+    .avatar-wrapper {
+      float: right;
+      .all-assignees {
+        display: none;
+      }
+
+      &:hover {
+        width: auto;
+
+        .all-assignees {
+          @include display(inline-flex);
+          @include flex-direction(row-reverse);
+          .multi {
+            padding-left: 8px;
+          }
+        }
+        .visible-assignees {
+          display: none;
+        }
+      }
+
+      .hb-avatar-tooltip {
+
+        &.multi {
+          position: relative;
+          display: inline;
+          float: right;
+          margin-left: -6px;
+        }
+
+        &.single {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+          padding: 5px;
+        }
+
+        &:hover {
+          p {
+            right: 0px;
+            white-space: nowrap;
+            &:after{
+              left: 66%;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -523,6 +487,7 @@
       border-width: 1px;
       background: $hb-grey-light;
       padding: 2px 6px;
+      font-size: 12px;
 
       &.state-closable {
         background-color: rgba(206, 166, 27, 0.1);
@@ -617,9 +582,6 @@
     .card-header {
       border-bottom: none;
       padding: 5px 0px;
-    }
-    .title {
-      padding-left: 0px;
     }
     .card-labels {
       padding: 5px 0px;

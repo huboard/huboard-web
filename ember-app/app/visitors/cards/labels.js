@@ -5,7 +5,6 @@ var CardLabelsVisitor = Ember.Object.create({
     if(card.get('isFiltered')){ return }
     var labels = card.get('cardLabels');
     labels = this.checkForFilteredLabels(card, labels);
-    labels = this.compactVisibleLabels(card, labels);
 
     card.set('visibleLabels', labels);
   },

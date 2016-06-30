@@ -1,39 +1,26 @@
 <div class="ember-view task-card-container">
-  <div class="card-labels">
-    <div class="visible-labels clearfix">
-      {{#each visibleLabels as |label|}}
-        <div class="card-label-wrapper"> 
-           <div class="card-label active large" style={{label.customStyle}} >
-             <span>{{label.name}}</span>
-           </div>
-        </div>
-      {{/each}}
-    </div>
-    <div class="all-labels clearfix">
-      {{#each cardLabels as |label|}}
-        <div class="card-label-wrapper">
-           <div class="card-label active large" style={{label.customStyle}} >
-             <span>{{label.name}}</span>
-           </div>
-        </div>
-      {{/each}}
-    </div>
-  </div>
-
   <div class="card-header task-card">
     <div class="type">
       {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
     </div>
+    {{#if issue.linkedColor}}
+      <div class="linked-repo" style="color:#{{issue.linkedColor}}">
+        <i class="ui-icon-note"></i>{{repoName}}
+      </div>
+    {{/if}}
+    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+      #{{issue.number}}
+    </a>
+  </div>
+
+  <div class="card-body">
     <div class="title" title="{{issue.title}}">
       {{issue.title}}
     </div>
   </div>
 
-  <div class="card-right-wrapper">
-    <div class="card-right task-card">
-      <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
-        #{{issue.number}}
-      </a>
+  <div class="card-details-wrapper">
+    <div class="card-details clearfix">
       <div class="avatar-wrapper">
         {{#if issue.assignees}}
           <div class="visible-assignees">
@@ -52,20 +39,21 @@
           {{/if}}
         {{/if}}
       </div>
-    </div>
-  </div>
-
-  <div class="card-details-wrapper">
-    <div class="card-details clearfix">
       <div class="comment-count">
         <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
       </div>
 
-      {{#if issue.linkedColor}}
-        <div class="linked-repo" style="color:#{{issue.linkedColor}}">
-          <i class="ui-icon-note"></i>{{repoName}}
+    </div>
+  </div>
+  <div class="card-labels">
+    <div class="visible-labels clearfix">
+      {{#each visibleLabels as |label|}}
+        <div class="card-label-wrapper">
+           <div class="card-label active large" style={{label.customStyle}} >
+             <span>{{label.name}}</span>
+           </div>
         </div>
-      {{/if}}
+      {{/each}}
     </div>
   </div>
 </div>
