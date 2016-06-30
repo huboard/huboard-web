@@ -58,14 +58,14 @@
     {{#hb-card-tray type='state-archive'}}
       <div class="hb-action actions-archive">
         <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
-        <span class="hb-tray-message"> Deployed </span>
+        <span class="hb-tray-message"> Closed </span>
       </div>
     {{/hb-card-tray}}
   {{else if isLast}}
     {{#hb-card-tray type='state-closable'}}
       <div class="hb-action actions-close">
         <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
-        <span class='hb-tray-message'> Pending deployment ... </span>
+        <span class='hb-tray-message'> Done </span>
       </div>
     {{/hb-card-tray}}
   {{/if}}
