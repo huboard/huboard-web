@@ -391,6 +391,10 @@
     }
     .linked-repo {
       padding-right: 6px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
       i {
         top: 2px;
       }
