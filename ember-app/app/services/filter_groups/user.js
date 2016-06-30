@@ -39,7 +39,7 @@ var UserFilters = Ember.Service.extend({
           condition: function(i){
             var current_user = App.get("currentUser").login;
             if(i.data.assignees){
-              return i.data.assignees.length > 1;
+              return i.data.assignees[0] && i.data.assignees[0].login !== current_user;
             }
             return i.data.assignee && i.data.assignee.login !== current_user;
           }
