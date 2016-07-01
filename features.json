@@ -1,5 +1,7 @@
 {
   "FEATURES" : {
-    "IMAGE_UPLOADS": true
+    "IMAGE_UPLOADS": true,
+    "IMAGE_MAX_SIZE": 5242880,
+    "IMAGE_STORE": "aws"
   }
 }
