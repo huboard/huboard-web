@@ -12,7 +12,7 @@
       <label>
         {{input value=bufferedContent.title placeholder="Title"}}
       </label>
-      {{hb-markdown-editor markdown=bufferedContent.description }}
+      {{hb-markdown-editor repo=model.repo markdown=bufferedContent.description }}
       <button disabled={{disabled}} class="hb-button">Update milestone</button>
     </div>
     <div class="flex-form-right">
