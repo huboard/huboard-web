@@ -3,6 +3,7 @@
 class ApiUploader < CarrierWave::Uploader::Base
   attr_accessor :success_action_redirect
   attr_accessor :success_action_status
+  attr_accessor :user, :repo
 
   %w{ key aws_access_key_id acl policy signature }.each do |method|
     define_method method do 
@@ -11,7 +12,7 @@ class ApiUploader < CarrierWave::Uploader::Base
   end
 
   def direct_fog_url
-    "/api/uploads/asset"
+    "/api/#{@user}/#{@repo}/uploads/asset"
   end
 
 end

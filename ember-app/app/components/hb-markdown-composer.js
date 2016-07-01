@@ -36,7 +36,9 @@ var HbMarkdownComposerComponent = Ember.Component.extend({
 
     this.set('uploading', true);
 
-    Ember.$.getJSON("/api/uploads/asset")
+    var uploadRequestUrl = `/api/${this.get('repo.data.repo.full_name')}/uploads/asset`;
+
+    Ember.$.getJSON(uploadRequestUrl)
     .then(function(response){
       response = response.uploader;
       var fd = new FormData();
