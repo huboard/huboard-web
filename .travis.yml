@@ -10,8 +10,8 @@ branches:
 install:
   - npm install -g npm@2
   - npm install
-  - cd ember-app && npm install
+  - cd ember-app && npm install && cd ..
   - npm install -g  ember-cli
 
 script: 
-  - cd ember-app && ember build
+  - cd ember-app && ember build && cd ..
