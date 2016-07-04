@@ -1,6 +1,15 @@
-language: ruby
+language: 
+  - ruby
+  - node_js
 
 branches:
   only:
   - enterprise
   - master
+
+install:
+  - npm install
+  - npm install -g  ember-cli
+
+script: 
+  - cd ember-app && ember build
