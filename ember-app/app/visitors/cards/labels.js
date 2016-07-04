@@ -13,7 +13,7 @@ var CardLabelsVisitor = Ember.Object.create({
   //If the labels match any label filters, display those labels instead
   checkForFilteredLabels: function(card, labels){
     var labelFilters = card.get("filters.labelFilters").filter((filter)=>{
-      return filter.mode > 0
+      return filter.mode > 0;
     });
     if(labelFilters.length){
       return labels.filter((label) => {

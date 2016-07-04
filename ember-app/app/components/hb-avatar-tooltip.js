@@ -6,9 +6,9 @@ var HbAvatarTooltipComponent = Ember.Component.extend({
   setZIndex: function(){
     Ember.run.schedule('afterRender', this, ()=> {
       if(this.get('index') || this.get('index') === 0){
-        this.$().css('z-index', `${100 - this.get('index')}`)
+        this.$().css('z-index', `${100 - this.get('index')}`);
       }
-    })
+    });
   }.on('didInsertElement')
 });
 

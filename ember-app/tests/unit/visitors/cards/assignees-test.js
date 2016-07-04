@@ -32,7 +32,7 @@ module('Visitors/Cards/Assignees', {
 });
 
 test('the card has no assignees', (assert) => {
-  card.set('issue.assignees', [])
+  card.set('issue.assignees', []);
   sut.visit(card);
 
   assert.ok(card.get('visibleAssignees').length === 0, 'No assignees are visible');
@@ -41,7 +41,7 @@ test('the card has no assignees', (assert) => {
 test('assignee filters are active', (assert) => {
   card.get('filters.memberFilters').pushObject({name: 'pete', mode: 1});
   card.get('filters.memberFilters').pushObject({name: 'keith', mode: 2});
-  card.set('issue.assignees', assignees)
+  card.set('issue.assignees', assignees);
   sut.visit(card);
 
   assert.ok(card.get('visibleAssignees').length === 2, 'Only two assignees are visible');
