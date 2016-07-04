@@ -8,7 +8,7 @@ branches:
   - master
 
 install:
-  - npm install
+  - cd ember-app && npm install
   - npm install -g  ember-cli
 
 script: 
