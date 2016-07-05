@@ -36,7 +36,7 @@ var BoardSyncingService = Ember.Service.extend({
   //Issue Syncing
   syncIssues: function(board, opts){
     if(this.get('syncInProgress')){ return; }
-    var _self = this;
+    var _self = this
     _self.set('syncInProgress', true);
 
     board.fetchIssues(opts).then((issues)=>{
