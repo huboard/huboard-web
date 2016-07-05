@@ -14,4 +14,4 @@ install:
   - npm install -g  ember-cli
 
 script: 
-  - cd ember-app && ember build && cd ..
+  - cd ember-app && ember test && cd ..
