@@ -27,8 +27,6 @@ var HbMarkdownComposerComponent = Ember.Component.extend({
     var component = this,
     holder = this.$();
 
-
-
     if(file.size > HUBOARD_ENV.FEATURES.IMAGE_MAX_SIZE) {
       alert("Yowza, that file is too big");
       return;
