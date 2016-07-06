@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import animateModalOpen from 'ember-accounts/utils/animate-modal-open';
 import animateModalClose from 'ember-accounts/utils/animate-modal-close';
-import ModalLayout from '../templates/components/x-modal';
 
 export default Ember.Component.extend({
   action: 'closeModal',
@@ -17,7 +16,7 @@ export default Ember.Component.extend({
       event.stopPropagation();
     }.bind(this));
 
-    this.$(".fullscreen-overlay, .close").on('click.modal', function(event){
+    this.$(".fullscreen-overlay, .close").on('click.modal', function(){
       this.sendAction("action");
     }.bind(this));
 

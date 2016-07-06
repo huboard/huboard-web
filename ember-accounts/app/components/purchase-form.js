@@ -53,7 +53,7 @@ export default CreditCardForm.extend({
     this.set('errors', JSON.parse(error.responseText).error.message);
     return this.set('processingCard', false);
   },
-  didRejectCoupon(error, statusText) {
+  didRejectCoupon(error) {
     return this.set('errors', JSON.parse(error.responseText).error.message);
   },
   clearCouponAlerts() {
@@ -70,7 +70,7 @@ export default CreditCardForm.extend({
       hash.success = function(json) {
         return resolve(json);
       };
-      hash.error = function(jqXHR, textStatus, errorThrown) {
+      hash.error = function(jqXHR) {
         return reject(jqXHR);
       };
       return Ember.$.ajax(hash);
@@ -78,7 +78,7 @@ export default CreditCardForm.extend({
   },
   plan: Ember.computed('model.details.plans', function() {
     let plans = this.get("model.details.plans");
-    this.set("model.details.plans", Em.A(plans));
+    this.set("model.details.plans", Ember.A(plans));
     return this.get("model.details.plans.firstObject");
   }),
   trialing: Ember.computed('plan.status', 'trialExpired', function() {
@@ -91,7 +91,6 @@ export default CreditCardForm.extend({
   }),
   actions: {
     couponChanged() {
-      let success;
       const coupon_id = this.get('coupon');
       if (coupon_id === "") {
         return this.clearCouponAlerts();
