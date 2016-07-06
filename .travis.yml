@@ -10,10 +10,12 @@ branches:
 install:
   - bundle install --jobs=3 --retry=3 --deployment
   - npm install -g npm@2
+  - npm install -g ember-cli
   - npm install
   - cd ember-app && npm install && cd ..
-  - npm install -g  ember-cli
+  - cd ember-accounts && npm install && cd ..
 
 script: 
   - bundle exec rake
   - cd ember-app && ember test && cd ..
+  - cd ember-accounts && ember test && cd ..
