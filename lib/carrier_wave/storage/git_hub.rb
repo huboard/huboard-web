@@ -3,8 +3,7 @@ module CarrierWave
     class GitHub < File
 
       def store!(file)
-        upload_path = "#{SecureRandom.uuid}/#{file.original_filename}"
-        repo = gh.repos(@uploader.repository) 
+        repo = gh.repos(@uploader.user, @uploader.repo) 
 
         #create a blob with the image contents
         #
@@ -12,6 +11,10 @@ module CarrierWave
           :content => Base64.encode64(file.read),
           :encoding => "base64"
         })
+
+        blob_sha = blob["sha"]
+
+        upload_path = "#{blob_sha[0,2]}/#{blob_sha[2,32]}/#{SecureRandom.uuid}#{::File.extname file.original_filename}"
 
         #get the hidden ref to see if we have a base tree
         ref = repo.git.refs("huboard/uploads").raw
@@ -28,7 +31,7 @@ module CarrierWave
           })
 
           #create a new commit
-          commit = repo.git.commits.create({ tree: tree["sha"], message: "uploading #{file.original_filename}" })
+          commit = repo.git.commits.create({ tree: tree["sha"], message: "uploading #{upload_path}" })
 
           #create a ref
           ref = repo.git.refs.create({
@@ -49,12 +52,10 @@ module CarrierWave
           base_tree: base_tree["sha"]})
 
           #create a new commit
-          commit = repo.git.commits.create({ tree: tree["sha"], message: "uploading #{file.original_filename}" , parents: [parent_commit]})
+          commit = repo.git.commits.create({ tree: tree["sha"], message: "uploading #{upload_path}" , parents: [parent_commit]})
 
           #update the ref
-          ref = repo.git.refs("huboard/uploads").patch({
-            sha: commit["sha"]
-          })
+          ref = move_ref(repo, tree, commit)
         end
 
         #retreive the commit information from the ref
@@ -74,6 +75,19 @@ module CarrierWave
       end
 
       private
+      def move_ref(repo, tree, commit)
+        ref = repo.git.refs("huboard/uploads").patch({
+          sha: commit["sha"]
+        })
+
+        if ref["object"] 
+          return ref
+        else
+          parent_commit = repo.git.refs('huboard/uploads')['object']['sha']
+          commit = repo.git.commits.create({ tree: tree["sha"], message: "merging conflict #{commit['sha']} && #{parent_commit}}" , parents: [parent_commit]})
+          return move_ref(repo, tree, commit)
+        end
+      end
       def gh
         options = { access_token: @uploader.access_token }
         options[:api_url] = ENV["GITHUB_API_ENDPOINT"] if ENV["GITHUB_API_ENDPOINT"]
@@ -87,6 +101,10 @@ module CarrierWave
               Faraday::ConnectionFailed,
           ]
         end
+      end
+
+      def update_ref()
+
       end
 
     end
