@@ -22,7 +22,7 @@ var IssueReferencesVisitor = Ember.Object.create({
   },
 
   discoverIssue: function(issue, reference){
-    var issuesById = issue.get('repo.board.issuesById');
+    var issuesById = issue.get('repo.parent.board.issuesById') ? issue.get('repo.parent.board.issuesById') : issue.get('repo.board.issuesById');
     if(issuesById.hasOwnProperty(reference.id)){
       return issuesById[reference.id];
     }
