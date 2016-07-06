@@ -25,9 +25,13 @@ module Api
     def local_uploader
       not_found unless logged_in?
       uploader = LocalUploader.new
+
       uploader.access_token = user_token
-      uploader.repository = "#{params[:user]}/#{params[:repo]}" #<= needs to come from the client
+      uploader.user = params[:user]
+      uploader.repo = params[:repo]
+      
       uploader.store! params[:file]
+
       render xml: { "Key" => params[:file].original_filename, "Location" => uploader.url }
     end
 
