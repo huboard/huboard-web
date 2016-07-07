@@ -16,12 +16,15 @@ var HbSelectedColumnComponent = Ember.Component.extend({
     if(github_state === "closed"){
       return "hb-state-" + "closed";
     }
-    var custom_state = this.get("issue.customState");
+    var custom_state = this.get("issue.customState") ||
+      this.get('issue.other_labels').map((label)=> { return label.name }).find((name)=>{
+      return name === 'blocked' || name === 'ready'
+    });
     if(custom_state){
       return "hb-state-" + custom_state;
     }
     return "hb-state-open";
-  }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
+  }.property("issue.data.current_state", "issue.customState", "issue.data.state", "issue.data.other_labels.[]"),
   selectedColumn: function () {
     if(this.get("issue.data.state") === "closed"){
       return this.get("columns.lastObject");

@@ -15,9 +15,10 @@ var IssueController = Ember.Controller.extend(
     return this.get("model.repo.isCollaborator");
   }.property("model.repo.isCollaborator"),
   columns: Ember.computed.alias("application.model.board.columns"),
-  isReady: Ember.computed("model.customState", "model.data._data.custom_state", {
+  isReady: Ember.computed("model.customState", "model.data._data.custom_state", "model.data.other_labels.[]", {
     get: function() {
-      return this.get("model.customState") === "ready";
+      return this.get("model.customState") === "ready" ||
+        this.get("model.other_labels").isAny("name", "ready");
     },
     set: function(key, value){
       if(value) {
@@ -29,9 +30,10 @@ var IssueController = Ember.Controller.extend(
       }
     }
   }),
-  isBlocked: Ember.computed("model.customState", "model.data._data.custom_state", {
+  isBlocked: Ember.computed("model.customState", "model.data._data.custom_state", "model.data.other_labels.[]", {
     get: function() {
-      return this.get("model.customState") === "blocked";
+      return this.get("model.customState") === "blocked" ||
+        this.get("model.other_labels").isAny("name", "blocked");
     },
     set: function(key, value){
       if(value) {
