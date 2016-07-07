@@ -161,6 +161,7 @@ var Issue = Model.extend({
       Ember.$.ajax(options)
       .then(function(response){
         this.set("processing", false);
+        this.set("other_labels", response.other_labels);
         this.set("data.body", response.body);
         this.set("data.body_html", response.body_html);
       }.bind(this));
