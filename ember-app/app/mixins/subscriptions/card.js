@@ -36,10 +36,10 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       var assignees = this.get("issue.assignees");
       if(assignees && !assignees.isAny("login", message.assignee.login)){
         if(message.assignee.login){
-          this.get("issue.assignees").pushObject(message.assignee);
+          return this.get("issue.assignees").pushObject(message.assignee);
         } else {
           var assignee = this.get("issue.repo.assignees").findBy("login", message.assignee);
-          this.get("issue.assignees").pushObject(assignee);
+          return this.get("issue.assignees").pushObject(assignee);
         }
       }
       this.set("issue.assignee", message.issue.assignee);
