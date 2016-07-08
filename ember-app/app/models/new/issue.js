@@ -154,12 +154,12 @@ var Issue = Model.extend({
   }.observes('stateLabel'),
   customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", {
     get:function(){
-      var state = this.get("_data.custom_state");
+      var state = this.get("stateLabel");
       if(state){ return state; }
-      return this.get('stateLabel');
+      return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state") || this.get("stateLabel");
+      var previousState = this.get("stateLabel") || this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
