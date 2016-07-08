@@ -17,8 +17,7 @@ var IssueController = Ember.Controller.extend(
   columns: Ember.computed.alias("application.model.board.columns"),
   isReady: Ember.computed("model.customState", "model.data._data.custom_state", "model.data.other_labels.[]", {
     get: function() {
-      return this.get("model.customState") === "ready" ||
-        this.get("model.stateLabel") === "ready";
+      return this.get("model.customState") === "ready";
     },
     set: function(key, value){
       if(value) {
@@ -32,8 +31,7 @@ var IssueController = Ember.Controller.extend(
   }),
   isBlocked: Ember.computed("model.customState", "model.data._data.custom_state", "model.data.other_labels.[]", {
     get: function() {
-      return this.get("model.customState") === "blocked" ||
-        this.get("model.stateLabel") === "blocked";
+      return this.get("model.customState") === "blocked";
     },
     set: function(key, value){
       if(value) {

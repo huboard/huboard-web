@@ -108,15 +108,9 @@ var HbCardComponent = Ember.Component.extend(
          return "hb-state-" + custom_state;
        }
        return "hb-state-open";
-    }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
-    isReady: function(){
-      return this.get('stateClass') === 'hb-state-ready' ||
-        this.get('issue.other_labels').isAny('name', 'ready');
-    }.property('stateClass', 'issue.data.other_labels.[]'),
-    isBlocked: function(){
-      return this.get('stateClass') === 'hb-state-blocked' ||
-        this.get('issue.other_labels').isAny('name', 'blocked');
-    }.property('stateClass', 'issue.data.other_labels.[]'),
+    }.property("issue.data.current_state", "issue.customState", "issue.data.state", "issue.data.other_labels.[]"),
+    isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
+    isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
 
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));
