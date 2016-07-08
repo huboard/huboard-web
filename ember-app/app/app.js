@@ -3,6 +3,7 @@ import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
 
+Ember.$.ajaxSetup({ cache: false });
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 Ember.Component.reopen({

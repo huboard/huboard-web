@@ -13,6 +13,7 @@ CreateIssue.reopenClass({
        title: "",
        body: "",
        assignee: null,
+       assignees: [],
        milestone: null,
        labels: []
      });
