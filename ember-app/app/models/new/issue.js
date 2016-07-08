@@ -141,12 +141,25 @@ var Issue = Model.extend({
       correlationId: this.get("correlationId")
     }, function(){}, "json");
   },
-  customState: Ember.computed("data._data.custom_state", {
+  stateLabel: function(){
+    var state_label = this.get('other_labels').map((label)=> {
+        return label.name.toLowerCase();
+      }).find((name)=>{
+        return name.toLowerCase() === 'blocked' || name.toLowerCase() === 'ready';
+    });
+    return state_label || "";
+  }.property('data.other_labels.[]'),
+  stateLabelObserver: function(){
+    this.set('_data.custom_state', this.get('stateLabel'));
+  }.observes('stateLabel'),
+  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", {
     get:function(){
-      return this.get("_data.custom_state");
+      var state = this.get("_data.custom_state");
+      if(state){ return state; }
+      return this.get('stateLabel');
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state");
+      var previousState = this.get("_data.custom_state") || this.get("stateLabel");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;

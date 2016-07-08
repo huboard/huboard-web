@@ -16,10 +16,8 @@ var HbSelectedColumnComponent = Ember.Component.extend({
     if(github_state === "closed"){
       return "hb-state-" + "closed";
     }
-    var custom_state = this.get("issue.customState") ||
-      this.get('issue.other_labels').map((label)=> { return label.name }).find((name)=>{
-      return name === 'blocked' || name === 'ready'
-    });
+
+    var custom_state = this.get("issue.customState");
     if(custom_state){
       return "hb-state-" + custom_state;
     }
