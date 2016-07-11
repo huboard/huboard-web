@@ -60,7 +60,12 @@ var HbCardComponent = Ember.Component.extend(
       if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
       }
-      this.sendAction("cardClick");
+      var reference = $(ev.target).parent(".hb-card-tray").find('.number').data('issue-id');
+      if(reference){
+        var issue = this.get("presentReferences").findBy("id", reference);
+        if(issue){ return this.sendAction("cardClick", issue); }
+      }
+      this.sendAction("cardClick", this.get("issue"));
     },
     issueNumber: function () {
        return this.get("issue.number");
