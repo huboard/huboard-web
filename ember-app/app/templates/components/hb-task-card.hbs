@@ -70,6 +70,30 @@
     {{/hb-card-tray}}
   {{/if}}
 
+
+  {{#each issueReferences as |reference|}}
+    {{#hb-card-tray type='issue-reference clearfix'}}
+      <a class="number reference-details" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+        #{{reference.number}}
+      </a>
+      <div class="type reference-details">
+        {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
+      </div>
+      <div class="comment-count reference-details">
+        <i class='ui-icon-comment-b'></i>{{reference.commentCount}}
+      </div>
+      {{#if reference.linkedColor}}
+        <div class="repo-name" style="color:#{{reference.linkedColor}}">
+          <i class="ui-icon-note"></i>{{reference.repoName}}
+        </div>
+      {{else}}
+        <div class="repo-name" style="color:#7965cc">
+          <i class="ui-icon-note"></i>{{reference.repoName}}
+        </div>
+      {{/if}}
+    {{/hb-card-tray}}
+  {{/each}}
+
   {{#if isReady}}
     {{#hb-card-tray type='state-ready'}}
       <div class="ready">

@@ -490,6 +490,8 @@
       border-style: solid;
       border-width: 1px;
       background: $hb-grey-light;
+      background-color: #fff;
+      border-color: $hb-grey-light;
       padding: 2px 6px;
       font-size: 12px;
 
@@ -514,6 +516,24 @@
         color: $hb-state-blocked;
         i {
           font-size: 10px;
+        }
+      }
+
+      &.issue-reference {
+        color: $lightGrey;
+        .reference-details {
+          padding-right: 4px;
+          float: right;
+        }
+        .repo-name {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        i {
+          top: 2px;
+          position: relative;
+          padding-right: 4px;
         }
       }
     }
