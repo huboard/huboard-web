@@ -71,7 +71,7 @@
   {{/if}}
 
 
-  {{#each issueReferences as |reference|}}
+  {{#each presentReferences as |reference|}}
     {{#hb-card-tray type='issue-reference clearfix'}}
       <a class="number reference-details" href="{{reference.html_url}}" target="_blank" title="View issue on github.com">
         #{{reference.number}}

@@ -32,7 +32,7 @@ var HbCardComponent = Ember.Component.extend(
     isClosable: function () {
      return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
     }.property("loggedIn", "isLast","issue.data.state"),
-    issueReferences: Ember.computed.alias('issue.issueReferences'),
+    presentReferences: Ember.computed.filterBy('issue.issueReferences', 'title'),
     onDestroy: function (){
       if(!this.get("issue.isArchived")){ return; }
       var self = this;
