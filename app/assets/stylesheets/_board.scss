@@ -535,6 +535,12 @@
           position: relative;
           padding-right: 4px;
         }
+        .type {
+          i {
+            font-size: 14px;
+            color: $hb-purple;
+          }
+        }
       }
     }
 

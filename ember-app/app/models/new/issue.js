@@ -21,7 +21,7 @@ var Issue = Model.extend({
   repoName: function(){
     var parent_owner = this.get('repo.parent.repo.owner.login');
     var current_owner = this.get('data.repo.owner.login');
-    if(parent_owner === current_owner){
+    if(!parent_owner || parent_owner === current_owner){
       return this.get('data.repo.name');
     }
     return this.get('data.repo.full_name');
