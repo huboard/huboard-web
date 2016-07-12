@@ -11,19 +11,21 @@ moduleFor("service:filters", {
   needs: [ "service:queryParams"],
   beforeEach: function(){
     mockFilterGroups = Ember.Object.create({
-      search: {filters: [], term: "issuesPlease!"},
+      search: Ember.Object.create({filters: [], term: "issuesPlease!", create: sinon.stub()}),
       board: Ember.Object.create({ 
+        create: sinon.stub(),
         filters: [
           { name: "MockFilter", mode: 1 }
         ]
-      }),
-      allFilters: Ember.A([
-        { name: "MockFilter", mode: 1 }
-      ])
+      })
     });
 
     service = this.subject({
-      filterGroups: mockFilterGroups 
+      filterGroups: mockFilterGroups,
+      allFilters: Ember.A([
+        { name: "MockFilter", mode: 1 }
+      ]),
+      model: Ember.Object.create({})
     });
     service.set("filterGroups.created", true);
   }
@@ -37,15 +39,19 @@ test("assigns unknown properties to filters", (assert)=>{
 });
 
 test("clears the filters", (assert)=>{
-  service.set("qps", {clear: sinon.stub()});
-  service.clear();
+  service.anyFiltersChanged = sinon.stub();
+  Ember.run(()=>{
+    service.set("qps", {clear: sinon.stub()});
+    service.set("allFilters", {setEach: sinon.stub()});
+    service.clear();
 
-  var allFilters = service.get("filterGroups.allFilters");
-  var searchTerm = service.get("filterGroups.search");
+    var allFilters = service.get("allFilters");
+    var searchTerm = service.get("filterGroups.search");
 
-  assert.equal(allFilters.get("firstObject").mode, 0);
-  assert.equal(searchTerm.term, "");
-  assert.ok(service.get("qps.clear").called);
+    assert.ok(allFilters.setEach.calledWith("mode", 0));
+    assert.equal(searchTerm.term, "");
+    assert.ok(service.get("qps").clear.called);
+  });
 });
 
 test("observes filter changes and sets dim/hide filters", (assert)=>{
@@ -56,20 +62,11 @@ test("observes filter changes and sets dim/hide filters", (assert)=>{
   //After Filter Changes
   Ember.run(function(){
     var new_filter = { name: "MockFilter", mode: 2 };
-    service.get("filterGroups.allFilters").pushObject(new_filter);
+    service.get("allFilters").pushObject(new_filter);
   });
 
   assert.equal(service.get("hideFilters").length, 1, "Hide has 1");
   assert.equal(service.get("dimFilters").length, 1, "Dim has 1");
-});
-
-test("allFiltersObject", (assert)=> {
-  service.set("filterGroups.groups", ["board", "search"]);
-
-  var result = service.get("allFiltersObject");
-
-  assert.equal(result.board.length, 1);
-  assert.equal(result.search.length, 0);
 });
 
 test("hiddenFiltersObject", (assert)=> {
@@ -114,16 +111,10 @@ test("Force Board, Label,& Milestone Groups to Active", (assert)=> {
 
   Ember.run(function(){
     groups.forEach(function(group){
-      var group_object = { strategy: "grouping", filters: [] };
+      var group_object = Ember.Object.create({ strategy: "grouping", filters: [], create: sinon.stub() });
       service.set(`filterGroups.${group}`, group_object);
-      service.get(`${group}Filters`).pushObject({mode: 2});
-    });
-  });
-
-  //Add a dim filter to each group
-  Ember.run(function(){
-    groups.forEach(function(group){
       service.get(`${group}Filters`).pushObject({mode: 1});
+      service.get(`${group}Filters`).pushObject({mode: 2});
     });
   });
 
@@ -138,13 +129,18 @@ test("Force Board, Label,& Milestone Groups to Active", (assert)=> {
 
 test("Force Member and User Groups to Active", (assert)=> {
   //Add an active filter to the member group 
-  var groups = ["member", "user"];
-  service.set("filterGroups.groups", groups);
+  service.reopen({
+    forceLabelsToActive: null,
+    forceBoardsToActive: null,
+    forceMilestonesToActive: null,
+    forceOnlyOneActiveCard: null
+  });
 
-  var group_object = { strategy: "grouping", filters: [] };
-  service.set("filterGroups.member", group_object);
-  group_object = { strategy: "grouping", filters: [] };
-  service.set("filterGroups.user", group_object);
+  service.set("filterGroups", Ember.Object.create({
+    groups: ["member", "user"],
+    member: Ember.Object.create({ strategy: "grouping", filters: [], create: sinon.stub() }),
+    user: Ember.Object.create({ strategy: "grouping", filters: [], create: sinon.stub() })
+  }));
 
   service.get("memberFilters").pushObject({mode: 2});
 

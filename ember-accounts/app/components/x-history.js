@@ -18,7 +18,7 @@ export default Ember.Component.extend({
           this.set("processing", false);
           return response;
         }
-      }) 
-    } 
+      });
+    }
   }
 });

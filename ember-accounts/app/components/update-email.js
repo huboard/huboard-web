@@ -20,7 +20,7 @@ export default Ember.Component.extend({
         url: '/settings/email/' + this.get('customer'),
         data: {billing_email: this.get('email')},
         type: "PUT"
-      }).then(response => {
+      }).then(() => {
         this.set('model.details.account_email', this.get('email'));
         this.set('processing', false);
         this.set('email', '');
