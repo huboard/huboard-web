@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import Model from '../model';
 import correlationId from 'app/utilities/correlation-id';
+import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
+
+import issueReferenceVisitor from 'app/visitors/issue/references';
 
 var Issue = Model.extend({
   blacklist: ["repo"],
@@ -19,6 +22,17 @@ var Issue = Model.extend({
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;
   }.property("data.number", "repo.data.repo.full_name"),
+
+  //Relationships
+  cardRelationships: function(){
+    var html_body = this.get('body_html');
+    return CardRelationshipParser.parse(html_body);
+  }.property('data.body_html'),
+  buildIssueReferences: function(){
+    if(this.get('repo.board')){
+      this.accept(issueReferenceVisitor);
+    }
+  }.observes('repo.board', 'data.body_html'),
 
   loadDetails: function () {
     this.set("processing", true);
