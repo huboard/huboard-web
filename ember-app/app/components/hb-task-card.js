@@ -98,7 +98,7 @@ var HbCardComponent = Ember.Component.extend(
 
     actions: {
       assignUser: function(login){
-        return this.get("issue").assignUser(login);
+        return this.get("issue").assignUsers([login]);
       },
       archive: function () {
         this.set("issue.customState", "archived");
