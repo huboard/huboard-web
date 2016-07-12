@@ -534,9 +534,7 @@
           top: 2px;
           position: relative;
           padding-right: 4px;
-        }
-        .type {
-          i {
+          &.ui-icon-branch-merge {
             font-size: 14px;
             color: $hb-purple;
           }
