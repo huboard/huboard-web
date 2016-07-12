@@ -38,7 +38,7 @@ var IssueReferencesVisitor = Ember.Object.create({
     var match = reference.text.replace(this.repoNamePattern, '');
     var issuesByRepo = issue.get('repo.board.issuesByRepo');
     if(Ember.isBlank(match) || issuesByRepo.hasOwnProperty(match)){ 
-      reference.state = 'closed'
+      reference.state = 'closed';
       return reference;
     }
   },
