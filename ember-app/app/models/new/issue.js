@@ -46,6 +46,7 @@ var Issue = Model.extend({
   },
   updateLabels : function (label, action) {
     this.set("processing", true);
+    this.checkForStateChange(label);
     return Ember.$.ajax( {
       url: `${this.get("apiUrl")}/${action}`,
       data: JSON.stringify({
@@ -60,6 +61,16 @@ var Issue = Model.extend({
       .then(function(){
         this.set("processing", false);
       }.bind(this));
+  },
+  checkForStateChange: function(label){
+    var name = label.name.toLowerCase();
+    if(name === 'blocked' || name === 'ready'){
+      var conflict_state = name === 'blocked' ? 'ready' : 'blocked';
+      var conflict_label = this.get('other_labels').find((label)=>{
+        return label.name.toLowerCase() === conflict_state;
+      });
+      this.get('other_labels').removeObject(conflict_label);
+    }
   },
   reorder: function (index, column) {
     var changedColumns = this.get("data.current_state.index") !== column.data.index;
@@ -142,13 +153,10 @@ var Issue = Model.extend({
     }, function(){}, "json");
   },
   stateLabel: function(){
-    var state_label = this.get('other_labels').map((label)=> {
-        return label.name.toLowerCase();
-      }).find((name)=>{
-        return name.toLowerCase() === 'blocked' || name.toLowerCase() === 'ready';
-    });
-    return state_label || "";
-  }.property('data.other_labels.[]'),
+    return this.get('other_labels').map((label)=>{ return label.name.toLowerCase(); }).find((name)=>{
+        return name === 'blocked' || name === 'ready';
+    }) || '';
+  }.property('data.other_labels.[]', 'lastLabelUpdated.name'),
   stateLabelObserver: function(){
     this.set('_data.custom_state', this.get('stateLabel'));
   }.observes('stateLabel'),
