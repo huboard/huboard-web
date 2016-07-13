@@ -564,29 +564,8 @@
       white-space: normal;
       overflow: auto;
     }
-    .hb-avatar-tooltip {
-      &:hover {
-        p {
-          display: inline-table;
-          visibility: visible;
-        }
-      }
-      p {
-        bottom: 42px;
-        top: 5px;
-        left: 34px;
-        line-height: 16px;
-        &:after {
-          content: "\25C0";
-          color: $hb-purple;
-          left: -6px;
-          bottom: 1px;
-        }
-      }
-      display: inline;
-      img {
-        position: static;
-      }
+    .card-details-wrapper {
+      float: right;
     }
     .card-header {
       border-bottom: none;

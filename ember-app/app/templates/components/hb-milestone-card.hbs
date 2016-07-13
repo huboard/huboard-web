@@ -1,15 +1,29 @@
 <div class="ember-view">
   <div class="card-header">
     <div class="title" title="{{issue.title}}">
-      {{#if issue.assignee}}
-        {{hb-avatar-tooltip user=issue.assignee width="24" height="24"}}
-      {{/if}}
       {{issue.title}} 
       <small>#{{issue.number}}</small>
     </div>
   </div>
 
-  <div class="card-footer">
+  <div class="card-footer clearfix">
+    <div class="card-details-wrapper">
+      <div class="card-details clearfix">
+        <div class="avatar-wrapper">
+          {{#if issue.assignees}}
+            <div class="visible-assignees">
+              {{#each visibleAssignees as |assignee index|}}
+                {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
+              {{/each}}
+            </div>
+          {{else}}
+            {{#if issue.assignee }}
+              {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
     <div class="hb-column-indicator">
       <div class="card-states">
         <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
