@@ -27,6 +27,8 @@ module HealthChecking
       HealthChecks::Board::IssuesWebhookCheck,
       HealthChecks::Board::IssueCommentWebhookCheck,
       HealthChecks::Board::PullRequestWebhookCheck,
+      HealthChecks::Board::IssueBlockedLabelCheck,
+      HealthChecks::Board::IssueReadyLabelCheck
     ]
 
   end
