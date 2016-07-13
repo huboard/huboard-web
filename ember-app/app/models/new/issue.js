@@ -166,7 +166,7 @@ var Issue = Model.extend({
     return this.get('other_labels').map((label)=>{ return label.name.toLowerCase(); }).find((name)=>{
         return name === 'blocked' || name === 'ready';
     }) || '';
-  }.property('data.other_labels.[]', 'lastLabelUpdated.name'),
+  }.property('data.other_labels.[]'),
   stateLabelObserver: function(){
     this.set('_data.custom_state', this.get('stateLabel'));
   }.observes('stateLabel'),

@@ -232,13 +232,10 @@ class Huboard
       end
 
       def label_as_marked(label)
-        color = label == 'blocked' ? 'f9646e' : '22d186'
-        new_label = {'name' => label, 'color' => color }
         board = Huboard::Board.new(self[:repo][:owner][:login], self[:repo][:name], @connection_factory)
-        if !board.other_labels.any?{|l| l['name'].downcase == label}
-          board.create_label(new_label)
+        if board.other_labels.any?{|l| l['name'].downcase == label}
+          self['labels'].push({'name' => label})
         end
-        self['labels'].push(new_label)
       end
 
       def archive(labels)
