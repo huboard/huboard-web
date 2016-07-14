@@ -567,6 +567,20 @@
     .card-details-wrapper {
       float: right;
     }
+    .avatar-wrapper {
+      .assignee-overflow {
+        color: $lightGrey;
+        font-size: 12px;
+        position: relative;
+        margin-left: -24px;
+        top: 2px;
+      }
+      &:hover {
+        .assignee-overflow {
+          display: none;
+        }
+      }
+    }
     .card-header {
       border-bottom: none;
       padding: 5px 0px;
