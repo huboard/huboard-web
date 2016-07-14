@@ -548,6 +548,7 @@
   }
 
   &.card--milestone {
+    padding: 4px 2px 6px 4px;
     &.border {
       padding-left: 6px;
     }
@@ -569,16 +570,23 @@
     }
     .avatar-wrapper {
       .assignee-overflow {
-        color: $lightGrey;
-        font-size: 12px;
+        color: white;
+        background-color: $hb-purple-dark;
+        margin-left: -8px;
+        font-size: 11px;
         position: relative;
-        margin-left: -24px;
-        top: 2px;
+        float: right;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        bottom: 4px;
+        padding: 1px;
+        z-index: 101;
+        line-height: 12px;
+        text-align: center;
       }
-      &:hover {
-        .assignee-overflow {
-          display: none;
-        }
+      .visible-assignees {
+        float: left;
       }
     }
     .card-header {

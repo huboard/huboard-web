@@ -41,7 +41,7 @@ var HbMilestoneCard = HbCard.extend({
   }.property('issue.data.current_state', 'taskColumns'),
   limitedAssignees: function(){
     var assignees = this.get('visibleAssignees') || [];
-    this.set('assigneeOverflow', assignees.slice(2).length);
+    this.set('assigneeOverflow', assignees.slice(3).length);
     return assignees.slice(0,3);
   }.property('visibleAssignees.[]')
 });

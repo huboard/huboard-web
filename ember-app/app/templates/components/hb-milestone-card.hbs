@@ -10,6 +10,9 @@
     <div class="card-details-wrapper">
       <div class="card-details clearfix">
         <div class="avatar-wrapper">
+          {{#if assigneeOverflow}}
+            <div class='assignee-overflow'> +{{assigneeOverflow}} </div>
+          {{/if}}
           {{#if issue.assignees}}
             <div class="visible-assignees">
               {{#each limitedAssignees as |assignee index|}}
@@ -20,9 +23,6 @@
             {{#if issue.assignee }}
               {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
             {{/if}}
-          {{/if}}
-          {{#if assigneeOverflow}}
-            <div class='assignee-overflow'> +{{assigneeOverflow}} </div>
           {{/if}}
         </div>
       </div>
