@@ -168,7 +168,7 @@ var Issue = Model.extend({
     }) || '';
   }.property('data.other_labels.[]'),
   stateLabelObserver: function(){
-    this.set('_data.custom_state', this.get('stateLabel'));
+    if(this.get('stateLabel')){this.set('_data.custom_state', this.get('stateLabel'));}
   }.observes('stateLabel'),
   customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", {
     get:function(){
