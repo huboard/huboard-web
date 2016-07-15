@@ -34,6 +34,7 @@ var HbMilestoneCard = HbCard.extend({
       });
     });
 
+    columns = this.compressColumns(columns);
     takeWhile(columns, (x) => {return !get(x, 'selected');}, this)
       .forEach((x) => { set(x, 'selected', true); });
 
@@ -43,7 +44,17 @@ var HbMilestoneCard = HbCard.extend({
     var assignees = this.get('visibleAssignees') || [];
     this.set('assigneeOverflow', assignees.slice(3).length);
     return assignees.slice(0,3);
-  }.property('visibleAssignees.[]')
+  }.property('visibleAssignees.[]'),
+  compressColumns: function(columns){
+    while(columns.length > 5){
+      if(columns[0].get('selected') === false){
+        columns.shift();
+      } else {
+        columns.pop();
+      }
+    }
+    return columns;
+  }
 });
 
 export default HbMilestoneCard;
