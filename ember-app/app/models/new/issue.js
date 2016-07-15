@@ -167,17 +167,14 @@ var Issue = Model.extend({
         return name === 'blocked' || name === 'ready';
     }) || '';
   }.property('data.other_labels.[]'),
-  stateLabelObserver: function(){
-    if(this.get('stateLabel')){this.set('_data.custom_state', this.get('stateLabel'));}
-  }.observes('stateLabel'),
-  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", {
+  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabel", {
     get:function(){
       var state = this.get("stateLabel");
       if(state){ return state; }
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("stateLabel") || this.get("_data.custom_state");
+      var previousState = this.get("_data.custom_state") || this.get("stateLabel");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
@@ -192,9 +189,9 @@ var Issue = Model.extend({
       Ember.$.ajax(options)
       .then(function(response){
         this.set("processing", false);
-        this.set("other_labels", response.other_labels);
         this.set("data.body", response.body);
         this.set("data.body_html", response.body_html);
+        this.set("other_labels", response.other_labels);
       }.bind(this));
 
       return value;
