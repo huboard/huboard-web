@@ -102,11 +102,6 @@ module CarrierWave
           ]
         end
       end
-
-      def update_ref()
-
-      end
-
     end
   end
 end
