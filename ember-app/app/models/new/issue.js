@@ -169,8 +169,8 @@ var Issue = Model.extend({
     }, function(){}, "json");
   },
   stateLabel: function(){
-    return this.get('other_labels').find((label)=>{
-        return this.isStateLabel(label);
+    return this.get('other_labels').map((label)=>{return label.name.toLowerCase()}).find((name)=>{
+      return name === 'blocked' || name === 'ready';
     }) || '';
   }.property('data.other_labels.[]'),
   customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabel", {
@@ -180,7 +180,7 @@ var Issue = Model.extend({
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state") || this.get("stateLabel");
+      var previousState =  this.get("stateLabel") || this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
