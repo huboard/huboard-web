@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
     scope '/:user/:repo' do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
-        get  'uploads/asset' => 'uploads#asset_uploader'
+        post  'uploads/signature' => 'uploads#asset_uploader'
         post 'uploads/asset' => 'uploads#local_uploader'
 
         get 'hooks' => 'webhooks#hooks'
