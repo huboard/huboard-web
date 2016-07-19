@@ -1,3 +1,3 @@
 # encoding: utf-8
 
-AssetUploader = ENV["HUBOARD_ENV"] == "enterprise" ?  ApiUploader : AwsUploader; 
+AssetUploader = Rails.application.config.client_environment["FEATURES"]["IMAGE_STORE"] == "aws" ?  AwsUploader : ApiUploader; 
