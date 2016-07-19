@@ -42,9 +42,9 @@ var HbMilestoneComponent = HbColumn.extend(
   },
   assignMilestone: function(issue, order, milestone){
     this.get("sortedIssues").removeObject(issue);
-    var _self = this;
-    Ember.run.schedule("afterRender", _self, function(){
+    Ember.run.schedule("afterRender", this, function(){
       issue.assignMilestone(order, milestone.data);
+      this.notifyPropertyChange('sortedIssues');
     });
   },
   findMilestone: function(a){
@@ -83,12 +83,12 @@ var HbMilestoneComponent = HbColumn.extend(
       var milestone_order = this.cardMover.moveToTop(issues.get("firstObject.data"));
       var order = { milestone_order: milestone_order};
       if(first){
-        order.order = this.cardMover.moveToTop(first.data);
+        order.order = this.cardMover.moveToTop(first.data, 'order');
       }
       return order;
     } else {
       if(first){
-        return { order: this.cardMover.moveToTop(first.data) };
+        return { order: this.cardMover.moveToTop(first.data, 'order') };
       }
       return {};
     }
