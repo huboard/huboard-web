@@ -5,7 +5,7 @@ var HbLabelChooserComponent = Ember.Component.extend({
   isVisible: Ember.computed.gt("labels.length", 0),
   applyColor: function(){
     if(this.get("labels.length")){
-      $("div.hb-label-container").each(function(i,el){
+      Ember.$("div.hb-label-container").each(function(i,el){
         var color = Ember.$(el).data("color");
         Ember.$(el).css("background", `#${color}`);
         Ember.$(el).css("border-color", `#${color}`);

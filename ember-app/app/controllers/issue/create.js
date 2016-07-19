@@ -18,6 +18,10 @@ var IssuesCreateController = Ember.Controller.extend({
   }.observes('selectedRepo'),
   otherLabels: Ember.computed.alias("selectedRepo.data.other_labels"),
   assignees: Ember.computed.alias("selectedRepo.data.assignees"),
+  //Ugly Hack for backwards Enterprise Compatibiltiy
+  assigneesEnabled: function(){
+    return this.get("selectedRepo.board.issues").isAny("assignees");
+  }.property("selectedRepo.board.issues"),
   milestones: Ember.computed.alias("selectedRepo.data.milestones"),
   columns: "selectedRepo.columns",
   disabled: function () {
@@ -32,7 +36,7 @@ var IssuesCreateController = Ember.Controller.extend({
     }
     return !Ember.isEmpty(this.get('model.body'));
   }.property('selectedRepo.data.repo.name', 'model.body'),
-  promptForRepoChange: function(repo){
+  promptForRepoChange: function(){
     return this.get('issueBodyDirty');
   },
   mentions: function(){

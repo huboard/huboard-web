@@ -42,7 +42,7 @@ var Issue = Model.extend({
         title: this.get("title"),
         body: this.get("body")
       })
-    })
+    });
   },
   updateLabels : function (label, action) {
     this.set("processing", true);
@@ -102,14 +102,25 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
-  assignUser: function(login){
+  assignUsers: function(logins){
+    var _self = this;
     return Ember.$.post(`${this.get("apiUrl")}/assigncard`, {
-      assignee: login, 
+      assignees: logins, 
       correlationId: this.get("correlationId")
     }, function(){}, "json").then(function( response ){
-      this.set("assignee", response.assignee);
-      return this;
-    }.bind(this));
+      _self.set("assignee", response.assignee);
+      return _self;
+    });
+  },
+  unassignUsers: function(logins){
+    var _self = this;
+    return Ember.$.post(`${this.get("apiUrl")}/unassigncard`, {
+      assignees: logins, 
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function( response ){
+      _self.set("assignee", response.assignee);
+      return _self;
+    });
   },
   assignMilestone: function(index, milestone){
     var changedMilestones = false;
@@ -135,11 +146,10 @@ var Issue = Model.extend({
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state")
+      var previousState = this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
-      var number = this.get("data.number");
       var options = {
         dataType: "json",
         data: {correlationId: this.get("correlationId")},

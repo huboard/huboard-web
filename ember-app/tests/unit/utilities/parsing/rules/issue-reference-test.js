@@ -43,7 +43,7 @@ test('discovers issue references', (assert) => {
 });
 
 test('handles no matches gracefully', (assert) => {
-  var html = "<div class='no matchy'></div>"
+  var html = "<div class='no matchy'></div>";
   var result = sut.condition(html);
 
   assert.deepEqual(result, []);

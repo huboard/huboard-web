@@ -2,9 +2,8 @@ import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
-import correlationId from './utilities/correlation-id';
-import ajax from 'ic-ajax';
 
+Ember.$.ajaxSetup({ cache: false });
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 Ember.LinkComponent.reopen({

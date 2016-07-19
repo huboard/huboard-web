@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 function attr(modelProp, map) {
   return Ember.computed("model." + modelProp, "model." + modelProp + ".[]", {
-    get: function(key){
+    get: function(){
 
       var filters = this.get("model." + modelProp).map(map);
 
@@ -29,7 +29,7 @@ var LabelFilters = Ember.Service.extend({
   filters: [],
   strategy: "grouping",
 
-  create: function(model){
+  create: function(){
     this.set("filters", attr("labels", function(l){
        return Ember.Object.create({
         name: l.label.name,

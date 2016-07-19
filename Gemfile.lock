@@ -236,7 +236,7 @@ GEM
     foreman (0.78.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
-    ghee (0.14.22)
+    ghee (0.15.22)
       faraday (~> 0.9)
       faraday_middleware (~> 0.9)
       hashie (~> 3.3.2)

@@ -6,8 +6,8 @@ export default function(backend){
 
   faye.addExtension({
     outgoing(message, callback) {
-      if (message.channel == "/meta/subscribe") {
-        const channel = message.subscription.replace(/!/g,".")
+      if (message.channel === "/meta/subscribe") {
+        const channel = message.subscription.replace(/!/g,".");
 
         ajax(`/api${channel}/subscriptions`, {global: false})
         .then(function(subscription){
@@ -15,20 +15,20 @@ export default function(backend){
             message.ext = {
               private_pub_timestamp: "",
               private_pub_signature: ""
-            }
+            };
             callback(message);
           } else {
             message.ext = {
               private_pub_timestamp: subscription.timestamp,
               private_pub_signature: subscription.signature
-            }
+            };
             callback(message);
           }
-        }, function(error){
+        }, function(){
           message.ext = {
             private_pub_timestamp: "",
             private_pub_signature: ""
-          }
+          };
           callback(message);
         });
       } else {
@@ -37,4 +37,4 @@ export default function(backend){
     }
   });
   return faye;
-};
+}

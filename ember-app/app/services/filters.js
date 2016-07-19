@@ -2,7 +2,7 @@ import Ember from "ember";
 
 function attr(group) {
   return Ember.computed('filterGroups.' + group + ".filters", {
-    get: function(key){
+    get: function(){
       return this.get('filterGroups.' + group + ".filters");
     }
   });

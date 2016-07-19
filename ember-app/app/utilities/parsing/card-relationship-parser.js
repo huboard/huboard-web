@@ -9,4 +9,4 @@ var CardRelationshipParser = Ember.Object.create({
   ]
 });
 
-export default BaseParser(CardRelationshipParser);
+export default new BaseParser(CardRelationshipParser);
