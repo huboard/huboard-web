@@ -8,8 +8,7 @@ module Analytics
         user_id: user,
         anonymous_id: params['session_id'],
         name: params['url'],
-        properties: { url: params['url'] },
-        referrer: params['referrer']
+        properties: { url: params['url'], referrer: params['referrer'] }
       }
     end
   end
