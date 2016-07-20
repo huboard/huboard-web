@@ -10,6 +10,7 @@ class BaseLoginJob < ActiveJob::Base
     Analytics::IdentifyUserJob.perform_later(user)
 
     user['url'] = "/login/#{params['action_controller.params']['action']}/authorized"
+    user['referrer'] = params['referrer']
     Analytics::PageJob.perform_later(user)
 
     req = couch.users.get(user['data']['id'])
