@@ -41,8 +41,6 @@ module Saas
         plan_doc.trial = "expired"
         couch.customers.save plan_doc
 
-        
-        @event = "customer_subscribed"
         @account = JSON.parse(customer.to_json)
         @data = {
           billing_email: params[:email]
