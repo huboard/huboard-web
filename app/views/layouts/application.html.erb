@@ -76,10 +76,6 @@
             return xhr.setRequestHeader('X-CSRF-Token', token);
           });
         });
-        $('a').click(function(e){
-          var path = $(this).attr('href');
-          window.analytics.page({path: path});
-        });
      </script>
      </body>
      </html>
