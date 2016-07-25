@@ -1,5 +1,3 @@
 # encoding: utf-8
 
-class AssetUploader < CarrierWave::Uploader::Base
-  include CarrierWaveDirect::Uploader
-end
+AssetUploader = Rails.application.config.client_environment["FEATURES"]["IMAGE_STORE"] == "aws" ?  AwsUploader : ApiUploader; 

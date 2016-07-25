@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    get 'uploads/asset' => 'uploads#asset_uploader'
+    get  'uploads/asset' => 'uploads#asset_uploader', as: "legacy_uploader"
     #Webhooks
     post '/site/webhook/issue' => 'webhooks#legacy'
     post '/site/webhook/comment' => 'webhooks#legacy'
@@ -65,6 +65,9 @@ Rails.application.routes.draw do
 
     scope '/:user/:repo' do
       constraints(:user => /[^\/]+/, :repo => /[^\/]+/) do
+        post  'uploads/signature' => 'uploads#asset_uploader'
+        post 'uploads/asset' => 'uploads#local_uploader'
+
         get 'hooks' => 'webhooks#hooks'
         get 'subscriptions' => 'subscriptions#show'
         resources :integrations, only: [:index, :create, :destroy]

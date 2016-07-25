@@ -10,22 +10,33 @@ var HbMarkdownComposerComponent = Ember.Component.extend({
     "image/svg" : true,
     "image/svg+xml": true
   },
-  uploadsEnabled: HUBOARD_ENV.FEATURES.IMAGE_UPLOADS,
+  uploadsEnabled: Ember.computed("repo", {
+    get: function(){
+      switch(HUBOARD_ENV.FEATURES.IMAGE_STORE){
+        case "aws":
+          return HUBOARD_ENV.FEATURES.IMAGE_UPLOADS;
+        case "github":
+          return this.get('repo.isCollaborator');
+        default:
+          return HUBOARD_ENV.FEATURES.IMAGE_UPLOADS;
+      }
+    }
+  }),
   files: [],
   uploadFile: function(file){
     var component = this,
     holder = this.$();
 
-
-
-    if(file.size > 5242880) {
+    if(file.size > HUBOARD_ENV.FEATURES.IMAGE_MAX_SIZE) {
       alert("Yowza, that file is too big");
       return;
     }
 
     this.set('uploading', true);
 
-    Ember.$.getJSON("/api/uploads/asset")
+    var uploadRequestUrl = `/api/${this.get('repo.data.repo.full_name')}/uploads/signature`;
+
+    Ember.$.post(uploadRequestUrl)
     .then(function(response){
       response = response.uploader;
       var fd = new FormData();
