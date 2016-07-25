@@ -12,7 +12,7 @@
         {{/unless}}
       {{/if}}
     {{/if}}
-    <strong>{{model.user.login}}</strong> commented {{ago model.created_at}} 
+    <strong>{{model.user.login}}</strong> commented {{moment-from-now model.created_at}} 
 
   </div>
   {{#if this.isEditing}}

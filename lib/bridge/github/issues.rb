@@ -15,7 +15,7 @@ class Huboard
       params = params.merge(labels: label) if label
 
       issues_response = gh.issues(params).all do |request|
-        request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview.full+json"
+        request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
       end
 
       issues_response.each{
@@ -48,11 +48,14 @@ class Huboard
         title: issue.title,
         body: issue.body,
         labels: [labels.first['name']].concat((issue.labels || []).map{|l| l["name"]}),
-        assignee: assignee,
+        assignees: issue['assignees'] || [],
         milestone: milestone
       }
+      attributes[:assignee] = assignee if assignee
 
-      result = gh.issues.create(attributes).extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
+      result = gh.issues.create(attributes) do |request|
+        request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
+      end.extend(Card).merge!(:repo => {owner: {login: @user}, name: @repo,  full_name: "#{@user}/#{@repo}" })
       result[:repo][:is_collaborator] = gh['permissions'] ? gh['permissions']['push'] : nil
 
       result['current_state'] = labels.first if result.current_state["name"] == "__nil__"
@@ -73,7 +76,7 @@ class Huboard
       raise "number is nil" unless number
 
       issue = gh.issues(number) do |request|
-        request.headers["Accept"] = "application/vnd.github.squirrel-girl-preview.full+json"
+        request.headers["Accept"] = "application/vnd.github.cerberus-preview.full+json"
       end.extend(Card).merge!(repo: {owner: {login: user}, name: repo, full_name: "#{user}/#{repo}" })
 
       issue[:repo][:is_collaborator] = gh['permissions'] ? gh['permissions']['push'] : nil
@@ -244,12 +247,14 @@ class Huboard
             if !data["order"].is_a?(Numeric) || data["order"] <= 0
               data["order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
+              self['body'] = self['body'].to_s.gsub /@huboard:.*/, "@huboard:#{MultiJson.dump(data)}"
             end
 
             data["milestone_order"] = self['number'] unless data["milestone_order"]
             if !data["milestone_order"].is_a?(Numeric) || data["milestone_order"] <= 0
               data["milestone_order"] = self['id'] * zero_adjustment
               data["zero_fix"] = true
+              self['body'] = self['body'].to_s.gsub /@huboard:.*/, "@huboard:#{MultiJson.dump(data)}"
             end
 
             return data
@@ -275,6 +280,18 @@ class Huboard
         klass['number_searchable'] = klass.number_searchable
         klass['other_labels'] = klass.other_labels
         klass['_data'] = klass.embed_data
+      end
+
+      def add_assignees(assignees)
+        issue = client.assignees.add(assignees)
+        issue.extend(Card).merge!(:repo => self[:repo])
+        issue
+      end
+
+      def remove_assignees(assignees)
+        issue = client.assignees.remove(assignees)
+        issue.extend(Card).merge!(:repo => self[:repo])
+        issue
       end
     end
 

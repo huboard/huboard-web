@@ -7,9 +7,7 @@ var MilestonesEditController = Ember.Controller.extend(BufferedMixin, {
   clearErrors: function(){
     this.set("errors", false);
   }.observes('bufferedContent.title', 'bufferedContent.description', 'bufferedContent.due_on'),
-  dueDate: function(){
-    return this.get("bufferedContent.due_on");
-  }.property("bufferedContent.due_on"),
+  dueDate: Ember.computed.alias('bufferedContent.due_on'),
   actions: {
     submit: function() {
       var controller = this;

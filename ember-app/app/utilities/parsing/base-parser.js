@@ -9,11 +9,11 @@ function parse(input){
   var tree = {};
   this.context.rules.forEach((rule)=> {
     var result = rule.condition(input);
-    if(result.length){ tree[rule.name] = result }
+    if(result.length){ tree[rule.name] = result; }
   });
 
   return tree;
 }
 
 
-export default BaseParser
+export default BaseParser;

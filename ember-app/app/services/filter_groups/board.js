@@ -2,8 +2,7 @@ import Ember from 'ember';
 
 function attr(modelProp, map) {
   return Ember.computed("model." + modelProp, {
-    get: function(key){
-      var model = this.get('model');
+    get: function(){
 
       var filters = this.get("model." + modelProp).map(map);
       if(this._filters){

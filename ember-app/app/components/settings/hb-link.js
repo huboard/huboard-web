@@ -35,7 +35,6 @@ var HbLinkComponent = Ember.Component.extend({
 
     this.set("link.data.issue_filter", this.get("issueFilters"));
     var repo = this.get("link.board.repo");
-    var name = repo.data.repo.full_name;
 
     var _self = this;
     this.set("isProcessing", true);
@@ -79,16 +78,16 @@ var HbLinkComponent = Ember.Component.extend({
         data: JSON.stringify({
           columns: this.get("labels").mapBy('data')
         }),
-        success: function(response) {
+        success: function() {
           component.get('link').load().then((repo) => {
             component.set('isDisabled', false);
             if(repo.get('isLoaded') && !repo.get('loadFailed')){
-              var board = Board.create({ repo: repo})
+              var board = Board.create({ repo: repo});
               repo.set('board', board);
             }
-          })
+          });
         }
-      })
+      });
     },
   }
 });

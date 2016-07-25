@@ -4,7 +4,7 @@ import Messaging from "app/mixins/messaging";
 
 var IssueController = Ember.Controller.extend(
   IssueSubscriptions, Messaging, {
-  needs: ["application"],
+  application: Ember.inject.controller(),
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
 
@@ -14,9 +14,12 @@ var IssueController = Ember.Controller.extend(
   isCollaborator: function(){
     return this.get("model.repo.isCollaborator");
   }.property("model.repo.isCollaborator"),
-  columns: Ember.computed.alias("controllers.application.model.board.columns"),
-  isReady: function(key, value){
-    if(value !== undefined) {
+  columns: Ember.computed.alias("application.model.board.columns"),
+  isReady: Ember.computed("model.customState", "model.data._data.custom_state", {
+    get: function() {
+      return this.get("model.customState") === "ready";
+    },
+    set: function(key, value){
       if(value) {
         this.set("model.customState", "ready");
         return true; 
@@ -24,24 +27,22 @@ var IssueController = Ember.Controller.extend(
         this.set("model.customState", "");
         return false;
       }
-    } else {
-      return this.get("model.customState") === "ready";
     }
-  }.property("model.customState", "model.data._data.custom_state"),
-  isBlocked: function(key, value){
-    if(value !== undefined) {
+  }),
+  isBlocked: Ember.computed("model.customState", "model.data._data.custom_state", {
+    get: function() {
+      return this.get("model.customState") === "blocked";
+    },
+    set: function(key, value){
       if(value) {
         this.set("model.customState", "blocked");
-        return true;
+        return true; 
       } else {
         this.set("model.customState", "");
         return false;
       }
-      return;
-    } else {
-      return this.get("model.customState") === "blocked";
     }
-  }.property("model.customState", "model.data._data.custom_state"),
+  }),
   isClosed: function(){
     return this.get("model.data.state") === "closed";
   }.property("model.data.state"),
@@ -51,8 +52,11 @@ var IssueController = Ember.Controller.extend(
          this.get("model").updateLabels(label, action);
        }.bind(this));
     },
-    assignUser: function(login){
-      return this.get("model").assignUser(login);
+    assignUsers: function(logins){
+      return this.get("model").assignUsers(logins);
+    },
+    unassignUsers: function(logins){
+      return this.get("model").unassignUsers(logins);
     },
     assignMilestone: function(milestone) {
       this.get("model").assignMilestone(this.get("model.data.number"), milestone);
@@ -133,7 +137,8 @@ var IssueController = Ember.Controller.extend(
     return _.uniq(_.compact(union), function(i){
       return i.login;
     });
-  }.property('model.repo.assignees.[]','allActivities')
+  }.property('model.repo.assignees.[]','allActivities'),
+  assigneesEnabled: Ember.computed.bool('model.assignees')
 });
 
 export default IssueController;

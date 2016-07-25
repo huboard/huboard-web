@@ -26,6 +26,7 @@ var HbCardComponent = Ember.Component.extend(
     isClosable: function () {
      return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
     }.property("loggedIn", "isLast","issue.data.state"),
+    issueReferences: Ember.computed.alias('issue.issueReferences'),
     onDestroy: function (){
       if(!this.get("issue.isArchived")){ return; }
       var self = this;
@@ -50,7 +51,7 @@ var HbCardComponent = Ember.Component.extend(
       return "";
     }.property("filters.hideFilters", "filters.dimFilters", "issue.milestoneTitle", "issue.other_labels.[]"),
     click: function(ev){
-      if(this.get("isFiltered") === "filter-hidden" || $(ev.target).is("a.xnumber")){
+      if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
       }
       this.sendAction("cardClick");
@@ -70,7 +71,7 @@ var HbCardComponent = Ember.Component.extend(
         return this.get("issue.data.other_labels").map(function(l){
           var color = Ember.$.Color('#' + l.color);
 
-          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}`
+          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}`;
 
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         });
@@ -97,7 +98,7 @@ var HbCardComponent = Ember.Component.extend(
 
     actions: {
       assignUser: function(login){
-        return this.get("issue").assignUser(login);
+        return this.get("issue").assignUsers([login]);
       },
       archive: function () {
         this.set("issue.customState", "archived");

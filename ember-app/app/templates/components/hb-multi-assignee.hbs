@@ -1,0 +1,45 @@
+{{#if editable}}
+<h5 {{action "toggleSelector"}}> 
+  <i  class="pull-right ui-icon ui-icon-gear"></i>
+  Assignees
+</h5>
+{{else}}
+<h5> 
+  Assignees
+</h5>
+{{/if}}
+
+{{#if selected.length}}
+  {{#each selected as |assignee|}}
+  <div class="hb-selected hb-selected-assignee">
+    {{hb-avatar user=assignee}} {{assignee.login}}
+  </div>
+  {{/each}}
+{{else}}
+<div class="hb-selected empty">
+{{#if editable}}
+ No one - <a{{action "assignToCurrentUser"}}>assign yourself</a>
+{{else}}
+ No one assigned
+{{/if}}
+</div>
+{{/if}}
+<div class="hb-flyout">
+  <div class="hb-header">
+    Assign someone to this issue
+  </div>
+  <div class="hb-text-filter">
+    {{input placeholder="Filter people" value=filterPeople}}
+  </div>
+
+  <div class="hb-menu-items">
+    {{#each listItems as |listItem|}}
+      <div class="hb-menu-item {{if listItem.selected 'checked'}}">
+        <div {{action "assignTo" listItem.item}} >
+          <i class="ui-icon ui-icon-checkmark"></i>
+          {{hb-avatar user=listItem.item}} {{listItem.item.login}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

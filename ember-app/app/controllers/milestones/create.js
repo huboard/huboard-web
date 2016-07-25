@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 var MilestonesCreateController = Ember.Controller.extend({
-  needs: ["application"],
   errors: false,
   clearErrors: function(){
     this.set("errors", false);
@@ -15,7 +14,7 @@ var MilestonesCreateController = Ember.Controller.extend({
       var milestone = this.get("model.data");
       this.set("processing",true);
       this.get("model.repo").createMilestone(milestone, {})
-      .then((milestone) => {
+      .then(() => {
          controller.send("closeModal");
          controller.set("processing",false);
       }).fail(function(){

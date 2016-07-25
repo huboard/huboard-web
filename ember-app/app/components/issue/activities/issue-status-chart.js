@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import Chart from 'ember-c3/components/c3-chart';
 
 var IssueStatusChart = Chart.extend({

@@ -2,8 +2,6 @@ import Ember from 'ember';
 import ajax from 'ic-ajax';
 
 var IssueReferenceController = Ember.Controller.extend({
-  needs: ["issue"],
-
   fetchCommit: function(commit){
     var _self = this;
     var repo = this.getRepoName(commit.commit_url);
@@ -16,7 +14,7 @@ var IssueReferenceController = Ember.Controller.extend({
             commit: {
               message: "(currently unable to fetch this commit message)"
             }
-          }
+          };
         }
         return response;
       });

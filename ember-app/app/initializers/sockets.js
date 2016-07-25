@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import correlationId from 'app/utilities/correlation-id';
 import faye from 'app/utilities/messaging/fayeClient';
-import ajax from 'ic-ajax';
 
 export function initialize(container, application){
   let socket = Ember.Object.extend({
@@ -53,12 +52,11 @@ export function initialize(container, application){
         const maxPerRun = 1, delay = 50, self = this;
         let processed = 0;
         if(this._messages){
+          var callback = ()=> {self.get("sockets")[message.channel].callbacks.fire(message.message);};
           while(processed < maxPerRun && this._messages.length>0){
             var message = this._messages.shift();
             if(message){
-              Ember.run.schedule('afterRender', this, function(){
-                self.get("sockets")[message.channel].callbacks.fire(message.message);
-              });
+              Ember.run.schedule('afterRender', this, callback);
               processed++;
             }
           }
@@ -118,4 +116,4 @@ export function initialize(container, application){
 export default {
   name: 'sockets',
   initialize: initialize
-}
+};

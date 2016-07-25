@@ -30,7 +30,6 @@ var ApplicationController = Ember.Controller.extend(
   boardSyncing: Ember.inject.service(),
   checkBrowserSession: throttledObserver(function(){
     var lastFocus = this.get('browser-session.lastFocus');
-    var _self = this;
     if(lastFocus >= 30000){
       var since = new Date(new Date().getTime() - lastFocus);
       return this.get('boardSyncing').syncIssues(this.get('model.board'), {since: since.toISOString()});

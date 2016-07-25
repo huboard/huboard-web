@@ -44,7 +44,7 @@ var IssueBodyComponent = Ember.Component.extend(BuffedMixin, KeyPressHandlingMix
     },
     save: function() {
       if(this.get('isEmpty')){ return; }
-      this._last ? this._last.abort() : this._last;
+      if(this._last){this._last.abort();}
 
       var controller = this;
       controller.set("disabled", true);

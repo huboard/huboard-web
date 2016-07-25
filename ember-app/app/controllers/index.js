@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 var IndexController = Ember.Controller.extend({
-  needs: ["application"],
+  application: Ember.inject.controller(),
   registeredColumns: Ember.A(),
 
   qps: Ember.inject.service("query-params"),
@@ -17,7 +17,7 @@ var IndexController = Ember.Controller.extend({
   filters: Ember.inject.service(),
   filtersActive: Ember.computed.alias("filters.active"),
 
-  isSidebarOpen: Ember.computed.alias("controllers.application.isSidebarOpen"),
+  isSidebarOpen: Ember.computed.alias("application.isSidebarOpen"),
   board_columns: function(){
      return this.get("model.columns");
   }.property("model.columns"),

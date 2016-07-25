@@ -13,14 +13,13 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
   moveIssue: function(issue, order, cancelMove){
     var self = this;
-    var last = this.get("columns.lastObject");
     if(issue.data.state === "closed" && !this.get("model.isLastColumn")){
       return this.attrs.reopenIssueOrAbort({
         issue: issue,
         column: self.get("model"),
         onAccept: function(){ self.moveIssue(issue, order); },
-        onReject: function(){ cancelMove() }
-      })
+        onReject: function(){ cancelMove(); }
+      });
     }
 
     this.get("model.sortedIssues").removeObject(issue);
@@ -45,9 +44,11 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       return a.data._data.milestone_order - b.data._data.milestone_order;
     });
     if(issues.length){
+      var top_issue = issues.get("firstObject.data");
+      var top_milestone_issue = milestone_issues.get("firstObject.data");
       return {
-        order: issues.get("firstObject.data._data.order") / 2,
-        milestone_order: milestone_issues.get("firstObject.data._data.milestone_order") / 2
+        order: this.cardMover.moveToTop(top_issue),
+        milestone_order: this.cardMover.moveToTop(top_milestone_issue)
       };
     } else {
       return {};

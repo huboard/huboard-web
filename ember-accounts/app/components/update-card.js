@@ -32,7 +32,7 @@ export default CreditCardForm.extend({
       hash.success = (json) => {
         return resolve(json);
       };
-      hash.error = (jqXHR, textStatus, errorThrown) => {
+      hash.error = (jqXHR) => {
         return reject(jqXHR);
       };
 

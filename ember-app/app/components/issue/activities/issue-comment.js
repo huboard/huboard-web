@@ -41,14 +41,14 @@ var IssueCommentComponent = IssueActivity.extend(BufferedMixin, KeyPressHandling
     },
     save: function() {
       if(this.get('isEmpty')){ return; }
-      this._last ? this._last.abort() : this._last;
+      if(this._last){this._last.abort();}
 
       var controller = this;
       controller.set("disabled", true);
       this.get('bufferedContent').applyBufferedChanges();
 
       var comment = this.get("model");
-      this._last = this.get("issue.repo").updateComment(comment)
+      this._last = this.get("issue.repo").updateComment(comment);
       this._last.then((response)=> {
         if(controller.isDestroyed || controller.isDestroying){
           return;
