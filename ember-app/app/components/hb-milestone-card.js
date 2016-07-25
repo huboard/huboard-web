@@ -6,7 +6,7 @@ var { get } = Ember;
 var HbMilestoneCard = HbCard.extend({
   classNames: ["card", "card--milestone"],
   taskCard: false,
-  powerBarLength: 5,
+  powerBarLength: 4,
   columnIndicator: function(){
     let currentState = get(this, 'issue.current_state');
     var columns = this.get('taskColumns').map((c) => {
