@@ -578,12 +578,38 @@
 
 .filters li a {
   position:relative;
-  padding: 10px;
+  padding: 4px;
+  font-size: 12px;
   display:block;
   padding-right:25px;
   text-decoration: none;
   border-radius: 4px;
   color:#777;
+}
+
+.filters {
+  .filter-group {
+    h5 {
+      &:hover {
+        background: #efefef;
+        border-color: #efefef;
+        border-style: solid;
+        border-radius: 2px;
+        border-width: 0px;
+      }
+      i {
+        position: relative;
+        float: right;
+        padding: 2px 2px 0px 0px;
+        font-size: 14px;
+      }
+    }
+    &.collapsed {
+      .filter {
+        display: none;
+      }
+    }
+  }
 }
 
 .filters li a strong { 

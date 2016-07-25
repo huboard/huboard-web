@@ -1,25 +1,31 @@
 <ul class='filters'>
-  <h5>Repos</h5>
-  {{#each filters.boardFilters as |filter|}}
-    {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="repo"}}
-  {{/each}}
+  {{#hb-filter-group name='Repos'}}
+    {{#each filters.boardFilters as |filter|}}
+      {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="repo"}}
+    {{/each}}
+  {{/hb-filter-group}}
 
-  <h5>Cards</h5>
-  {{#each filters.cardFilters as |filter|}}
-    {{hb-filter name=filter.name mode=filter.mode color=filter.color}}
-  {{/each}}
+  {{#hb-filter-group name='Cards'}}
+    {{#each filters.cardFilters as |filter|}}
+      {{hb-filter name=filter.name mode=filter.mode color=filter.color}}
+    {{/each}}
+  {{/hb-filter-group}}
 
-  <h5>Assignment</h5>
-  {{#each filters.userFilters as |filter|}}
-    {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="member"}}
-  {{/each}}
+  {{#hb-filter-group name='Assignment'}}
+    {{#each filters.userFilters as |filter|}}
+      {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="member"}}
+    {{/each}}
+  {{/hb-filter-group}}
 
-  <h5>Milestones</h5>
-  {{#each filters.milestoneFilters as |filter|}}
-    {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="milestone"}}
-  {{/each}}
-  <h5>Labels</h5>
-  {{#each filters.labelFilters as |filter|}}
-    {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="label"}}
-  {{/each}}
+  {{#hb-filter-group name='Milestones'}}
+    {{#each filters.milestoneFilters as |filter|}}
+      {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="milestone"}}
+    {{/each}}
+  {{/hb-filter-group}}
+
+  {{#hb-filter-group name='Labels'}}
+    {{#each filters.labelFilters as |filter|}}
+      {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="label"}}
+    {{/each}}
+  {{/hb-filter-group}}
 </ul>
