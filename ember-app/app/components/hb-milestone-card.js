@@ -1,25 +1,12 @@
 import HbCard from "../components/hb-task-card";
 import Ember from "ember";
 
-var { get, set } = Ember;
-
-var takeWhile = function(list, callback, context) {
-  var xs = [];
-  _.any(list, function(item, index, list){
-    var result = callback.call(context, item, index, list);
-    if(result){
-      xs.push(item);
-      return false;
-    } else {
-      return true;
-    }
-  });
-  return xs;
-};
+var { get } = Ember;
 
 var HbMilestoneCard = HbCard.extend({
   classNames: ["card", "card--milestone"],
   taskCard: false,
+  powerBarLength: 5,
   columnIndicator: function(){
     let currentState = get(this, 'issue.current_state');
     var columns = this.get('taskColumns').map((c) => {
@@ -34,27 +21,42 @@ var HbMilestoneCard = HbCard.extend({
       });
     });
 
-    columns = this.compressColumns(columns);
-    takeWhile(columns, (x) => {return !get(x, 'selected');}, this)
-      .forEach((x) => { set(x, 'selected', true); });
+    var selected = columns.findBy('selected');
+    var powerbar_total = columns.indexOf(selected);
+    var visible_columns = columns.slice(0, this.powerBarLength);
 
-    return columns;
+    // Calculate the powerbar progress proportionally
+    visible_columns = this.proportionalProgress(visible_columns, powerbar_total, columns.length);
+
+    return visible_columns;
   }.property('issue.data.current_state', 'taskColumns'),
+  proportionalProgress: function(columns, powerbar_total, total_length){
+    // If powerbar is on first column, as meters are empty
+    if(!powerbar_total){ columns.setEach('selected', false); return columns; }
+
+    // If powerbar is on last column, all meters are full
+    if(powerbar_total === (total_length - 1)){
+      columns.setEach('selected', true);
+      return columns;
+    }
+
+    // Otherwise calculate the proportional progress of the meter
+    var percent_complete = (powerbar_total - 1) / total_length;
+    var selected_columns_index = Math.ceil(percent_complete * this.powerBarLength);
+
+    return columns.map((column, index)=>{
+      if(index <= selected_columns_index && index !== (columns.length - 1)){
+        return column.set('selected', true);
+      } else {
+        return column.set('selected', false);
+      }
+    });
+  },
   limitedAssignees: function(){
     var assignees = this.get('visibleAssignees') || [];
     this.set('assigneeOverflow', assignees.slice(3).length);
     return assignees.slice(0,3);
   }.property('visibleAssignees.[]'),
-  compressColumns: function(columns){
-    while(columns.length > 5){
-      if(columns[0].get('selected') === false){
-        columns.shift();
-      } else {
-        columns.pop();
-      }
-    }
-    return columns;
-  }
 });
 
 export default HbMilestoneCard;
