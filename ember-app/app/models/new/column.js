@@ -23,10 +23,7 @@ var Column = Ember.Object.extend(Ember.PromiseProxyMixin, {
   filterStrategy: function(issue){
     var issue_index = issue.get("columnIndex");
     var same_column = issue_index === this.get("data.index");
-    if(this.get("isLastColumn")){
-      return same_column || (issue.data.state === "closed" && !issue.get("isArchived"));
-    }
-    return same_column && issue.data.state !== "closed";
+    return same_column;
   },
   sortStrategy: function(a,b){
     if(a.data._data.order === b.data._data.order){
