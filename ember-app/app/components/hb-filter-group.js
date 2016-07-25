@@ -4,8 +4,8 @@ var HbFilterGroupComponent = Ember.Component.extend({
   classNames: ['filter-group'],
   classNameBindings: ['isCollapsed:collapsed'],
   isCollapsed: true,
-  click: function(){
-    this.toggleProperty('isCollapsed');
+  click: function(el){
+    if(el.target.className === 'filter-header'){ this.toggleProperty('isCollapsed'); }
   }
 });
 
