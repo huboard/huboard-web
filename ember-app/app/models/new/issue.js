@@ -80,7 +80,7 @@ var Issue = Model.extend({
   },
   reorder: function (index, column) {
     var changedColumns = this.get("data.current_state.index") !== column.data.index;
-    if(changedColumns){ this.handleColumnChange(); }
+    if(changedColumns){ this.set("data._data.custom_state", ""); }
 
     this.set("data.current_state", column.data);
     this.set("data._data.order", index);
@@ -92,11 +92,11 @@ var Issue = Model.extend({
     }, function( response ){
       this.set("data.body", response.body);
       this.set("data.body_html", response.body_html);
+      if(changedColumns){ return this.handleColumnChange(); }
       return this;
     }.bind(this), "json");
   },
   handleColumnChange: function(){
-    this.set("data._data.custom_state", ""); 
     var state_label = this.get('other_labels').find((label)=> { 
       return label.name.toLowerCase() === this.get('stateLabel');
     });
