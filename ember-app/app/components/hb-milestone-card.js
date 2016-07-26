@@ -41,8 +41,8 @@ var HbMilestoneCard = HbCard.extend({
     }
 
     // Otherwise calculate the proportional progress of the meter
-    var percent_complete = (powerbar_total - 1) / total_length;
-    var selected_columns_index = Math.ceil(percent_complete * this.powerBarLength);
+    var percent_complete = powerbar_total / total_length;
+    var selected_columns_index = Math.ceil(percent_complete * this.powerBarLength) - 1;
 
     return columns.map((column, index)=>{
       if(index <= selected_columns_index && index !== (columns.length - 1)){
