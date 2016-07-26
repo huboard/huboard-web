@@ -82,6 +82,9 @@ var Issue = Model.extend({
     var changedColumns = this.get("data.current_state.index") !== column.data.index;
     if(changedColumns){ this.set("data._data.custom_state", ""); }
 
+    var state_label = this.get('other_labels').find((l)=> { return this.isStateLabel(l)});
+    this.get('other_labels').removeObject(state_label);
+
     this.set("data.current_state", column.data);
     this.set("data._data.order", index);
     return Ember.$.post(`${this.get("apiUrl")}/dragcard`, {
@@ -92,18 +95,9 @@ var Issue = Model.extend({
     }, function( response ){
       this.set("data.body", response.body);
       this.set("data.body_html", response.body_html);
-      if(changedColumns){ return this.handleColumnChange(); }
+      if(changedColumns && state_label){ this.updateLabels(state_label, 'unlabel'); }
       return this;
     }.bind(this), "json");
-  },
-  handleColumnChange: function(){
-    var state_label = this.get('other_labels').find((label)=> { 
-      return label.name.toLowerCase() === this.get('stateLabel');
-    });
-    if(state_label){ 
-      this.get('other_labels').removeObject(state_label);
-      this.updateLabels(state_label, 'unlabel'); 
-    }
   },
   close: function () {
     this.set("processing", true);
@@ -168,19 +162,19 @@ var Issue = Model.extend({
       correlationId: this.get("correlationId")
     }, function(){}, "json");
   },
-  stateLabel: function(){
+  stateLabelName: function(){
     return this.get('other_labels').map((label)=>{return label.name.toLowerCase()}).find((name)=>{
       return name === 'blocked' || name === 'ready';
     }) || '';
   }.property('data.other_labels.[]'),
-  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabel", {
+  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabelName", {
     get:function(){
-      var state = this.get("stateLabel");
+      var state = this.get("stateLabelName");
       if(state){ return state; }
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("stateLabel") || this.get("_data.custom_state");
+      var previousState = this.get("stateLabelName") || this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
