@@ -184,6 +184,7 @@ var Issue = Model.extend({
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
+      if(!endpoint){ return; }
       var options = {
         dataType: "json",
         data: {correlationId: this.get("correlationId")},
