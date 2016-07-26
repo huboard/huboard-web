@@ -28,6 +28,36 @@
       &:hover {
         color: #666;
       }
+      @-webkit-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @-moz-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @-ms-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @-o-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      .ui-icon-error {
+        @include animation(pulsate 2s ease-out);
+        @include animation-iteration-count(infinite);
+        opacity: 0.5;
+      }
     }
   }
    a {
