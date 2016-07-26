@@ -215,15 +215,26 @@ class Huboard
 
       %w{blocked ready}.each do |method|
         define_method method do
+          label_as_marked(method)
           embed_data({"custom_state" => method})
 
-          patch body: self['body']
+          reverse_label = method == 'blocked' ? 'ready' : 'blocked'
+          self['labels'].delete_if{|l| l['name'].downcase == reverse_label}
+          patch body: self['body'], labels: self['labels']
         end
 
         define_method "un#{method}" do
           embed_data({"custom_state" => ""})
 
-          patch body: self['body']
+          self['labels'].delete_if{|l| l['name'].downcase == method}
+          patch body: self['body'], labels: self['labels']
+        end
+      end
+
+      def label_as_marked(label)
+        board = Huboard::Board.new(self[:repo][:owner][:login], self[:repo][:name], @connection_factory)
+        if board.other_labels.any?{|l| l['name'].downcase == label}
+          self['labels'].push({'name' => label})
         end
       end
 

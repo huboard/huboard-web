@@ -68,6 +68,7 @@ var Issue = Model.extend({
   },
   updateLabels : function (label, action) {
     this.set("processing", true);
+    this.checkForStateChange(label);
     return Ember.$.ajax( {
       url: `${this.get("apiUrl")}/${action}`,
       data: JSON.stringify({
@@ -81,11 +82,30 @@ var Issue = Model.extend({
       contentType: "application/json"})
       .then(function(){
         this.set("processing", false);
+        if(this.isStateLabel(label) && action === 'unlabel'){
+          this.set('customState', '');
+        }
       }.bind(this));
+  },
+  checkForStateChange: function(label){
+    if(this.isStateLabel(label)){
+      var conflict_state = label.name.toLowerCase() === 'blocked' ? 'ready' : 'blocked';
+      var conflict_label = this.get('other_labels').find((label)=>{
+        return label.name.toLowerCase() === conflict_state;
+      });
+      this.get('other_labels').removeObject(conflict_label);
+    }
+  },
+  isStateLabel: function(label){
+    var name = label.name.toLowerCase();
+    return name === 'blocked' || name === 'ready';
   },
   reorder: function (index, column) {
     var changedColumns = this.get("data.current_state.index") !== column.data.index;
     if(changedColumns){ this.set("data._data.custom_state", ""); }
+
+    var state_label = this.get('other_labels').find((l)=> { return this.isStateLabel(l)});
+    this.get('other_labels').removeObject(state_label);
 
     this.set("data.current_state", column.data);
     this.set("data._data.order", index);
@@ -97,6 +117,7 @@ var Issue = Model.extend({
     }, function( response ){
       this.set("data.body", response.body);
       this.set("data.body_html", response.body_html);
+      if(changedColumns && state_label){ this.updateLabels(state_label, 'unlabel'); }
       return this;
     }.bind(this), "json");
   },
@@ -163,15 +184,23 @@ var Issue = Model.extend({
       correlationId: this.get("correlationId")
     }, function(){}, "json");
   },
-  customState: Ember.computed("data._data.custom_state", {
+  stateLabelName: function(){
+    return this.get('other_labels').map((label)=>{return label.name.toLowerCase()}).find((name)=>{
+      return name === 'blocked' || name === 'ready';
+    }) || '';
+  }.property('data.other_labels.[]'),
+  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabelName", {
     get:function(){
+      var state = this.get("stateLabelName");
+      if(state){ return state; }
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state");
+      var previousState = this.get("stateLabelName") || this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
+      if(!endpoint){ return; }
       var options = {
         dataType: "json",
         data: {correlationId: this.get("correlationId")},
@@ -185,6 +214,7 @@ var Issue = Model.extend({
         this.set("processing", false);
         this.set("data.body", response.body);
         this.set("data.body_html", response.body_html);
+        this.set("other_labels", response.other_labels);
       }.bind(this));
 
       return value;

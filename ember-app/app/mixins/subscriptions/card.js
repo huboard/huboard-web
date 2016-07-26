@@ -36,14 +36,14 @@ var CardSubscriptionMixin = Ember.Mixin.create({
       var assignees = this.get("issue.assignees");
       if(assignees && !assignees.isAny("login", message.assignee.login)){
         if(message.assignee.login){
-          this.get("issue.assignees").pushObject(message.assignee);
+          return this.get("issue.assignees").pushObject(message.assignee);
         } else {
           var assignee = this.get("issue.repo.assignees").findBy("login", message.assignee);
-          this.get("issue.assignees").pushObject(assignee);
+          return this.get("issue.assignees").pushObject(assignee);
         }
       }
       this.set("issue.assignee", message.issue.assignee);
-    }, {time: 5000, sort: function(a,b){
+    }, {time: 2000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
       var timeB = Date.parse(b.issue.updated_at);
       return timeA - timeB;
@@ -57,7 +57,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
           this.get("issue.assignees").removeObject(assignee);
         }
       }
-    }, {time: 5000, sort: function(a,b){
+    }, {time: 2000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
       var timeB = Date.parse(b.issue.updated_at);
       return timeA - timeB;
@@ -87,7 +87,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
         });
         if(!match){ return this.get("issue.data.other_labels").addObject(message.label); }
       }
-    }, {time: 5000, sort: function(a,b){
+    }, {time: 2000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
       var timeB = Date.parse(b.issue.updated_at);
       return timeA - timeB;
@@ -101,7 +101,7 @@ var CardSubscriptionMixin = Ember.Mixin.create({
           this.get("issue.data.other_labels").removeObject(match);
         }
       }
-    }, {time: 5000, sort: function(a,b){
+    }, {time: 2000, sort: function(a,b){
       var timeA = Date.parse(a.issue.updated_at);
       var timeB = Date.parse(b.issue.updated_at);
       return timeA - timeB;
