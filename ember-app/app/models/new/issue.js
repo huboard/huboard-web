@@ -180,7 +180,7 @@ var Issue = Model.extend({
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState =  this.get("stateLabel") || this.get("_data.custom_state");
+      var previousState = this.get("stateLabel") || this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;

@@ -6,8 +6,8 @@ module HealthChecking
         name 'issue_ready_label_check'
         weight :warning
         authorization :collaborator
-        passed "Issue ready label is present"
-        failed "Issue ready label is not present"
+        passed "'Ready' label is present"
+        failed "'Ready' label is not present"
 
         ## deps
         # {

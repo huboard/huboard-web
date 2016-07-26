@@ -6,8 +6,8 @@ module HealthChecking
         name 'issue_blocked_label_check'
         weight :warning
         authorization :collaborator
-        passed "Issue blocked label is present"
-        failed "Issue blocked label is not present"
+        passed "'Blocked' label is present"
+        failed "'Blocked' label is not present"
 
         ## deps
         # {
