@@ -30,6 +30,19 @@ var Issue = Model.extend({
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;
   }.property("data.number", "repo.data.repo.full_name"),
+  isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
+  isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
+  stateClass: function(){
+     var github_state = this.get("data.state");
+     if(github_state === "closed"){
+       return "hb-state-" + "closed";
+     }
+     var custom_state = this.get("customState");
+     if(custom_state){
+       return "hb-state-" + custom_state;
+     }
+     return "hb-state-open";
+  }.property("data.current_state", "customState", "data.state", "data.other_labels.[]"),
 
   //Relationships
   cardRelationships: function(){

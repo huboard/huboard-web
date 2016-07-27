@@ -551,6 +551,7 @@
 
       &.issue-reference {
         color: $lightGrey;
+
         .reference-details {
           padding-right: 4px;
           float: right;
@@ -564,10 +565,35 @@
           top: 2px;
           position: relative;
           padding-right: 4px;
+          &.ui-icon-arrow-1-e {
+            top: 1px;
+          }
+          &.ui-icon-x {
+            top: 1px;
+            font-size: 10px;
+          }
           &.ui-icon-branch-merge {
             font-size: 14px;
             color: $hb-purple;
           }
+        }
+      }
+    }
+
+    .issue-reference-wrapper {
+      &.hb-state-closed {
+        .hb-card-tray {
+          background-color: rgba(130, 116, 214, 0.1);
+        }
+      }
+      &.hb-state-ready {
+        .reference-details {
+          color: $hb-state-ready;
+        }
+      }
+      &.hb-state-blocked {
+        .reference-details {
+          color: $hb-state-blocked;
         }
       }
     }

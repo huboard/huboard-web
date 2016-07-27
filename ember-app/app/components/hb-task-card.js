@@ -97,19 +97,7 @@ var HbCardComponent = Ember.Component.extend(
         this.accept(cardAssigneesVisitor);
       });
     }.observes('issue.assignees.[]', 'isFiltered').on('didInsertElement'),
-    stateClass: function(){
-       var github_state = this.get("issue.data.state");
-       if(github_state === "closed"){
-         return "hb-state-" + "closed";
-       }
-       var custom_state = this.get("issue.customState");
-       if(custom_state){
-         return "hb-state-" + custom_state;
-       }
-       return "hb-state-open";
-    }.property("issue.data.current_state", "issue.customState", "issue.data.state", "issue.data.other_labels.[]"),
-    isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
-    isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
+    stateClass: Ember.computed.alias('issue.stateClass'),
 
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));
