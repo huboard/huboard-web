@@ -244,7 +244,13 @@ var Issue = Model.extend({
     while(order < 1e-319){ order *= 10; }
     while(order > 1e307){ order /= 10; }
     return order;
-  }
+  },
+  columnObserver: function(){
+    if(this.get('state') === 'closed'){
+      var last_column = this.get('repo.board.columns.lastObject.data');
+      this.set('current_state', last_column);
+    }
+  }.observes('repo.board.columns', 'state')
 });
 
 export default Issue;

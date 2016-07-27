@@ -1,25 +1,42 @@
 <div class="ember-view">
   <div class="card-header">
     <div class="title" title="{{issue.title}}">
-      {{#if issue.assignee}}
-        {{hb-avatar-tooltip user=issue.assignee width="24" height="24"}}
-      {{/if}}
       {{issue.title}} 
       <small>#{{issue.number}}</small>
     </div>
   </div>
 
-  <div class="card-footer">
+  <div class="card-footer clearfix">
+    <div class="card-details-wrapper">
+      <div class="card-details clearfix">
+        <div class="avatar-wrapper">
+          {{#if assigneeOverflow}}
+            <div class='assignee-overflow'> +{{assigneeOverflow}} </div>
+          {{/if}}
+          {{#if issue.assignees}}
+            <div class="visible-assignees">
+              {{#each limitedAssignees as |assignee index|}}
+                {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
+              {{/each}}
+            </div>
+          {{else}}
+            {{#if issue.assignee }}
+              {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
     <div class="hb-column-indicator">
+      {{#each columnIndicator as |column| }}
+        <div class='hb-column-indicator__bar {{if column.selected "selected"}}'></div>
+      {{/each}}
+      <span class="hb-column-indicator__text">{{issue.current_state.text}}</span>
       <div class="card-states">
         <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
         <img src="{{asset-path 'arrow.png'}}" class="hb-state-ready"/>
         <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
       </div>
-      {{#each columnIndicator as |column| }}
-        <div class='hb-column-indicator__bar {{if column.selected "selected"}}'></div>
-      {{/each}}
-      <span class="hb-column-indicator__text">{{issue.current_state.text}}</span>
     </div>
 
 

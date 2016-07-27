@@ -578,6 +578,7 @@
   }
 
   &.card--milestone {
+    padding: 4px 2px 6px 4px;
     &.border {
       padding-left: 6px;
     }
@@ -594,28 +595,28 @@
       white-space: normal;
       overflow: auto;
     }
-    .hb-avatar-tooltip {
-      &:hover {
-        p {
-          display: inline-table;
-          visibility: visible;
-        }
+    .card-details-wrapper {
+      float: right;
+    }
+    .avatar-wrapper {
+      .assignee-overflow {
+        color: white;
+        background-color: $hb-purple-dark;
+        margin-left: -8px;
+        font-size: 11px;
+        position: relative;
+        float: right;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        bottom: 4px;
+        padding: 1px;
+        z-index: 101;
+        line-height: 12px;
+        text-align: center;
       }
-      p {
-        bottom: 42px;
-        top: 5px;
-        left: 34px;
-        line-height: 16px;
-        &:after {
-          content: "\25C0";
-          color: $hb-purple;
-          left: -6px;
-          bottom: 1px;
-        }
-      }
-      display: inline;
-      img {
-        position: static;
+      .visible-assignees {
+        float: left;
       }
     }
     .card-header {
