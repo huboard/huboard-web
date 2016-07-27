@@ -45,15 +45,11 @@ var HbMilestoneCard = HbCard.extend({
     }
 
     // Otherwise calculate the proportional progress of the meter
-    var percent_complete = selectedIndex / totalColumnCount;
-    var selected_columns_index = Math.ceil(percent_complete * powerBarLength) - 1;
+    var percentComplete = selectedIndex / (totalColumnCount - 1);
+    var proportionalColumnIndex = Math.ceil(percentComplete * (powerBarLength - 1));
 
     return columns.map((column, index)=>{
-      if(index <= selected_columns_index && index !== (columns.length - 1)){
-        return column.set('selected', true);
-      } else {
-        return column.set('selected', false);
-      }
+      return column.set('selected', index <= proportionalColumnIndex);
     });
   },
   limitedAssignees: function(){
