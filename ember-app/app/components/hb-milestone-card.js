@@ -22,27 +22,30 @@ var HbMilestoneCard = HbCard.extend({
     });
 
     var selected = columns.findBy('selected');
-    var powerbar_total = columns.indexOf(selected);
+    var selectedIndex = columns.indexOf(selected);
     var powerBarLength = columns.length <= this.maxPowerBarLength ? columns.length - 1 : this.maxPowerBarLength;
     var visible_columns = columns.slice(0, powerBarLength);
 
     // Calculate the powerbar progress proportionally
-    visible_columns = this.proportionalProgress(visible_columns, powerbar_total, columns.length, powerBarLength);
+    visible_columns = this.proportionalProgress(visible_columns, selectedIndex, columns.length, powerBarLength);
 
     return visible_columns;
   }.property('issue.data.current_state', 'taskColumns'),
-  proportionalProgress: function(columns, powerbar_total, total_length, powerBarLength){
-    // If powerbar is on first column, as meters are empty
-    if(!powerbar_total){ columns.setEach('selected', false); return columns; }
+  proportionalProgress: function(columns, selectedIndex, total_length, powerBarLength){
+    // In first column, no bars are selected
+    if(!selectedIndex){
+      columns.setEach('selected', false);
+      return columns;
+    }
 
-    // If powerbar is on last column, all meters are full
-    if(powerbar_total === (total_length - 1)){
+    // In last column, all bars are selected
+    if(selectedIndex === (total_length - 1)){
       columns.setEach('selected', true);
       return columns;
     }
 
     // Otherwise calculate the proportional progress of the meter
-    var percent_complete = powerbar_total / total_length;
+    var percent_complete = selectedIndex / total_length;
     var selected_columns_index = Math.ceil(percent_complete * powerBarLength) - 1;
 
     return columns.map((column, index)=>{
