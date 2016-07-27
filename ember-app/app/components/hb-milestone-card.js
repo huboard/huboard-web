@@ -31,7 +31,7 @@ var HbMilestoneCard = HbCard.extend({
 
     return visible_columns;
   }.property('issue.data.current_state', 'taskColumns'),
-  proportionalProgress: function(columns, selectedIndex, total_length, powerBarLength){
+  proportionalProgress: function(columns, selectedIndex, totalColumnCount, powerBarLength){
     // In first column, no bars are selected
     if(!selectedIndex){
       columns.setEach('selected', false);
@@ -39,13 +39,13 @@ var HbMilestoneCard = HbCard.extend({
     }
 
     // In last column, all bars are selected
-    if(selectedIndex === (total_length - 1)){
+    if(selectedIndex === (totalColumnCount - 1)){
       columns.setEach('selected', true);
       return columns;
     }
 
     // Otherwise calculate the proportional progress of the meter
-    var percent_complete = selectedIndex / total_length;
+    var percent_complete = selectedIndex / totalColumnCount;
     var selected_columns_index = Math.ceil(percent_complete * powerBarLength) - 1;
 
     return columns.map((column, index)=>{
