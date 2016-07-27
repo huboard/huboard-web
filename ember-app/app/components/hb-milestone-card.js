@@ -6,7 +6,7 @@ var { get } = Ember;
 var HbMilestoneCard = HbCard.extend({
   classNames: ["card", "card--milestone"],
   taskCard: false,
-  powerBarLength: 4,
+  maxPowerBarLength: 4,
   columnIndicator: function(){
     let currentState = get(this, 'issue.current_state');
     var columns = this.get('taskColumns').map((c) => {
@@ -23,14 +23,15 @@ var HbMilestoneCard = HbCard.extend({
 
     var selected = columns.findBy('selected');
     var powerbar_total = columns.indexOf(selected);
-    var visible_columns = columns.slice(0, this.powerBarLength);
+    var powerBarLength = columns.length <= this.maxPowerBarLength ? columns.length - 1 : this.maxPowerBarLength;
+    var visible_columns = columns.slice(0, powerBarLength);
 
     // Calculate the powerbar progress proportionally
-    visible_columns = this.proportionalProgress(visible_columns, powerbar_total, columns.length);
+    visible_columns = this.proportionalProgress(visible_columns, powerbar_total, columns.length, powerBarLength);
 
     return visible_columns;
   }.property('issue.data.current_state', 'taskColumns'),
-  proportionalProgress: function(columns, powerbar_total, total_length){
+  proportionalProgress: function(columns, powerbar_total, total_length, powerBarLength){
     // If powerbar is on first column, as meters are empty
     if(!powerbar_total){ columns.setEach('selected', false); return columns; }
 
@@ -42,7 +43,7 @@ var HbMilestoneCard = HbCard.extend({
 
     // Otherwise calculate the proportional progress of the meter
     var percent_complete = powerbar_total / total_length;
-    var selected_columns_index = Math.ceil(percent_complete * this.powerBarLength) - 1;
+    var selected_columns_index = Math.ceil(percent_complete * powerBarLength) - 1;
 
     return columns.map((column, index)=>{
       if(index <= selected_columns_index && index !== (columns.length - 1)){
