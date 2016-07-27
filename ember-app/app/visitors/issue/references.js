@@ -9,7 +9,8 @@ var IssueReferencesVisitor = Ember.Object.create({
     });
 
     Ember.RSVP.all(promises).then((references)=> {
-      issue.set('issueReferences', _.compact(references));
+      references = _.uniq(_.compact(references), (r)=>{ return r.id });
+      issue.set('issueReferences', references);
     });
   },
 
@@ -38,7 +39,7 @@ var IssueReferencesVisitor = Ember.Object.create({
     var match = reference.text.replace(this.repoNamePattern, '');
     var issuesByRepo = issue.get('repo.board.issuesByRepo');
     if(Ember.isBlank(match) || issuesByRepo.hasOwnProperty(match)){ 
-      reference.state = 'closed'
+      reference.state = 'closed';
       return reference;
     }
   },
