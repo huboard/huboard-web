@@ -54,23 +54,6 @@
 </div>
 <div class="hb-card-trays">
 
-  {{#if canArchive}}
-    {{#hb-card-tray type='state-archive'}}
-      <div class="hb-action actions-archive">
-        <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
-        <span class="hb-tray-message"> Closed </span>
-      </div>
-    {{/hb-card-tray}}
-  {{else if isLast}}
-    {{#hb-card-tray type='state-closable'}}
-      <div class="hb-action actions-close">
-        <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
-        <span class='hb-tray-message'> Done </span>
-      </div>
-    {{/hb-card-tray}}
-  {{/if}}
-
-
   {{#each presentReferences as |reference|}}
     <div class="issue-reference-wrapper {{reference.stateClass}}">
       {{#hb-card-tray type="issue-reference clearfix"}}
@@ -101,6 +84,22 @@
       {{/hb-card-tray}}
     </div>
   {{/each}}
+
+  {{#if canArchive}}
+    {{#hb-card-tray type='state-archive'}}
+      <div class="hb-action actions-archive">
+        <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+        <span class="hb-tray-message"> Closed </span>
+      </div>
+    {{/hb-card-tray}}
+  {{else if isLast}}
+    {{#hb-card-tray type='state-closable'}}
+      <div class="hb-action actions-close">
+        <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
+        <span class='hb-tray-message'> Done </span>
+      </div>
+    {{/hb-card-tray}}
+  {{/if}}
 
   {{#if issue.isReady}}
     {{#hb-card-tray type='state-ready'}}
