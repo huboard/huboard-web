@@ -9,7 +9,7 @@ var IssueReferencesVisitor = Ember.Object.create({
     });
 
     Ember.RSVP.all(promises).then((references)=> {
-      references = _.uniq(_.compact(references), (r)=>{ return r.id });
+      references = _.uniq(_.compact(references));
       issue.set('issueReferences', references);
     });
   },
