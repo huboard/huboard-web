@@ -1,0 +1,17 @@
+<script>
+  ((window.gitter = {}).chat = {}).options = { 
+    room: "huboard/huboard",
+    activationElement: ".gitter-open-chat-button"
+  };
+
+  function hideGitter(){
+    var gitter = document.getElementsByClassName("gitter-open-chat-button")[0];
+    gitter.style.display = "none";
+    window.gitter.chat.defaultChat.destroy();
+  }
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+
+<a href="https://gitter.im/huboard/huboard" class="gitter-open-chat-button">
+  Chat with us!<i class="ui-icon-x-thin" onclick="hideGitter()"></i>
+</a>
