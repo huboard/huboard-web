@@ -1,4 +1,10 @@
-<ul class='filters'>
+<div class='filters'>
+  {{#hb-filter-group name='Assignment'}}
+    {{#each filters.userFilters as |filter|}}
+      {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="member"}}
+    {{/each}}
+  {{/hb-filter-group}}
+
   {{#hb-filter-group name='Repos'}}
     {{#each filters.boardFilters as |filter|}}
       {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="repo"}}
@@ -8,12 +14,6 @@
   {{#hb-filter-group name='Cards'}}
     {{#each filters.cardFilters as |filter|}}
       {{hb-filter name=filter.name mode=filter.mode color=filter.color}}
-    {{/each}}
-  {{/hb-filter-group}}
-
-  {{#hb-filter-group name='Assignment'}}
-    {{#each filters.userFilters as |filter|}}
-      {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="member"}}
     {{/each}}
   {{/hb-filter-group}}
 
@@ -28,4 +28,4 @@
       {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="label"}}
     {{/each}}
   {{/hb-filter-group}}
-</ul>
+</div>
