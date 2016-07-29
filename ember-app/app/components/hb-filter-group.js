@@ -6,7 +6,7 @@ var HbFilterGroupComponent = Ember.Component.extend({
   classNameBindings: ['isCollapsed:collapsed'],
   isCollapsed: false,
   click: function(el){
-    if(el.target.className === 'filter-header'){
+    if(this.$(el.target).is('.filter-header') || this.$(el.target).is('.ui-icon')){
       this.toggleProperty('isCollapsed');
       //save to LS
     }
