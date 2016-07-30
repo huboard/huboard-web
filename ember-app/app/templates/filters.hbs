@@ -1,31 +1,7 @@
 <div class='filters'>
-  {{#hb-filter-group name='Assignment'}}
-    {{#each filters.userFilters as |filter|}}
-      {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="member"}}
-    {{/each}}
-  {{/hb-filter-group}}
-
-  {{#hb-filter-group name='Repos'}}
-    {{#each filters.boardFilters as |filter|}}
-      {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="repo"}}
-    {{/each}}
-  {{/hb-filter-group}}
-
-  {{#hb-filter-group name='Cards'}}
-    {{#each filters.cardFilters as |filter|}}
-      {{hb-filter name=filter.name mode=filter.mode color=filter.color}}
-    {{/each}}
-  {{/hb-filter-group}}
-
-  {{#hb-filter-group name='Milestones'}}
-    {{#each filters.milestoneFilters as |filter|}}
-      {{hb-filter name=filter.name mode=filter.mode color=filter.color queryParam="milestone"}}
-    {{/each}}
-  {{/hb-filter-group}}
-
-  {{#hb-filter-group name='Labels'}}
-    {{#each filters.labelFilters as |filter|}}
-      {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType="colored" queryParam="label"}}
-    {{/each}}
-  {{/hb-filter-group}}
+  {{hb-filter-group name='Assignment' filters=filters.userFilters}}
+  {{hb-filter-group name='Repos' filters=filters.boardFilters}}
+  {{hb-filter-group name='Cards' filters=filters.cardFilters}}
+  {{hb-filter-group name='Milestones' filters=filters.milestoneFilters}}
+  {{hb-filter-group name='Labels' filters=filters.labelFilters}}
 </div>
