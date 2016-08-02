@@ -17,9 +17,9 @@ package {
     path    => ["/bin", "/usr/bin", "/sbin"],
     command => "apt-get install ruby-dev -y"
   } ->
-  exec { 'mail-catcher':
-    path    => ["/bin", "/usr/bin"],
-    command => 'gem install mailcatcher'
+  rbenv::gem { 'mailcatcher':
+    ruby => '2.2.1',
+    user => 'vagrant'
   }
 
   class { 'wkhtmltox':
