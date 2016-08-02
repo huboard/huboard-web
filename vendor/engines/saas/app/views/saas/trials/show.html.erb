@@ -14,6 +14,7 @@
 <% content_for :javascript do %>
 <%= javascript_include_tag 'vendor/jquery' %>
 <%= javascript_include_tag 'bootstrap' %>
+<%= render partial: 'shared/analytics' %>
 <script type="text/javascript">
   $("div.trial_form form").submit(function(){
     $(this).find('input[type=submit]').attr('disabled', true);
