@@ -37,7 +37,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       return value;
     }
   }).property(),
-  isCreateVisible: Ember.computed.alias("model.isFirstColumn"),
+  isCreateVisible: function(){
+    return this.get('model.isFirstColumn') && App.get('loggedIn');
+  }.property("model.isFirstColumn"),
   topOrderNumber: function(){
     var issues = this.get("sortedIssues");
     var milestone_issues = this.get("issues").sort(function(a,b){
