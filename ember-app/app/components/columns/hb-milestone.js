@@ -69,7 +69,7 @@ var HbMilestoneComponent = HbColumn.extend(
       }
     });
   },
-  isCreateVisible: true,
+  isCreateVisible: App.get('loggedIn'),
   topOrderNumber: function(){
     var issues = this.get("issues")
       .filter(function(i) { return !i.get("isArchived");})
