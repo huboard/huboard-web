@@ -23,8 +23,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
     }
 
     this.get("model.sortedIssues").removeObject(issue);
-    Ember.run.schedule("afterRender", self, function(){
-      issue.reorder(order, self.get("model"));
+    Ember.run.schedule("afterRender", this, function(){
+      issue.reorder(order, this.get("model"));
+      this.notifyPropertyChange('sortedIssues');
     });
   },
 
@@ -48,7 +49,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
       var top_milestone_issue = milestone_issues.get("firstObject.data");
       return {
         order: this.cardMover.moveToTop(top_issue),
-        milestone_order: this.cardMover.moveToTop(top_milestone_issue)
+        milestone_order: this.cardMover.moveToTop(top_milestone_issue, 'milestone_order')
       };
     } else {
       return {};
