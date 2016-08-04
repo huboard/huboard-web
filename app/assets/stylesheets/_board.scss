@@ -534,11 +534,19 @@
         background-color: rgba(130, 116, 214, 0.1);
         border-color: $hb-state-closed;
         color: $hb-state-closed;
+        i {
+          position: relative;
+          top: 1px;
+        }
       }
       &.state-ready {
         background-color: rgba(34, 209, 134, 0.1);
         border-color: $hb-state-ready;
         color: $hb-state-ready;
+        i {
+          position: relative;
+          top: 1px;
+        }
       }
       &.state-blocked {
         background-color: rgba(249, 100, 110, 0.1);
@@ -596,6 +604,11 @@
           color: $hb-state-blocked;
         }
       }
+      &.hb-state-closed{
+        .reference-details {
+          color: $hb-state-closed;
+        }
+      }
     }
 
     .hb-tray-button {
@@ -614,15 +627,6 @@
       &.state-archive {
         color: $hb-state-closed;
         border-color: $hb-state-closed;
-      }
-      &.state-ready {
-        border-color: $hb-state-ready;
-        color: $hb-state-ready;
-        i {
-          position: relative;
-          top: 1px;
-          padding-left: 4px;
-        }
       }
     }
   }

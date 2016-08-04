@@ -72,6 +72,9 @@
         {{#if reference.isBlocked}}
           <div class='reference-details'><i class='ui-icon-x'></i></div>
         {{/if}}
+        {{#if reference.isClosed}}
+          <div class='reference-details'><i class='ui-icon-checkmark'></i></div>
+        {{/if}}
         {{#if reference.linkedColor}}
           <div class="repo-name" style="color:#{{reference.linkedColor}}">
             <i class="ui-icon-note"></i>{{reference.repoName}}
@@ -89,6 +92,7 @@
     {{#hb-card-tray type='state-archive'}}
       <div class="hb-action actions-archive">
         <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+        <i class='ui-icon-checkmark'></i>
         <span class="hb-tray-message"> Closed </span>
       </div>
     {{/hb-card-tray}}
@@ -104,9 +108,7 @@
   {{#if issue.isReady}}
     {{#hb-card-tray type='state-ready'}}
       <div class="ready">
-        <button class="hb-tray-button state-ready" disabled={{true}} >
-          Pull card <i class='ui-icon-arrow-1-e'></i>
-        </button>
+        <i class='ui-icon-arrow-1-e'></i>
         <span class='hb-tray-message'> Ready for next stage </span>
       </div>
     {{/hb-card-tray}}
@@ -116,7 +118,7 @@
     {{#hb-card-tray type='state-blocked'}}
       <div class="blocked">
         <i class='ui-icon-x'></i>
-        <span class='hb-tray-message'> Blocked: waiting for 'ready'</span>
+        <span class='hb-tray-message'> Marked as blocked</span>
       </div>
     {{/hb-card-tray}}
   {{/if}}

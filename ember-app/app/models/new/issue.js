@@ -32,6 +32,7 @@ var Issue = Model.extend({
   }.property("data.number", "repo.data.repo.full_name"),
   isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
   isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
+  isClosed: Ember.computed.equal('stateClass', 'hb-state-closed'),
   stateClass: function(){
      var github_state = this.get("data.state");
      if(github_state === "closed"){
