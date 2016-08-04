@@ -12,10 +12,7 @@ var HbMilestoneComponent = HbColumn.extend(
   sortedIssues: function () {
     var issues = this.get("issues")
       .filter(this.get("model.filterBy").bind(this))
-      .filter((i)=> {
-        if(i.data.state === "closed"){ return !i.get("isArchived"); }
-        return true;
-      })
+      .filter((i)=> { return i.data.state !== "closed"; })
       .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{milestoneOrder,milestoneTitle}"),
