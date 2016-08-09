@@ -1,21 +1,66 @@
-<div class="instructions drop-shadow">
-  <h2> We noticed your repository issue tracker is not yet configured for HuBoard</h2>
-  <% if @repo && @repo['permissions'] && @repo['permissions']['push'] %>
-  <p> No worries, HuBoard can automatically get you started with a default label configuration </p>
-  <p> HuBoard will create the following labels </p>
-  <ol start="0">
-    <li> Backlog </li>
-    <li> Ready </li>
-    <li> Working </li>
-    <li> Review </li>
-    <li> Done </li>
-  </ol>
-  <%= form_tag 'create' do %>
-    <input class="btn primary" type="submit" value="Yes, Do it for me!" data-analytics-path='/board/creating'/>
-    <a href="<%= @repo['html_url'] %>/issues" target="_blank" >No thanks, I want to do this manually</a>
-  <% end %>
+<div class="instructions drop-shadow create-new-board">
+  <div class="create-new-board--container">
+  <% if @parameters['create_failed']%>
+    <h2> Oops! </h2>
+    <div class="create-new-board--message">
+      <h3> HuBoard is unable to create a board for you! </h3>
+      <ul class="create-new-board--list">
+        <li>You will need write permissions on <%= @parameters['user'] %>/<%= @parameters['repo'] %></li>
+        <li>If <%= @parameters['user'] %> is a GitHub Organization: <a href=https://help.github.com/articles/disabling-third-party-application-restrictions-for-your-organization/" target="blank">ensure no access restrictions are present</a></li>
+        <li><a href="mailto:support@huboard.com">Talk to us!</a></li>
+      </ul>
+      <%= form_tag 'create', class: 'create-new-board--form' do %>
+        <input class="btn primary" type="submit" value="Try again!" data-analytics-path='/board/creating'/>
+        <a href="/dashboard">
+          <input class="btn primary" type="button" value="Go home">
+        </a>
+      </div>
+      <% end %>
+    </div>
+  <% elsif @repo && @repo['permissions'] && @repo['permissions']['push'] %>
+    <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet configured for HuBoard</h2>
+  <div class="create-new-board--message">
+    <h4> We can automatically get you started with a default label configuration: </h4>
+    <br>
+    <div class="create-new-board--labels">
+      <div class="labels-create-message">
+        <p> Allow HuBoard to create the following labels? </p>
+      </div>
+      <div class="labels-create-columns">
+        <ul class="create-new-board--list">
+          <li> 0 - Backlog </li>
+          <li> 1 - Ready </li>
+          <li> 2 - Working </li>
+          <li> 3 - Review </li>
+          <li> 4 - Done </li>
+        </ul>
+      </div>
+    </div>
+    <%= form_tag 'create', class: 'create-new-board--form' do %>
+      <input class="btn primary" type="submit" value="Yes, Do it for me!" data-analytics-path='/board/creating'/>
+      <a href="<%= @repo['html_url'] %>/issues" target="_blank" >
+        <input class="btn primary" type="button" value="Create columns manually">
+      </a>
+    </div>
+    <% end %>
   <% else %>
-    <p> Unfortunately, HuBoard doesn't have permission to fix that for you.  </p>
-    <p> You'll need to head over to <a href="<%= @repo['html_url'] %>">GitHub</a> for that</p>
+    <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet configured for HuBoard</h2>
+    <div class="create-new-board--message">
+      <ul class="create-new-board--list">
+        <li>You will need write permission on <%= @parameters['user'] %>/<%= @parameters['repo'] %></li>
+        <li>If <%= @parameters['user'] %> is a GitHub Organization: <a href=https://help.github.com/articles/disabling-third-party-application-restrictions-for-your-organization/" target="blank">ensure no access restrictions are present</a></li>
+        <li><a href="mailto:support@huboard.com">Talk to us!</a></li>
+      </ul>
+      <%= form_tag 'create_board', class: 'create-new-board--form' do %>
+        <a href="/<%= @parameters['user'] %>/<%= @parameters['repo'] %>">
+          <input class="btn primary" type="button" value="Try again">
+        </a>
+        <a href="/dashboard">
+          <input class="btn primary" type="button" value="Go home">
+        </a>
+      </div>
+      <% end %>
+    </div>
   <% end %>
+  </div>
 </div>
