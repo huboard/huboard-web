@@ -19,6 +19,7 @@
     "jquery-textcomplete": "~1.3.2",
     "jquery-color": "~2.1.2",
     "sinon": "http://sinonjs.org/releases/sinon-1.12.2.js",
-    "c3": "~0.4.10"
+    "c3": "~0.4.10",
+    "animation-frame": "~0.2.4"
   }
 }
