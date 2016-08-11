@@ -9,8 +9,11 @@
   }}
 {{/if}}
 
-<div class="cards sortable">
-  {{#each sortedIssues as |issue|}}
+{{#vertical-collection
+  itemClassNames='cards sortable'
+  content=sortedIssues
+  tagName='div'
+  as |issue|}}
     {{
       hb-task-card
         issue=issue
@@ -19,7 +22,6 @@
         cardClick=(action attrs.openFullscreenIssue issue)
         isLastColumn=model.isLastColumn
     }}
-  {{/each}}
-</div>
+{{/vertical-collection}}
 <div class="collapsed"></div>
 </div>
