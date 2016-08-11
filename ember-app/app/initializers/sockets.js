@@ -34,7 +34,8 @@ export function initialize(container, application){
         if(channel == null) { return Ember.K; }
         /* jshint ignore:end */
 
-        const channel = this._sanitizeChannel(channel);
+        channel = this._sanitizeChannel(channel);
+
         if(!this.get("sockets")[channel]){
           this.subscribeTo(channel);
         }
@@ -45,7 +46,7 @@ export function initialize(container, application){
         if(channel === "null") { return Ember.K; }
         if(channel == null) { return Ember.K; }
 
-        const channel = this._sanitizeChannel(channel);
+        channel = this._sanitizeChannel(channel);
         this.get("sockets")[channel].callbacks.remove(callback);
       },
       _processMessageQueue: function() {
@@ -81,7 +82,7 @@ export function initialize(container, application){
         return channel.replace(/\./g, '!').toLowerCase();
       },
       subscribeTo: function(channel) {
-        const channel = this._sanitizeChannel(channel), self = this;
+        channel = this._sanitizeChannel(channel), self = this;
         var client = this.get('client'), 
         callbacks = Ember.$.Callbacks();
 
