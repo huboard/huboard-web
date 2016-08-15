@@ -113,7 +113,7 @@ var HbCardComponent = Ember.Component.extend(
     isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
 
     registerToColumn: function(){
-      this.set("cards", this.get("parentView.cards"));
+      this.set("cards", this.get("parentView.parentView.parentView.cards"));
       this.get("cards").pushObject(this);
     }.on("didInsertElement"),
     unregisterFromColumn: function(){
