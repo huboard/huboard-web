@@ -114,39 +114,49 @@
   }
 }
 
-.column.task-column{
-  .cards {
-    @include flex(1 1 auto);
-  }
-}
 
-.column.milestone {
+.task-column {
+  @include flex(1);
+  @include display(flex);
+  @include flex-direction(column);
+}
+.column {
   height: 100%;
-  min-width: 0px;
-  max-width: 230px;
-  width:230px;
-  display: inline-block;
+  float:none;
+  vertical-align: top;
+  padding: 0px 10px;
+  @include box-sizing(border-box);
+  @include transition(width,flex 0.4s ease-out);
 
   .column-contents{
     height: 100%;
     @include display(flex);
     @include flex-direction(column);
-    @include flex(0 0 230px);
-    min-width: 0px;
-    max-width: 230px;
-  }
-  .cards {
     @include flex(1 1 auto);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 1px;
-    @extend %u-fancy-scrollbar;
+    min-width: 0px;
+    .cards {
+      @include flex(1 1 auto);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 1px;
+      @extend %u-fancy-scrollbar;
+    }
   }
   &.hb-state-collapsed {
     @include flex(0 0 90px);
     width: 90px;
   }
   @include transition(width 0.4s ease-out);
+}
+
+.column.milestone {
+  max-width: 230px;
+  width:230px;
+  display: inline-block;
+  .column-contents{
+    @include flex(0 0 230px);
+    max-width: 230px;
+  }
 }
 
 .board-dragging {
@@ -170,11 +180,6 @@
    padding-left: 25px;
 }
 
-.column {
-  vertical-align: top;
-  padding: 0px 10px;
-  @include box-sizing(border-box);
-}
 
 .column {
   &.hb-state-collapsed {
@@ -632,6 +637,7 @@
   }
 
   &.card--milestone {
+    padding: 4px 2px 6px 4px;
     &.border {
       padding-left: 6px;
     }
@@ -648,28 +654,28 @@
       white-space: normal;
       overflow: auto;
     }
-    .hb-avatar-tooltip {
-      &:hover {
-        p {
-          display: inline-table;
-          visibility: visible;
-        }
+    .card-details-wrapper {
+      float: right;
+    }
+    .avatar-wrapper {
+      .assignee-overflow {
+        color: white;
+        background-color: $hb-purple-dark;
+        margin-left: -8px;
+        font-size: 11px;
+        position: relative;
+        float: right;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        bottom: 4px;
+        padding: 1px;
+        z-index: 101;
+        line-height: 12px;
+        text-align: center;
       }
-      p {
-        bottom: 42px;
-        top: 5px;
-        left: 34px;
-        line-height: 16px;
-        &:after {
-          content: "\25C0";
-          color: $hb-purple;
-          left: -6px;
-          bottom: 1px;
-        }
-      }
-      display: inline;
-      img {
-        position: static;
+      .visible-assignees {
+        float: left;
       }
     }
     .card-header {
@@ -847,13 +853,6 @@
   border-right: 1px solid #ddd;
 }
 
-.task-column {
-  float:none;
-  @include flex(1);
-  @include display(flex);
-  @include flex-direction(column);
-  @include transition(all 0.4s ease-out);
-}
 .column {
   min-width: 250px;
   //@include transition(all 0.4s ease-out);

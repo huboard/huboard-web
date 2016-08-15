@@ -1,25 +1,12 @@
 import HbCard from "../components/hb-task-card";
 import Ember from "ember";
 
-var { get, set } = Ember;
-
-var takeWhile = function(list, callback, context) {
-  var xs = [];
-  _.any(list, function(item, index, list){
-    var result = callback.call(context, item, index, list);
-    if(result){
-      xs.push(item);
-      return false;
-    } else {
-      return true;
-    }
-  });
-  return xs;
-};
+var { get } = Ember;
 
 var HbMilestoneCard = HbCard.extend({
   classNames: ["card", "card--milestone"],
   taskCard: false,
+  maxPowerBarLength: 4,
   columnIndicator: function(){
     let currentState = get(this, 'issue.current_state');
     var columns = this.get('taskColumns').map((c) => {
@@ -34,11 +21,42 @@ var HbMilestoneCard = HbCard.extend({
       });
     });
 
-    takeWhile(columns, (x) => {return !get(x, 'selected');}, this)
-      .forEach((x) => { set(x, 'selected', true); });
+    var selected = columns.findBy('selected');
+    var selectedIndex = columns.indexOf(selected);
+    var powerBarLength = columns.length <= this.maxPowerBarLength ? columns.length - 1 : this.maxPowerBarLength;
+    var visible_columns = columns.slice(0, powerBarLength);
 
-    return columns;
-  }.property('issue.data.current_state', 'taskColumns')
+    // Calculate the powerbar progress proportionally
+    visible_columns = this.proportionalProgress(visible_columns, selectedIndex, columns.length, powerBarLength);
+
+    return visible_columns;
+  }.property('issue.data.current_state', 'taskColumns'),
+  proportionalProgress: function(columns, selectedIndex, totalColumnCount, powerBarLength){
+    // In first column, no bars are selected
+    if(!selectedIndex){
+      columns.setEach('selected', false);
+      return columns;
+    }
+
+    // In last column, all bars are selected
+    if(selectedIndex === (totalColumnCount - 1)){
+      columns.setEach('selected', true);
+      return columns;
+    }
+
+    // Otherwise calculate the proportional progress of the meter
+    var percentComplete = selectedIndex / (totalColumnCount - 1);
+    var proportionalColumnIndex = Math.ceil(percentComplete * (powerBarLength - 1)) - 1;
+
+    return columns.map((column, index)=>{
+      return column.set('selected', index <= proportionalColumnIndex);
+    });
+  },
+  limitedAssignees: function(){
+    var assignees = this.get('visibleAssignees') || [];
+    this.set('assigneeOverflow', assignees.slice(3).length);
+    return assignees.slice(0,3);
+  }.property('visibleAssignees.[]'),
 });
 
 export default HbMilestoneCard;
