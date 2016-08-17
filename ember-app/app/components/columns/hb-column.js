@@ -1,13 +1,17 @@
 import Ember from 'ember';
 import SortableMixin from "app/mixins/cards/sortable";
+import ScrollingColumn from "app/mixins/scrolling/column";
 
-var HbColumnComponent = Ember.Component.extend(SortableMixin, {
+var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNames: ["column"],
   classNameBindings:["isCollapsed:hb-state-collapsed","isHovering:hovering", "isTaskColumn:hb-task-column", "isTaskColumn:task-column"],
   isTaskColumn: true,
   cards: Ember.A(),
 
   columns: Ember.computed.alias("model.columns"),
+  visibleIssues: function(){
+    return this.get('sortedIssues').slice(0, 10);
+  }.property('sortedIssues.[]'),
   sortedIssues: function(){
     return this.get("model.sortedIssues");
   }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
@@ -81,7 +85,28 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, {
   tearDownEvents: function () {
     this.$("a, .clickable").off("click.hbcard");
     return this._super();
-  }.on("willDestroyElement") 
+  }.on("willDestroyElement"),
+
+  cardIndex: 0,
+  scrollingDown: function(){
+    if(this.get('sortedIssues').length === 10){ return; }
+    var index = this.get('cardIndex') + 1;
+    if(index >= 0 && index < this.get('sortedIssues').length){
+      var issue = this.get('sortedIssues').objectAt(index + 9);
+      this.get('visibleIssues').pushObject(issue);
+      this.set('cardIndex', index);
+    }
+  }.on('columnScrolledDown'),
+  scrollingUp: function(){
+    var length = this.get('sortedIssues').length;
+    if(length === 10){ return; }
+    var index = this.get('cardIndex') - 1;
+    if(index < length && index > 10){
+      var issue = this.get('sortedIssues').objectAt(index - 9);
+      this.get('visibleIssues').unshiftObject(issue);
+      this.set('cardIndex', index);
+    }
+  }.on('columnScrolledUp')
 });
 
 export default HbColumnComponent;

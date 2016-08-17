@@ -2,7 +2,8 @@ import Ember from "ember";
 
 var ScrollingColumnMixin = Ember.Mixin.create(Ember.Evented, {
   //This is the tolerance before triggering the handler
-  _itemHeight: 100,
+  //currently set to minumum height of a task card
+  _tolerance: 80,
 
   //Scrollable container to attach to
   _attachToColumn: '.cards',
@@ -19,7 +20,7 @@ var ScrollingColumnMixin = Ember.Mixin.create(Ember.Evented, {
       var top = column.scrollTop();
       var lastScroll = this.get('_lastScrollPosition');
       var lastIndex = this.get('_lastCardIndex');
-      var currentIndex = Math.floor(top / this.get('_itemHeight'));
+      var currentIndex = Math.floor(top / this.get('_tolerance'));
       this._scrollHandler(top, lastScroll, lastIndex, currentIndex);
     });
   }.on('didInsertElement'),
