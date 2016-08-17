@@ -89,12 +89,15 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
   cardIndex: 0,
   scrollingDown: function(){
-    if(this.get('sortedIssues').length === 10){ return; }
+    var length = this.get('sortedIssues').length;
+    if(length === 10){ return; }
     var index = this.get('cardIndex') + 1;
-    if(index >= 0 && index < this.get('sortedIssues').length){
-      var issue = this.get('sortedIssues').objectAt(index + 9);
-      this.get('visibleIssues').pushObject(issue);
-      this.set('cardIndex', index);
+    if(index >= 0 && index < length){
+      if(index + 9 < length){
+        var issue = this.get('sortedIssues').objectAt(index + 9);
+        this.get('visibleIssues').pushObject(issue);
+        this.set('cardIndex', index);
+      }
     }
   }.on('columnScrolledDown'),
   scrollingUp: function(){
