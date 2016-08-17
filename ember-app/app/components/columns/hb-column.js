@@ -102,8 +102,8 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     if(length === 10){ return; }
     var index = this.get('cardIndex') - 1;
     if(index < length && index > 10){
-      var issue = this.get('sortedIssues').objectAt(index - 9);
-      this.get('visibleIssues').unshiftObject(issue);
+      var lastItem =  this.get('visibleIssues').length - 1;
+      this.get('visibleIssues').removeAt(lastItem);
       this.set('cardIndex', index);
     }
   }.on('columnScrolledUp')
