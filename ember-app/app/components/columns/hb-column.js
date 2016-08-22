@@ -10,7 +10,8 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
   columns: Ember.computed.alias("model.columns"),
   visibleIssues: function(){
-    return this.get('sortedIssues').slice(0, 10);
+    var index = this.get('cardIndex') + 10;
+    return this.get('sortedIssues').slice(0, index);
   }.property('sortedIssues.[]'),
   sortedIssues: function(){
     return this.get("model.sortedIssues");
@@ -94,9 +95,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var index = this.get('cardIndex') + 1;
     if(index >= 0 && index < length){
       if(index + 9 < length){
+        this.set('cardIndex', index);
         var issue = this.get('sortedIssues').objectAt(index + 9);
         this.get('visibleIssues').pushObject(issue);
-        this.set('cardIndex', index);
         this.$('.cards').superSortable('refresh');
       }
     }
@@ -106,9 +107,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     if(length === 10){ return; }
     var index = this.get('cardIndex') - 1;
     if(index < length && index > 10){
+      this.set('cardIndex', index);
       var lastItem =  this.get('visibleIssues').length - 1;
       this.get('visibleIssues').removeAt(lastItem);
-      this.set('cardIndex', index);
       this.$('.cards').superSortable('refresh');
     }
   }.on('columnScrolledUp')
