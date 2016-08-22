@@ -10,7 +10,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
   columns: Ember.computed.alias("model.columns"),
   visibleIssues: function(){
-    var index = this.get('cardIndex') + 10;
+    var index = this.get('cardIndex') + this.get('maxCardCount');
     return this.get('sortedIssues').slice(0, index);
   }.property('sortedIssues.[]'),
   sortedIssues: function(){
@@ -44,7 +44,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   }).property(),
   isCreateVisible: Ember.computed.alias("model.isFirstColumn"),
   topOrderNumber: function(){
-    var issues = this.get("sortedIssues");
+    var issues = this.get("model.sortedIssues");
     var milestone_issues = this.get("issues").sort(function(a,b){
       return a.data._data.milestone_order - b.data._data.milestone_order;
     });
@@ -58,7 +58,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     } else {
       return {};
     }
-  }.property("sortedIssues.[]"),
+  }.property("model.sortedIssues.[]"),
 
   registerWithController: function(){
     var _self = this;
@@ -88,31 +88,51 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     return this._super();
   }.on("willDestroyElement"),
 
-  cardIndex: 0,
+  
+  //Column Scrolling
+
+  //The starting index to track the scroll
+  cardIndex: 1,
+
+  //Max number of cards allowed to render initially
+  maxCardCount: 10,
   scrollingDown: function(){
-    var length = this.get('sortedIssues').length;
-    if(length === 10){ return; }
+    var totalLength = this.get('sortedIssues').length;
     var index = this.get('cardIndex') + 1;
-    if(index >= 0 && index < length){
-      if(index + 9 < length){
-        this.set('cardIndex', index);
-        var issue = this.get('sortedIssues').objectAt(index + 9);
-        this.get('visibleIssues').pushObject(issue);
-        this.$('.cards').superSortable('refresh');
-      }
+    var maxCards = this.get('maxCardCount');
+    this.set('cardIndex', index);
+
+    if(totalLength <= maxCards){ return; }
+    if(this.get('visibleIssues.length') < totalLength){
+      this.revealIssue();
     }
   }.on('columnScrolledDown'),
+  revealIssue: function(){
+    var lastItem =  this.get('visibleIssues.lastObject');
+    lastItem = this.get('visibleIssues').indexOf(lastItem);
+    var issue = this.get('sortedIssues').objectAt(lastItem + 1);
+    this.get('visibleIssues').pushObject(issue);
+    this.set('cardIndex', lastItem);
+    this.$('.cards').superSortable('refresh');
+  },
   scrollingUp: function(){
-    var length = this.get('sortedIssues').length;
-    if(length === 10){ return; }
+    var maxCards = this.get('maxCardCount');
+    var totalLength = this.get('sortedIssues').length;
     var index = this.get('cardIndex') - 1;
-    if(index < length && index > 10){
-      this.set('cardIndex', index);
-      var lastItem =  this.get('visibleIssues').length - 1;
-      this.get('visibleIssues').removeAt(lastItem);
-      this.$('.cards').superSortable('refresh');
+    this.set('cardIndex', index);
+
+    if(totalLength <= maxCards){ return; }
+    if(index < totalLength && index > maxCards){
+      this.hideIssue();
     }
-  }.on('columnScrolledUp')
+  }.on('columnScrolledUp'),
+  hideIssue: function(){
+    var lastItem =  this.get('visibleIssues.lastObject');
+    lastItem = this.get('visibleIssues').indexOf(lastItem);
+    this.get('visibleIssues').removeAt(lastItem);
+    this.set('cardIndex', lastItem);
+    this.$('.cards').superSortable('refresh');
+  }
 });
 
 export default HbColumnComponent;
