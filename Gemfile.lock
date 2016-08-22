@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/huboard/warden-github.git
-  revision: 459903681fa00820065348c27639b9f27db9fa55
+  revision: 3c3cf6943b01ff12cfe22a1ad1202ddcc4721e66
   specs:
     warden-github (1.4.0)
       activesupport (> 3.0)
@@ -320,7 +320,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
-    minitest (5.8.4)
+    minitest (5.9.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.12.1)
@@ -540,4 +540,4 @@ DEPENDENCIES
   wkhtmltopdf-heroku
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

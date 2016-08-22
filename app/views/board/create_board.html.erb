@@ -11,7 +11,7 @@
     <li> Done </li>
   </ol>
   <%= form_tag 'create' do %>
-    <input class="btn primary" type="submit" value="Yes, Do it for me!"/>
+    <input class="btn primary" type="submit" value="Yes, Do it for me!" data-analytics-path='/board/creating'/>
     <a href="<%= @repo['html_url'] %>/issues" target="_blank" >No thanks, I want to do this manually</a>
   <% end %>
   <% else %>
