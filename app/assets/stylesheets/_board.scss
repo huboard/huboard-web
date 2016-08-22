@@ -98,10 +98,12 @@
   @include align-content(stretch);
 
   .board--task-board {
-    @include display(flex);
-    @include flex(1);
-    @include align-content(stretch);
-    @include align-items(baseline);
+    //@include display(flex);
+    //@include flex(1);
+    //@include align-content(stretch);
+    //@include align-items(baseline);
+    display: block;
+    white-space: nowrap;
   }
 
   .board--milestones {
@@ -116,9 +118,12 @@
 
 
 .task-column {
-  @include flex(1);
-  @include display(flex);
-  @include flex-direction(column);
+  //@include flex(1);
+  //@include display(flex);
+  //@include flex-direction(column);
+  max-width: 230px;
+  width:230px;
+  display: inline-block;
 }
 .column {
   height: 100%;
