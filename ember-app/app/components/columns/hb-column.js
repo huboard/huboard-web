@@ -5,6 +5,11 @@ import ScrollingColumn from "app/mixins/scrolling/column";
 var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNames: ["column"],
   classNameBindings:["isCollapsed:hb-state-collapsed","isHovering:hovering", "isTaskColumn:hb-task-column", "isTaskColumn:task-column"],
+
+  //Scrolling Columns Tolerance
+  _toleranceDown: 59,
+  _toleranceUp: 70,
+
   isTaskColumn: true,
   cards: Ember.A(),
   filters: Ember.inject.service(),
