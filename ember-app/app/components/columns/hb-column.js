@@ -7,12 +7,16 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNameBindings:["isCollapsed:hb-state-collapsed","isHovering:hovering", "isTaskColumn:hb-task-column", "isTaskColumn:task-column"],
   isTaskColumn: true,
   cards: Ember.A(),
+  filters: Ember.inject.service(),
 
   columns: Ember.computed.alias("model.columns"),
   visibleIssues: function(){
+    if(this.get('filteres.active')){
+      return this.get("sortedIssues");
+    }
     var index = this.get('cardIndex') + this.get('maxCardCount');
-    return this.get('sortedIssues').slice(0, index);
-  }.property('sortedIssues.[]'),
+    return this.get("sortedIssues").slice(0, index);
+  }.property('sortedIssues.[]', 'filters.allFilters.[]'),
   sortedIssues: function(){
     return this.get("model.sortedIssues");
   }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
