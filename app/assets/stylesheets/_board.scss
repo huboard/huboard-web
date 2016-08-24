@@ -115,9 +115,10 @@
 
 .task-column {
   display: inline-block;
-  max-width: 230px;
-  width: 230px;
+  max-width: 280px;
+  width: 280px;
 }
+
 .column {
   height: 100%;
   float:none;
@@ -445,6 +446,7 @@
 
   .card-body {
     padding-bottom: 2px;
+    white-space: normal;
   }
   .milestone {
     color: $lightGrey;
