@@ -136,11 +136,12 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     }
   }.on('columnScrolledUp'),
   hideIssue: function(){
+    if(this.get('isHovering')){ return; }
+
     var lastItem =  this.get('visibleIssues.lastObject');
     lastItem = this.get('visibleIssues').indexOf(lastItem);
     this.get('visibleIssues').removeAt(lastItem);
     this.set('cardIndex', lastItem);
-    this.$('.cards').superSortable('refresh');
   }
 });
 
