@@ -148,7 +148,7 @@
       @include flex(1 1 auto);
       overflow-y: auto;
       overflow-x: hidden;
-      padding-right: 1px;
+      padding: 2px 1px 4px 0px;
       @extend %u-fancy-scrollbar;
     }
   }
