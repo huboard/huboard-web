@@ -6,10 +6,6 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNames: ["column"],
   classNameBindings:["isCollapsed:hb-state-collapsed","isHovering:hovering", "isTaskColumn:hb-task-column", "isTaskColumn:task-column"],
 
-  //Scrolling Columns Tolerance
-  _toleranceDown: 59,
-  _toleranceUp: 70,
-
   isTaskColumn: true,
   cards: Ember.A(),
   filters: Ember.inject.service(),
@@ -136,7 +132,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     }
   }.on('columnScrolledUp'),
   hideIssue: function(){
-    if(this.get('isHovering')){ return; }
+    if(this.get('freezeIssueArray')){ return; }
 
     var lastItem =  this.get('visibleIssues.lastObject');
     lastItem = this.get('visibleIssues').indexOf(lastItem);

@@ -24,18 +24,21 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         return ui.clone();
       },
       start: function(ev, ui){
-        _self.set('isHovering', true);
         ui.placeholder.height(ui.helper.outerHeight());
+        _self.set('freezeIssueArray', true);
       },
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
       connectWith: ".cards",
-      over: function(ev, ui){
+      over: function(){
         _self.set('isHovering', true);
+      },
+      out: function(){
+        _self.set('isHovering', false);
       },
       update: function(ev, ui){
         if (this !== _self.$('.cards')[0]){return ;}
-        _self.set('isHovering', false);
+        _self.set('freezeIssueArray', false);
 
         var column = cardMove.findColumn(ui.item, columns);
         cardMove.data.column = column;
