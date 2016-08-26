@@ -148,7 +148,7 @@
       @include flex(1 1 auto);
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 2px 1px 4px 0px;
+      padding: 2px 1px 60px 0px;
       @extend %u-fancy-scrollbar;
     }
   }
@@ -300,10 +300,6 @@
   @extend .arrow;
 }
 
-.column .cards {
-  margin:0;
-  padding: 0;
-}
 .backlog {
     .dim {
       opacity: 0.4;
