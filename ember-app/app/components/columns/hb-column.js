@@ -119,7 +119,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     this.get('visibleIssues').pushObject(issue);
     this.set('cardIndex', lastItem);
     Ember.run.next(()=>{
-      this.$('.cards').superSortable('refresh');
+      Ember.$('.cards').superSortable('refresh');
     });
   },
   scrollingUp: function(){
