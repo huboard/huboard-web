@@ -118,9 +118,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var issue = this.get('sortedIssues').objectAt(lastItem + 1);
     this.get('visibleIssues').pushObject(issue);
     this.set('cardIndex', lastItem);
-    Ember.run.next(()=>{
-      Ember.$('.cards').superSortable('refresh');
-    });
+    this.$('.cards').superSortable('refresh');
   },
   scrollingUp: function(){
     var maxCards = this.get('maxCardCount');
