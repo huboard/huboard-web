@@ -100,7 +100,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   cardIndex: 1,
 
   //Max number of cards allowed to render initially
-  maxCardCount: 10,
+  maxCardCount: 12,
   scrollingDown: function(){
     var totalLength = this.get('sortedIssues').length;
     var index = this.get('cardIndex') + 1;
@@ -118,7 +118,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var issue = this.get('sortedIssues').objectAt(lastItem + 1);
     this.get('visibleIssues').pushObject(issue);
     this.set('cardIndex', lastItem);
-    this.$('.cards').superSortable('refresh');
+    Ember.run.next(()=>{
+      this.$('.cards').superSortable('refresh');
+    });
   },
   scrollingUp: function(){
     var maxCards = this.get('maxCardCount');
