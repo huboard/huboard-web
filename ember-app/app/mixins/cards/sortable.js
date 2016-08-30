@@ -54,6 +54,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         _self.set('freezeIssueArray', false);
 
         var column = cardMove.findColumn(ui.item, columns);
+        column.set('freezeIssueArray', false);
         cardMove.data.column = column;
 
         var index = ui.item.index();
