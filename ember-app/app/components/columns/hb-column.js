@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import SortableMixin from "app/mixins/cards/sortable";
 import ScrollingColumn from "app/mixins/scrolling/column";
+import isElementInViewport from "app/helpers/element-in-viewport";
 
 var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNames: ["column"],
@@ -15,7 +16,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     if(this.get('filteres.active')){
       return this.get("sortedIssues");
     }
-    var index = this.get('cardIndex') + this.get('maxCardCount');
+    var index = this.get('cardIndex') + this.get('scrollHorizon');
     return this.get("sortedIssues").slice(0, index);
   }.property('sortedIssues.[]', 'filters.allFilters.[]'),
   sortedIssues: function(){
@@ -100,47 +101,59 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   cardIndex: 1,
 
   //Max number of cards allowed to render initially
-  maxCardCount: 12,
+  scrollHorizon: 40,
   scrollingDown: function(){
-    var totalLength = this.get('sortedIssues').length;
-    var index = this.get('cardIndex') + 1;
-    var maxCards = this.get('maxCardCount');
-    this.set('cardIndex', index);
+    var horizon = this.get('scrollHorizon');
+    var totalColumnLength = this.get('sortedIssues').length;
+    if(totalColumnLength <= horizon){ return; }
 
-    if(totalLength <= maxCards){ return; }
-    if(this.get('visibleIssues.length') < totalLength){
-      this.revealIssue();
+    var cardsLength = this.get('visibleCards').length;
+    var cardElement = this.get('visibleCards')[cardsLength - 5].$()[0];
+    var horizonVisible = isElementInViewport(cardElement);
+
+    var issuesLength = this.get('visibleIssues').length;
+    if(horizonVisible && issuesLength < totalColumnLength){
+      this.revealIssues(horizon);
     }
   }.on('columnScrolledDown'),
-  revealIssue: function(){
+  revealIssues: function(horizon){
     var lastItem =  this.get('visibleIssues.lastObject');
     lastItem = this.get('visibleIssues').indexOf(lastItem);
-    var issue = this.get('sortedIssues').objectAt(lastItem + 1);
-    this.get('visibleIssues').pushObject(issue);
-    this.set('cardIndex', lastItem);
+    var issues = this.get('sortedIssues').slice(lastItem + 1, lastItem + horizon);
+    this.get('visibleIssues').pushObjects(issues);
+    this.set('cardIndex', lastItem + horizon);
     Ember.run.next(()=>{
       this.$('.cards').superSortable('refresh');
     });
   },
   scrollingUp: function(){
-    var maxCards = this.get('maxCardCount');
-    var totalLength = this.get('sortedIssues').length;
-    var index = this.get('cardIndex') - 1;
-    this.set('cardIndex', index);
+    var horizon = this.get('scrollHorizon');
+    var totalColumnLength = this.get('sortedIssues').length;
+    if(totalColumnLength <= horizon){ return; }
 
-    if(totalLength <= maxCards){ return; }
-    if(index < totalLength && index > maxCards){
-      this.hideIssue();
+    var cardElement = this.get('visibleCards.firstObject').$()[0];
+    var horizonVisible = isElementInViewport(cardElement);
+
+    if(horizonVisible){
+      this.hideIssues(horizon);
     }
   }.on('columnScrolledUp'),
-  hideIssue: function(){
+  hideIssues: function(horizon){
     if(this.get('freezeIssueArray')){ return; }
 
-    var lastItem =  this.get('visibleIssues.lastObject');
-    lastItem = this.get('visibleIssues').indexOf(lastItem);
-    this.get('visibleIssues').removeAt(lastItem);
-    this.set('cardIndex', lastItem);
-  }
+    var lastItem =  this.get('visibleIssues').length;
+    var issues = this.get('sortedIssues').slice(horizon, lastItem);
+    this.get('visibleIssues').removeObjects(issues);
+    this.set('cardIndex', 1);
+  },
+  visibleCards: function(){
+    var issues = this.get('visibleIssues');
+    return _.union(this.get('cards').filter((card)=>{
+      return issues.find((issue)=>{
+        return issue.get('id') === card.get('issue.id');
+      });
+    }));
+  }.property('visibleIssues.[]')
 });
 
 export default HbColumnComponent;
