@@ -103,6 +103,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   //Max number of cards allowed to render initially
   scrollHorizon: 40,
   scrollingDown: function(){
+    if(this.get('filters.active')){
+     return;
+    }
     var horizon = this.get('scrollHorizon');
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
@@ -127,6 +130,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     });
   },
   scrollingUp: function(){
+    if(this.get('filters.active')){
+     return;
+    }
     var horizon = this.get('scrollHorizon');
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
