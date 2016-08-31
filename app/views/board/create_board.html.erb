@@ -20,8 +20,8 @@
           </li>
         </ul>
         <%= form_tag 'create', class: 'create-new-board__form' do %>
-          <input class="btn btn-large btn-primary" type="submit" value="Try again" data-analytics-path='/board/creating'/>
-          <a href="/dashboard" class="btn btn-large primary">
+          <input class="btn btn-large btn-primary" type="submit" value="Try again" data-analytics-path='/board/creating/retry'/>
+          <a href="/dashboard" class="btn btn-large primary" data-analytics-path='/board/creating/abandon'>
             Go Home
           </a>
         <% end %>
@@ -47,8 +47,8 @@
         </div>
         <%= form_tag 'create', class: 'create-new-board__form' do %>
           <input class="btn btn-large btn-primary" type="submit" value="Yes, Do it for me!" data-analytics-path='/board/creating'/>
-          <a href="<%= @repo['html_url'] %>/issues" target="_blank" >
-            <input class="btn btn-large" type="button" value="Create columns manually">
+          <a href="<%= @repo['html_url'] %>/issues" target="_blank" data-analytics-path='/board/creating/manual' class='btn btn-large' >
+            Create columns manually
           </a>
         <% end %>
       </div>
@@ -70,10 +70,10 @@
             </p>
           </li>
         </ul>
-        <a href="/<%= @parameters['user'] %>/<%= @parameters['repo'] %>/board/create" class="btn btn-large btn-primary">
+        <a href="/<%= @parameters['user'] %>/<%= @parameters['repo'] %>/board/create" class="btn btn-large btn-primary" data-analytics-path='/board/creating/retry'>
           Try again
         </a>
-        <a href="/dashboard" class="btn btn-large primary">
+        <a href="/dashboard" class="btn btn-large primary" data-analytics-path='/board/creating/abandon'>
           Go Home
         </a>
       </div>
