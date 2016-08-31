@@ -13,8 +13,6 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
     var newSortable = _self.get('newSortable');
     var sortableFx = newSortable ? "superSortable" : "sortable";
     this.$(".cards")[sortableFx]({
-      containment: "document",
-      tolerance: "pointer",
       appendTo: newSortable ? document.body : "parent",
       helper: function(ev,ui) {
         cardMove.data = {};
