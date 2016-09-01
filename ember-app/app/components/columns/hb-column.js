@@ -17,7 +17,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     }
     var index = this.get('cardIndex') + this.get('scrollHorizon');
     return this.get("sortedIssues").slice(0, index);
-  }.property('sortedIssues.[]', 'filters.allFilters.[]', 'filters.active'),
+  }.property('sortedIssues.[]', 'filters.allFilters.[]', 'filters.active', 'cardIndex'),
   sortedIssues: function(){
     return this.get("model.sortedIssues");
   }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
@@ -102,9 +102,6 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   //Max number of cards allowed to render initially
   scrollHorizon: 40,
   scrollingDown: function(){
-    if(this.get('filters.active')){
-     return;
-    }
     var horizon = this.get('scrollHorizon');
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
@@ -122,17 +119,9 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   revealIssues: function(horizon){
     var lastItem =  this.get('visibleIssues.lastObject');
     lastItem = this.get('visibleIssues').indexOf(lastItem);
-    var issues = this.get('sortedIssues').slice(lastItem + 1, lastItem + horizon);
-    this.get('visibleIssues').pushObjects(issues);
     this.set('cardIndex', lastItem + horizon);
-    Ember.run.next(()=>{
-      this.$('.cards').superSortable('refresh');
-    });
   },
   scrollingUp: function(){
-    if(this.get('filters.active')){
-     return;
-    }
     var horizon = this.get('scrollHorizon');
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
@@ -148,10 +137,11 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     if(this.get('freezeIssueArray')){ return; }
 
     var lastItem =  this.get('visibleIssues').length;
-    var issues = this.get('sortedIssues').slice(horizon, lastItem);
-    this.get('visibleIssues').removeObjects(issues);
     this.set('cardIndex', 1);
-  }
+  },
+  refreshSortable: function(){
+    this.$('.cards').superSortable('refresh');
+  }.observes('visibleIssues.[]')
 });
 
 export default HbColumnComponent;
