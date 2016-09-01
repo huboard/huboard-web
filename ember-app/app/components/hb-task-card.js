@@ -55,12 +55,7 @@ var HbCardComponent = Ember.Component.extend(
         this.get("isCollaborator") &&
         this.get("isFiltered") !== "filter-hidden";
     }.property("loggedIn","issue.data.state", "isFiltered"),
-    isFiltered: function(){
-      var item = this.get("issue");
-      if(this.isHidden(item)){return "filter-hidden";}
-      if(this.isDim(item)){return "dim";}
-      return "";
-    }.property("filters.hideFilters", "filters.dimFilters", "issue.milestoneTitle", "issue.other_labels.[]"),
+    isFiltered: Ember.computed.alias('issue.isFiltered'),
     click: function(ev){
       if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
