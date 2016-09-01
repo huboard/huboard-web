@@ -12,11 +12,8 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
   columns: Ember.computed.alias("model.columns"),
   visibleIssues: function(){
-    if(this.get('filters.active')){
-      return this.get("sortedIssues");
-    }
     var index = this.get('cardIndex') + this.get('scrollHorizon');
-    return this.get("sortedIssues").slice(0, index);
+    return this.get("sortedIssues").filter(i => i.get('isFiltered') !== 'filter-hidden').slice(0, index);
   }.property('sortedIssues.[]', 'filters.allFilters.[]', 'filters.active', 'cardIndex'),
   sortedIssues: function(){
     return this.get("model.sortedIssues");
