@@ -69,12 +69,12 @@ var Repo = Model.extend({
         if(repo) {
           response.pushObject(repo);
         } else {
-          var repo = Repo.create({ data: link });
+          var repo = Repo.create({ data: link, socket: self.get('socket'), filters: self.get('filters') });
           repo.set('parent', self);
           response.pushObject(repo);
         }
       } else {
-        var repo = Repo.create({ data: link });
+          var repo = Repo.create({ data: link, socket: self.get('socket'), filters: self.get('filters') });
         repo.set('parent', self);
         response.pushObject(repo);
       }
@@ -91,7 +91,7 @@ var Repo = Model.extend({
     var opts = {data: {issue_filter: repo.data.issue_filter || []}};
     return this.get('ajax')(`${this.get('baseUrl')}/details`, opts).then(function(details){
       // map the issues
-      var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo}));
+      var issues = details.data.issues.map((x) => Issue.create({data: x, repo: repo, socket: repo.socket, filters: repo.filters}));
       repo.set('issues', issues);
 
       //map the milestones
@@ -157,7 +157,7 @@ var Repo = Model.extend({
     var repo = this.get('data.repo.full_name');
 
     return Link.update(link, repo).then((response) => {
-      var issues = response.data.issues.map((x) => Issue.create({data: x, repo: link}));
+      var issues = response.data.issues.map((x) => Issue.create({data: x, repo: link, socket: repo.socket, filters: repo.filters}));
       link.set('issues', issues);
       link.set('other_labels', response.data.other_labels);
       return link;
@@ -204,7 +204,7 @@ var Repo = Model.extend({
       })
     }).then((response) => {
       Ember.run.once(() => {
-        var issue = Issue.create({data: response, repo: repo});
+        var issue = Issue.create({data: response, repo: repo, socket: repo.socket, filters: repo.filters});
         repo.get('issues').pushObject(issue);
       });
     });

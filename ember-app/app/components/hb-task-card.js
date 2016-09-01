@@ -1,7 +1,6 @@
 import Ember from "ember";
 import IssueFiltersMixin from "app/mixins/issue-filters";
 import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
-import CardSubscriptions from "app/mixins/subscriptions/card";
 import Messaging from "app/mixins/messaging";
 
 //Visitors
@@ -9,7 +8,7 @@ import cardLabelsVisitor from "app/visitors/cards/labels";
 import cardAssigneesVisitor from "app/visitors/cards/assignees";
 
 var HbCardComponent = Ember.Component.extend(
-  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
+  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, {
     attributeBindings: ['style'],
     classNames: ["card"],
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
