@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import SortableMixin from "app/mixins/cards/sortable";
 import ScrollingColumn from "app/mixins/scrolling/column";
-import isElementInViewport from "app/helpers/element-in-viewport";
 
 var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNames: ["column"],
@@ -110,9 +109,10 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
 
-    var cardsLength = this.get('visibleCards').length;
-    var cardElement = this.get('visibleCards')[cardsLength - 5].$()[0];
-    var horizonVisible = isElementInViewport(cardElement);
+    var scrollTop = this.$('.cards').scrollTop();
+    var scrollHeight = this.$('.cards')[0].scrollHeight;
+    var clientHeight = this.$('.cards')[0].clientHeight;
+    var horizonVisible = (scrollHeight * 0.75) - scrollTop < clientHeight;
 
     var issuesLength = this.get('visibleIssues').length;
     if(horizonVisible && issuesLength < totalColumnLength){
@@ -137,8 +137,8 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
 
-    var cardElement = this.get('visibleCards.firstObject').$()[0];
-    var horizonVisible = isElementInViewport(cardElement);
+    var scrollTop = this.$('.cards').scrollTop();
+    var horizonVisible = scrollTop < 500;
 
     if(horizonVisible){
       this.hideIssues(horizon);
@@ -151,15 +151,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var issues = this.get('sortedIssues').slice(horizon, lastItem);
     this.get('visibleIssues').removeObjects(issues);
     this.set('cardIndex', 1);
-  },
-  visibleCards: function(){
-    var issues = this.get('visibleIssues');
-    return _.union(this.get('cards').filter((card)=>{
-      return issues.find((issue)=>{
-        return issue.get('id') === card.get('issue.id');
-      });
-    }));
-  }.property('visibleIssues.[]')
+  }
 });
 
 export default HbColumnComponent;
