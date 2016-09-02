@@ -113,7 +113,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
     var issuesLength = this.get('visibleIssues').length;
     if(horizonVisible && issuesLength < totalColumnLength){
-      this.revealIssues(horizon);
+      Ember.run.debounce(this, 'revealIssues' , horizon, 250);
     }
   }.on('columnScrolledDown'),
   revealIssues: function(horizon){
@@ -130,7 +130,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var horizonVisible = scrollTop < 500;
 
     if(horizonVisible){
-      this.hideIssues(horizon);
+      Ember.run.debounce(this, 'hideIssues', horizon, 250);
     }
   }.on('columnScrolledUp'),
   hideIssues: function(horizon){
