@@ -104,7 +104,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   scrollingDown: function(){
     var horizon = this.get('scrollHorizon');
     var totalColumnLength = this.get('sortedIssues').length;
-    if(totalColumnLength <= horizon){ return; }
+    if(totalColumnLength <= horizon || this.get('issuesAreHiding')){ return; }
 
     var scrollTop = this.$('.cards').scrollTop();
     var scrollHeight = this.$('.cards')[0].scrollHeight;
@@ -113,7 +113,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
     var issuesLength = this.get('visibleIssues').length;
     if(horizonVisible && issuesLength < totalColumnLength){
-      Ember.run.debounce(this, 'revealIssues' , horizon, 250);
+      Ember.run.debounce(this, 'revealIssues' , horizon, 200);
     }
   }.on('columnScrolledDown'),
   revealIssues: function(horizon){
@@ -122,6 +122,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     this.set('cardIndex', lastItem + horizon);
   },
   scrollingUp: function(){
+
     var horizon = this.get('scrollHorizon');
     var totalColumnLength = this.get('sortedIssues').length;
     if(totalColumnLength <= horizon){ return; }
@@ -129,19 +130,21 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     var scrollTop = this.$('.cards').scrollTop();
     var horizonVisible = scrollTop < 500;
 
-    if(horizonVisible){
-      Ember.run.debounce(this, 'hideIssues', horizon, 250);
+    if(horizonVisible && !this.get('freezeIssueArray')){
+      this.set('issuesAreHiding', true);
+      this.hideIssues(horizon);
     }
   }.on('columnScrolledUp'),
   hideIssues: function(horizon){
-    if(this.get('freezeIssueArray')){ return; }
-
     var lastItem =  this.get('visibleIssues').length;
     this.set('cardIndex', 1);
+    Ember.run.schedule('afterRender', ()=>{
+      this.set('issuesAreHiding', false);
+    });
   },
   refreshSortable: function(){
     Ember.run.next(()=>{
-      this.$('.cards').superSortable('refresh');
+      Ember.$('.cards').superSortable('refreshPositions');
     });
   }.observes('cardIndex')
 });
