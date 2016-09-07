@@ -44,7 +44,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         var column_changed = ui.sender;
         var mod = cardMove.indexModifier(index, column_changed);
 
-        var issues = column.get("sortedIssues");
+        var issues = column.get("visibleIssues");
         var issue_above = cardMove.issueAbove(index, issues, mod);
         var issue_below = cardMove.issueBelow(index, issues, mod);
 

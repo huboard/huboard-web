@@ -6,7 +6,7 @@ var IssueFiltersMixin = Ember.Mixin.create({
     if(this.isHidden(this)){return "filter-hidden";}
     if(this.isDim(this)){return "dim";}
     return "";
-  }.property("filters.hideFilters", "filters.dimFilters", "milestoneTitle", "data.other_labels.[]"),
+  }.property("filters.hideFilters.[]", "filters.dimFilters.[]", "milestoneTitle", "data.other_labels.[]"),
 
   //Public Methods
   isHidden: function(item){
