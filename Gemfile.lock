@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/huboard/warden-github.git
-  revision: 3c3cf6943b01ff12cfe22a1ad1202ddcc4721e66
+  revision: 891658ef50617f368aba8c58a61b455ffcb36a45
   specs:
     warden-github (1.4.0)
       activesupport (> 3.0)
