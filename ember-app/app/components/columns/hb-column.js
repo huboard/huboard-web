@@ -113,7 +113,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
 
     var issuesLength = this.get('visibleIssues').length;
     if(horizonVisible && issuesLength < totalColumnLength){
-      Ember.run.debounce(this, 'revealIssues' , horizon, 200);
+      Ember.run.throttle(this, 'revealIssues' , horizon, 200);
     }
   }.on('columnScrolledDown'),
   revealIssues: function(horizon){
