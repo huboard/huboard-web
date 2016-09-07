@@ -1,5 +1,7 @@
 @import "arrow";
 
+$column-width: 280px;
+
 .main-toolbar {
   z-index: 3;
   height: 40px;
@@ -125,8 +127,8 @@
   @include flex-direction(column);
   @-moz-document url-prefix() {
     display: inline-block;
-    max-width: 280px;
-    width: 280px;
+    max-width: $column-width;
+    width: $column-width;
   }
 }
 
@@ -148,7 +150,8 @@
       @include flex(1 1 auto);
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 2px 1px 4px 0px;
+      padding: 2px 1px 20px 0px;
+
       @extend %u-fancy-scrollbar;
     }
   }
@@ -160,12 +163,12 @@
 }
 
 .column.milestone {
-  max-width: 230px;
-  width:230px;
+  width: $column-width;
+  max-width: $column-width;
   display: inline-block;
   .column-contents{
-    @include flex(0 0 230px);
-    max-width: 230px;
+    @include flex(0 0 $column-width);
+    max-width: $column-width;
   }
 }
 
