@@ -46,11 +46,11 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
       var action;
       var selected = this.get('selected');
       if(selected.isAny('login', assignee.login)){
-        action = 'unassign'
+        action = 'unassign';
         var obj = selected.findBy('login', assignee.login);
         selected.removeObject(obj);
       } else {
-        action = 'assign'
+        action = 'assign';
         selected.pushObject(assignee);
       }
       this.sendAction(action, [assignee.login]);

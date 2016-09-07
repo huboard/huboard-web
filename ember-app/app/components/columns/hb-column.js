@@ -135,8 +135,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
       this.hideIssues(horizon);
     }
   }.on('columnScrolledUp'),
-  hideIssues: function(horizon){
-    var lastItem =  this.get('visibleIssues').length;
+  hideIssues: function(){
     this.set('cardIndex', 1);
     Ember.run.schedule('afterRender', ()=>{
       this.set('issuesAreHiding', false);
