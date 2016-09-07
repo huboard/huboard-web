@@ -10,11 +10,11 @@
   {{/if}}
 
   <div class="cards sortable">
-    {{#each sortedIssues as |issue|}}
+    {{#each visibleIssues as |issue|}}
       {{
         hb-task-card
           issue=issue
-          issues=sortedIssues
+          issues=model.sortedIssues
           repos=repos
           cardClick=(action attrs.openFullscreenIssue issue)
           isLastColumn=model.isLastColumn

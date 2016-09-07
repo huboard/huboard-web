@@ -9,6 +9,10 @@ var HbMilestoneComponent = HbColumn.extend(
   classNameBindings:["isFirstColumn:no-milestone"],
   isTaskColumn: false,
 
+  //Scrolling Columns Tolerance
+  _toleranceDown: 59,
+  _toleranceUp: 70,
+
   sortedIssues: function () {
     var issues = this.get("issues")
       .filter(this.get("model.filterBy").bind(this))

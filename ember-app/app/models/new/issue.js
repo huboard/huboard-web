@@ -1,8 +1,11 @@
 import Ember from 'ember';
 import Model from '../model';
 import correlationId from 'app/utilities/correlation-id';
+import CardSubscriptions from "app/mixins/subscriptions/card";
+import Messaging from "app/mixins/messaging";
+import IssueFiltersMixin from "app/mixins/issue-filters";
 
-var Issue = Model.extend({
+var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
   blacklist: ["repo"],
   columnIndex: Ember.computed.alias("data.current_state.index"),
   order: Ember.computed.alias("data._data.order"),
