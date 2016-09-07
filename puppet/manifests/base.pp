@@ -13,8 +13,13 @@ package {
   class { 'ruby_install': 
     ruby_version => "2.2.1",
   } ->
-  exec { 'mail-catcher':
-    command => 'gem install mailcatcher'
+  exec { 'apt-install ruby-dev':
+    path    => ["/bin", "/usr/bin", "/sbin"],
+    command => "apt-get install ruby-dev -y"
+  } ->
+  rbenv::gem { 'mailcatcher':
+    ruby => '2.2.1',
+    user => 'vagrant'
   }
 
   class { 'wkhtmltox':

@@ -5,6 +5,9 @@ import CardSubscriptions from "app/mixins/subscriptions/card";
 import Messaging from "app/mixins/messaging";
 import IssueFiltersMixin from "app/mixins/issue-filters";
 
+import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
+import issueReferenceVisitor from 'app/visitors/issue/references';
+
 var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
   blacklist: ["repo"],
   columnIndex: Ember.computed.alias("data.current_state.index"),
@@ -22,6 +25,17 @@ var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;
   }.property("data.number", "repo.data.repo.full_name"),
+
+  //Relationships
+  cardRelationships: function(){
+    var html_body = this.get('body_html');
+    return CardRelationshipParser.parse(html_body);
+  }.property('data.body_html'),
+  buildIssueReferences: function(){
+    if(this.get('repo.board')){
+      this.accept(issueReferenceVisitor);
+    }
+  }.observes('repo.board', 'data.body_html'),
 
   loadDetails: function () {
     this.set("processing", true);

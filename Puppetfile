@@ -12,4 +12,4 @@ mod 'saz/memcached'
 mod 'thomasvandoren/redis'
 mod 'willdurand/nodejs'
 
-mod 'jlondon/wkhtmltox', '1.0.9'
+mod 'jlondon/wkhtmltox', '1.0.11'
