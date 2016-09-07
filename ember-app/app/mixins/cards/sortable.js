@@ -20,7 +20,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         var card = cardMove.findCard(ui, column);
         cardMove.data.card = card;
         var clone = ui.clone();
-        clone.width(ui.outerWidth() - 8);
+        clone.width(ui.outerWidth() - 12);
         return clone;
       },
       start: function(ev, ui){
@@ -30,7 +30,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
       connectWith: ".cards",
-      stop: function(ev, ui){
+      stop: function(){
         _self.set('freezeIssueArray', false);
       },
       update: function(ev, ui){
