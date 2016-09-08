@@ -25,12 +25,18 @@
         {{#if issue.assignees}}
           <div class="visible-assignees">
             {{#each visibleAssignees as |assignee index|}}
-              {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
+            <div class="hb-avatar-tooltip multi" style={{avatar-zindex index}}>
+              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{assignee.login}} </p>
+            </div>
             {{/each}}
           </div>
         {{else}}
           {{#if issue.assignee }}
-            {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
+            <div class="hb-avatar-tooltip">
+              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{assignee.login}} </p>
+            </div>
           {{/if}}
         {{/if}}
       </div>
