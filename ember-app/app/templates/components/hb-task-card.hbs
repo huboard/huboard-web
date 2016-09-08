@@ -4,7 +4,7 @@
       #{{issue.number}}
     </a>
     {{#if issue.linkedColor}}
-      <div class="linked-repo" style="color:#{{issue.linkedColor}}">
+      <div class="linked-repo" style={{repo-color-style issue.linkedColor}}>
         <i class="ui-icon-note"></i>{{repoName}}
       </div>
     {{/if}}
@@ -81,15 +81,9 @@
         {{#if reference.isClosed}}
           <div class='reference-details'><i class='ui-icon-checkmark'></i></div>
         {{/if}}
-        {{#if reference.linkedColor}}
-          <div class="repo-name" style="color:#{{reference.linkedColor}}">
-            <i class="ui-icon-note"></i>{{reference.repoName}}
-          </div>
-        {{else}}
-          <div class="repo-name" style="color:#7965cc">
-            <i class="ui-icon-note"></i>{{reference.repoName}}
-          </div>
-        {{/if}}
+        <div class="repo-name" style={{repo-color-style reference.linkedColor}}>
+          <i class="ui-icon-note"></i>{{reference.repoName}}
+        </div>
       </div>
     </div>
   {{/each}}
