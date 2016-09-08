@@ -27,6 +27,17 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         ui.placeholder.height(ui.helper.outerHeight());
         _self.set('freezeIssueArray', true);
       },
+      //Keeps the sortable lists in sync across column drags when scrolling
+      change: function(ev, ui){
+        //Wait for the ui sender to kick in
+        if(ui.sender){ cardMove.data.sender = ui.sender; }
+
+        var columnLength = ui.helper.parent().find('.card').length;
+        if(cardMove.data.sender && columnLength !== cardMove.data.itemsLength ){
+          Ember.$(cardMove.data.sender).superSortable('refresh');
+          cardMove.data.itemsLength = columnLength;
+        }
+      },
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
       connectWith: ".cards",

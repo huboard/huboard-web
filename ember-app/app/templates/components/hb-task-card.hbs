@@ -4,7 +4,7 @@
       #{{issue.number}}
     </a>
     {{#if issue.linkedColor}}
-      <div class="linked-repo" style="color:#{{issue.linkedColor}}">
+      <div class="linked-repo" style={{repo-color-style issue.linkedColor}}>
         <i class="ui-icon-note"></i>{{repoName}}
       </div>
     {{/if}}
@@ -25,12 +25,18 @@
         {{#if issue.assignees}}
           <div class="visible-assignees">
             {{#each visibleAssignees as |assignee index|}}
-              {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
+            <div class="hb-avatar-tooltip multi" style={{avatar-zindex index}}>
+              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{assignee.login}} </p>
+            </div>
             {{/each}}
           </div>
         {{else}}
           {{#if issue.assignee }}
-            {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
+            <div class="hb-avatar-tooltip">
+              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{assignee.login}} </p>
+            </div>
           {{/if}}
         {{/if}}
       </div>
@@ -56,7 +62,7 @@
 
   {{#each presentReferences as |reference|}}
     <div class="issue-reference-wrapper {{reference.stateClass}}">
-      {{#hb-card-tray type="issue-reference clearfix"}}
+      <div class="hb-card-tray issue-reference clearfix">
         <a class="number reference-details {{reference.stateClass}}" href="{{reference.html_url}}" target="_blank" title="View issue on github.com" data-issue-id={{reference.id}}>
           #{{reference.number}}
         </a>
@@ -75,51 +81,45 @@
         {{#if reference.isClosed}}
           <div class='reference-details'><i class='ui-icon-checkmark'></i></div>
         {{/if}}
-        {{#if reference.linkedColor}}
-          <div class="repo-name" style="color:#{{reference.linkedColor}}">
-            <i class="ui-icon-note"></i>{{reference.repoName}}
-          </div>
-        {{else}}
-          <div class="repo-name" style="color:#7965cc">
-            <i class="ui-icon-note"></i>{{reference.repoName}}
-          </div>
-        {{/if}}
-      {{/hb-card-tray}}
+        <div class="repo-name" style={{repo-color-style reference.linkedColor}}>
+          <i class="ui-icon-note"></i>{{reference.repoName}}
+        </div>
+      </div>
     </div>
   {{/each}}
 
   {{#if canArchive}}
-    {{#hb-card-tray type='state-archive'}}
+    <div class="hb-card-tray state-archive clearfix">
       <div class="hb-action actions-archive">
         <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
         <i class='ui-icon-checkmark'></i>
         <span class="hb-tray-message"> Closed </span>
       </div>
-    {{/hb-card-tray}}
+    </div>
   {{else if isLast}}
-    {{#hb-card-tray type='state-closable'}}
+    <div class="hb-card-tray state-closable clearfix">
       <div class="hb-action actions-close">
         <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
         <span class='hb-tray-message'> Done </span>
       </div>
-    {{/hb-card-tray}}
+    </div>
   {{else}}
     {{#if issue.isReady}}
-      {{#hb-card-tray type='state-ready'}}
+      <div class="hb-card-tray state-ready clearfix">
         <div class="ready">
           <i class='ui-icon-arrow-1-e'></i>
           <span class='hb-tray-message'> Ready for next stage </span>
         </div>
-      {{/hb-card-tray}}
+      </div>
     {{/if}}
 
     {{#if issue.isBlocked}}
-      {{#hb-card-tray type='state-blocked'}}
+      <div class="hb-card-tray state-blocked clearfix">
         <div class="blocked">
           <i class='ui-icon-x'></i>
           <span class='hb-tray-message'> Marked as blocked</span>
         </div>
-      {{/hb-card-tray}}
+      </div>
     {{/if}}
   {{/if}}
 </div>
