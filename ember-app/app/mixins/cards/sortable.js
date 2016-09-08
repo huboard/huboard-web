@@ -32,7 +32,7 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         //Wait for the ui sender to kick in
         if(ui.sender){ cardMove.data.sender = ui.sender; }
 
-        var columnLength = ui.helper.parent().find('.card').length
+        var columnLength = ui.helper.parent().find('.card').length;
         if(cardMove.data.sender && columnLength !== cardMove.data.itemsLength ){
           Ember.$(cardMove.data.sender).superSortable('refresh');
           cardMove.data.itemsLength = columnLength;
