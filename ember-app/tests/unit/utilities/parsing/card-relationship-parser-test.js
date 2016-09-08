@@ -10,10 +10,9 @@ module('CardRelationshipParser', {
   setup: function(){
     sut = CardRelationshipParser;
 
-    //Stubs out all the rules conditions
-    sut.context.rules.forEach((rule)=>{
-      rule.condition = sinon.stub().returns([]);
-    });
+    sut.context.rules = [
+      { name: 'issue-references', condition: sinon.stub().returns([]) }
+    ];
   }
 });
 

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ajax from 'ic-ajax';
 
 var SettingsIntegrationsController = Ember.Controller.extend({
-  needs: ['application'],
+  application: Ember.inject.controller(),
   possibleIntegrations: [
     Ember.Object.extend({
       name: "Webhook",
@@ -90,7 +90,7 @@ var SettingsIntegrationsController = Ember.Controller.extend({
     },
     removeWebhook: function(hook){
       this.get("model.integrations").removeObject(hook);
-      var endpoint = "/api/" + this.get("controllers.application.model.data.repo.full_name") + "/integrations";
+      var endpoint = "/api/" + this.get("application.model.data.repo.full_name") + "/integrations";
       ajax({
         url: endpoint + "/" + hook.get("_id"),
         type: "DELETE",

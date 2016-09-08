@@ -12,7 +12,6 @@ import {
 } from "ember-qunit";
 
 moduleFor("controller:issue/reference", "IssueReferenceController",{
-  needs: ["controller:issue", "controller:application"]
 });
 
 test("fetchCommit", function(assert){
@@ -26,13 +25,11 @@ test("fetchCommit", function(assert){
     textStatus: 'success'
   });
 
-  this.subject().set("controllers.issue.content", {
-    repo: {
-      full_name: "discorick/projects"
-    }
-  });
 
-  this.subject().fetchCommit('abc1234').then(response => {
+  this.subject().fetchCommit({
+    commit_url: 'https://api.github.com/repos/discorick/projects/commit/abc1234',
+    commit_id: "abc1234"
+  }).then(response => {
     assert.equal(response.sha, 'abc1234');
   });
 });

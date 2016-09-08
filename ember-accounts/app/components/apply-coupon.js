@@ -27,13 +27,13 @@ export default Ember.Component.extend({
       hash.success = function(json) {
         return resolve(json);
       };
-      hash.error = function(jqXHR, textStatus, errorThrown) {
+      hash.error = function(jqXHR) {
         return reject(jqXHR);
       };
       return Ember.$.ajax(hash);
     });
   },
-  didRejectCoupon: function(error, statusText) {
+  didRejectCoupon: function(error) {
     this.set('errors', JSON.parse(error.responseText).error.message);
     return this.set('processingAction', false);
   },

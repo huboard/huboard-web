@@ -13,13 +13,13 @@ moduleFor("view:issue/reference", "IssueReferenceView", {
   setup: function(){
     var self = this;
     view = this.subject();
-    view.set("parentView", {content: {model: {commit_id: "abc1234"}}});
 
     //Attach the reference view to dependant parent
     parentView = Ember.ContainerView.extend({
       classNames: ["card-event", "card-event-referenced"],
       childViews: [view],
-      container: self.container
+      container: self.container,
+      model: {commit_id: "abc1234"}
     }).create();
     Ember.run(function(){
       parentView.appendTo('#ember-testing');

@@ -5,4 +5,4 @@ export function conCat(params=[], hash={}) {
       return params.join(glue);
 }
 
-export default Ember.HTMLBars.makeBoundHelper(conCat);
+export default Ember.Helper.helper(conCat);

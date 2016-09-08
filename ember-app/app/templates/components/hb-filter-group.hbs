@@ -1,0 +1,10 @@
+<h5 class='filter-header'>
+  {{name}}
+  {{#if activeFilters.length}}
+    <small>({{activeFilters.length}})</small>
+  {{/if}}
+  <i class="ui-icon {{if isCollapsed 'ui-icon-triangle-1-e' 'ui-icon-triangle-1-s'}}"></i>
+</h5>
+{{#each filters as |filter|}}
+  {{hb-filter name=filter.name mode=filter.mode color=filter.color tagType=tagType}}
+{{/each}}

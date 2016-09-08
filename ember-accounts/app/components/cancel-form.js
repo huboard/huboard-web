@@ -36,7 +36,7 @@ export default Ember.Component.extend({
       hash.success = (json) => {
         return resolve(json);
       };
-      hash.error = (jqXHR, textStatus, errorThrown) => {
+      hash.error = (jqXHR) => {
         return reject(jqXHR);
       };
       return Ember.$.ajax(hash);

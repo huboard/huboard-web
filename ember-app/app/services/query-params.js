@@ -15,7 +15,7 @@ var queryParamsService = Ember.Service.extend({
   clearOnEmpty: function(){
     if(!this.get("filters.hideFilters.length")){
       this.clear();
-    };
+    }
   }.observes("filters.hideFilters.[]"),
 
   ////Query Params for Filters

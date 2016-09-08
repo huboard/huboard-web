@@ -42,7 +42,7 @@ var BoardSyncingService = Ember.Service.extend({
     board.fetchIssues(opts).then((issues)=>{
       _self.issueSuccess(board, issues);
       _self.set('syncInProgress', false);
-    }, (error)=>{
+    }, ()=>{
       _self.issueFail();
       _self.set('syncInProgress', false);
     });
@@ -54,12 +54,12 @@ var BoardSyncingService = Ember.Service.extend({
         issues.forEach((i)=>{
           if(i.id === issue.get('id')){
             Ember.set(issue, 'data', i);
-          };
+          }
         });
       });
     });
   },
-  issueFail: function(error){
+  issueFail: function(){
     var flash = this.get('flashMessages.queue').find((flash)=>{
       return flash.identifier === 'sync-message';
     });

@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import Model from '../model';
 import correlationId from 'app/utilities/correlation-id';
+import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
+
+import issueReferenceVisitor from 'app/visitors/issue/references';
 
 var Issue = Model.extend({
   blacklist: ["repo"],
@@ -19,6 +22,17 @@ var Issue = Model.extend({
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;
   }.property("data.number", "repo.data.repo.full_name"),
+
+  //Relationships
+  cardRelationships: function(){
+    var html_body = this.get('body_html');
+    return CardRelationshipParser.parse(html_body);
+  }.property('data.body_html'),
+  buildIssueReferences: function(){
+    if(this.get('repo.board')){
+      this.accept(issueReferenceVisitor);
+    }
+  }.observes('repo.board', 'data.body_html'),
 
   loadDetails: function () {
     this.set("processing", true);
@@ -42,7 +56,7 @@ var Issue = Model.extend({
         title: this.get("title"),
         body: this.get("body")
       })
-    })
+    });
   },
   updateLabels : function (label, action) {
     this.set("processing", true);
@@ -102,14 +116,25 @@ var Issue = Model.extend({
       this.set("processing", false);
     }.bind(this));
   },
-  assignUser: function(login){
+  assignUsers: function(logins){
+    var _self = this;
     return Ember.$.post(`${this.get("apiUrl")}/assigncard`, {
-      assignee: login, 
+      assignees: logins, 
       correlationId: this.get("correlationId")
     }, function(){}, "json").then(function( response ){
-      this.set("assignee", response.assignee);
-      return this;
-    }.bind(this));
+      _self.set("assignee", response.assignee);
+      return _self;
+    });
+  },
+  unassignUsers: function(logins){
+    var _self = this;
+    return Ember.$.post(`${this.get("apiUrl")}/unassigncard`, {
+      assignees: logins, 
+      correlationId: this.get("correlationId")
+    }, function(){}, "json").then(function( response ){
+      _self.set("assignee", response.assignee);
+      return _self;
+    });
   },
   assignMilestone: function(index, milestone){
     var changedMilestones = false;
@@ -135,11 +160,10 @@ var Issue = Model.extend({
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state")
+      var previousState = this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
-      var number = this.get("data.number");
       var options = {
         dataType: "json",
         data: {correlationId: this.get("correlationId")},
@@ -187,6 +211,23 @@ var Issue = Model.extend({
       this.set("data.body_html", response.body_html);
       return this;
     }.bind(this), "json");
+  },
+  runMaxMinOrderFix: function(){
+    var order = this.maxMinOrderFix(this.get('order'));
+    var milestone_order = this.maxMinOrderFix(this.data._data.milestone_order);
+
+    if(order !== this.get('order')){
+      this.set('order', order);
+    }
+    if(milestone_order !== this.data._data.milestone_order){
+      this.data._data.milestone_order = milestone_order;
+    }
+  }.on('init'),
+  maxMinOrderFix: function(order){
+    if(order <= 0 || order === Infinity){ order = this.get('data.id') * Number.MIN_VALUE; }
+    while(order < 1e-319){ order *= 10; }
+    while(order > 1e307){ order /= 10; }
+    return order;
   }
 });
 

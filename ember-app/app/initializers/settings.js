@@ -19,5 +19,5 @@ export default {
   before: 'sockets',
   after: 'advanceReadiness',
   initialize: initialize
-}
+};
 

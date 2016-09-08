@@ -23,7 +23,7 @@ var Health = Settings.extend({
      return `${day}-${month}-${year}`;
   },
   hasErrors: Ember.computed('checks.@each.success', {
-    get: function(key){
+    get: function(){
       return this.get('checks').any((x) => !get(x, 'success'));
     }
   }),
@@ -34,8 +34,7 @@ var Health = Settings.extend({
 
 Health.reopenClass({
   fetch: function(repo){
-    var self = this,
-    health = Health.create({
+    var health = Health.create({
       repo: repo
     });
     if(health.isLoaded()){

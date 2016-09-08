@@ -28,7 +28,7 @@ export default Ember.Component.extend({
   }),
   plan: Ember.computed('model.details.plans', function() {
     let plans = this.get("model.details.plans");
-    this.set("model.details.plans", Em.A(plans));
+    this.set("model.details.plans", Ember.A(plans));
     const firstPlan = this.get("model.details.plans.firstObject");
     return firstPlan;
   }),
@@ -64,7 +64,7 @@ export default Ember.Component.extend({
         url: this.get("trialActivationUrl"),
         data: {billing_email: this.get("emailBinding")},
         type: "POST"
-      }).then(function(response){
+      }).then(function(){
           location.reload();
       });
     },
@@ -81,13 +81,13 @@ export default Ember.Component.extend({
     },
     closeModal() {
       // We don't want to show any type of modal.
-      this.set('currentModal', null); 
+      this.set('currentModal', null);
     },
     purchase(model) {
       const org = this.get("model.details.org");
       const details = this.get('model.details');
       const plan = Ember.Object.create({plan: model, org:org, details: details});
-      
+
       this.set('modalModel', plan);
       this.set('currentModal', 'purchase-form');
     },

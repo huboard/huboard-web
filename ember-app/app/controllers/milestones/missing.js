@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 var MilestonesMissingController = Ember.Controller.extend({
-  needs: ['milestones'],
   card: Ember.computed.alias("model.card"),
   column: Ember.computed.alias("model.column"),
   disabled: false,
@@ -31,7 +30,7 @@ var MilestonesMissingController = Ember.Controller.extend({
         controller.get("model").onAccept(response);
         controller.set("disabled", false);
         controller.get('target').send('closeModal');
-      })
+      });
 
     }
   }
