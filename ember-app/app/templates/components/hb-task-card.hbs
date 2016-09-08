@@ -54,10 +54,45 @@
 </div>
 <div class="hb-card-trays">
 
+  {{#each presentReferences as |reference|}}
+    <div class="issue-reference-wrapper {{reference.stateClass}}">
+      {{#hb-card-tray type="issue-reference clearfix"}}
+        <a class="number reference-details {{reference.stateClass}}" href="{{reference.html_url}}" target="_blank" title="View issue on github.com" data-issue-id={{reference.id}}>
+          #{{reference.number}}
+        </a>
+        <div class="type reference-details">
+          {{#if reference.pull_request}} {{#if reference.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
+        </div>
+        <div class="comment-count reference-details">
+          <i class='ui-icon-comment-b'></i>{{reference.commentCount}}
+        </div>
+        {{#if reference.isReady}}
+          <div class='reference-details'><i class='ui-icon-arrow-1-e'></i></div>
+        {{/if}}
+        {{#if reference.isBlocked}}
+          <div class='reference-details'><i class='ui-icon-x'></i></div>
+        {{/if}}
+        {{#if reference.isClosed}}
+          <div class='reference-details'><i class='ui-icon-checkmark'></i></div>
+        {{/if}}
+        {{#if reference.linkedColor}}
+          <div class="repo-name" style="color:#{{reference.linkedColor}}">
+            <i class="ui-icon-note"></i>{{reference.repoName}}
+          </div>
+        {{else}}
+          <div class="repo-name" style="color:#7965cc">
+            <i class="ui-icon-note"></i>{{reference.repoName}}
+          </div>
+        {{/if}}
+      {{/hb-card-tray}}
+    </div>
+  {{/each}}
+
   {{#if canArchive}}
     {{#hb-card-tray type='state-archive'}}
       <div class="hb-action actions-archive">
         <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+        <i class='ui-icon-checkmark'></i>
         <span class="hb-tray-message"> Closed </span>
       </div>
     {{/hb-card-tray}}
@@ -68,25 +103,23 @@
         <span class='hb-tray-message'> Done </span>
       </div>
     {{/hb-card-tray}}
-  {{/if}}
+  {{else}}
+    {{#if issue.isReady}}
+      {{#hb-card-tray type='state-ready'}}
+        <div class="ready">
+          <i class='ui-icon-arrow-1-e'></i>
+          <span class='hb-tray-message'> Ready for next stage </span>
+        </div>
+      {{/hb-card-tray}}
+    {{/if}}
 
-  {{#if isReady}}
-    {{#hb-card-tray type='state-ready'}}
-      <div class="ready">
-        <button class="hb-tray-button state-ready" disabled={{true}} >
-          Pull card <i class='ui-icon-arrow-1-e'></i>
-        </button>
-        <span class='hb-tray-message'> Ready for next stage </span>
-      </div>
-    {{/hb-card-tray}}
-  {{/if}}
-
-  {{#if isBlocked}}
-    {{#hb-card-tray type='state-blocked'}}
-      <div class="blocked">
-        <i class='ui-icon-x'></i>
-        <span class='hb-tray-message'> Blocked: waiting for 'ready'</span>
-      </div>
-    {{/hb-card-tray}}
+    {{#if issue.isBlocked}}
+      {{#hb-card-tray type='state-blocked'}}
+        <div class="blocked">
+          <i class='ui-icon-x'></i>
+          <span class='hb-tray-message'> Marked as blocked</span>
+        </div>
+      {{/hb-card-tray}}
+    {{/if}}
   {{/if}}
 </div>
