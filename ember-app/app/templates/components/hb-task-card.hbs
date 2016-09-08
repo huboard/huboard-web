@@ -73,12 +73,9 @@
   {{#if isReady}}
     {{#hb-card-tray type='state-ready'}}
       <div class="ready">
-      <!-- hiding until this button does something
         <button class="hb-tray-button state-ready" disabled={{true}} >
           Pull card <i class='ui-icon-arrow-1-e'></i>
         </button>
-        -->
-        <i style="float:right; top: 4px; position: relative;" class='ui-icon-arrow-1-e'></i>
         <span class='hb-tray-message'> Ready for next stage </span>
       </div>
     {{/hb-card-tray}}
@@ -88,7 +85,7 @@
     {{#hb-card-tray type='state-blocked'}}
       <div class="blocked">
         <i class='ui-icon-x'></i>
-        <span class='hb-tray-message'> Blocked</span>
+        <span class='hb-tray-message'> Blocked: waiting for 'ready'</span>
       </div>
     {{/hb-card-tray}}
   {{/if}}
