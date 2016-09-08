@@ -103,23 +103,23 @@
         <span class='hb-tray-message'> Done </span>
       </div>
     {{/hb-card-tray}}
-  {{/if}}
+  {{else}}
+    {{#if issue.isReady}}
+      {{#hb-card-tray type='state-ready'}}
+        <div class="ready">
+          <i class='ui-icon-arrow-1-e'></i>
+          <span class='hb-tray-message'> Ready for next stage </span>
+        </div>
+      {{/hb-card-tray}}
+    {{/if}}
 
-  {{#if issue.isReady}}
-    {{#hb-card-tray type='state-ready'}}
-      <div class="ready">
-        <i class='ui-icon-arrow-1-e'></i>
-        <span class='hb-tray-message'> Ready for next stage </span>
-      </div>
-    {{/hb-card-tray}}
-  {{/if}}
-
-  {{#if issue.isBlocked}}
-    {{#hb-card-tray type='state-blocked'}}
-      <div class="blocked">
-        <i class='ui-icon-x'></i>
-        <span class='hb-tray-message'> Marked as blocked</span>
-      </div>
-    {{/hb-card-tray}}
+    {{#if issue.isBlocked}}
+      {{#hb-card-tray type='state-blocked'}}
+        <div class="blocked">
+          <i class='ui-icon-x'></i>
+          <span class='hb-tray-message'> Marked as blocked</span>
+        </div>
+      {{/hb-card-tray}}
+    {{/if}}
   {{/if}}
 </div>
