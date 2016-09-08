@@ -146,9 +146,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   },
   refreshSortable: function(){
     Ember.run.next(()=>{
-      Ember.run.schedule('afterRender',()=>{
-        this.$('.cards').superSortable('refresh');
-      });
+      this.$('.cards').superSortable('refresh');
     });
   }.observes('cardIndex')
 });
