@@ -535,6 +535,8 @@ $column-width: 280px;
       border-style: solid;
       border-width: 1px;
       background: $hb-grey-light;
+      background-color: #fff;
+      border-color: $hb-grey-light;
       padding: 2px 6px;
       font-size: 12px;
 
@@ -547,11 +549,19 @@ $column-width: 280px;
         background-color: rgba(130, 116, 214, 0.1);
         border-color: $hb-state-closed;
         color: $hb-state-closed;
+        i {
+          position: relative;
+          top: 1px;
+        }
       }
       &.state-ready {
         background-color: rgba(34, 209, 134, 0.1);
         border-color: $hb-state-ready;
         color: $hb-state-ready;
+        i {
+          position: relative;
+          top: 1px;
+        }
       }
       &.state-blocked {
         background-color: rgba(249, 100, 110, 0.1);
@@ -559,6 +569,59 @@ $column-width: 280px;
         color: $hb-state-blocked;
         i {
           font-size: 10px;
+        }
+      }
+
+      &.issue-reference {
+        color: $lightGrey;
+
+        .reference-details {
+          padding-right: 4px;
+          float: right;
+        }
+        .repo-name {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        i {
+          top: 2px;
+          position: relative;
+          padding-right: 4px;
+          &.ui-icon-arrow-1-e {
+            top: 1px;
+          }
+          &.ui-icon-x {
+            top: 1px;
+            font-size: 10px;
+          }
+          &.ui-icon-branch-merge {
+            font-size: 14px;
+            color: $hb-purple;
+          }
+        }
+      }
+    }
+
+    .issue-reference-wrapper {
+      &.hb-state-closed {
+        .hb-card-tray {
+          background-color: rgba(130, 116, 214, 0.1);
+        }
+      }
+      &.hb-state-ready {
+        .reference-details {
+          color: $hb-state-ready;
+        }
+      }
+      &.hb-state-blocked {
+        .reference-details {
+          color: $hb-state-blocked;
+        }
+      }
+      &.hb-state-closed{
+        .reference-details {
+          color: $hb-state-closed;
         }
       }
     }
@@ -579,15 +642,6 @@ $column-width: 280px;
       &.state-archive {
         color: $hb-state-closed;
         border-color: $hb-state-closed;
-      }
-      &.state-ready {
-        border-color: $hb-state-ready;
-        color: $hb-state-ready;
-        i {
-          position: relative;
-          top: 1px;
-          padding-left: 4px;
-        }
       }
     }
   }

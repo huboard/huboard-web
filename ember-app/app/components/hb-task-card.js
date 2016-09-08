@@ -14,14 +14,7 @@ var HbCardComponent = Ember.Component.extend(
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
     taskCard: true,
     filters: Ember.inject.service(),
-    repoName: function(){
-      var parent_owner = this.get('issue.repo.parent.repo.owner.login');
-      var current_owner = this.get('issue.data.repo.owner.login');
-      if(parent_owner === current_owner){
-        return this.get('issue.data.repo.name');
-      }
-      return this.get('issue.data.repo.full_name');
-    }.property('issue.data.repo.full_name'),
+    repoName: Ember.computed.alias("issue.repoName"),
     style: Ember.computed('issue.linkedColor', {
       get: function(){
         const color = this.get("issue.linkedColor");
@@ -38,7 +31,7 @@ var HbCardComponent = Ember.Component.extend(
     isClosable: function () {
      return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
     }.property("loggedIn", "isLast","issue.data.state"),
-    issueReferences: Ember.computed.alias('issue.issueReferences'),
+    presentReferences: Ember.computed.filterBy('issue.issueReferences', 'title'),
     onDestroy: function (){
       if(!this.get("issue.isArchived")){ return; }
       var self = this;
@@ -61,7 +54,12 @@ var HbCardComponent = Ember.Component.extend(
       if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
       }
-      this.sendAction("cardClick");
+      var reference = $(ev.target).parent(".hb-card-tray").find('.number').data('issue-id');
+      if(reference){
+        var issue = this.get("presentReferences").findBy("id", reference);
+        if(issue){ return this.sendAction("cardClick", issue); }
+      }
+      this.sendAction("cardClick", this.get("issue"));
     },
     issueNumber: function () {
        return this.get("issue.number");
@@ -93,19 +91,7 @@ var HbCardComponent = Ember.Component.extend(
         this.accept(cardAssigneesVisitor);
       });
     }.observes('issue.assignees.[]', 'isFiltered').on('didInsertElement'),
-    stateClass: function(){
-       var github_state = this.get("issue.data.state");
-       if(github_state === "closed"){
-         return "hb-state-" + "closed";
-       }
-       var custom_state = this.get("issue.customState");
-       if(custom_state){
-         return "hb-state-" + custom_state;
-       }
-       return "hb-state-open";
-    }.property("issue.data.current_state", "issue.customState", "issue.data.state", "issue.data.other_labels.[]"),
-    isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
-    isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
+    stateClass: Ember.computed.alias('issue.stateClass'),
 
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));

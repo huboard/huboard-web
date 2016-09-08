@@ -21,10 +21,32 @@ var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
   correlationId: correlationId,
   assignee: Ember.computed.alias("data.assignee"),
   linkedColor: Ember.computed.alias("repo.data.repo.color.color"),
+  repoName: function(){
+    var parent_owner = this.get('repo.parent.repo.owner.login');
+    var current_owner = this.get('data.repo.owner.login');
+    if(!parent_owner || parent_owner === current_owner){
+      return this.get('data.repo.name');
+    }
+    return this.get('data.repo.full_name');
+  }.property('data.repo.full_name'),
   apiUrl: function(){
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;
   }.property("data.number", "repo.data.repo.full_name"),
+  isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
+  isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
+  isClosed: Ember.computed.equal('stateClass', 'hb-state-closed'),
+  stateClass: function(){
+     var github_state = this.get("data.state");
+     if(github_state === "closed"){
+       return "hb-state-" + "closed";
+     }
+     var custom_state = this.get("customState");
+     if(custom_state){
+       return "hb-state-" + custom_state;
+     }
+     return "hb-state-open";
+  }.property("data.current_state", "customState", "data.state", "data.other_labels.[]"),
 
   //Relationships
   cardRelationships: function(){

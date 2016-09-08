@@ -66,6 +66,8 @@ module('Visitors/Issue/References', {
 test('visit', (assert) => {
   var promise = sinon.stub();
   sut.run = sinon.stub().returns(promise);
+  var issue1 = Ember.Object.create({issue1: 'issue1', id: 1});
+  var issue2 = Ember.Object.create({issue1: 'issue2', id: 2});
 
   var references = [
     {issue1: 'issue1'},
@@ -75,10 +77,7 @@ test('visit', (assert) => {
   var success = $.ajax().then(()=>{return references;});
   Ember.RSVP.all = sinon.stub().returns(success);
 
-  var flat_references = [
-    {issue1: 'issue1'},
-    {issue2: 'issue2'}
-  ];
+  var flat_references = [issue1,issue2];
 
   sut.visit(issue);
 
@@ -112,4 +111,3 @@ test('discovers missing closed issues, returns a reference with a status', (asse
   result = sut.discoverIssue(issue, references[3]);
   assert.equal(result.state, 'closed', 'Infers the existence of a linked closed issue');
 });
-

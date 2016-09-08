@@ -9,7 +9,9 @@ var IssueController = Ember.Controller.extend(
   subscribeDisabled: true,
 
   statusChangeable: function(){
-    return this.get("isCollaborator") && this.get("model.data.state") !== "closed";
+    return this.get("isCollaborator") &&
+      this.get("model.data.state") !== "closed" &&
+      !this.get("model.current_state.is_last");
   }.property("model.data.state", "isCollaborator"),
   isCollaborator: function(){
     return this.get("model.repo.isCollaborator");
