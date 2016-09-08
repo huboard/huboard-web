@@ -14,7 +14,7 @@
   }}
 {{/if}}
 <div class="cards sortable">
-  {{#each sortedIssues as |issue|}}
+  {{#each visibleIssues as |issue|}}
     {{
       hb-milestone-card
         issue=issue

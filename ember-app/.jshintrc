@@ -38,5 +38,6 @@
   "eqnull": true,
   "esnext": true,
   "unused": true,
-  "shadow": true
+  "shadow": true,
+  "lastsemic": true 
 }

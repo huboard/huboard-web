@@ -1,5 +1,7 @@
 @import "arrow";
 
+$column-width: 280px;
+
 .main-toolbar {
   z-index: 3;
   height: 40px;
@@ -27,6 +29,36 @@
       }
       &:hover {
         color: #666;
+      }
+      @-webkit-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @-moz-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @-ms-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @-o-keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      @keyframes pulsate {
+        0%{opacity: 0.5;}
+        50%{opacity: 1.0;}
+        100%{opacity: 0.5;}
+      }
+      .ui-icon-error {
+        @include animation(pulsate 2s ease-out);
+        @include animation-iteration-count(infinite);
+        opacity: 0.5;
       }
     }
   }
@@ -72,6 +104,10 @@
     @include flex(1);
     @include align-content(stretch);
     @include align-items(baseline);
+    @-moz-document url-prefix() {
+      display: block;
+      white-space: nowrap;
+    }
   }
 
   .board--milestones {
@@ -84,39 +120,56 @@
   }
 }
 
-.column.task-column{
-  .cards {
-    @include flex(1 1 auto);
+
+.task-column {
+  @include flex(1);
+  @include display(flex);
+  @include flex-direction(column);
+  @-moz-document url-prefix() {
+    display: inline-block;
+    max-width: $column-width;
+    width: $column-width;
   }
 }
 
-.column.milestone {
+.column {
   height: 100%;
-  min-width: 0px;
-  max-width: 230px;
-  width:230px;
-  display: inline-block;
+  float:none;
+  vertical-align: top;
+  padding: 0px 10px;
+  @include box-sizing(border-box);
+  @include transition(width,flex 0.4s ease-out);
 
   .column-contents{
     height: 100%;
     @include display(flex);
     @include flex-direction(column);
-    @include flex(0 0 230px);
-    min-width: 0px;
-    max-width: 230px;
-  }
-  .cards {
     @include flex(1 1 auto);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 1px;
-    @extend %u-fancy-scrollbar;
+    min-width: 0px;
+    .cards {
+      @include flex(1 1 auto);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 2px 1px 20px 0px;
+
+      @extend %u-fancy-scrollbar;
+    }
   }
   &.hb-state-collapsed {
     @include flex(0 0 90px);
     width: 90px;
   }
   @include transition(width 0.4s ease-out);
+}
+
+.column.milestone {
+  width: $column-width;
+  max-width: $column-width;
+  display: inline-block;
+  .column-contents{
+    @include flex(0 0 $column-width);
+    max-width: $column-width;
+  }
 }
 
 .board-dragging {
@@ -140,11 +193,6 @@
    padding-left: 25px;
 }
 
-.column {
-  vertical-align: top;
-  padding: 0px 10px;
-  @include box-sizing(border-box);
-}
 
 .column {
   &.hb-state-collapsed {
@@ -255,10 +303,6 @@
   @extend .arrow;
 }
 
-.column .cards {
-  margin:0;
-  padding: 0;
-}
 .backlog {
     .dim {
       opacity: 0.4;
@@ -329,20 +373,21 @@
   }
 }
 
+.task-card-container{
+  position: relative;
+  padding-left: 4px;
+}
 .card {
   cursor:pointer;
   list-style: none;
-  padding: 5px 5px 34px 5px;
-  margin-bottom: 10px;
+  padding: 4px 5px 6px 5px;
+  margin-bottom: 6px;
   position:relative;
   background-color: #fff;
   border: 1px solid #e5e5e5;
   border-bottom-color: darken(#e5e5e5, 5%); 
+  font-size: 13px;
   @include transform(translateZ(0));
-  .hb-avatar-tooltip {
-    position: static;
-  }
-
 
   &.border {
     border-top-color: #e5e5e5;
@@ -351,42 +396,6 @@
     border-left-width: 3px;
   }
 
-  &.closable {
-    background-color: #f5f5f5;
-    .actions-close {
-      display:block;
-    }
-  }
-  .actions-close {
-    display:none;
-  }
-  
-  .hb-action {
-    position: absolute;
-    width: 100%;
-
-    button {
-      opacity: 0.3;
-      position: absolute;
-      top:0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      width: 100px;
-      height: 30px;
-      margin:auto;
-      @include transition(opacity 0.2s);
-    }
-  }
-  &:hover {
-    .hb-action {
-        button {
-        opacity: 1;
-      }
-    }
-  }
-
-
   &.assignee-accept {
      border-color: #0069D6;
   }
@@ -394,71 +403,197 @@
      border-color: red;
   }
   .card-labels {
-    padding: 5px 0px;
-    position: absolute;
-    bottom: -8px;
+    position: relative;
+
     .card-label-wrapper {
       float:left;
       margin-right: 5px;
-      .card-label {
-        z-index: 10;
-      }
-      .card-label.active.small {
-        height: 4px;
-        width: 40px;
-        display:block;
-      }
+      padding-bottom: 4px;
       .card-label.active.large {
         position: relative;
-        top: 6px;
 
-        display: none;
-        padding: 2px 10px;
-        font-size: 12px;
+        padding: 0px 4px;
+        font-size: 11px;
+
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 2px;
       }
     }
-      &:hover {
-        .card-label.active.small {
-          display: none;
-        }
-        .card-label.active.large {
-          display:block;
-        }
-      }
   }
 
   .card-header {
-    border-bottom: 1px solid $borderColor;
-    padding: 5px 0;
+    @include display(flex);
+    padding-bottom: 2px;
     color: $darkGrey;
+    i {
+      position: relative;
+      padding-right: 4px;
+    }
+
+    .number {
+      padding-right: 6px;
+    }
+    .linked-repo {
+      padding-right: 6px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+      i {
+        top: 2px;
+      }
+    }
+    .type {
+      i {
+        font-size: 14px;
+        padding-right: 6px;
+        color: $hb-purple;
+        top: 1px;
+      }
+    }
   }
-  .title {
+
+  .card-body {
+    padding-bottom: 2px;
     white-space: normal;
-    text-overflow: clip;
-    overflow:auto;
-  }         
+  }
   .milestone {
     color: $lightGrey;
     font-size:11px;
   }         
   img {
-    position: absolute;
-    bottom:5px;
-    left: 5px;
+    max-width: 24px;
   }          
-  .number {
-    position: absolute;
-    vertical-align: bottom;
-    bottom:5px;
-    right: 5px;
-    font-size:2em;
-    small {
-      color: #999;
-      margin-right: -7px;
+
+  .card-details-wrapper {
+    position: relative;
+    padding-bottom: 4px;
+
+    i {
+      padding-right: 4px;
+      vertical-align: text-bottom;
     }
-  }               
+
+    .comment-count {
+      color: $lightGrey;
+    }
+
+    .avatar-wrapper {
+      float: right;
+
+      &:hover {
+        width: auto;
+
+        .visible-assignees {
+          @include display(inline-flex);
+          @include flex-direction(row-reverse);
+          .multi {
+            border-left-style: none;
+            padding-left: 8px;
+          }
+        }
+      }
+
+      .hb-avatar-tooltip {
+
+        &.multi {
+          position: relative;
+          display: inline;
+          float: right;
+          margin-left: -6px;
+          border-left-style: solid;
+          border-width: 1px;
+        }
+
+        &.single {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+          padding: 5px;
+        }
+
+        &:hover {
+          p {
+            right: 0px;
+            white-space: nowrap;
+            &:after{
+              left: 66%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .hb-card-trays {
+    position: relative;
+    margin: 7px -6px -7px;
+
+    .hb-card-tray {
+      @include box-sizing(border-box);
+      border-style: solid;
+      border-width: 1px;
+      background: $hb-grey-light;
+      padding: 2px 6px;
+      font-size: 12px;
+
+      &.state-closable {
+        background-color: rgba(206, 166, 27, 0.1);
+        border-color: $hb-pending;
+        color: $hb-pending;
+      }
+      &.state-archive {
+        background-color: rgba(130, 116, 214, 0.1);
+        border-color: $hb-state-closed;
+        color: $hb-state-closed;
+      }
+      &.state-ready {
+        background-color: rgba(34, 209, 134, 0.1);
+        border-color: $hb-state-ready;
+        color: $hb-state-ready;
+      }
+      &.state-blocked {
+        background-color: rgba(249, 100, 110, 0.1);
+        border-color: $hb-state-blocked;
+        color: $hb-state-blocked;
+        i {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .hb-tray-button {
+      background-color: white;
+      float: right;
+      height: 20px;
+      font-size: 12px;
+      line-height: 1;
+      border-width: 1px;
+      border-radius: 4px;
+
+      &.state-closable {
+        color: $hb-pending;
+        border-color: $hb-pending;
+      }
+      &.state-archive {
+        color: $hb-state-closed;
+        border-color: $hb-state-closed;
+      }
+      &.state-ready {
+        border-color: $hb-state-ready;
+        color: $hb-state-ready;
+        i {
+          position: relative;
+          top: 1px;
+          padding-left: 4px;
+        }
+      }
+    }
+  }
 
   &.card--milestone {
+    padding: 4px 2px 6px 4px;
     &.border {
       padding-left: 6px;
     }
@@ -470,38 +605,72 @@
       margin-bottom: 0px;
       cursor: none;
     }
-    .hb-avatar-tooltip {
-      &:hover {
-        p {
-          display: inline-table;
-          visibility: visible;
-        }
+    .title {
+      text-overflow: clip;
+      white-space: normal;
+      overflow: auto;
+    }
+    .card-details-wrapper {
+      float: right;
+    }
+    .avatar-wrapper {
+      .assignee-overflow {
+        color: white;
+        background-color: $hb-purple-dark;
+        margin-left: -8px;
+        font-size: 11px;
+        position: relative;
+        float: right;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        bottom: 4px;
+        padding: 1px;
+        z-index: 101;
+        line-height: 12px;
+        text-align: center;
       }
-      p {
-        bottom: 42px;
-        top: 5px;
-        left: 34px;
-        line-height: 16px;
-        &:after {
-          content: "\25C0";
-          color: $hb-purple;
-          left: -6px;
-          bottom: 1px;
-        }
-      }
-      display: inline;
-      img {
-        position: static;
+      .visible-assignees {
+        float: left;
       }
     }
     .card-header {
       border-bottom: none;
+      padding: 5px 0px;
     }
     .card-labels {
+      padding: 5px 0px;
+      position: absolute;
       bottom: auto;
       top: -8px;
-    }
+      .card-label-wrapper {
+        float:left;
+        padding-bottom: 0px;
+        margin-right: 5px;
+        .card-label {
+          z-index: 10;
+        }
+        .card-label.active.small {
+          height: 4px;
+          width: 40px;
+          display:block;
+        }
+        .card-label.active.large {
+          position: relative;
+          top: 6px;
 
+          display: none;
+        }
+      }
+      &:hover {
+        .card-label.active.small {
+          display: none;
+        }
+        .card-label.active.large {
+          display:block;
+        }
+      }
+    }
   }
 }
 
@@ -670,19 +839,14 @@
   border-right: 1px solid #ddd;
 }
 
-.task-column {
-  min-width: 0px;
-  float:none;
-  @include flex(1);
-  @include display(flex);
-  @include flex-direction(column);
-  @include transition(all 0.4s ease-out);
-}
 .column {
-  min-width: 0px;
+  min-width: 250px;
   //@include transition(all 0.4s ease-out);
   .hb-column-header {
     cursor: pointer;
+  }
+  &.hb-state-collapsed {
+    min-width: 90px;
   }
   .collapsed {
     cursor: pointer;
@@ -757,11 +921,14 @@
       }
    }
 }
- @media only screen and (max-width: 959px) {
+@media only screen and (max-width: 959px) {
   .board {
-    @include flex-direction(column);
+    .task-board {
+      @include flex-direction(column);
+    }
     .column {
       @include flex(0 1 auto);
+      max-width: 959px;
 
       .sortable {
         min-height: 72px;
@@ -790,5 +957,4 @@
       }
     }
   }
-
- }
+}

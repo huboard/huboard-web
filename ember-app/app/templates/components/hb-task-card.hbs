@@ -1,48 +1,92 @@
-<div class="ember-view">
-  <div class="card-header">
-    <div class="title" title="{{issue.title}}">
-      {{issue.title}}
-    </div>
-    <div class="number">
-      <small>#</small>
-      <a class="xnumber" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
-        {{issue.number}}
-      </a>
+<div class="ember-view task-card-container">
+  <div class="card-header task-card">
+    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+      #{{issue.number}}
+    </a>
+    {{#if issue.linkedColor}}
+      <div class="linked-repo" style="color:#{{issue.linkedColor}}">
+        <i class="ui-icon-note"></i>{{repoName}}
+      </div>
+    {{/if}}
+    <div class="type">
       {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
     </div>
   </div>
 
-  {{#if issue.assignee }}
-    {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
-  {{/if}}
+  <div class="card-body">
+    <div class="title" title="{{issue.title}}">
+      {{issue.title}}
+    </div>
+  </div>
 
+  <div class="card-details-wrapper">
+    <div class="card-details clearfix">
+      <div class="avatar-wrapper">
+        {{#if issue.assignees}}
+          <div class="visible-assignees">
+            {{#each visibleAssignees as |assignee index|}}
+              {{hb-avatar-tooltip user=assignee width="24" height="24" multi=true index=index }}
+            {{/each}}
+          </div>
+        {{else}}
+          {{#if issue.assignee }}
+            {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
+          {{/if}}
+        {{/if}}
+      </div>
+      <div class="comment-count">
+        <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
+      </div>
+
+    </div>
+  </div>
   <div class="card-labels">
-      {{#each cardLabels as |label|}}
-        <div class="card-label-wrapper"> 
-           <div class="card-label active small" style={{label.customStyle}} ></div>
+    <div class="visible-labels clearfix">
+      {{#each visibleLabels as |label|}}
+        <div class="card-label-wrapper">
            <div class="card-label active large" style={{label.customStyle}} >
              <span>{{label.name}}</span>
            </div>
         </div>
       {{/each}}
+    </div>
   </div>
-
-  {{#if isLast}}
-    <div class="hb-action actions-close">
-      <button class="hb-button" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
-    </div>                                                      
-  {{/if}}
+</div>
+<div class="hb-card-trays">
 
   {{#if canArchive}}
-
-  <div class="hb-action actions-archive">
-    <button class="hb-button-icon hb-button hb-button-grey" disabled={{processing}} {{action "archive" bubbles=false}}><i class="ui-icon ui-icon-box-add"></i>Archive</button>
-  </div>                                                      
+    {{#hb-card-tray type='state-archive'}}
+      <div class="hb-action actions-archive">
+        <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+        <span class="hb-tray-message"> Closed </span>
+      </div>
+    {{/hb-card-tray}}
+  {{else if isLast}}
+    {{#hb-card-tray type='state-closable'}}
+      <div class="hb-action actions-close">
+        <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
+        <span class='hb-tray-message'> Done </span>
+      </div>
+    {{/hb-card-tray}}
   {{/if}}
 
-  <div class="card-states">
-     <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
-     <img src="{{asset-path "arrow.png"}}" class="hb-state-ready"/>
-     <img src="{{asset-path "x.png"}}" class="hb-state-blocked"/>
-  </div>
+  {{#if isReady}}
+    {{#hb-card-tray type='state-ready'}}
+      <div class="ready">
+        <button class="hb-tray-button state-ready" disabled={{true}} >
+          Pull card <i class='ui-icon-arrow-1-e'></i>
+        </button>
+        <span class='hb-tray-message'> Ready for next stage </span>
+      </div>
+    {{/hb-card-tray}}
+  {{/if}}
+
+  {{#if isBlocked}}
+    {{#hb-card-tray type='state-blocked'}}
+      <div class="blocked">
+        <i class='ui-icon-x'></i>
+        <span class='hb-tray-message'> Blocked: waiting for 'ready'</span>
+      </div>
+    {{/hb-card-tray}}
+  {{/if}}
 </div>

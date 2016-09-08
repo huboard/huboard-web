@@ -1,15 +1,22 @@
 .hb-column-indicator {
-  @include display(inline-block);
+  @include display(inline-flex);
   line-height: 16px;
   padding: 1px 6px;
   border: 1px solid $borderColor;
   border-radius: 2px;
+  position: relative;
+  max-width: 80px;
 
 
   &__text {
     color: $lightGrey;
-    margin-left: 3px;
-    font-size: 12px;
+    left: 3px;
+    position: relative;
+    display: block;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   &__bar {
@@ -29,9 +36,9 @@
 
   .card-states {
     position:static;
-    float: right;
     height: 16px;
     width: 16px;
+    min-width: 16px;
     border-radius: 50%;
     margin: 1px 0px 1px 5px;
 

@@ -3,8 +3,6 @@ import CardMoveMixin from "../cards/card-move";
 
 
 var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
-   classNameBindings:["isHovering:ui-sortable-hover"],
-   isHovering: false,
    attachSortable: function(){
 
     var _self = this;
@@ -21,24 +19,25 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         var column = cardMove.findColumn(ui, columns);
         var card = cardMove.findCard(ui, column);
         cardMove.data.card = card;
-        return ui.clone();
+        var clone = ui.clone();
+        clone.width(ui.outerWidth() - 12);
+        return clone;
       },
       start: function(ev, ui){
-        ui.placeholder.height(ui.item.outerHeight());
+        ui.placeholder.height(ui.helper.outerHeight());
+        _self.set('freezeIssueArray', true);
       },
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
       connectWith: ".cards",
-      over: function(){
-        _self.set('isHovering', true);
-      },
-      out: function(){
-        _self.set('isHovering', false);
+      stop: function(){
+        _self.set('freezeIssueArray', false);
       },
       update: function(ev, ui){
         if (this !== ui.item.parent()[0]){return ;}
 
         var column = cardMove.findColumn(ui.item, columns);
+        column.set('freezeIssueArray', false);
         cardMove.data.column = column;
 
         var index = ui.item.index();
