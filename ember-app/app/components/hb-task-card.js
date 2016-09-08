@@ -1,7 +1,6 @@
 import Ember from "ember";
 import IssueFiltersMixin from "app/mixins/issue-filters";
 import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
-import CardSubscriptions from "app/mixins/subscriptions/card";
 import Messaging from "app/mixins/messaging";
 
 //Visitors
@@ -9,7 +8,7 @@ import cardLabelsVisitor from "app/visitors/cards/labels";
 import cardAssigneesVisitor from "app/visitors/cards/assignees";
 
 var HbCardComponent = Ember.Component.extend(
-  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
+  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, {
     attributeBindings: ['style'],
     classNames: ["card"],
     classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
@@ -50,12 +49,7 @@ var HbCardComponent = Ember.Component.extend(
         this.get("isCollaborator") &&
         this.get("isFiltered") !== "filter-hidden";
     }.property("loggedIn","issue.data.state", "isFiltered"),
-    isFiltered: function(){
-      var item = this.get("issue");
-      if(this.isHidden(item)){return "filter-hidden";}
-      if(this.isDim(item)){return "dim";}
-      return "";
-    }.property("filters.hideFilters", "filters.dimFilters", "issue.milestoneTitle", "issue.other_labels.[]"),
+    isFiltered: Ember.computed.alias('issue.isFiltered'),
     click: function(ev){
       if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
@@ -109,7 +103,7 @@ var HbCardComponent = Ember.Component.extend(
 
     actions: {
       assignUser: function(login){
-        return this.get("issue").assignUser(login);
+        return this.get("issue").assignUsers([login]);
       },
       archive: function () {
         this.set("issue.customState", "archived");

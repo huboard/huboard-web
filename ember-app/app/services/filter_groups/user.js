@@ -11,7 +11,7 @@ var UserFilters = Ember.Service.extend({
         queryParam: "assignee",
         mode: 0,
         condition: function(i){
-          if(i.data.assignees){ return !i.data.assignees.length }
+          if(i.data.assignees){ return !i.data.assignees.length; }
           return !i.data.assignee;
         }
       })

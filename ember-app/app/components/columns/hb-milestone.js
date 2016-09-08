@@ -9,13 +9,14 @@ var HbMilestoneComponent = HbColumn.extend(
   classNameBindings:["isFirstColumn:no-milestone"],
   isTaskColumn: false,
 
+  //Scrolling Columns Tolerance
+  _toleranceDown: 59,
+  _toleranceUp: 70,
+
   sortedIssues: function () {
     var issues = this.get("issues")
       .filter(this.get("model.filterBy").bind(this))
-      .filter((i)=> {
-        if(i.data.state === "closed"){ return !i.get("isArchived"); }
-        return true;
-      })
+      .filter((i)=> { return i.data.state !== "closed"; })
       .sort(this.sortStrategy);
     return issues;
   }.property("issues.@each.{milestoneOrder,milestoneTitle}"),
@@ -42,9 +43,9 @@ var HbMilestoneComponent = HbColumn.extend(
   },
   assignMilestone: function(issue, order, milestone){
     this.get("sortedIssues").removeObject(issue);
-    var _self = this;
-    Ember.run.schedule("afterRender", _self, function(){
+    Ember.run.schedule("afterRender", this, function(){
       issue.assignMilestone(order, milestone.data);
+      this.notifyPropertyChange('sortedIssues');
     });
   },
   findMilestone: function(a){
@@ -69,7 +70,7 @@ var HbMilestoneComponent = HbColumn.extend(
       }
     });
   },
-  isCreateVisible: true,
+  isCreateVisible: App.get('loggedIn'),
   topOrderNumber: function(){
     var issues = this.get("issues")
       .filter(function(i) { return !i.get("isArchived");})
@@ -83,12 +84,12 @@ var HbMilestoneComponent = HbColumn.extend(
       var milestone_order = this.cardMover.moveToTop(issues.get("firstObject.data"));
       var order = { milestone_order: milestone_order};
       if(first){
-        order.order = this.cardMover.moveToTop(first.data);
+        order.order = this.cardMover.moveToTop(first.data, 'order');
       }
       return order;
     } else {
       if(first){
-        return { order: this.cardMover.moveToTop(first.data) };
+        return { order: this.cardMover.moveToTop(first.data, 'order') };
       }
       return {};
     }

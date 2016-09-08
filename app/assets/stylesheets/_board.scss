@@ -1,5 +1,7 @@
 @import "arrow";
 
+$column-width: 280px;
+
 .main-toolbar {
   z-index: 3;
   height: 40px;
@@ -102,6 +104,10 @@
     @include flex(1);
     @include align-content(stretch);
     @include align-items(baseline);
+    @-moz-document url-prefix() {
+      display: block;
+      white-space: nowrap;
+    }
   }
 
   .board--milestones {
@@ -119,7 +125,13 @@
   @include flex(1);
   @include display(flex);
   @include flex-direction(column);
+  @-moz-document url-prefix() {
+    display: inline-block;
+    max-width: $column-width;
+    width: $column-width;
+  }
 }
+
 .column {
   height: 100%;
   float:none;
@@ -138,7 +150,8 @@
       @include flex(1 1 auto);
       overflow-y: auto;
       overflow-x: hidden;
-      padding-right: 1px;
+      padding: 2px 1px 20px 0px;
+
       @extend %u-fancy-scrollbar;
     }
   }
@@ -150,12 +163,12 @@
 }
 
 .column.milestone {
-  max-width: 230px;
-  width:230px;
+  width: $column-width;
+  max-width: $column-width;
   display: inline-block;
   .column-contents{
-    @include flex(0 0 230px);
-    max-width: 230px;
+    @include flex(0 0 $column-width);
+    max-width: $column-width;
   }
 }
 
@@ -290,10 +303,6 @@
   @extend .arrow;
 }
 
-.column .cards {
-  margin:0;
-  padding: 0;
-}
 .backlog {
     .dim {
       opacity: 0.4;
@@ -447,6 +456,7 @@
 
   .card-body {
     padding-bottom: 2px;
+    white-space: normal;
   }
   .milestone {
     color: $lightGrey;
@@ -791,12 +801,42 @@
 
 .filters li a {
   position:relative;
-  padding: 10px;
+  padding: 4px;
+  font-size: 12px;
   display:block;
   padding-right:25px;
   text-decoration: none;
   border-radius: 4px;
   color:#777;
+}
+
+.filters {
+  .filter-group {
+    list-style: none;
+    margin: 0px;
+    h5 {
+      padding: 2px 0px 2px 4px;
+      cursor: pointer;
+      &:hover {
+        background: #efefef;
+        border-color: #efefef;
+        border-style: solid;
+        border-radius: 2px;
+        border-width: 0px;
+      }
+      i {
+        position: relative;
+        float: right;
+        padding: 2px 2px 0px 0px;
+        font-size: 14px;
+      }
+    }
+    &.collapsed {
+      .filter {
+        display: none;
+      }
+    }
+  }
 }
 
 .filters li a strong { 

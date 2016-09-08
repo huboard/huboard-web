@@ -17,7 +17,7 @@ var relationships;
 module('Visitors/Issue/References', {
   setup: function(){
     //Clones so any stubs dont pollute other tests
-    sut = _.clone(IssueReferencesVisitor);
+    sut = _.clone(IssueReferencesVisitor); //jshint ignore:line
 
     //Build an Issue model with everything the visitor needs to succeed
     issuesById = {};
@@ -69,8 +69,12 @@ test('visit', (assert) => {
   var issue1 = Ember.Object.create({issue1: 'issue1', id: 1});
   var issue2 = Ember.Object.create({issue1: 'issue2', id: 2});
 
-  var references = [issue1, issue1, issue2, undefined];
-  var success = $.ajax().then(()=>{return references});
+  var references = [
+    {issue1: 'issue1'},
+    {issue2: 'issue2'},
+    undefined
+  ];
+  var success = $.ajax().then(()=>{return references;});
   Ember.RSVP.all = sinon.stub().returns(success);
 
   var flat_references = [issue1,issue2];
@@ -84,7 +88,7 @@ test('visit', (assert) => {
   setTimeout(()=>{
     assert.deepEqual(issue.get('issueReferences'), flat_references, 'returns the issues');
     done();
-  });
+  }, 500);
 });
 
 test('discovers referenced issues in the model', (assert) =>{

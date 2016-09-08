@@ -20,10 +20,12 @@ var ApplicationRoute = Ember.Route.extend({
     }
   },
   model: function () {
+    const socket = this.get('socket');
+    const filters = this.get('filters');
     return new Ember.RSVP.Promise(function(resolve){
        Ember.run.once(function(){
         var repo = App.get("repo");
-        resolve(Repo.create({data:repo}));
+        resolve(Repo.create({data:repo, socket: socket, filters: filters}));
        });
     });
   },
