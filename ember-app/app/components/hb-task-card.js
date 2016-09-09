@@ -1,15 +1,20 @@
 import Ember from "ember";
 import IssueFiltersMixin from "app/mixins/issue-filters";
 import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
-import CardSubscriptions from "app/mixins/subscriptions/card";
 import Messaging from "app/mixins/messaging";
 
+//Visitors
+import cardLabelsVisitor from "app/visitors/cards/labels";
+import cardAssigneesVisitor from "app/visitors/cards/assignees";
+
 var HbCardComponent = Ember.Component.extend(
-  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, CardSubscriptions, {
+  Messaging, IssueFiltersMixin, MemberDragAndDropMixin, {
     attributeBindings: ['style'],
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
+    taskCard: true,
     filters: Ember.inject.service(),
+    repoName: Ember.computed.alias("issue.repoName"),
     style: Ember.computed('issue.linkedColor', {
       get: function(){
         const color = this.get("issue.linkedColor");
@@ -26,7 +31,7 @@ var HbCardComponent = Ember.Component.extend(
     isClosable: function () {
      return App.get("loggedIn") && this.get("isLast") && this.get("issue.data.state") === "open";
     }.property("loggedIn", "isLast","issue.data.state"),
-    issueReferences: Ember.computed.alias('issue.issueReferences'),
+    presentReferences: Ember.computed.filterBy('issue.issueReferences', 'title'),
     onDestroy: function (){
       if(!this.get("issue.isArchived")){ return; }
       var self = this;
@@ -44,17 +49,17 @@ var HbCardComponent = Ember.Component.extend(
         this.get("isCollaborator") &&
         this.get("isFiltered") !== "filter-hidden";
     }.property("loggedIn","issue.data.state", "isFiltered"),
-    isFiltered: function(){
-      var item = this.get("issue");
-      if(this.isHidden(item)){return "filter-hidden";}
-      if(this.isDim(item)){return "dim";}
-      return "";
-    }.property("filters.hideFilters", "filters.dimFilters", "issue.milestoneTitle", "issue.other_labels.[]"),
+    isFiltered: Ember.computed.alias('issue.isFiltered'),
     click: function(ev){
       if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
         return;
       }
-      this.sendAction("cardClick");
+      var reference = Ember.$(ev.target).parent(".hb-card-tray").find('.number').data('issue-id');
+      if(reference){
+        var issue = this.get("presentReferences").findBy("id", reference);
+        if(issue){ return this.sendAction("cardClick", issue); }
+      }
+      this.sendAction("cardClick", this.get("issue"));
     },
     issueNumber: function () {
        return this.get("issue.number");
@@ -71,22 +76,22 @@ var HbCardComponent = Ember.Component.extend(
         return this.get("issue.data.other_labels").map(function(l){
           var color = Ember.$.Color('#' + l.color);
 
-          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}`;
+          var style = `background-color: ${color.toString()}; color: ${color.contrastColor()}; border-color: ${color.toString()}`;
 
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         });
     }.property("issue.data.other_labels.[]"),
-    stateClass: function(){
-       var github_state = this.get("issue.data.state");
-       if(github_state === "closed"){
-         return "hb-state-" + "closed";
-       }
-       var custom_state = this.get("issue.customState");
-       if(custom_state){
-         return "hb-state-" + custom_state;
-       }
-       return "hb-state-open";
-    }.property("issue.data.current_state", "issue.customState", "issue.data.state"),
+    applyCardLabels: function(){
+      Ember.run.schedule('afterRender', this, ()=>{
+        this.accept(cardLabelsVisitor);
+      });
+    }.observes('cardLabels.[]', 'isFiltered').on('didInsertElement'),
+    applyCardAssignees: function(){
+      Ember.run.schedule('afterRender', this, ()=>{
+        this.accept(cardAssigneesVisitor);
+      });
+    }.observes('issue.assignees.[]', 'isFiltered').on('didInsertElement'),
+    stateClass: Ember.computed.alias('issue.stateClass'),
 
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));

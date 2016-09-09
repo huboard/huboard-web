@@ -1,48 +1,125 @@
-<div class="ember-view">
-  <div class="card-header">
-    <div class="title" title="{{issue.title}}">
-      {{issue.title}}
-    </div>
-    <div class="number">
-      <small>#</small>
-      <a class="xnumber" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
-        {{issue.number}}
-      </a>
+<div class="ember-view task-card-container">
+  <div class="card-header task-card">
+    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+      #{{issue.number}}
+    </a>
+    {{#if issue.linkedColor}}
+      <div class="linked-repo" style={{repo-color-style issue.linkedColor}}>
+        <i class="ui-icon-note"></i>{{repoName}}
+      </div>
+    {{/if}}
+    <div class="type">
       {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
     </div>
   </div>
 
-  {{#if issue.assignee }}
-    {{hb-avatar-tooltip user=issue.assignee width="24" height="24" }}
-  {{/if}}
+  <div class="card-body">
+    <div class="title" title="{{issue.title}}">
+      {{issue.title}}
+    </div>
+  </div>
 
+  <div class="card-details-wrapper">
+    <div class="card-details clearfix">
+      <div class="avatar-wrapper">
+        {{#if issue.assignees}}
+          <div class="visible-assignees">
+            {{#each visibleAssignees as |assignee index|}}
+            <div class="hb-avatar-tooltip multi" style={{avatar-zindex index}}>
+              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{assignee.login}} </p>
+            </div>
+            {{/each}}
+          </div>
+        {{else}}
+          {{#if issue.assignee }}
+            <div class="hb-avatar-tooltip">
+              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{assignee.login}} </p>
+            </div>
+          {{/if}}
+        {{/if}}
+      </div>
+      <div class="comment-count">
+        <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
+      </div>
+
+    </div>
+  </div>
   <div class="card-labels">
-      {{#each cardLabels as |label|}}
-        <div class="card-label-wrapper"> 
-           <div class="card-label active small" style={{label.customStyle}} ></div>
+    <div class="visible-labels clearfix">
+      {{#each visibleLabels as |label|}}
+        <div class="card-label-wrapper">
            <div class="card-label active large" style={{label.customStyle}} >
              <span>{{label.name}}</span>
            </div>
         </div>
       {{/each}}
+    </div>
   </div>
+</div>
+<div class="hb-card-trays">
 
-  {{#if isLast}}
-    <div class="hb-action actions-close">
-      <button class="hb-button" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
-    </div>                                                      
-  {{/if}}
+  {{#each presentReferences as |reference|}}
+    <div class="issue-reference-wrapper {{reference.stateClass}}">
+      <div class="hb-card-tray issue-reference clearfix">
+        <a class="number reference-details {{reference.stateClass}}" href="{{reference.html_url}}" target="_blank" title="View issue on github.com" data-issue-id={{reference.id}}>
+          #{{reference.number}}
+        </a>
+        <div class="type reference-details">
+          {{#if reference.pull_request}} {{#if reference.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
+        </div>
+        <div class="comment-count reference-details">
+          <i class='ui-icon-comment-b'></i>{{reference.commentCount}}
+        </div>
+        {{#if reference.isReady}}
+          <div class='reference-details'><i class='ui-icon-arrow-1-e'></i></div>
+        {{/if}}
+        {{#if reference.isBlocked}}
+          <div class='reference-details'><i class='ui-icon-x'></i></div>
+        {{/if}}
+        {{#if reference.isClosed}}
+          <div class='reference-details'><i class='ui-icon-checkmark'></i></div>
+        {{/if}}
+        <div class="repo-name" style={{repo-color-style reference.linkedColor}}>
+          <i class="ui-icon-note"></i>{{reference.repoName}}
+        </div>
+      </div>
+    </div>
+  {{/each}}
 
   {{#if canArchive}}
+    <div class="hb-card-tray state-archive clearfix">
+      <div class="hb-action actions-archive">
+        <button class="hb-tray-button state-archive" disabled={{processing}} {{action "archive" bubbles=false}}>Archive</button>
+        <i class='ui-icon-checkmark'></i>
+        <span class="hb-tray-message"> Closed </span>
+      </div>
+    </div>
+  {{else if isLast}}
+    <div class="hb-card-tray state-closable clearfix">
+      <div class="hb-action actions-close">
+        <button class="hb-tray-button state-closable" disabled={{processing}} {{action 'close' bubbles=false}}>Close</button>
+        <span class='hb-tray-message'> Done </span>
+      </div>
+    </div>
+  {{else}}
+    {{#if issue.isReady}}
+      <div class="hb-card-tray state-ready clearfix">
+        <div class="ready">
+          <i class='ui-icon-arrow-1-e'></i>
+          <span class='hb-tray-message'> Ready for next stage </span>
+        </div>
+      </div>
+    {{/if}}
 
-  <div class="hb-action actions-archive">
-    <button class="hb-button-icon hb-button hb-button-grey" disabled={{processing}} {{action "archive" bubbles=false}}><i class="ui-icon ui-icon-box-add"></i>Archive</button>
-  </div>                                                      
+    {{#if issue.isBlocked}}
+      <div class="hb-card-tray state-blocked clearfix">
+        <div class="blocked">
+          <i class='ui-icon-x'></i>
+          <span class='hb-tray-message'> Marked as blocked</span>
+        </div>
+      </div>
+    {{/if}}
   {{/if}}
-
-  <div class="card-states">
-     <img src="{{asset-path "check.png"}}" title="Issue is closed" class="hb-state-closed"/>
-     <img src="{{asset-path "arrow.png"}}" class="hb-state-ready"/>
-     <img src="{{asset-path "x.png"}}" class="hb-state-blocked"/>
-  </div>
 </div>

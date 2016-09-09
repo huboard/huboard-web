@@ -59,7 +59,7 @@ var BoardSubscriptionMixin = Ember.Mixin.create({
 
       var _self = this;
       repo.fetchIssue(number).then((issue) => {
-        var model = Issue.create({data: issue, repo: repo});
+        var model = Issue.create({data: issue, repo: repo, socket: repo.socket, filters: repo.filters});
         if(model.get("current_state.name") === "__nil__") {
           var column = _self.get("model.columns.firstObject");
           model.set("current_state", column);

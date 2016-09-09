@@ -75,11 +75,7 @@ test('visit', (assert) => {
   var success = $.ajax().then(()=>{return references;});
   Ember.RSVP.all = sinon.stub().returns(success);
 
-  var flat_references = [
-    {issue1: 'issue1'},
-    {issue2: 'issue2'}
-  ];
-
+  var flat_references = references.slice(0,2);
   sut.visit(issue);
 
   var message = 'ensure theres a promise per reference';
@@ -112,4 +108,3 @@ test('discovers missing closed issues, returns a reference with a status', (asse
   result = sut.discoverIssue(issue, references[3]);
   assert.equal(result.state, 'closed', 'Infers the existence of a linked closed issue');
 });
-

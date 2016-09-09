@@ -9,13 +9,15 @@ var IssueController = Ember.Controller.extend(
   subscribeDisabled: true,
 
   statusChangeable: function(){
-    return this.get("isCollaborator") && this.get("model.data.state") !== "closed";
+    return this.get("isCollaborator") &&
+      this.get("model.data.state") !== "closed" &&
+      !this.get("model.current_state.is_last");
   }.property("model.data.state", "isCollaborator"),
   isCollaborator: function(){
     return this.get("model.repo.isCollaborator");
   }.property("model.repo.isCollaborator"),
   columns: Ember.computed.alias("application.model.board.columns"),
-  isReady: Ember.computed("model.customState", "model.data._data.custom_state", {
+  isReady: Ember.computed("model.customState", "model.data._data.custom_state", "model.data.other_labels.[]", {
     get: function() {
       return this.get("model.customState") === "ready";
     },
@@ -29,7 +31,7 @@ var IssueController = Ember.Controller.extend(
       }
     }
   }),
-  isBlocked: Ember.computed("model.customState", "model.data._data.custom_state", {
+  isBlocked: Ember.computed("model.customState", "model.data._data.custom_state", "model.data.other_labels.[]", {
     get: function() {
       return this.get("model.customState") === "blocked";
     },

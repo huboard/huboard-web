@@ -1,30 +1,34 @@
 <div class="column-contents">
-{{columns/hb-milestone-header
-  column=model
-  issues=sortedIssues
-  isCollapsed=isCollapsed
-  editMilestone=(action attrs.editMilestone)
-}}
-
-{{#if isCreateVisible}}
-  {{columns/hb-quick-issue
+  {{columns/hb-milestone-header
     column=model
-    repo=model.board.repo
-    createFullscreenIssue=(action attrs.createFullscreenIssue)
+    issues=sortedIssues
+    isCollapsed=isCollapsed
+    editMilestone=(action attrs.editMilestone)
   }}
-{{/if}}
-<div class="cards sortable">
-  {{#each sortedIssues as |issue|}}
-    {{
-      hb-milestone-card
-        issue=issue
-        issues=sortedIssues
-        columns=columns
-        repos=repos
-        taskColumns=taskColumns
-        cardClick=(action attrs.openFullscreenIssue issue)
+
+  {{#if isCreateVisible}}
+    {{columns/hb-quick-issue
+      column=model
+      repo=model.board.repo
+      createFullscreenIssue=(action attrs.createFullscreenIssue)
     }}
-  {{/each}}
-</div>
-<div class="collapsed"></div>
+  {{/if}}
+  <div class="cards sortable">
+    {{#each visibleIssues as |issue|}}
+      {{
+        hb-milestone-card
+          issue=issue
+          issues=sortedIssues
+          columns=columns
+          repos=repos
+          taskColumns=taskColumns
+          cardClick=(action attrs.openFullscreenIssue)
+      }}
+    {{/each}}
+  </div>
+  <div class="collapsed">
+    <div class="collapsed-title">
+      {{model.title}}
+    </div>
+  </div>
 </div>

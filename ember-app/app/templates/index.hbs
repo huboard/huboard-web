@@ -42,23 +42,23 @@
       </div>
       <div class="board-wrapper">
         <div class="board board-not-dragging board--task-board">
-          <div class="task-board">
-            {{#each board_columns as |column|}}
-              {{
-                columns/hb-column 
-                  model=column
-                  columnComponents=registeredColumns
-                  issues=model.issues
-                  repos=model.combinedRepos
+          {{#each board_columns as |column|}}
+            {{
+              columns/hb-column 
+                model=column
+                columnComponents=registeredColumns
+                issues=model.issues
+                repos=model.combinedRepos
 
-                  registerColumn=(action "registerColumn")
-                  unregisterColumn=(action "unregisterColumn")
-                  createFullscreenIssue=(action "createFullscreenIssue")
-                  openFullscreenIssue=(action "openFullscreenIssue")
-                  reopenIssueOrAbort=(action "reopenIssueOrAbort")
-              }}
-            {{/each}}
-          </div>
+                newSortable=true
+
+                registerColumn=(action "registerColumn")
+                unregisterColumn=(action "unregisterColumn")
+                createFullscreenIssue=(action "createFullscreenIssue")
+                openFullscreenIssue=(action "openFullscreenIssue")
+                reopenIssueOrAbort=(action "reopenIssueOrAbort")
+            }}
+          {{/each}}
         </div>
       </div>
     </div>

@@ -3,8 +3,6 @@ import CardMoveMixin from "../cards/card-move";
 
 
 var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
-   classNameBindings:["isHovering:ui-sortable-hover"],
-   isHovering: false,
    attachSortable: function(){
 
     var _self = this;
@@ -21,20 +19,33 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
         var column = cardMove.findColumn(ui, columns);
         var card = cardMove.findCard(ui, column);
         cardMove.data.card = card;
-        return ui.clone();
+        var clone = ui.clone();
+        clone.width(ui.outerWidth() - 12);
+        return clone;
       },
       start: function(ev, ui){
-        ui.placeholder.height(ui.item.outerHeight());
+        ui.placeholder.height(ui.helper.outerHeight());
+      },
+      activate: function(){
+        _self.set('freezeIssueArray', true);
+      },
+      deactivate: function(){
+        _self.set('freezeIssueArray', false);
+      },
+      //Keeps the sortable lists in sync across column drags when scrolling
+      change: function(ev, ui){
+        //Wait for the ui sender to kick in
+        if(ui.sender){ cardMove.data.sender = ui.sender; }
+
+        var columnLength = ui.helper.parent().find('.card').length;
+        if(cardMove.data.sender && columnLength !== cardMove.data.itemsLength ){
+          Ember.$(cardMove.data.sender).superSortable('refresh');
+          cardMove.data.itemsLength = columnLength;
+        }
       },
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
       connectWith: ".cards",
-      over: function(){
-        _self.set('isHovering', true);
-      },
-      out: function(){
-        _self.set('isHovering', false);
-      },
       update: function(ev, ui){
         if (this !== ui.item.parent()[0]){return ;}
 

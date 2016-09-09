@@ -8,8 +8,9 @@ var IssueReferencesVisitor = Ember.Object.create({
       return _self.run(_self.discoverIssue, issue, reference);
     });
 
-    Ember.RSVP.all(promises).then((references)=> {
-      issue.set('issueReferences', _.compact(references));
+    Ember.RSVP.all(promises).then((referencedIssues)=> {
+      referencedIssues = _.uniq(_.compact(referencedIssues));
+      issue.set('issueReferences', referencedIssues);
     });
   },
 

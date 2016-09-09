@@ -1,11 +1,14 @@
 import Ember from 'ember';
 import Model from '../model';
 import correlationId from 'app/utilities/correlation-id';
-import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
+import CardSubscriptions from "app/mixins/subscriptions/card";
+import Messaging from "app/mixins/messaging";
+import IssueFiltersMixin from "app/mixins/issue-filters";
 
+import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
 import issueReferenceVisitor from 'app/visitors/issue/references';
 
-var Issue = Model.extend({
+var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
   blacklist: ["repo"],
   columnIndex: Ember.computed.alias("data.current_state.index"),
   order: Ember.computed.alias("data._data.order"),
@@ -18,10 +21,32 @@ var Issue = Model.extend({
   correlationId: correlationId,
   assignee: Ember.computed.alias("data.assignee"),
   linkedColor: Ember.computed.alias("repo.data.repo.color.color"),
+  repoName: function(){
+    var parent_owner = this.get('repo.parent.repo.owner.login');
+    var current_owner = this.get('data.repo.owner.login');
+    if(!parent_owner || parent_owner === current_owner){
+      return this.get('data.repo.name');
+    }
+    return this.get('data.repo.full_name');
+  }.property('data.repo.full_name'),
   apiUrl: function(){
     var full_name = this.get("repo.data.repo.full_name");
     return `/api/${full_name}/issues/${this.get("data.number")}`;
   }.property("data.number", "repo.data.repo.full_name"),
+  isReady: Ember.computed.equal('stateClass', 'hb-state-ready'),
+  isBlocked: Ember.computed.equal('stateClass', 'hb-state-blocked'),
+  isClosed: Ember.computed.equal('stateClass', 'hb-state-closed'),
+  stateClass: function(){
+     var github_state = this.get("data.state");
+     if(github_state === "closed"){
+       return "hb-state-" + "closed";
+     }
+     var custom_state = this.get("customState");
+     if(custom_state){
+       return "hb-state-" + custom_state;
+     }
+     return "hb-state-open";
+  }.property("data.current_state", "customState", "data.state", "data.other_labels.[]"),
 
   //Relationships
   cardRelationships: function(){
@@ -60,6 +85,7 @@ var Issue = Model.extend({
   },
   updateLabels : function (label, action) {
     this.set("processing", true);
+    this.checkForStateChange(label);
     return Ember.$.ajax( {
       url: `${this.get("apiUrl")}/${action}`,
       data: JSON.stringify({
@@ -73,11 +99,30 @@ var Issue = Model.extend({
       contentType: "application/json"})
       .then(function(){
         this.set("processing", false);
+        if(this.isStateLabel(label) && action === 'unlabel'){
+          this.set('customState', '');
+        }
       }.bind(this));
+  },
+  checkForStateChange: function(label){
+    if(this.isStateLabel(label)){
+      var conflict_state = label.name.toLowerCase() === 'blocked' ? 'ready' : 'blocked';
+      var conflict_label = this.get('other_labels').find((label)=>{
+        return label.name.toLowerCase() === conflict_state;
+      });
+      this.get('other_labels').removeObject(conflict_label);
+    }
+  },
+  isStateLabel: function(label){
+    var name = label.name.toLowerCase();
+    return name === 'blocked' || name === 'ready';
   },
   reorder: function (index, column) {
     var changedColumns = this.get("data.current_state.index") !== column.data.index;
     if(changedColumns){ this.set("data._data.custom_state", ""); }
+
+    var state_label = this.get('other_labels').find((l)=> { return this.isStateLabel(l)});
+    this.get('other_labels').removeObject(state_label);
 
     this.set("data.current_state", column.data);
     this.set("data._data.order", index);
@@ -89,6 +134,7 @@ var Issue = Model.extend({
     }, function( response ){
       this.set("data.body", response.body);
       this.set("data.body_html", response.body_html);
+      if(changedColumns && state_label){ this.updateLabels(state_label, 'unlabel'); }
       return this;
     }.bind(this), "json");
   },
@@ -155,15 +201,23 @@ var Issue = Model.extend({
       correlationId: this.get("correlationId")
     }, function(){}, "json");
   },
-  customState: Ember.computed("data._data.custom_state", {
+  stateLabelName: function(){
+    return this.get('other_labels').map((label)=>{return label.name.toLowerCase()}).find((name)=>{
+      return name === 'blocked' || name === 'ready';
+    }) || '';
+  }.property('data.other_labels.[]'),
+  customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabelName", {
     get:function(){
+      var state = this.get("stateLabelName");
+      if(state){ return state; }
       return this.get("_data.custom_state");
     },
     set: function (key, value) {
-      var previousState = this.get("_data.custom_state");
+      var previousState = this.get("stateLabelName") || this.get("_data.custom_state");
       this.set("_data.custom_state", value);
 
       var endpoint = value === "" ? previousState : value;
+      if(!endpoint){ return; }
       var options = {
         dataType: "json",
         data: {correlationId: this.get("correlationId")},
@@ -177,6 +231,7 @@ var Issue = Model.extend({
         this.set("processing", false);
         this.set("data.body", response.body);
         this.set("data.body_html", response.body_html);
+        this.set("other_labels", response.other_labels);
       }.bind(this));
 
       return value;
@@ -228,7 +283,13 @@ var Issue = Model.extend({
     while(order < 1e-319){ order *= 10; }
     while(order > 1e307){ order /= 10; }
     return order;
-  }
+  },
+  columnObserver: function(){
+    if(this.get('state') === 'closed'){
+      var last_column = this.get('repo.board.columns.lastObject.data');
+      this.set('current_state', last_column);
+    }
+  }.observes('repo.board.columns', 'state')
 });
 
 export default Issue;
