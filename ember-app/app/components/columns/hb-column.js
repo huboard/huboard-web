@@ -124,32 +124,33 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     lastItem = this.get('visibleIssues').indexOf(lastItem);
     this.set('cardIndex', lastItem + horizon);
   },
-  scrollingUp: function(){
+  ////
+  //
+  // Pruning issues on scroll up is still somewhat unreliable, commenting out
+  //
+  //scrollingUp: function(){
+  //  var horizon = this.get('scrollHorizon');
+  //  var totalColumnLength = this.get('sortedIssues').length;
+  //  if(totalColumnLength <= horizon){ return; }
 
-    var horizon = this.get('scrollHorizon');
-    var totalColumnLength = this.get('sortedIssues').length;
-    if(totalColumnLength <= horizon){ return; }
+  //  var scrollTop = this.$('.cards').scrollTop();
+  //  var horizonVisible = scrollTop < 500;
 
-    var scrollTop = this.$('.cards').scrollTop();
-    var horizonVisible = scrollTop < 500;
-
-    if(horizonVisible && !this.get('freezeIssueArray')){
-      this.set('issuesAreHiding', true);
-      this.hideIssues(horizon);
-    }
-  }.on('columnScrolledUp'),
-  hideIssues: function(){
-    this.set('cardIndex', 1);
-    Ember.run.schedule('afterRender', ()=>{
-      this.set('issuesAreHiding', false);
-    });
-  },
+  //  if(horizonVisible && !this.get('freezeIssueArray')){
+  //    this.set('issuesAreHiding', true);
+  //    this.hideIssues(horizon);
+  //  }
+  //}.on('columnScrolledUp'),
+  //hideIssues: function(){
+  //  this.set('cardIndex', 1);
+  //  Ember.run.schedule('afterRender', ()=>{
+  //    this.set('issuesAreHiding', false);
+  //  });
+  //},
   refreshSortable: function(){
-    if(this.get('cardIndex') > 1){
-      Ember.run.next(()=>{
-        this.$('.cards').superSortable('refresh');
-      });
-    }
+    Ember.run.next(()=>{
+      this.$('.cards').superSortable('refresh');
+    });
   }.observes('cardIndex')
 });
 
