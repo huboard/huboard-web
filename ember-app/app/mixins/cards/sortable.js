@@ -25,7 +25,12 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
       },
       start: function(ev, ui){
         ui.placeholder.height(ui.helper.outerHeight());
+      },
+      activate: function(){
         _self.set('freezeIssueArray', true);
+      },
+      deactivate: function(){
+        _self.set('freezeIssueArray', false);
       },
       //Keeps the sortable lists in sync across column drags when scrolling
       change: function(ev, ui){
@@ -41,14 +46,10 @@ var SortableMixin = Ember.Mixin.create(CardMoveMixin, {
       items: ".is-draggable",
       placeholder: "ui-sortable-placeholder",
       connectWith: ".cards",
-      stop: function(){
-        _self.set('freezeIssueArray', false);
-      },
       update: function(ev, ui){
         if (this !== ui.item.parent()[0]){return ;}
 
         var column = cardMove.findColumn(ui.item, columns);
-        column.set('freezeIssueArray', false);
         cardMove.data.column = column;
 
         var index = ui.item.index();
