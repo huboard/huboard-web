@@ -315,9 +315,10 @@ $column-width: 280px;
       padding:0;
       margin:0;
       height:0;
-      .ember-view {
+      .ember-view, .hb-card-tray {
         display: none;
       }
+      
     }
 }
 .board {
@@ -341,7 +342,7 @@ $column-width: 280px;
       border:0;
       padding-bottom: 5px;
       margin-bottom: 15px;
-      .ember-view {
+      .ember-view, .hb-card-tray {
         display: none;
       }
       .card-header {
