@@ -910,7 +910,14 @@ $column-width: 280px;
     border: 1px solid #e5e5e5;
     box-sizing: border-box;
     @include flex(1);
-
+    .collapsed-title {
+      @include transform(rotate(90deg));
+      position: relative;
+      top: 100px;
+      font-size: 20px;
+      color: #999;
+      white-space: nowrap;
+    }
   }
 
   .hb-column-header {
