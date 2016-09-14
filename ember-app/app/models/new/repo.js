@@ -230,6 +230,14 @@ var Repo = Model.extend({
   fetchIssues: function(options){
     var url = `/api/${this.get('data.repo.full_name')}/issues`;
     return Ember.$.getJSON(url,{ options: options });
+  },
+  fetchProjects: function(){
+    var url = `/api/${this.get('data.repo.full_name')}/projects`;
+    return Ember.$.getJSON(url);
+  },
+  fetchProject: function(number){
+    var url = `/api/${this.get('data.repo.full_name')}/projects/${number}`;
+    return Ember.$.getJSON(url);
   }
 });
 

@@ -1,0 +1,13 @@
+<div class="repo-settings-wrapper">
+  <div class="repo-settings">
+    <ul>
+      {{#each model.repo.projects as |project|}}
+      <li>
+        {{#link-to 'projects.project' project.number}}
+        {{project.name}}
+        {{/link-to}}
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
