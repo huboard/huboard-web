@@ -9,6 +9,9 @@ var ProjectController = Ember.Controller.extend({
     unregisterColumn: function(column_component){
       this.get("registeredColumns").removeObject(column_component);
     },
+    openFullscreenIssue(issue){
+      this.get("target").send("openFullscreenIssue", issue);
+    }
   }
 });
 

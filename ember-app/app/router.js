@@ -16,7 +16,9 @@ Router.map(function() {
   this.route("milestones.missing");
 
   this.resource("projects", function(){
-    this.resource("projects.project",{path:"/:project_id"});
+    this.resource("projects.project", {path:"/:project_id"}, function(){
+      this.resource("projects.project.issue", {path:"/issues/:issue_id"});
+    });
   });
 
   this.resource("settings", function(){
