@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Model from '../model';
 import Board from './board';
 import Issue from './issue';
+import Project from './project';
 import Milestone from './milestone';
 import Integration from 'app/models/integration';
 import Health from 'app/models/health';
@@ -236,8 +237,11 @@ var Repo = Model.extend({
     return Ember.$.getJSON(url);
   },
   fetchProject: function(number){
+    var repo = this;
     var url = `/api/${this.get('data.repo.full_name')}/projects/${number}`;
-    return Ember.$.getJSON(url);
+    return Ember.$.getJSON(url).then((response) => {
+      return Project.create({data: response, repo: repo});
+    });
   }
 });
 

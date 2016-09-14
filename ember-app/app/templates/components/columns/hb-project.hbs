@@ -10,13 +10,23 @@
   {{/if}}
   <div class="cards sortable">
     {{#each visibleIssues as |issue|}}
-      {{
-        hb-task-card
-          issue=issue
-          issues=model.sortedIssues
-          repos=repos
-          isLastColumn=model.isLastColumn
-      }}
+     {{#if issue.issue}}
+        {{
+          hb-task-card
+            issue=issue.issue
+            issues=model.project.repo.issues
+            repos=repos
+            isLastColumn=model.isLastColumn
+        }}
+     {{else}}
+     <div class="card hb-note">
+      <div class="card-body">
+        <div class="title">
+          <i class="ui-icon ui-icon-comment" style="margin-top: 1px; margin-right: 6px;"></i>{{issue.note}}
+        </div>
+      </div>
+     </div>
+     {{/if}}
     {{/each}}
   </div>
   <div class="collapsed">

@@ -1,13 +1,21 @@
 <div class="repo-settings-wrapper">
   <div class="repo-settings">
-    <ul>
-      {{#each model.repo.projects as |project|}}
-      <li>
-        {{#link-to 'projects.project' project.number}}
-        {{project.name}}
-        {{/link-to}}
-      </li>
-      {{/each}}
-    </ul>
+    <div class="boxed-group">
+      <h3>Projects</h3>
+      <div class="boxed-group__content">
+        <div class="alert alert-error">
+          <strong>Warning</strong>: Projects support is read-only and very experimental <a href="https://github.com/huboard/huboard/issues/688">Join the discussion</a>
+        </div>
+        <ul class="unstyled">
+          {{#each model.repo.projects as |project|}}
+          <li>
+            {{#link-to 'projects.project' project.number}}
+            {{project.name}}
+            {{/link-to}}
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
