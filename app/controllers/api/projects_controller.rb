@@ -20,6 +20,13 @@ module Api
         request.headers["Accept"] = "application/vnd.github.inertia-preview.full+json"
       end
 
+      columns.each do |column|
+        path_prefix = "./repos/#{params[:user]}/#{params[:repo]}/projects/columns/#{column['id']}/cards"
+        column["cards"] = Project.new(gh.connection, path_prefix).all do |request|
+          request.headers["Accept"] = "application/vnd.github.inertia-preview.full+json"
+        end
+      end
+
       render json: { project: project, columns: columns }
     end
 
