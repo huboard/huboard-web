@@ -1,0 +1,27 @@
+<div class="column-contents">
+  <h3 class="hb-column-header">
+    <i class="ui-icon ui-icon-plus"></i>
+    <i class="ui-icon ui-icon-minus"></i>
+    <span class="text">{{model.name}}</span>
+  </h3>
+
+  {{#if isCreateVisible}}
+  Create one
+  {{/if}}
+  <div class="cards sortable">
+    {{#each visibleIssues as |issue|}}
+      {{
+        hb-task-card
+          issue=issue
+          issues=model.sortedIssues
+          repos=repos
+          isLastColumn=model.isLastColumn
+      }}
+    {{/each}}
+  </div>
+  <div class="collapsed">
+    <div class="collapsed-title">
+      {{model.title}}
+    </div>
+  </div>
+</div>

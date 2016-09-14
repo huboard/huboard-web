@@ -1,8 +1,9 @@
-
-<ul>
-  {{#each model.columns as |column|}}
-  <li>
-    {{column.name}}
-  </li>
-  {{/each}}
-</ul>
+{{#each model.columns as |column|}}
+{{columns/hb-project
+    model=column
+    issues=application.model.issues
+    newSortable=true
+    registerColumn=(action "registerColumn")
+    unregisterColumn=(action "unregisterColumn")
+ }}
+{{/each}}
