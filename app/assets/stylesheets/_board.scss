@@ -347,13 +347,6 @@ $task-column-width: 180px;
       .ember-view, .hb-card-tray {
         display: none;
       }
-      .card-header {
-        display: none;
-      }
-      .card-labels {
-        display: none;
-      }
-
     }
     .filter-hidden + .filter-hidden {
       padding:0;
@@ -426,41 +419,36 @@ $task-column-width: 180px;
   }
 
   .card-header {
-    @include display(flex);
     padding-bottom: 2px;
+    white-space: normal;
+    font-size: 14px;
+    font-weight: 400;
     color: $darkGrey;
-    i {
-      position: relative;
-      padding-right: 4px;
-    }
-
-    .number {
-      padding-right: 6px;
-    }
-    .linked-repo {
-      padding-right: 6px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-
-      i {
-        top: 2px;
-      }
-    }
-    .type {
-      i {
-        font-size: 14px;
-        padding-right: 6px;
-        color: $hb-purple;
-        top: 1px;
-      }
-    }
   }
 
   .card-body {
     padding-bottom: 2px;
-    white-space: normal;
+    line-height: 23px;
+
+    a {
+      cursor: pointer;
+    }
+
+    i {
+      vertical-align: text-top;
+    }
+
+    .type {
+      color: $hb-purple;
+    }
+
+    .linked-repo {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
+
   .milestone {
     color: $lightGrey;
     font-size:11px;
