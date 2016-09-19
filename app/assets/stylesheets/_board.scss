@@ -1,6 +1,7 @@
 @import "arrow";
 
-$column-width: 280px;
+$milestone-column-width: 280px;
+$task-column-width: 180px;
 
 .main-toolbar {
   z-index: 3;
@@ -127,12 +128,13 @@ $column-width: 280px;
   @include flex-direction(column);
   @-moz-document url-prefix() {
     display: inline-block;
-    max-width: $column-width;
-    width: $column-width;
+    max-width: $task-column-width;
+    width: $task-column-width;
   }
 }
 
 .column {
+  min-width: $task-column-width;
   height: 100%;
   float:none;
   vertical-align: top;
@@ -163,12 +165,12 @@ $column-width: 280px;
 }
 
 .column.milestone {
-  width: $column-width;
-  max-width: $column-width;
+  width: $milestone-column-width;
+  max-width: $milestone-column-width;
   display: inline-block;
   .column-contents{
-    @include flex(0 0 $column-width);
-    max-width: $column-width;
+    @include flex(0 0 $milestone-column-width);
+    max-width: $milestone-column-width;
   }
 }
 
@@ -895,8 +897,7 @@ $column-width: 280px;
 }
 
 .column {
-  min-width: 250px;
-  //@include transition(all 0.4s ease-out);
+
   .hb-column-header {
     cursor: pointer;
   }
