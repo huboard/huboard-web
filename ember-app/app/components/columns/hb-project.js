@@ -59,6 +59,11 @@ var HbProjectComponent = HbColumn.extend(
       return value;
     }
   }).property(),
+  actions: {
+    toggleCollapsed(){
+      this.toggleProperty('isCollapsed');
+    }
+  }
 });
 
 export default HbProjectComponent;
