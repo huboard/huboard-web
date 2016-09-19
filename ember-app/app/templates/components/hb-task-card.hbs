@@ -23,9 +23,9 @@
     {{/if}}
   </div>
 
-  <div class="card-details-wrapper">
+  <div class="card-details-wrapper {{unless hasDetails 'hide'}}">
     <div class="card-details clearfix">
-      <div class="avatar-wrapper">
+      <div class="avatar-wrapper {{unless hasAvatar 'hide'}}">
         {{#if issue.assignees}}
           <div class="visible-assignees">
             {{#each visibleAssignees as |assignee index|}}
@@ -44,7 +44,7 @@
           {{/if}}
         {{/if}}
       </div>
-      <div class="comment-count">
+      <div class="comment-count {{unless issue.commentCount 'hide'}}">
         <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
       </div>
 
