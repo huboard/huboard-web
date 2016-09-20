@@ -27,7 +27,7 @@
         <% end %>
       </div>
     <% elsif @repo && @repo['permissions'] && @repo['permissions']['push'] %>
-      <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet configured for HuBoard</h2>
+      <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet setup for HuBoard</h2>
       <div class="create-new-board__message">
         <h3> We can automatically get you started with a default label configuration: </h3>
         <br/>
@@ -53,7 +53,7 @@
         <% end %>
       </div>
     <% else %>
-      <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet configured for HuBoard</h2>
+      <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet setup for HuBoard</h2>
       <div class="create-new-board__message">
         <ul class="create-new-board__list">
           <li class="create-new-board__list__item create-new-board__list__item--error">
