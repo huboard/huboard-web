@@ -4,6 +4,7 @@ module Api
 
     def asset_uploader
       not_found unless logged_in?
+      not_found unless Rails.application.config.client_environment["FEATURES"]["IMAGE_UPLOADS"]
       uploader = AssetUploader.new
       uploader.user = params[:user]
       uploader.repo = params[:repo]
