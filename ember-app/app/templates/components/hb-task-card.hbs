@@ -1,27 +1,31 @@
 <div class="ember-view task-card-container">
-  <div class="card-header task-card">
-    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
-      #{{issue.number}}
-    </a>
-    {{#if issue.linkedColor}}
-      <div class="linked-repo" style={{repo-color-style issue.linkedColor}}>
-        <i class="ui-icon-note"></i>{{repoName}}
-      </div>
-    {{/if}}
-    <div class="type">
-      {{#if issue.pull_request}} {{#if issue.pull_request.html_url }} <i class="ui-icon ui-icon-21 ui-icon-branch-merge"></i> {{/if}} {{/if}}
-    </div>
-  </div>
-
-  <div class="card-body">
+  <div class="card-header">
     <div class="title" title="{{issue.title}}">
       {{issue.title}}
     </div>
   </div>
 
-  <div class="card-details-wrapper">
+  <div class="card-body task-card">
+    <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+      #{{issue.number}}
+    </a>
+    {{#if issue.linkedColor}}
+      <span class="linked-repo" style={{repo-color-style issue.linkedColor}}>
+        <i class="ui-icon ui-icon-note"></i> {{repoName}}
+      </span>
+    {{/if}}
+    {{#if issue.pull_request}} 
+      {{#if issue.pull_request.html_url }} 
+        <span class="type">
+          <i class="ui-icon ui-icon-branch-merge"></i> 
+        </span>
+      {{/if}} 
+    {{/if}}
+  </div>
+
+  <div class="card-details-wrapper {{unless hasDetails 'hide'}}">
     <div class="card-details clearfix">
-      <div class="avatar-wrapper">
+      <div class="avatar-wrapper {{unless hasAvatar 'hide'}}">
         {{#if issue.assignees}}
           <div class="visible-assignees">
             {{#each visibleAssignees as |assignee index|}}
@@ -40,7 +44,7 @@
           {{/if}}
         {{/if}}
       </div>
-      <div class="comment-count">
+      <div class="comment-count {{unless issue.commentCount 'hide'}}">
         <i class='ui-icon-comment-b'></i>{{issue.commentCount}}
       </div>
 
