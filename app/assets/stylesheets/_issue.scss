@@ -67,6 +67,16 @@
     line-height: 1em;
     font-size: 12px;
   }
+
+  .linked-repo {
+    padding-left: 4px;
+    font-size: 14px;
+    .ui-icon-note {
+      position: relative;
+      font-size: 14px;
+      top: 2px;
+    }
+  }
 }
 
 .issue-reference-info {
