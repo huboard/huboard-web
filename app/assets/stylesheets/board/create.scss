@@ -1,52 +1,34 @@
-.create-new-board--container {
+.create-new-board__container {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.create-new-board--message {
-  margin: 0px auto 30px auto;
-  margin-bottom: 30px;
+  padding-bottom: 30px;
   font-size: 15px;
 }
 
-.create-new-board--list {
+.create-new-board__message {
+  margin: 0px auto;
+}
+
+.create-new-board__list {
   list-style: none;
   padding-left: 10px;
-  padding-bottom: 10px;
   text-align: left;
-  li {
+  &__item {
     border-left-style: solid;
     border-left-color: $lightGrey;
     padding-left: 10px;
     margin-bottom: 14px;
-  }
-}
-
-.create-new-board--form {
-  input.btn.primary {
-    background: none;
-    font-size: 16px;
-    border-style: solid;
-    padding: 18px;
-    border-radius: 6px;
-    text-shadow: none;
-    &:hover {
-      background-color: $hb-purple;
-      color: white;
+    &--error {
+      border-left-color: $red;
     }
   }
 }
 
-.create-new-board--labels {
+.create-new-board__labels {
   @include display(flex);
   @include align-items(center);
   @include justify-content(center);
-  .labels-create-message {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  .labels-create-columns {
-    font-size: 14px;
-  }
+  padding-bottom: 10px;
+  font-size: 16px;
 }
