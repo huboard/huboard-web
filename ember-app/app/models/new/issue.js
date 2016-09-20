@@ -208,6 +208,9 @@ var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
   }.property('data.other_labels.[]'),
   customState: Ember.computed("data._data.custom_state", "data.other_labels.[]", "stateLabelName", {
     get:function(){
+      //Prevents stateLabelName from overriding archived state
+      if(this.get("_data.custom_state") === "archived"){ return "archived" }
+
       var state = this.get("stateLabelName");
       if(state){ return state; }
       return this.get("_data.custom_state");
@@ -244,6 +247,7 @@ var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
       correlationId: this.get("correlationId")
     }).then(function(response){
         this.set("processing", false);
+        this.incrementProperty('data.comments');
         return response;
       }.bind(this));
   },
