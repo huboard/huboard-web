@@ -134,7 +134,7 @@ $task-column-width: 180px;
   @for $i from 1 through 20 {
     &.columns-#{$i}{
       @-moz-document url-prefix() {
-        max-width: percentage(1/$i);
+        max-width: percentage(0.99/$i);
         width: percentage(0.99/$i);
       }
     }
