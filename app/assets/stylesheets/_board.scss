@@ -131,7 +131,7 @@ $task-column-width: 180px;
     max-width: $milestone-column-width;
     min-width: $task-column-width;
   }
-  @for $i from 1 through 10 {
+  @for $i from 1 through 20 {
     &.columns-#{$i}{
       @-moz-document url-prefix() {
         max-width: percentage(1/$i);
