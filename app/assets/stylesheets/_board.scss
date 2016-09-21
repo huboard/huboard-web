@@ -128,8 +128,8 @@ $task-column-width: 180px;
   @include flex-direction(column);
   @-moz-document url-prefix() {
     display: inline-block;
-    max-width: $task-column-width;
-    width: $task-column-width;
+    max-width: $milestone-column-width;
+    min-width: $milestone-column-width;
   }
 }
 
