@@ -14,6 +14,11 @@
     <div class="flex-issue-title">
       <span class="wrap-fix">{{ model.title }}</span>
       <a class="number" href="{{{unbound model.html_url }}}" target="_blank" title="{{model.title}}"><small>#{{model.number}}</small></a>
+      {{#if model.linkedColor}}
+        <span class="linked-repo" style={{repo-color-style model.linkedColor}}>
+          <i class="ui-icon ui-icon-note"></i> {{model.repoName}}
+        </span>
+      {{/if}}
       {{#if isClosed}}
         <span class="issue-closed-badge"><p> Closed </p></span>
       {{/if}}
