@@ -7,7 +7,7 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNameBindings:["isCollapsed:hb-state-collapsed","isHovering:hovering", "isTaskColumn:hb-task-column", "isTaskColumn:task-column", "columnsClass"],
 
   columnsClass: Ember.computed('model.columns.[]', {
-    get(){
+    get() {
       return `columns-${this.get('model.columns.length')}`;
     }
   }),
