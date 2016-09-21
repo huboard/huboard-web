@@ -65,7 +65,7 @@ var HbCardComponent = Ember.Component.extend(
     }),
     isFiltered: Ember.computed.alias('issue.isFiltered'),
     click: function(ev){
-      if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.xnumber")){
+      if(this.get("isFiltered") === "filter-hidden" || Ember.$(ev.target).is("a.number")){
         return;
       }
       var reference = Ember.$(ev.target).parent(".hb-card-tray").find('.number').data('issue-id');
