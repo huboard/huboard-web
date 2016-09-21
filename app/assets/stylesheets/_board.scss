@@ -960,7 +960,7 @@ $task-column-width: 180px;
   }
   &.hb-state-collapsed {
     @include flex(0 1 auto);
-    width: 90px !imporant;
+    width: 90px !important;
     .hb-column-header .ui-icon-plus { display:inline; }
     .collapsed {
       display: block;
