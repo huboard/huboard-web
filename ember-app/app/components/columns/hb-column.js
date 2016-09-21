@@ -22,11 +22,11 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     return this.get("model.sortedIssues");
   }.property("model.sortedIssues.@each.{columnIndex,order,state}"),
   moveIssue: function(issue, order, cancelMove){
-    var _self = this;
+    var self = this;
     if(issue.data.state === "closed" && !this.get("model.isLastColumn")){
       return this.attrs.reopenIssueOrAbort({
         issue: issue,
-        column: _self.get("model"),
+        column: self.get("model"),
         onAccept: function(){ self.moveIssue(issue, order); },
         onReject: function(){ cancelMove(); }
       });
@@ -36,7 +36,6 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
     Ember.run.schedule("afterRender", this, function(){
       issue.reorder(order, this.get("model"));
       this.notifyPropertyChange('sortedIssues');
-      _self.setColumnHeight();
     });
   },
 
@@ -68,19 +67,11 @@ var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
       return {};
     }
   }.property("model.sortedIssues.[]"),
-  setColumnHeight: function(){
-      this.$('.cards').css('min-height', this.get('model.sortedIssues.length') * 86)
-  },
+
   registerWithController: function(){
     var _self = this;
     Ember.run.schedule("afterRender", this, function(){
       _self.attrs.registerColumn(_self);
-    });
-  }.on("didInsertElement"),
-  setMinimumHeight: function(){
-    var _self = this;
-    Ember.run.schedule("afterRender", this, function(){
-      _self.setColumnHeight();
     });
   }.on("didInsertElement"),
   unregisterWithController: function(){
