@@ -129,9 +129,18 @@ $task-column-width: 180px;
   @-moz-document url-prefix() {
     display: inline-block;
     max-width: $milestone-column-width;
-    min-width: $milestone-column-width;
+    min-width: $task-column-width;
+  }
+  @for $i from 1 through 10 {
+    &.columns-#{$i}{
+      @-moz-document url-prefix() {
+        max-width: percentage(1/$i);
+        width: calc(#{percentage(1/$i)} - 1px);
+      }
+    }
   }
 }
+
 
 .column {
   min-width: $task-column-width;
