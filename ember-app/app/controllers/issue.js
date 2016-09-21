@@ -8,7 +8,6 @@ var IssueController = Ember.Controller.extend(
   //Fix the need to delay event subscriptions
   subscribeDisabled: true,
 
-  repoName: Ember.computed.alias("model.repoName"),
   statusChangeable: function(){
     return this.get("isCollaborator") &&
       this.get("model.data.state") !== "closed" &&
