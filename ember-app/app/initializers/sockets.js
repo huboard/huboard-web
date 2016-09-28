@@ -82,7 +82,7 @@ export function initialize(container, application){
         return channel.replace(/\./g, '!').toLowerCase();
       },
       subscribeTo: function(channel) {
-        channel = this._sanitizeChannel(channel), self = this;
+        var channel = this._sanitizeChannel(channel), self = this;
         var client = this.get('client'), 
         callbacks = Ember.$.Callbacks();
 
