@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import Model from '../model';
-import correlationId from 'app/utilities/correlation-id';
-import CardSubscriptions from "app/mixins/subscriptions/card";
-import Messaging from "app/mixins/messaging";
-import IssueFiltersMixin from "app/mixins/issue-filters";
+import correlationId from 'huboard-app/utilities/correlation-id';
+import CardSubscriptions from "huboard-app/mixins/subscriptions/card";
+import Messaging from "huboard-app/mixins/messaging";
+import IssueFiltersMixin from "huboard-app/mixins/issue-filters";
 
-import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
-import issueReferenceVisitor from 'app/visitors/issue/references';
+import CardRelationshipParser from 'huboard-app/utilities/parsing/card-relationship-parser';
+import issueReferenceVisitor from 'huboard-app/visitors/issue/references';
 
 var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
   blacklist: ["repo"],

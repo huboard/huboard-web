@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import ajax from 'ic-ajax';
-import correlationId from 'app/utilities/correlation-id';
-import Serializable from 'app/mixins/serializable';
+import correlationId from 'huboard-app/utilities/correlation-id';
+import Serializable from 'huboard-app/mixins/serializable';
 
 var HuBoardModel = Ember.Object.extend(
   Ember._ProxyMixin, Serializable, {

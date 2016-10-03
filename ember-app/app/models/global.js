@@ -1,4 +1,4 @@
-import Settings from 'app/models/settings';
+import Settings from 'huboard-app/models/settings';
 
 
 var Global = Settings.extend({

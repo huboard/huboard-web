@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Integration from 'app/models/integration';
+import Integration from 'huboard-app/models/integration';
 
 var SettingsIntegrationsNewController = Ember.Controller.extend({
   application: Ember.inject.controller(),

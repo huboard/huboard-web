@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import KeyPressHandlingMixin from 'app/mixins/key-press-handling';
-import BufferedMixin from 'app/mixins/buffered';
+import KeyPressHandlingMixin from 'huboard-app/mixins/key-press-handling';
+import BufferedMixin from 'huboard-app/mixins/buffered';
 
 var IssueTitleComponent = Ember.Component.extend(BufferedMixin,KeyPressHandlingMixin,{
   classNames: ["fullscreen-header"],
