@@ -3,7 +3,7 @@
 module.exports = function(environment) {
   var ENV = {
     github: 'https://github.com/',
-    modulePrefix: 'app',
+    modulePrefix: 'huboard-app',
     environment: environment,
     baseURL: '/',
     locationType: 'hash',
