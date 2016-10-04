@@ -1,4 +1,4 @@
-import IssueReferencesVisitor from 'app/visitors/issue/references';
+import IssueReferencesVisitor from 'huboard-app/visitors/issue/references';
 import Ember from 'ember';
 
 import {

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import CardMoveMixin from 'app/mixins/cards/card-move';
+import CardMoveMixin from 'huboard-app/mixins/cards/card-move';
 
 import {
   moduleFor,

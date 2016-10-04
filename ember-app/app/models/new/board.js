@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Model from '../model';
 import Column from './column';
-import MilestoneColumn from './milestone_column';
+import MilestoneColumn from './milestone-column';
 
 
 var Board = Model.extend({
