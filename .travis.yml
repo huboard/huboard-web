@@ -1,6 +1,6 @@
 language: 
-  - ruby
   - node_js
+  - ruby
 node_js:
   - 4
 
