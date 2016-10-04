@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import BufferedMixin from 'app/mixins/buffered';
+import BufferedMixin from 'huboard-app/mixins/buffered';
 
 var MilestonesEditController = Ember.Controller.extend(BufferedMixin, {
   isCollaboratorBinding: "model.repo.isCollaborator",

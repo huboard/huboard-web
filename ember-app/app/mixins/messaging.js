@@ -1,5 +1,5 @@
 import Ember from "ember";
-import subscriptionParsing from "app/utilities/messaging/subscription-parsing";
+import subscriptionParsing from "huboard-app/utilities/messaging/subscription-parsing";
 
 var MessagingMixin = Ember.Mixin.create({
 

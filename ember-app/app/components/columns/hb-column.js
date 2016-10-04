@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import SortableMixin from "app/mixins/cards/sortable";
-import ScrollingColumn from "app/mixins/scrolling/column";
+import SortableMixin from "huboard-app/mixins/cards/sortable";
+import ScrollingColumn from "huboard-app/mixins/scrolling/column";
 
 var HbColumnComponent = Ember.Component.extend(SortableMixin, ScrollingColumn, {
   classNames: ["column"],

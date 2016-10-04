@@ -1,4 +1,4 @@
-import Board from 'app/models/new/board';
+import Board from 'huboard-app/models/new/board';
 import Ember from 'ember';
 
 var SettingsLinksRoute = Ember.Route.extend({

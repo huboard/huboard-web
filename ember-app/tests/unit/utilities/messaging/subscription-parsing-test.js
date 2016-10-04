@@ -1,5 +1,5 @@
 import Ember from "ember";
-import SubscriptionParsing from "app/utilities/messaging/subscription-parsing";
+import SubscriptionParsing from "huboard-app/utilities/messaging/subscription-parsing";
 
 import {
   module,

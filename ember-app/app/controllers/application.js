@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import BoardSubscriptions from "app/mixins/subscriptions/board";
-import Messaging from "app/mixins/messaging";
-import { throttledObserver } from 'app/utilities/observers';
+import BoardSubscriptions from "huboard-app/mixins/subscriptions/board";
+import Messaging from "huboard-app/mixins/messaging";
+import { throttledObserver } from 'huboard-app/utilities/observers';
 
 var ApplicationController = Ember.Controller.extend(
   BoardSubscriptions, Messaging, {

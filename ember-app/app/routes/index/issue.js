@@ -1,4 +1,4 @@
-import Route from 'app/routes/issue';
+import Route from 'huboard-app/routes/issue';
 
 
 var IndexIssueRoute = Route.extend({

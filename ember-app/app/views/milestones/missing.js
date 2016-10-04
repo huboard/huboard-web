@@ -1,4 +1,4 @@
-import ModalView from 'app/views/modal';
+import ModalView from 'huboard-app/views/modal';
 
 
 var MilestonesMissingView = ModalView.extend({

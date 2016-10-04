@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Repo from 'app/models/new/repo';
+import Repo from 'huboard-app/models/new/repo';
 
 var ApplicationRoute = Ember.Route.extend({
   filters: Ember.inject.service(),

@@ -1,4 +1,4 @@
-import KeyPressHandlingMixin from 'app/mixins/key-press-handling';
+import KeyPressHandlingMixin from 'huboard-app/mixins/key-press-handling';
 import Ember from 'ember';
 
 

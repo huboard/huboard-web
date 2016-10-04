@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import correlationId from 'app/utilities/correlation-id';
-import faye from 'app/utilities/messaging/fayeClient';
+import correlationId from 'huboard-app/utilities/correlation-id';
+import faye from 'huboard-app/utilities/messaging/fayeClient';
 
 export function initialize(container, application){
   let socket = Ember.Object.extend({

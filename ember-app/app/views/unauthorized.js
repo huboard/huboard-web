@@ -1,5 +1,5 @@
-import ModalView from 'app/views/modal';
-import animateModalOpen from 'app/config/animate-modal-open';
+import ModalView from 'huboard-app/views/modal';
+import animateModalOpen from 'huboard-app/config/animate-modal-open';
 import Ember from 'ember';
 
 
