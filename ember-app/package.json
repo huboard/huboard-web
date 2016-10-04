@@ -25,7 +25,7 @@
     "ember-buffered-proxy": "0.6.0",
     "ember-ajax": "0.7.1",
     "ember-c3": "0.2.2",
-    "ember-cli": "<2.5.0",
+    "ember-cli": ">2.3 <2.5.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-content-security-policy": "0.3.0",
