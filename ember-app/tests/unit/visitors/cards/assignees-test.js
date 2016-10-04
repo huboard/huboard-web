@@ -1,4 +1,4 @@
-import cardAssigneesVisitor from 'app/visitors/cards/assignees';
+import cardAssigneesVisitor from 'huboard-app/visitors/cards/assignees';
 import Ember from 'ember';
 
 import {

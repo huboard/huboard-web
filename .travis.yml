@@ -28,8 +28,7 @@ install:
   - bundle install --jobs=3 --retry=3 --deployment
   - npm install
   - cd ember-app && npm install && cd ..
-  - npm install -g ember-cli
 
 script: 
   - bundle exec rake
-  - cd ember-app && ember test && cd ..
+  - cd ember-app && ./node_modules/.bin/ember test && cd ..
