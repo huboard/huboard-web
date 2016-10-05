@@ -15,6 +15,8 @@
       </div>
       {{/if}}
 
+      {{x-range-input value=(mut global.displaySetting) min=0 max=100 step=100 }}
+
       {{#if isCollaborator}}
       <div class="create-button">
         {{#if model.isUnhealthy}}
