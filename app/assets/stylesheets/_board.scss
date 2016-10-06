@@ -727,6 +727,22 @@ $task-column-width: 180px;
   }
 }
 
+.board-heavy {
+  .card {
+    .board-light {
+      display: none;
+    }
+  }
+}
+
+.board-light {
+  .card {
+    .board-heavy {
+      display: none;
+    }
+  }
+}
+
 
 
 .card a.close {
