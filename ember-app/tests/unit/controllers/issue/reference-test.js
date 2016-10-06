@@ -1,7 +1,7 @@
 import request from 'ic-ajax';
 import { defineFixture as fixture } from 'ic-ajax';
 
-import IssueController from "app/controllers/issue";
+import IssueController from "huboard-app/controllers/issue";
 IssueController.reopen({
   socket: sinon.spy()
 });

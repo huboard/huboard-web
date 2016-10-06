@@ -1,7 +1,7 @@
-import Board from 'app/models/new/board';
+import Board from 'huboard-app/models/new/board';
 import Ember from 'ember';
-import CreateIssue from 'app/models/forms/create-issue';
-import animateModalClose from 'app/config/animate-modal-close';
+import CreateIssue from 'huboard-app/models/forms/create-issue';
+import animateModalClose from 'huboard-app/config/animate-modal-close';
 
 var IndexRoute = Ember.Route.extend({
   qps: Ember.inject.service("query-params"),

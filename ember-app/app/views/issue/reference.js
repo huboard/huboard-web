@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import emojiParser from "app/utilities/string/emoji-parser";
+import emojiParser from "huboard-app/utilities/string/emoji-parser";
 
 var IssueReferenceView = Ember.View.extend({
   classNameBindings: [":issue-reference-info", "isLoaded:hb-loaded:ui-blur"],

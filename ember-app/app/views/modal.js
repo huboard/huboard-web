@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import animateModalOpen from 'app/config/animate-modal-open';
-import layout from 'app/templates/layouts/modal';
+import animateModalOpen from 'huboard-app/config/animate-modal-open';
+import layout from 'huboard-app/templates/layouts/modal';
 
 var ModalView = Ember.View.extend({
   layout: layout,

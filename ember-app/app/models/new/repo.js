@@ -3,11 +3,11 @@ import Model from '../model';
 import Board from './board';
 import Issue from './issue';
 import Milestone from './milestone';
-import Integration from 'app/models/integration';
-import Health from 'app/models/health';
-import Link from 'app/models/link';
+import Integration from 'huboard-app/models/integration';
+import Health from 'huboard-app/models/health';
+import Link from 'huboard-app/models/link';
 import ajax from 'ic-ajax';
-import correlationId from 'app/utilities/correlation-id';
+import correlationId from 'huboard-app/utilities/correlation-id';
 
 const get = Ember.get;
 

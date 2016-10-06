@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import IssueSubscriptions from "app/mixins/subscriptions/issue";
-import Messaging from "app/mixins/messaging";
+import IssueSubscriptions from "huboard-app/mixins/subscriptions/issue";
+import Messaging from "huboard-app/mixins/messaging";
 
 var IssueController = Ember.Controller.extend(
   IssueSubscriptions, Messaging, {

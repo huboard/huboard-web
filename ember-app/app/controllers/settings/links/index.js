@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { debouncedObserver } from 'app/utilities/observers';
+import { debouncedObserver } from 'huboard-app/utilities/observers';
 
 var SettingsLinksIndexController = Ember.Controller.extend({
   links: Ember.inject.controller('settings/links'),

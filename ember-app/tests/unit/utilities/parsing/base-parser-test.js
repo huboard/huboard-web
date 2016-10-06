@@ -1,4 +1,4 @@
-import BaseParser from 'app/utilities/parsing/base-parser';
+import BaseParser from 'huboard-app/utilities/parsing/base-parser';
 import Ember from 'ember';
 
 import {

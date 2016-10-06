@@ -1,4 +1,4 @@
-import emojiParser from "app/utilities/string/emoji-parser";
+import emojiParser from "huboard-app/utilities/string/emoji-parser";
 
 import {
   module,

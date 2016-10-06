@@ -1,8 +1,8 @@
-import Board from 'app/models/new/board';
-import CreateIssue from 'app/models/forms/create-issue';
-import Milestone from 'app/models/new/milestone';
+import Board from 'huboard-app/models/new/board';
+import CreateIssue from 'huboard-app/models/forms/create-issue';
+import Milestone from 'huboard-app/models/new/milestone';
 import Ember from 'ember';
-import animateModalClose from 'app/config/animate-modal-close';
+import animateModalClose from 'huboard-app/config/animate-modal-close';
 
 var MilestonesRoute = Ember.Route.extend({
   qps: Ember.inject.service("query-params"),

@@ -1,6 +1,5 @@
 language: 
   - ruby
-  - node_js
 
 branches:
   only:
@@ -17,6 +16,7 @@ cache:
     - ember-app/bower_components
 
 before_install:
+  - nvm install 4.6.0
   - "mkdir travis-phantomjs"
   - "wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2"
   - "tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs"
@@ -26,10 +26,10 @@ before_install:
 
 install:
   - bundle install --jobs=3 --retry=3 --deployment
+  - nvm use 4.6.0
   - npm install
   - cd ember-app && npm install && cd ..
-  - npm install -g ember-cli
 
 script: 
   - bundle exec rake
-  - cd ember-app && ember test && cd ..
+  - cd ember-app && ./node_modules/.bin/ember test && cd ..

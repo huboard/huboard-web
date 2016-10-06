@@ -1,5 +1,5 @@
 import Ember from "ember";
-import Issue from "app/models/forms/create-issue";
+import Issue from "huboard-app/models/forms/create-issue";
 
 var HbQuickIssueComponent = Ember.Component.extend({
   classNames: ["create-issue"],

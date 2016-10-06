@@ -1,5 +1,5 @@
 import Ember from "ember";
-import { debouncedObserver } from 'app/utilities/observers';
+import { debouncedObserver } from 'huboard-app/utilities/observers';
 
 var SearchFilter = Ember.Service.extend({
   strategy: "inclusive",

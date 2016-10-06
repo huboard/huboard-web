@@ -1,5 +1,5 @@
-import ModalView from 'app/views/modal';
-import KeyPressHandlingMixin from 'app/mixins/key-press-handling';
+import ModalView from 'huboard-app/views/modal';
+import KeyPressHandlingMixin from 'huboard-app/mixins/key-press-handling';
 
 var MilestonesEditView = ModalView.extend(KeyPressHandlingMixin, {
   classNames: ['milestone-edit'],

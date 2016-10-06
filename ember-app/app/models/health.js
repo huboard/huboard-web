@@ -1,4 +1,4 @@
-import Settings from 'app/models/settings';
+import Settings from 'huboard-app/models/settings';
 import ajax from 'ic-ajax';
 import Ember from 'ember';
 var get = Ember.get;

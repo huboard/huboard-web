@@ -1,5 +1,5 @@
 import Ember from "ember";
-import IssueFiltersMixin from "app/mixins/issue-filters";
+import IssueFiltersMixin from "huboard-app/mixins/issue-filters";
 
 var HbColumnCountComponent = Ember.Component.extend(IssueFiltersMixin, {
   tagName: "span",
