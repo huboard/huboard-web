@@ -1,8 +1,5 @@
 language: 
   - ruby
-  - node_js
-node_js:
-  - 4
 
 branches:
   only:
@@ -30,10 +27,9 @@ before_install:
 install:
   - bundle install --jobs=3 --retry=3 --deployment
   - nvm use 4.6.0
-  - npm cache clear
   - npm install
   - cd ember-app && npm install && cd ..
 
 script: 
   - bundle exec rake
-  - cd ember-app && pwd && ./node_modules/.bin/ember test && cd ..
+  - cd ember-app && ./node_modules/.bin/ember test && cd ..
