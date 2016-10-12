@@ -52,9 +52,14 @@ var HbMilestoneCard = HbCard.extend({
       return column.set('selected', index <= proportionalColumnIndex);
     });
   },
+  assigneeOverflow: Ember.computed('visibleAssignees.[]', {
+    get() {
+      var assignees = this.get('visibleAssignees') || [];
+      return assignees.slice(3).length;
+    }
+  }),
   limitedAssignees: function(){
     var assignees = this.get('visibleAssignees') || [];
-    this.set('assigneeOverflow', assignees.slice(3).length);
     return assignees.slice(0,3);
   }.property('visibleAssignees.[]'),
 });
