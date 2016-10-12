@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export function initialize(container, application){
+export function initialize(){
   Ember.LinkComponent.reopen({
     init: function(){
       this._super.apply(this, arguments);

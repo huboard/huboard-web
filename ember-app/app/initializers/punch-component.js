@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export function initialize(container, application){
+export function initialize(){
   Ember.Component.reopen({
     accept: function(visitor){
       visitor.visit(this);

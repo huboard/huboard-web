@@ -8,9 +8,9 @@ function addQueryParamsObservers(controller, propNames) {
 
 let get = Ember.get;
 
-export function initialize(container, application){
+export function initialize(){
   Ember.Route.reopen({
-    setup(context, transition) {
+    setup(context) {
       var controller;
 
       var controllerName = this.controllerName || this.routeName;
