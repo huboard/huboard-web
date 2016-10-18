@@ -1,12 +1,15 @@
 <div class="ember-view">
-  <div class="card-header">
+  <div class="card-header clearfix">
     <div class="title" title="{{issue.title}}">
       {{issue.title}} 
-      <small>#{{issue.number}}</small>
+      <small>
+        <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+          #{{issue.number}}
+        </a>
+     </small>
     </div>
   </div>
-
-  <div class="card-footer clearfix">
+  <div class="card-body clearfix">
     <div class="card-details-wrapper">
       <div class="card-details clearfix">
         <div class="avatar-wrapper">
@@ -38,9 +41,9 @@
         <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
       </div>
     </div>
-
-
-    <div class="card-labels">
+  </div>
+  <div class="card-footer clearfix">
+    <div class="card-labels compact top">
         {{#each cardLabels as |label|}}
           <div class="card-label-wrapper"> 
              <div class="card-label active small" style={{label.customStyle}} ></div>

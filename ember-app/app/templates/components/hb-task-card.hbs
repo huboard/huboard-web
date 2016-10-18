@@ -1,11 +1,11 @@
-<div class="ember-view task-card-container">
-  <div class="card-header">
+<div class="ember-view">
+  <div class="card-header clearfix">
     <div class="title" title="{{issue.title}}">
       {{issue.title}}
     </div>
   </div>
 
-  <div class="card-body task-card">
+  <div class="card-body clearfix">
     <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
       #{{issue.number}}
     </a>
@@ -50,15 +50,27 @@
 
     </div>
   </div>
-  <div class="card-labels board-heavy">
-    <div class="visible-labels clearfix">
-      {{#each visibleLabels as |label|}}
-        <div class="card-label-wrapper">
-           <div class="card-label active large" style={{label.customStyle}} >
-             <span>{{label.name}}</span>
-           </div>
-        </div>
-      {{/each}}
+  <div class="card-footer clearfix">
+    <div class="card-labels board-light compact top">
+        {{#each cardLabels as |label|}}
+          <div class="card-label-wrapper"> 
+             <div class="card-label active small" style={{label.customStyle}} ></div>
+             <div class="card-label active large" style={{label.customStyle}} >
+               <span>{{label.name}}</span>
+             </div>
+          </div>
+        {{/each}}
+    </div>
+    <div class="card-labels board-heavy">
+      <div class="visible-labels clearfix">
+        {{#each visibleLabels as |label|}}
+          <div class="card-label-wrapper">
+             <div class="card-label active large" style={{label.customStyle}} >
+               <span>{{label.name}}</span>
+             </div>
+          </div>
+        {{/each}}
+      </div>
     </div>
   </div>
 </div>
