@@ -25,25 +25,6 @@
   &.assignee-error {
      border-color: red;
   }
-  .card-labels {
-    position: relative;
-
-    .card-label-wrapper {
-      float:left;
-      margin-right: 5px;
-      padding-bottom: 4px;
-      .card-label.active.large {
-        position: relative;
-
-        padding: 0px 4px;
-        font-size: 11px;
-
-        border-style: solid;
-        border-width: 1px;
-        border-radius: 2px;
-      }
-    }
-  }
 
   .card-header {
     padding-bottom: 2px;
@@ -312,24 +293,40 @@
   }
 }
 
-.card-labels.compact {
-  padding: 5px 0px;
-  position: absolute;
+.card-labels {
+  @include clearfix;
+  position: relative;
 
+  .card-label-wrapper {
+    float:left;
+    margin-right: 5px;
+    padding-bottom: 2px;
+
+    .card-label.active.large {
+      padding: 0px 4px;
+      font-size: 11px;
+
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 2px;
+    }
+  }
+}
+.card-labels.compact {
   &.top {
     bottom: auto;
     top: -8px;
+    padding-bottom: 0px;
   }
 
   &.bottom {
     top: auto;
     bottom: 8px;
+    padding-bottom: 0px;
   }
 
   .card-label-wrapper {
-    float:left;
-    padding-bottom: 0px;
-    margin-right: 5px;
+
     .card-label {
       z-index: 10;
     }
@@ -340,8 +337,6 @@
     }
     .card-label.active.large {
       position: relative;
-      top: 6px;
-
       display: none;
     }
   }
