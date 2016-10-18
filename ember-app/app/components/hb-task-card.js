@@ -104,7 +104,7 @@ var HbCardComponent = Ember.Component.extend(
       Ember.run.schedule('afterRender', this, ()=>{
         this.accept(cardAssigneesVisitor);
       });
-    }.observes('issue.assignees.[]', 'isFiltered').on('didInsertElement'),
+    }.observes('issue.assignee','issue.assignees.[]', 'isFiltered').on('didInsertElement'),
     stateClass: Ember.computed.alias('issue.stateClass'),
 
     registerToColumn: function(){

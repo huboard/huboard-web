@@ -38,8 +38,8 @@
         {{else}}
           {{#if issue.assignee }}
             <div class="hb-avatar-tooltip">
-              <img src="{{assignee.avatar_url}}" title="{{assignee.login}}" class="img-responsive" width="24" height="24" />
-              <p> {{assignee.login}} </p>
+              <img src="{{issue.assignee.avatar_url}}" title="{{issue.assignee.login}}" class="img-responsive" width="24" height="24" />
+              <p> {{issue.assignee.login}} </p>
             </div>
           {{/if}}
         {{/if}}
