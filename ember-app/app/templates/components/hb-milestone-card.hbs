@@ -1,12 +1,24 @@
 <div class="ember-view">
   <div class="card-header clearfix">
     <div class="title" title="{{issue.title}}">
+      {{#if issue.pull_request}} 
+        {{#if issue.pull_request.html_url }} 
+          <span class="type">
+            <i class="ui-icon ui-icon-branch-merge"></i> 
+          </span>
+        {{/if}} 
+      {{/if}}
       {{issue.title}} 
       <small>
         <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
           #{{issue.number}}
         </a>
      </small>
+    {{#if issue.linkedColor}}
+      <span class="linked-repo" style={{repo-color-style issue.linkedColor}}>
+        <i class="ui-icon ui-icon-note"></i> {{repoName}}
+      </span>
+    {{/if}}
     </div>
   </div>
   <div class="card-body clearfix">

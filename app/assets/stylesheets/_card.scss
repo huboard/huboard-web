@@ -33,6 +33,14 @@
     color: $darkGrey;
   }
 
+  .card-footer {
+    padding-top: 2px;
+  }
+
+  .number {
+    cursor: pointer;
+  }
+
   .card-body {
     padding-bottom: 2px;
     line-height: 23px;
@@ -245,13 +253,11 @@
   }
 
   &.card--milestone {
-    padding: 4px 2px 6px 4px;
+
     &.border {
       padding-left: 6px;
     }
-    padding-top: 0px;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
+
     &.filter-hidden + &.filter-hidden {
       padding-bottom: 0px;
       margin-bottom: 0px;
@@ -261,6 +267,10 @@
       text-overflow: clip;
       white-space: normal;
       overflow: auto;
+    }
+    .ui-icon.ui-icon-note {
+      position: relative;
+      top: 2px;
     }
     .card-details-wrapper {
       float: right;
@@ -285,10 +295,6 @@
       .visible-assignees {
         float: left;
       }
-    }
-    .card-header {
-      border-bottom: none;
-      padding: 5px 0px;
     }
   }
 }
