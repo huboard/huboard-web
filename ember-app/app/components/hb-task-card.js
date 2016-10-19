@@ -1,11 +1,11 @@
 import Ember from "ember";
-import IssueFiltersMixin from "app/mixins/issue-filters";
-import MemberDragAndDropMixin from "app/mixins/member-drag-and-drop";
-import Messaging from "app/mixins/messaging";
+import IssueFiltersMixin from "huboard-app/mixins/issue-filters";
+import MemberDragAndDropMixin from "huboard-app/mixins/member-drag-and-drop";
+import Messaging from "huboard-app/mixins/messaging";
 
 //Visitors
-import cardLabelsVisitor from "app/visitors/cards/labels";
-import cardAssigneesVisitor from "app/visitors/cards/assignees";
+import cardLabelsVisitor from "huboard-app/visitors/cards/labels";
+import cardAssigneesVisitor from "huboard-app/visitors/cards/assignees";
 
 var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, {
@@ -104,7 +104,7 @@ var HbCardComponent = Ember.Component.extend(
       Ember.run.schedule('afterRender', this, ()=>{
         this.accept(cardAssigneesVisitor);
       });
-    }.observes('issue.assignees.[]', 'isFiltered').on('didInsertElement'),
+    }.observes('issue.assignee','issue.assignees.[]', 'isFiltered').on('didInsertElement'),
     stateClass: Ember.computed.alias('issue.stateClass'),
 
     registerToColumn: function(){

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Board from 'app/models/new/board';
+import Board from 'huboard-app/models/new/board';
 
 var HbLinkComponent = Ember.Component.extend({
   tagName: 'li',

@@ -1,4 +1,4 @@
-import IssueReferences from 'app/utilities/parsing/rules/issue-references';
+import IssueReferences from 'huboard-app/utilities/parsing/rules/issue-references';
 import html from '../../../../fixtures/issue-html-body';
 import Ember from 'ember';
 

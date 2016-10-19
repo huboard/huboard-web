@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import MarkdownParsingMixin from 'app/mixins/markdown-parsing';
+import MarkdownParsingMixin from 'huboard-app/mixins/markdown-parsing';
 
 import {
   moduleFor,

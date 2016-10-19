@@ -6,7 +6,7 @@ Rails.application.config.assets.version = '1.0'
 # Add additional assets to the asset load path
 Rails.application.config.assets.paths << Rails.root.join("ember-app", "dist", "assets")
 Rails.application.config.assets.paths << Rails.root.join("ember-accounts", "dist", "assets")
-Rails.application.config.assets.precompile += %w( app.js vendor.js )
+Rails.application.config.assets.precompile += %w( huboard-app.js vendor.js )
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.

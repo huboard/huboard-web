@@ -1,4 +1,4 @@
-import CardRelationshipParser from 'app/utilities/parsing/card-relationship-parser';
+import CardRelationshipParser from 'huboard-app/utilities/parsing/card-relationship-parser';
 
 import {
   module,

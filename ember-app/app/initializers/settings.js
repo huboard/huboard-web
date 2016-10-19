@@ -1,5 +1,5 @@
-import Settings from 'app/models/settings';
-import Global from 'app/models/global';
+import Settings from 'huboard-app/models/settings';
+import Global from 'huboard-app/models/global';
 
 export function initialize(container, application){
   application.register('repo:main', application.get("repo"), {instantiate: false});

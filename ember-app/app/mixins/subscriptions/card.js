@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import sortedQueue from 'app/utilities/sorted-queue';
+import sortedQueue from 'huboard-app/utilities/sorted-queue';
 
 var CardSubscriptionMixin = Ember.Mixin.create({
   flashMessages: Ember.inject.service(),

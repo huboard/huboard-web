@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import correlationId from 'app/utilities/correlation-id';
-import Serializable from 'app/mixins/serializable';
+import correlationId from 'huboard-app/utilities/correlation-id';
+import Serializable from 'huboard-app/mixins/serializable';
 
 var CreateIssue = Ember.Object.extend(Serializable,{
   correlationId: correlationId

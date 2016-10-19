@@ -1,4 +1,4 @@
-import sortedQueue from "app/utilities/sorted-queue";
+import sortedQueue from "huboard-app/utilities/sorted-queue";
 
 import {
   module,

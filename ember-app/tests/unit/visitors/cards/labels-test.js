@@ -1,4 +1,4 @@
-import CardLabelsVisitor from 'app/visitors/cards/labels';
+import CardLabelsVisitor from 'huboard-app/visitors/cards/labels';
 import Ember from 'ember';
 
 import {

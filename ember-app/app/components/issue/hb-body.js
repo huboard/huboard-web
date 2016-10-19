@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import BuffedMixin from 'app/mixins/buffered';
-import KeyPressHandlingMixin from 'app/mixins/key-press-handling';
+import BuffedMixin from 'huboard-app/mixins/buffered';
+import KeyPressHandlingMixin from 'huboard-app/mixins/key-press-handling';
 
 var IssueBodyComponent = Ember.Component.extend(BuffedMixin, KeyPressHandlingMixin,{
   classNames: ["fullscreen-card-description","card-comment"],

@@ -1,7 +1,7 @@
 import Ember from "ember";
 import HbColumn from "../columns/hb-column";
-import MilestoneSubscriptions from 'app/mixins/subscriptions/milestone';
-import Messaging from 'app/mixins/messaging';
+import MilestoneSubscriptions from 'huboard-app/mixins/subscriptions/milestone';
+import Messaging from 'huboard-app/mixins/messaging';
 
 var HbMilestoneComponent = HbColumn.extend(
   MilestoneSubscriptions, Messaging, {

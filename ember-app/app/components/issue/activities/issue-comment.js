@@ -1,7 +1,7 @@
-import KeyPressHandlingMixin from 'app/mixins/key-press-handling';
-import BufferedMixin from 'app/mixins/buffered';
+import KeyPressHandlingMixin from 'huboard-app/mixins/key-press-handling';
+import BufferedMixin from 'huboard-app/mixins/buffered';
 import Ember from 'ember';
-import IssueActivity from 'app/components/issue/activities/issue-activity';
+import IssueActivity from 'huboard-app/components/issue/activities/issue-activity';
 
 
 var IssueCommentComponent = IssueActivity.extend(BufferedMixin, KeyPressHandlingMixin, {

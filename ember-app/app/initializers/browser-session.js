@@ -1,4 +1,4 @@
-import BrowserSession from 'app/services/browser-session';
+import BrowserSession from 'huboard-app/services/browser-session';
 
 export function initialize(container, application){
   application.register('browser-session:main', BrowserSession);

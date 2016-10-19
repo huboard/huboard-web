@@ -1,6 +1,6 @@
 import Ember from "ember";
-import MessagingMixin from "app/mixins/messaging";
-import subscriptionParsing from "app/utilities/messaging/subscription-parsing";
+import MessagingMixin from "huboard-app/mixins/messaging";
+import subscriptionParsing from "huboard-app/utilities/messaging/subscription-parsing";
 
 import { test } from "ember-qunit";
 import { module } from "qunit";

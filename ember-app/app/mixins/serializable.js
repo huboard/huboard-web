@@ -9,6 +9,8 @@ function serialize(blacklist) {
       return serialize.call(Ember.get(this, 'data'));
     }
 
+    const match = (x) => key === x;
+
     for (var key in Ember.$.extend(true, {}, this))
     {
         // Skip these
@@ -17,7 +19,7 @@ function serialize(blacklist) {
         key === 'isDestroying' ||
         key === 'concatenatedProperties' ||
         typeof this[key] === 'function' ||
-        (blacklist && blacklist.any((x) => key === x )))
+        (blacklist && blacklist.any(match)))
         {
             continue;
         }

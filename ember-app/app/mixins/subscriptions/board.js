@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import Issue from 'app/models/new/issue';
-import Milestone from 'app/models/new/milestone';
-import sortedQueue from 'app/utilities/sorted-queue';
+import Issue from 'huboard-app/models/new/issue';
+import Milestone from 'huboard-app/models/new/milestone';
+import sortedQueue from 'huboard-app/utilities/sorted-queue';
 
 var BoardSubscriptionMixin = Ember.Mixin.create({
   flashMessages: Ember.inject.service(),
