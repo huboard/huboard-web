@@ -1,5 +1,5 @@
 module Api
-  class IssuesMilestonedIssueJob < IssueEventJob
+  class IssuesMilestoneIssueJob < IssueEventJob
     #include IsPublishable
     timestamp ->(params) { params[:issue]['updated_at'] }
     action "issue_edited"
