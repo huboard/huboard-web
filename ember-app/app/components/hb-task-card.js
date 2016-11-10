@@ -11,7 +11,7 @@ var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, {
     attributeBindings: ['style'],
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card", "global.displaySetting:board-heavy:board-light"],
     taskCard: true,
     filters: Ember.inject.service(),
     repoName: Ember.computed.alias("issue.repoName"),

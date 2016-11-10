@@ -357,7 +357,7 @@
 }
 
 .board-heavy {
-  .card {
+  &.card {
     .board-light {
       display: none;
     }
@@ -365,7 +365,7 @@
 }
 
 .board-light {
-  .card {
+  &.card {
     .board-heavy {
       display: none;
     }

@@ -55,7 +55,7 @@
     </div>
   </div>
   <div class="card-footer clearfix">
-    <div class="card-labels compact">
+    <div class="card-labels board-light compact">
         {{#each cardLabels as |label|}}
           <div class="card-label-wrapper"> 
              <div class="card-label active small" style={{label.customStyle}} ></div>
@@ -64,6 +64,17 @@
              </div>
           </div>
         {{/each}}
+    </div>
+    <div class="card-labels board-heavy">
+      <div class="visible-labels clearfix">
+        {{#each visibleLabels as |label|}}
+          <div class="card-label-wrapper">
+             <div class="card-label active large" style={{label.customStyle}} >
+               <span>{{label.name}}</span>
+             </div>
+          </div>
+        {{/each}}
+      </div>
     </div>
   </div>
 </div>

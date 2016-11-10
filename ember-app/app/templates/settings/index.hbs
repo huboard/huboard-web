@@ -7,6 +7,10 @@
           {{input type='checkbox' name='showCounts' checked=settings.showColumnCounts}}
           Show running totals in the column headers
         </label>
+        <label>
+          {{input type='checkbox' name='showCounts' checked=(mut global.displaySetting)}}
+          Always show expanded labels on cards
+        </label>
       </div>
     </div>
     <h3>Keyboard Shortcuts</h3>
