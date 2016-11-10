@@ -303,6 +303,12 @@
   @include clearfix;
   position: relative;
 
+  &.filtered {
+    margin: 0 -5px 4px;
+    padding: 0px 5px 2px;
+    border-bottom: 1px dotted #ccc;
+  }
+
   .card-label-wrapper {
     float:left;
     margin-right: 5px;
