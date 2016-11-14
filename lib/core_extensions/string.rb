@@ -11,6 +11,8 @@ module ActiveSupport
         'assigned'   => 'assign',
         'unassigned' => 'unassign',
         'edited'     => 'edit',
+        'milestoned' => 'milestone',
+        'demilestoned' => 'milestone',
       }
       keys[word]
     end

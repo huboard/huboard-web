@@ -109,7 +109,7 @@ var HbCardComponent = Ember.Component.extend(
       }
     }),
     visibleLabels: Ember.computed.alias('cardLabels'),
-    visibleAssignees: Ember.computed('filters.memberFilters.[]', 'cardLabels.[]', {
+    visibleAssignees: Ember.computed('filters.memberFilters.[]', 'issue.assignee', 'issue.assignees.[]', {
       get() {
         let assignees = this.get('issue.assignees');
         if(!assignees) {
