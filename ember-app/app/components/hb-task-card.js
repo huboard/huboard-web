@@ -91,6 +91,23 @@ var HbCardComponent = Ember.Component.extend(
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         });
     }.property("issue.data.other_labels.[]"),
+    filteredLabels: Ember.computed("filters.labelFilters.[]", "isFiltered", "cardLabels", {
+      get() {
+        let filters = this.get('filters.labelFilters').filter((x) => Ember.get(x, 'mode') > 0);
+
+        return this.get('cardLabels').filter((x) => {
+          return filters.isAny('name', Ember.get(x, 'name'));
+        });
+      }
+    }),
+    unfilteredLabels: Ember.computed('filteredLabels', {
+      get() {
+        let filtered = this.get('filteredLabels');
+        return this.get('cardLabels').reject((x) => {
+          return filtered.isAny('name', Ember.get(x, 'name'));
+        });
+      }
+    }),
     visibleLabels: Ember.computed.alias('cardLabels'),
     visibleAssignees: Ember.computed('filters.memberFilters.[]', 'cardLabels.[]', {
       get() {
