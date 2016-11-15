@@ -9,6 +9,9 @@ describe HealthChecking::Doctor do
     def _message; 'TestMessage1'; end
     def _weight; :feather; end
     def perform(deps); end
+    def initialize(deps)
+      @deps = deps
+    end
   end
   class TestCheck2
     def _authorization; :collaborator; end
@@ -16,6 +19,9 @@ describe HealthChecking::Doctor do
     def _message; 'TestMessage2'; end
     def _weight; :lead; end
     def perform(deps); end
+    def initialize(deps)
+      @deps = deps
+    end
   end
   class MockBoardExam
     attr_reader :deps
@@ -52,7 +58,7 @@ describe HealthChecking::Doctor do
   describe "Performing All Checks" do
 
     before do
-      sut.instance_variable_set('@current_check', TestCheck1.new)
+      sut.instance_variable_set('@current_check', TestCheck1.new(@dependencies))
       @pass_payload = sut.send(:pass_payload)
       @fail_payload = sut.send(:fail_payload)
       @not_authorized_payload = sut.send(:not_authorized_payload)
@@ -112,7 +118,7 @@ describe HealthChecking::Doctor do
   describe "Performing only one check" do
 
     before do
-      sut.instance_variable_set('@current_check', TestCheck1.new)
+      sut.instance_variable_set('@current_check', TestCheck1.new(@dependencies))
       @pass_payload = sut.send(:pass_payload)
       @fail_payload = sut.send(:fail_payload)
       @not_authorized_payload = sut.send(:not_authorized_payload)

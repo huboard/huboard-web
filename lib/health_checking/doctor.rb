@@ -9,17 +9,17 @@ module HealthChecking
 
     def check
       checks.each do |check_klass|
-        @current_check = check_klass.new
+        @current_check = check_klass.new @exam.deps
         @payload << not_authorized_payload && next if !authorized
         @payload << (@current_check.perform(@exam.deps) ?
           pass_payload : fail_payload)
       end
-      @payload
+      @payload.flatten
     end
 
     def treat
       @exam.treatments.each do |treatment_klass|
-        @current_check = treatment_klass.new
+        @current_check = treatment_klass.new @exam.deps
         @payload << not_authorized_payload && next if !authorized
         @payload << (@current_check.treat(@exam.deps) ?
           pass_payload : fail_payload)
@@ -28,7 +28,7 @@ module HealthChecking
     end
 
     def check_only(health_check)
-      @current_check = health_check.to_s.classify.constantize.new
+      @current_check = health_check.to_s.classify.constantize.new @exam.deps
       return @payload << not_authorized_payload if !authorized
       @payload << (@current_check.perform(@exam.deps) ?
         pass_payload : fail_payload)

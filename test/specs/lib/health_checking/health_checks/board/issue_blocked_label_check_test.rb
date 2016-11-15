@@ -7,7 +7,7 @@ describe 'IssueBlockedLabelCheck' do
     mock_board.stubs(:other_labels).returns([{'name' => 'blocked'}])
 
     deps = {board: mock_board}
-    sut = HealthChecking::HealthChecks::Board::IssueBlockedLabelCheck.new
+    sut = HealthChecking::HealthChecks::Board::IssueBlockedLabelCheck.new deps
 
     result = sut.perform(deps)
     assert_equal(true, result)
@@ -18,7 +18,7 @@ describe 'IssueBlockedLabelCheck' do
     mock_board.stubs(:create_label).returns(true)
 
     deps = {board: mock_board}
-    sut = HealthChecking::HealthChecks::Board::IssueBlockedLabelCheck.new
+    sut = HealthChecking::HealthChecks::Board::IssueBlockedLabelCheck.new deps
 
     result = sut.treat(deps)
     assert_equal(true, result)

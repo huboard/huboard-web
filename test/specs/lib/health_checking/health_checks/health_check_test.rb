@@ -21,7 +21,7 @@ describe HealthChecking::HealthChecks::HealthCheck do
       logged_in: true,
       authorization: :collaborator
     }
-    @sut = TestMixin.new
+    @sut = TestMixin.new @dependencies
   end
 
   #Assert

@@ -7,7 +7,7 @@ describe 'GithubRepoWebhooksCheck' do
     mock_board.stubs(:hook_exists?).returns(true)
 
     deps = {board: mock_board}
-    sut = HealthChecking::HealthChecks::GithubRepoWebhooksCheck.new
+    sut = HealthChecking::HealthChecks::GithubRepoWebhooksCheck.new deps
 
     result = sut.perform(deps)
     assert_equal(true, result)

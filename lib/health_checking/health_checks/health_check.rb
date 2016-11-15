@@ -2,6 +2,10 @@ module HealthChecking
   module HealthChecks
    module HealthCheck
 
+     def initialize(context)
+       @context = context
+     end
+
       def self.included(base)
         base.extend ClassMethods
         base.class_attribute :_weight
