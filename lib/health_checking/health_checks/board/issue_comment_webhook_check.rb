@@ -18,11 +18,16 @@ module HealthChecking
         ##
 
         def perform(deps)
-          return deps[:board].hook_issue_comment_exist?
+          hooks = deps[:hooks]
+          event_name = "issue_comment"
+
+          url = ENV['GITHUB_WEBHOOK_ENDPOINT']
+          hook_url = File.join(url, 'webhook', event_name).downcase
+          hooks.map { |x| x['config']['url'].downcase }.include? hook_url
         end
          
         def treat(deps)
-          return deps[:board].hook_issue_comment_exist? || deps[:board].create_issue_comment_hook
+          perform(deps) || deps[:board].create_issue_comment_hook
         end
       end
     end
