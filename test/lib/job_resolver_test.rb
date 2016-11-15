@@ -1,5 +1,9 @@
 require 'test_helper'
 
+module Saas
+  class App; end
+end
+
 class TestExistsJob; end
 class TestJob; end
 class Saas::App::TestExistsJob; end
