@@ -4,24 +4,20 @@ describe HealthChecking::Doctor do
 
   #Mock Dependencies
   class TestCheck1
+    include HealthChecking::HealthChecks::HealthCheck
     def _authorization; :collaborator; end
     def _name; 'Test1'; end
     def _message; 'TestMessage1'; end
     def _weight; :feather; end
     def perform(deps); end
-    def initialize(deps)
-      @deps = deps
-    end
   end
   class TestCheck2
+    include HealthChecking::HealthChecks::HealthCheck
     def _authorization; :collaborator; end
     def _name; 'Test2'; end
     def _message; 'TestMessage2'; end
     def _weight; :lead; end
     def perform(deps); end
-    def initialize(deps)
-      @deps = deps
-    end
   end
   class MockBoardExam
     attr_reader :deps
@@ -58,10 +54,6 @@ describe HealthChecking::Doctor do
   describe "Performing All Checks" do
 
     before do
-      sut.instance_variable_set('@current_check', TestCheck1.new(@dependencies))
-      @pass_payload = sut.send(:pass_payload)
-      @fail_payload = sut.send(:fail_payload)
-      @not_authorized_payload = sut.send(:not_authorized_payload)
     end
 
     it "should perform on all the checks" do
@@ -82,7 +74,7 @@ describe HealthChecking::Doctor do
           .returns(true)
 
         payload = sut.check
-        assert_equal(@pass_payload, payload.first)
+        assert(payload.first[:success])
         assert_equal(2, sut.payload.size)
       end
     end
@@ -93,7 +85,7 @@ describe HealthChecking::Doctor do
           .returns(false)
 
         payload = sut.check
-        assert_equal(@fail_payload, payload.first)
+        refute(payload.first[:success])
         assert_equal(2, sut.payload.size)
       end
     end
@@ -109,57 +101,10 @@ describe HealthChecking::Doctor do
         sut = HealthChecking::Doctor.new(board_exam)
 
         payload = sut.check
-        assert_equal(@not_authorized_payload, payload.first)
+        refute(payload.first[:success])
         assert_equal(2, sut.payload.size)
       end
     end
   end
 
-  describe "Performing only one check" do
-
-    before do
-      sut.instance_variable_set('@current_check', TestCheck1.new(@dependencies))
-      @pass_payload = sut.send(:pass_payload)
-      @fail_payload = sut.send(:fail_payload)
-      @not_authorized_payload = sut.send(:not_authorized_payload)
-    end
-
-    describe "Check is Authorized and Passes" do
-      it "performs a successful health check based on the exam" do
-        TestCheck1.any_instance.expects(:perform).with(@dependencies)
-          .returns(true)
-
-        payload = sut.check_only(:test_check_1)
-        assert_equal(@pass_payload, payload.first)
-        assert_equal(1, sut.payload.size)
-      end
-    end
-
-    describe "Check is Authorized and Fails" do
-      it "performs a failed health check based on the exam" do
-        TestCheck1.any_instance.expects(:perform).with(@dependencies)
-          .returns(false)
-
-        payload = sut.check_only(:test_check_1)
-        assert_equal(@fail_payload, payload.first)
-        assert_equal(1, sut.payload.size)
-      end
-    end
-
-    describe "Check is not Authorized" do
-      it "performs no health check" do
-        deps = {
-          board: "board",
-          logged_in: true,
-          authorization: :all
-        }
-        board_exam = MockBoardExam.new(deps)
-        sut = HealthChecking::Doctor.new(board_exam)
-
-        payload = sut.check_only(:test_check_1)
-        assert_equal(@not_authorized_payload, payload.first)
-        assert_equal(1, sut.payload.size)
-      end
-    end
-  end
 end
