@@ -20,7 +20,7 @@ module HealthChecking
         @current_check = treatment_klass.new @exam.deps
         @payload << @current_check.treatment
       end
-      @payload
+      @payload.flatten
     end
 
     def checks

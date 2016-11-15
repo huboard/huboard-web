@@ -2,7 +2,7 @@ module HealthChecking
   module HealthChecks
    module HealthCheck
 
-     def initialize(context)
+     def initialize(context={})
        @context = context
      end
 
