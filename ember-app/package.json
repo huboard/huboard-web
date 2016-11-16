@@ -50,6 +50,7 @@
     "ember-sinon": "0.0.3",
     "emberx-range-input": "1.0.2",
     "loader.js": "^4.0.1",
-    "uglify-js": "2.6.4"
+    "uglify-js": "2.6.4",
+    "lodash": "4.16.2"
   }
 }
