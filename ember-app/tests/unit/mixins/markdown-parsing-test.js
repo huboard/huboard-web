@@ -9,7 +9,7 @@ import {
 moduleFor('mixin:markdown-parsing', 'MarkdownParsingMixin', {
   setup: function(){
     this.subject = Ember.Object.
-      createWithMixins(MarkdownParsingMixin, {});
+      extend(MarkdownParsingMixin).create({});
   }
 });
 
