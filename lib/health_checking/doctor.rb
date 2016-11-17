@@ -8,7 +8,7 @@ module HealthChecking
     end
 
     def check
-      checks.each do |check_klass|
+      @exam.checks.each do |check_klass|
         @current_check = check_klass.new @exam.deps
         @payload << @current_check.check
       end
@@ -21,10 +21,6 @@ module HealthChecking
         @payload << @current_check.treatment
       end
       @payload.flatten
-    end
-
-    def checks
-      @exam.checks
     end
 
   end

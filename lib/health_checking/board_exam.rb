@@ -17,24 +17,16 @@ module HealthChecking
     def treatments
       treatments = []
       @deps[:names].each do |name|
-        if /webhook_check/ =~ name
-          treatment_class = HealthChecks::Board::WebhooksCheck
-        else
-          treatment_class = "HealthChecking::HealthChecks::Board::#{name.classify}".safe_constantize
-        end
-
-        if treatment_class == HealthChecks::Board::WebhooksCheck
-          treatments << treatment_class unless treatments.include? HealthChecks::Board::WebhooksCheck
-        else
-          treatments << treatment_class unless treatment_class.nil?
-        end
+        treatment_class = "HealthChecking::HealthChecks::Board::#{name.classify}".safe_constantize
+        treatments << treatment_class unless treatment_class.nil?
       end
-
       return treatments
     end
 
     @@checks = [
-      HealthChecks::Board::WebhooksCheck,
+      HealthChecks::Board::IssuesWebhookCheck,
+      HealthChecks::Board::IssueCommentWebhookCheck,
+      HealthChecks::Board::PullRequestWebhookCheck,
       HealthChecks::Board::IssueBlockedLabelCheck,
       HealthChecks::Board::IssueReadyLabelCheck
     ]

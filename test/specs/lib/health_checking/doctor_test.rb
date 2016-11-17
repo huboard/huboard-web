@@ -65,7 +65,7 @@ describe HealthChecking::Doctor do
 
     it "returns the exams health checks" do
       board_exam.expects(:checks).returns(@health_checks)
-      assert_equal(sut.checks, @health_checks)
+      assert_equal(sut.exam.checks, @health_checks)
     end
 
     describe "Check is Authorized and Passes" do

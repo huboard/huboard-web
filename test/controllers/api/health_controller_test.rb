@@ -7,7 +7,10 @@ class Api::HealthControllerTest < ActionController::TestCase
     def huboard
       board = Object.new()
       board.class_eval do
-        def board(user, repo); end
+        def board(user, repo)
+          self
+        end
+        def hooks; end
       end
       board
     end
