@@ -4,6 +4,11 @@ import ajax from 'ic-ajax';
 var SettingsHbHealthComponent = Ember.Component.extend({
   isProcessing: false,
   checks: Ember.computed.alias('model.content.checks'),
+  errors: Ember.computed('checks.@each.success', {
+    get() {
+      return this.get('checks').filter((x) => !Ember.get(x, 'success'));
+    }
+  }),
   errorCount: Ember.computed('checks.@each.success', {
     get: function() {
       return this.get('checks').filter((x) => !Ember.get(x, 'success')).length;
@@ -23,7 +28,7 @@ var SettingsHbHealthComponent = Ember.Component.extend({
         dataType: 'json',
         type: 'POST',
         data: {
-          names: controller.get('checks').mapBy('name')
+          names: controller.get('errors').mapBy('name')
         }
       }).then((response) => {
 
