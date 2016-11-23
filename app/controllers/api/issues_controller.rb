@@ -160,7 +160,7 @@ module Api
 
     def status
       repo = gh.repos(params[:user], params[:repo])
-      sha = repo.pulls(params[:number]).commits.first['sha']
+      sha = repo.pulls(params[:number]).commits.last['sha']
 
       render json: repo.commits(sha).status
     end
