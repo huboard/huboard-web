@@ -1,0 +1,38 @@
+<div class="column-contents">
+  <h3 class="hb-column-header" {{action "toggleCollapsed"}} >
+    <i class="ui-icon ui-icon-plus"></i>
+    <i class="ui-icon ui-icon-minus"></i>
+    <span class="text">{{model.name}}</span>
+  </h3>
+
+  {{#if isCreateVisible}}
+  Create one
+  {{/if}}
+  <div class="cards sortable">
+    {{#each visibleIssues as |issue|}}
+     {{#if issue.issue}}
+        {{
+          hb-task-card
+            issue=issue.issue
+            issues=model.project.repo.issues
+            repos=repos
+            isLastColumn=model.isLastColumn
+            cardClick=(action attrs.openFullscreenIssue)
+        }}
+     {{else}}
+     <div class="card hb-note">
+      <div class="card-body">
+        <div class="title">
+          <i class="ui-icon ui-icon-comment" style="margin-top: 1px; margin-right: 6px;"></i>{{issue.note}}
+        </div>
+      </div>
+     </div>
+     {{/if}}
+    {{/each}}
+  </div>
+  <div class="collapsed">
+    <div class="collapsed-title">
+      {{model.title}}
+    </div>
+  </div>
+</div>

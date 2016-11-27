@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         resources :integrations, only: [:index, :create, :destroy]
         resources :milestones, only: [:create, :update]
         resources :links, only: [:index, :create]
+        resources :projects, only: [:index, :show]
         delete 'links' => 'links#destroy'
         post 'links/validate' => 'links#validate'
         put 'links/update' => 'links#update'

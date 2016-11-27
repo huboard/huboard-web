@@ -133,6 +133,13 @@ var Board = Model.extend({
     return Ember.RSVP.all(promises).then((issues)=>{
       return _.flatten(issues);
     });
+  }, 
+  fetchProjects: function(repo) {
+    var board = this;
+    return repo.fetchProjects().then(function(projects){
+      repo.set('projects', projects);
+      return board;
+    });
   }
 });
 

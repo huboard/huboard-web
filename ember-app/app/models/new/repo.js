@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Model from '../model';
 import Board from './board';
 import Issue from './issue';
+import Project from './project';
 import Milestone from './milestone';
 import Integration from 'huboard-app/models/integration';
 import Health from 'huboard-app/models/health';
@@ -230,6 +231,17 @@ var Repo = Model.extend({
   fetchIssues: function(options){
     var url = `/api/${this.get('data.repo.full_name')}/issues`;
     return Ember.$.getJSON(url,{ options: options });
+  },
+  fetchProjects: function(){
+    var url = `/api/${this.get('data.repo.full_name')}/projects`;
+    return Ember.$.getJSON(url);
+  },
+  fetchProject: function(number){
+    var repo = this;
+    var url = `/api/${this.get('data.repo.full_name')}/projects/${number}`;
+    return Ember.$.getJSON(url).then((response) => {
+      return Project.create({data: response, repo: repo});
+    });
   }
 });
 
