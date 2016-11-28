@@ -9,11 +9,7 @@ var SettingsHbHealthComponent = Ember.Component.extend({
       return this.get('checks').filter((x) => !Ember.get(x, 'success'));
     }
   }),
-  errorCount: Ember.computed('checks.@each.success', {
-    get: function() {
-      return this.get('checks').filter((x) => !Ember.get(x, 'success')).length;
-    }
-  }),
+  errorCount: Ember.computed.alias('errors.length'),
   successCount: Ember.computed('checks.@each.success', {
     get: function() {
       return this.get('checks').filter((x) => Ember.get(x, 'success')).length;
