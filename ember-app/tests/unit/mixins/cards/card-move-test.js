@@ -26,7 +26,7 @@ function minMaxZeroOrderFixAlgorithm(issue){
 moduleFor('mixin:cards/card-move', 'CardMoveMixin', {
   setup: function(){
     sut = Ember.Object.
-      createWithMixins(CardMoveMixin, {});
+      extend(CardMoveMixin, {}).create();
   }
 });
 

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-function attr(defaultValue) {
+export function attr(defaultValue) {
   return Ember.computed('data', {
     get: function(key){
       return this.get("data." + key) === undefined ? defaultValue : this.get("data." + key);

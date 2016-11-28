@@ -1,12 +1,27 @@
 <div class="ember-view">
-  <div class="card-header">
+  <div class="card-header clearfix">
     <div class="title" title="{{issue.title}}">
+      {{#if issue.pull_request}} 
+        {{#if issue.pull_request.html_url }} 
+          <span class="type">
+            <i class="ui-icon ui-icon-branch-merge"></i> 
+          </span>
+        {{/if}} 
+      {{/if}}
       {{issue.title}} 
-      <small>#{{issue.number}}</small>
+      <small>
+        <a class="number" href="{{issue.html_url}}" target="_blank" title="View issue on github.com">
+          #{{issue.number}}
+        </a>
+     </small>
+    {{#if issue.linkedColor}}
+      <span class="linked-repo" style={{repo-color-style issue.linkedColor}}>
+        <i class="ui-icon ui-icon-note"></i> {{repoName}}
+      </span>
+    {{/if}}
     </div>
   </div>
-
-  <div class="card-footer clearfix">
+  <div class="card-body clearfix">
     <div class="card-details-wrapper">
       <div class="card-details clearfix">
         <div class="avatar-wrapper">
@@ -38,10 +53,19 @@
         <img src="{{asset-path 'x.png'}}" class="hb-state-blocked"/>
       </div>
     </div>
-
-
-    <div class="card-labels">
-        {{#each cardLabels as |label|}}
+  </div>
+  <div class="card-footer clearfix">
+    <div class="card-labels filtered {{unless filteredLabels.length "hide"}}">
+        {{#each filteredLabels as |label|}}
+          <div class="card-label-wrapper"> 
+             <div class="card-label active large" style={{label.customStyle}} >
+               <span>{{label.name}}</span>
+             </div>
+          </div>
+        {{/each}}
+    </div>
+    <div class="card-labels board-light compact">
+        {{#each unfilteredLabels as |label|}}
           <div class="card-label-wrapper"> 
              <div class="card-label active small" style={{label.customStyle}} ></div>
              <div class="card-label active large" style={{label.customStyle}} >
@@ -49,6 +73,17 @@
              </div>
           </div>
         {{/each}}
+    </div>
+    <div class="card-labels board-heavy">
+      <div class="visible-labels clearfix">
+        {{#each unfilteredLabels as |label|}}
+          <div class="card-label-wrapper">
+             <div class="card-label active large" style={{label.customStyle}} >
+               <span>{{label.name}}</span>
+             </div>
+          </div>
+        {{/each}}
+      </div>
     </div>
   </div>
 </div>

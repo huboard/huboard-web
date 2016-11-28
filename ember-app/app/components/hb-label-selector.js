@@ -49,6 +49,7 @@ var HbLabelSelectorComponent = Ember.Component.extend({
   didInsertElement: function(){
     var _self = this;
     Ember.$("body").on("click.outside", ()=>{
+      if(_self.isDestroying){ return; }
       if(_self.$().is(".open")){
         _self.send("toggleSelector");
       }

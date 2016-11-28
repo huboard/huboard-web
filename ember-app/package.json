@@ -21,9 +21,9 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
+    "ember-ajax": "0.7.1",
     "ember-browserify": "1.1.8",
     "ember-buffered-proxy": "0.6.0",
-    "ember-ajax": "0.7.1",
     "ember-c3": "0.2.2",
     "ember-cli": ">2.3 <2.5.0",
     "ember-cli-app-version": "^1.0.0",
@@ -44,11 +44,13 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-export-application-global": "^1.0.5",
     "ember-legacy-views": "0.2.0",
-    "ember-moment": "4.1.0",
-    "ember-sinon": "0.0.3",
     "ember-load-initializers": "^0.5.1",
+    "ember-moment": "4.1.0",
     "ember-resolver": "^2.0.3",
+    "ember-sinon": "0.0.3",
+    "emberx-range-input": "1.0.2",
     "loader.js": "^4.0.1",
-    "uglify-js": "2.6.4"
+    "uglify-js": "2.6.4",
+    "lodash": "4.16.2"
   }
 }
