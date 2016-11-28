@@ -58,8 +58,7 @@ var IssueReferenceView = Ember.View.extend({
         self.set('isLoaded', true);
         self.set("isProcessing", false);
         self.set("commit", commit);
-      })
-      .fail(function(){
+      }, function(){
         self.set("isProcessing", false);
       });
   }

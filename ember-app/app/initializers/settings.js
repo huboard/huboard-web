@@ -12,6 +12,7 @@ export function initialize(container, application){
   application.register('global:main', Global);
   application.inject('controller', 'global', 'global:main');
   application.inject('view', 'global', 'global:main');
+  application.inject('component', 'global', 'global:main');
 }
 
 export default {

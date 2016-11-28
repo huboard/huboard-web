@@ -1,8 +1,8 @@
-import Settings from 'huboard-app/models/settings';
-
+import Settings, { attr } from 'huboard-app/models/settings';
 
 var Global = Settings.extend({
-  storageKey: 'global'
+  storageKey: 'global',
+  expandLabels: attr(false)
 });
 
 export default Global;

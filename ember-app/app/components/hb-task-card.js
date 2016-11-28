@@ -3,15 +3,11 @@ import IssueFiltersMixin from "huboard-app/mixins/issue-filters";
 import MemberDragAndDropMixin from "huboard-app/mixins/member-drag-and-drop";
 import Messaging from "huboard-app/mixins/messaging";
 
-//Visitors
-import cardLabelsVisitor from "huboard-app/visitors/cards/labels";
-import cardAssigneesVisitor from "huboard-app/visitors/cards/assignees";
-
 var HbCardComponent = Ember.Component.extend(
   Messaging, IssueFiltersMixin, MemberDragAndDropMixin, {
     attributeBindings: ['style'],
     classNames: ["card"],
-    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card"],
+    classNameBindings: ["isFiltered","isDraggable:is-draggable", "isClosable:closable", "issue.linkedColor:border", "stateClass", "taskCard:task-card", "global.expandLabels:board-heavy:board-light"],
     taskCard: true,
     filters: Ember.inject.service(),
     repoName: Ember.computed.alias("issue.repoName"),
@@ -95,18 +91,34 @@ var HbCardComponent = Ember.Component.extend(
           return Ember.Object.create(_.extend(l,{customStyle: Ember.String.htmlSafe(style)}));
         });
     }.property("issue.data.other_labels.[]"),
-    applyCardLabels: function(){
-      Ember.run.schedule('afterRender', this, ()=>{
-        this.accept(cardLabelsVisitor);
-      });
-    }.observes('cardLabels.[]', 'isFiltered').on('didInsertElement'),
-    applyCardAssignees: function(){
-      Ember.run.schedule('afterRender', this, ()=>{
-        this.accept(cardAssigneesVisitor);
-      });
-    }.observes('issue.assignee','issue.assignees.[]', 'isFiltered').on('didInsertElement'),
-    stateClass: Ember.computed.alias('issue.stateClass'),
+    filteredLabels: Ember.computed("filters.labelFilters.[]", "isFiltered", "cardLabels", {
+      get() {
+        let filters = this.get('filters.labelFilters').filter((x) => Ember.get(x, 'mode') > 0);
 
+        return this.get('cardLabels').filter((x) => {
+          return filters.isAny('name', Ember.get(x, 'name'));
+        });
+      }
+    }),
+    unfilteredLabels: Ember.computed('filteredLabels', {
+      get() {
+        let filtered = this.get('filteredLabels');
+        return this.get('cardLabels').reject((x) => {
+          return filtered.isAny('name', Ember.get(x, 'name'));
+        });
+      }
+    }),
+    visibleLabels: Ember.computed.alias('cardLabels'),
+    visibleAssignees: Ember.computed('filters.memberFilters.[]', 'issue.assignee', 'issue.assignees.[]', {
+      get() {
+        let assignees = this.get('issue.assignees');
+        if(!assignees) {
+          return this.get('issue.assignee') ? [ this.get('issue.assignee') ] : [];
+        }
+        return assignees;
+      }
+    }),
+    stateClass: Ember.computed.alias('issue.stateClass'),
     registerToColumn: function(){
       this.set("cards", this.get("parentView.cards"));
       this.get("cards").pushObject(this);

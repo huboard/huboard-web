@@ -1,0 +1,402 @@
+
+
+.card {
+  cursor:pointer;
+  list-style: none;
+  padding: 4px 5px 6px 5px;
+  margin-bottom: 6px;
+  position:relative;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-bottom-color: darken(#e5e5e5, 5%); 
+  font-size: 13px;
+  @include transform(translateZ(0));
+
+  &.border {
+    border-top-color: #e5e5e5;
+    border-right-color: #e5e5e5;
+    border-bottom-color: #e5e5e5;
+    border-left-width: 3px;
+  }
+
+  &.assignee-accept {
+     border-color: #0069D6;
+  }
+  &.assignee-error {
+     border-color: red;
+  }
+
+  .card-header {
+    padding-bottom: 2px;
+    white-space: normal;
+    font-size: 14px;
+    color: $darkGrey;
+  }
+
+  .card-footer {
+    padding-top: 2px;
+  }
+
+  .number {
+    cursor: pointer;
+  }
+
+  .card-body {
+    padding-bottom: 2px;
+    line-height: 23px;
+
+    a {
+      cursor: pointer;
+    }
+
+    i {
+      vertical-align: text-top;
+    }
+
+    .type {
+      color: $hb-purple;
+    }
+
+    .linked-repo {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .milestone {
+    color: $lightGrey;
+    font-size:11px;
+  }         
+  img {
+    max-width: 24px;
+  }          
+
+  .card-details-wrapper {
+    position: relative;
+    padding-bottom: 4px;
+
+    i {
+      padding-right: 4px;
+      vertical-align: text-bottom;
+    }
+
+    .comment-count {
+      color: $lightGrey;
+    }
+
+    .avatar-wrapper {
+      float: right;
+
+      &:hover {
+        width: auto;
+
+        .visible-assignees {
+          @include display(inline-flex);
+          @include flex-direction(row-reverse);
+          .multi {
+            border-left-style: none;
+            padding-left: 8px;
+          }
+        }
+      }
+
+      .hb-avatar-tooltip {
+
+        &.multi {
+          position: relative;
+          display: inline;
+          float: right;
+          margin-left: -6px;
+          border-left-style: solid;
+          border-width: 1px;
+        }
+
+        &.single {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+          padding: 5px;
+        }
+
+        &:hover {
+          p {
+            right: 0px;
+            white-space: nowrap;
+            &:after{
+              left: 66%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .hb-card-trays {
+    position: relative;
+    margin: 7px -6px -7px;
+
+    .hb-card-tray {
+      @include box-sizing(border-box);
+      border-style: solid;
+      border-width: 1px;
+      background: $hb-grey-light;
+      background-color: #fff;
+      border-color: $hb-grey-light;
+      padding: 2px 6px;
+      font-size: 12px;
+
+      &.state-closable {
+        background-color: rgba(206, 166, 27, 0.1);
+        border-color: $hb-pending;
+        color: $hb-pending;
+      }
+      &.state-archive {
+        background-color: rgba(130, 116, 214, 0.1);
+        border-color: $hb-state-closed;
+        color: $hb-state-closed;
+        i {
+          position: relative;
+          top: 1px;
+        }
+      }
+      &.state-ready {
+        background-color: rgba(34, 209, 134, 0.1);
+        border-color: $hb-state-ready;
+        color: $hb-state-ready;
+        i {
+          position: relative;
+          top: 1px;
+        }
+      }
+      &.state-blocked {
+        background-color: rgba(249, 100, 110, 0.1);
+        border-color: $hb-state-blocked;
+        color: $hb-state-blocked;
+        i {
+          font-size: 10px;
+        }
+      }
+
+      &.issue-reference {
+        color: $lightGrey;
+
+        .reference-details {
+          padding-right: 4px;
+          float: right;
+        }
+        .repo-name {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        i {
+          top: 2px;
+          position: relative;
+          padding-right: 4px;
+          &.ui-icon-arrow-1-e {
+            top: 1px;
+          }
+          &.ui-icon-x {
+            top: 1px;
+            font-size: 10px;
+          }
+          &.ui-icon-branch-merge {
+            font-size: 14px;
+            color: $hb-purple;
+          }
+        }
+      }
+    }
+
+    .issue-reference-wrapper {
+      &.hb-state-closed {
+        .hb-card-tray {
+          background-color: rgba(130, 116, 214, 0.1);
+        }
+      }
+      &.hb-state-ready {
+        .reference-details {
+          color: $hb-state-ready;
+        }
+      }
+      &.hb-state-blocked {
+        .reference-details {
+          color: $hb-state-blocked;
+        }
+      }
+      &.hb-state-closed{
+        .reference-details {
+          color: $hb-state-closed;
+        }
+      }
+    }
+
+    .hb-tray-button {
+      background-color: white;
+      float: right;
+      height: 20px;
+      font-size: 12px;
+      line-height: 1;
+      border-width: 1px;
+      border-radius: 4px;
+
+      &.state-closable {
+        color: $hb-pending;
+        border-color: $hb-pending;
+      }
+      &.state-archive {
+        color: $hb-state-closed;
+        border-color: $hb-state-closed;
+      }
+    }
+  }
+
+  &.card--milestone {
+
+    &.border {
+      padding-left: 6px;
+    }
+
+    &.filter-hidden + &.filter-hidden {
+      padding-bottom: 0px;
+      margin-bottom: 0px;
+      cursor: none;
+    }
+    .title {
+      text-overflow: clip;
+      white-space: normal;
+      overflow: auto;
+    }
+    .ui-icon.ui-icon-note {
+      position: relative;
+      top: 2px;
+    }
+    .ui-icon-branch-merge {
+      font-size: 14px;
+      color: $hb-purple;
+    }
+    .card-details-wrapper {
+      float: right;
+    }
+    .avatar-wrapper {
+      .assignee-overflow {
+        color: white;
+        background-color: $hb-purple-dark;
+        margin-left: -8px;
+        font-size: 11px;
+        position: relative;
+        float: right;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 8px;
+        bottom: 4px;
+        padding: 1px;
+        z-index: 101;
+        line-height: 12px;
+        text-align: center;
+      }
+      .visible-assignees {
+        float: left;
+      }
+    }
+  }
+}
+
+.card-labels {
+  @include clearfix;
+  position: relative;
+
+  &.filtered {
+    margin: 0 -5px 4px;
+    padding: 0px 5px 2px;
+    border-bottom: 1px dotted #ccc;
+  }
+
+  .card-label-wrapper {
+    float:left;
+    margin-right: 5px;
+    padding-bottom: 2px;
+
+    .card-label.active.large {
+      padding: 0px 4px;
+      font-size: 11px;
+
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 2px;
+    }
+  }
+}
+.card-labels.compact {
+  &.top {
+    bottom: auto;
+    top: -8px;
+    padding-bottom: 0px;
+  }
+
+  &.bottom {
+    top: auto;
+    bottom: 8px;
+    padding-bottom: 0px;
+  }
+
+  .card-label-wrapper {
+
+    .card-label {
+      z-index: 10;
+    }
+    .card-label.active.small {
+      height: 4px;
+      width: 40px;
+      display:block;
+    }
+    .card-label.active.large {
+      position: relative;
+      display: none;
+    }
+  }
+  &:hover {
+    .card-label.active.small {
+      display: none;
+    }
+    .card-label.active.large {
+      display:block;
+    }
+  }
+}
+
+.board-heavy {
+  &.card {
+    .board-light {
+      display: none;
+    }
+  }
+}
+
+.board-light {
+  &.card {
+    .board-heavy {
+      display: none;
+    }
+  }
+}
+
+.card a.close {
+  position: absolute;
+  top: 12px;
+  right: 6px;
+  width: 16px;
+  opacity:0.0;
+}
+.card:hover a.close {
+  opacity:0.3;
+}
+.card a.close:hover {
+  opacity:0.5;
+}
+
+.card a small {
+  color: $lightGrey;
+  padding-right:2px;
+}

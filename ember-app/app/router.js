@@ -6,31 +6,31 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.resource("index",{path: "/"},function(){
-    this.resource("index.issue",{path:"/issues/:issue_id"});
+
+  this.route("index",{path: "/"},function(){
+    this.route("issue",{path:"/issues/:issue_id"});
   });
 
-  this.resource("milestones", function(){
-    this.resource("milestones.issue",{path:"/issues/:issue_id"});
+  this.route("milestones", function(){
+    this.route("issue",{path:"/issues/:issue_id"});
   });
+
   this.route("milestones.missing");
 
-  this.resource("settings", function(){
+  this.route("settings", function(){
 
-    this.resource('settings.integrations', {path: '/integrations'}, function(){
+    this.route('integrations', {path: '/integrations'}, function(){
       this.route('new', {path: '/new/:name'});
     });
 
-    this.resource('settings.links', {path: '/links'}, function(){
+    this.route('links', {path: '/links'}, function(){
       this.route('new', {path: '/new/:name'});
     });
 
-    this.resource('settings.health', {path: '/health'}, function(){
-    });
-
+    this.route('health', {path: '/health'}, function(){ });
   });
 
-  this.resource("sync-issues");
+  this.route("sync-issues");
 });
 
 export default Router;
