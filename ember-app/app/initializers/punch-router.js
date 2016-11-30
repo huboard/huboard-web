@@ -44,6 +44,6 @@ export function initialize(){
 
 export default {
   name: 'punch-router',
-  initialize: initialize
+  initialize: Ember.K //initialize
 };
 
