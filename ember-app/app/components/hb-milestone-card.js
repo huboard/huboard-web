@@ -49,7 +49,8 @@ var HbMilestoneCard = HbCard.extend({
     var proportionalColumnIndex = Math.ceil(percentComplete * (powerBarLength - 1)) - 1;
 
     return columns.map((column, index)=>{
-      return column.set('selected', index <= proportionalColumnIndex);
+      column.set('selected', index <= proportionalColumnIndex);
+      return column;
     });
   },
   assigneeOverflow: Ember.computed('visibleAssignees.[]', {

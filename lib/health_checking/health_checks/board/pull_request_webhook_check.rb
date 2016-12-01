@@ -18,11 +18,16 @@ module HealthChecking
         ##
 
         def perform(deps)
-          return deps[:board].hook_pull_request_exist?
+          hooks = deps[:hooks]
+          event_name = "pull_request"
+
+          url = ENV['GITHUB_WEBHOOK_ENDPOINT']
+          hook_url = File.join(url, 'webhook', event_name).downcase
+          hooks.map { |x| x['config']['url'].downcase }.include? hook_url
         end
 
         def treat(deps)
-          deps[:board].hook_pull_request_exist? || deps[:board].create_pull_request_hook
+          perform(deps) || deps[:board].create_pull_request_hook
         end
       end
     end

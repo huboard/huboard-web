@@ -38,6 +38,7 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-resolver": "^2.0.3",
+    "heimdalljs": "0.2.1",
     "uglify-js": "2.6.4",
     "lodash": "4.16.2"
   }
