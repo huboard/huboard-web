@@ -18,10 +18,10 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
     }.bind(this))
     .sort(function(a, b){
       // always put current user on top
-      if(a.login == this.get('currentUser.login')) {
+      if(a.login === this.get('currentUser.login')) {
         return -1;
       }
-      if(b.login == this.get('currentUser.login')) {
+      if(b.login === this.get('currentUser.login')) {
         return 1;
       }
 
@@ -57,7 +57,7 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
   actions: {
     toggleSelector: function(){
       this.set("isOpen", !!!this.$().is(".open"));
-      this.notifyPropertyChange('listItems')
+      this.notifyPropertyChange('listItems');
       if(this.get("isOpen")) {
         this.$().addClass("open");
         this.$(':input:not(.close):not([type="checkbox"])').first().focus();
