@@ -26,7 +26,7 @@
       {{#if assigneesEnabled}}
         {{hb-multi-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=model.assignees assignees=model.repo.data.assignees}}
       {{else}}
-        {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=model.assignee assignees=model.repo.data.assignees}}
+        {{hb-assignee editable=isCollaborator assign="assignUsers" unassign="unassignUsers" selected=(readonly model.assignee) assignees=model.repo.data.assignees}}
       {{/if}}
       {{hb-milestone editable=isCollaborator assign="assignMilestone" selected=model.milestone milestones=model.repo.data.milestones}}
   </div>

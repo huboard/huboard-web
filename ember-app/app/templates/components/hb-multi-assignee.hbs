@@ -35,7 +35,7 @@
   <div class="hb-menu-items">
     {{#each listItems as |listItem|}}
       <div class="hb-menu-item {{if listItem.selected 'checked'}}">
-        <div {{action "assignTo" listItem.item}} >
+        <div {{action "assignTo" listItem }} >
           <i class="ui-icon ui-icon-checkmark"></i>
           {{hb-avatar user=listItem.item}} {{listItem.item.login}}
         </div>
