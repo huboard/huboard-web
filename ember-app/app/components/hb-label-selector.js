@@ -9,17 +9,31 @@ var HbLabelSelectorComponent = Ember.Component.extend({
   noLabelsMessage: "None yet",
   editable: true,
   selected: [],
-  values: [],
   listItems: function() {
     return this.get("labels")
     .filter(function(item) {
       var term = this.get("filterLabels") || "";
       return item.name.toLowerCase().indexOf(term.toLowerCase()|| item.name.toLowerCase()) !== -1;
-    }.bind(this));
+    }.bind(this))
+    .sort(function(a, b){
+      var selectedA = this.get("selected").isAny("name", a.name) ? -1 : 1;
+      var selectedB = this.get("selected").isAny("name", b.name) ? -1 : 1;
 
+      if(selectedA < selectedB) { 
+        return -1; 
+      }
+      if(selectedA > selectedB) { 
+        return 1; 
+      }
+
+      // fall through to alphabetical
+      return a.name.localeCompare(b.name);
+
+    }.bind(this));
   }.property("filterLabels","labels"),
   actions: {
     toggleSelector: function(){
+      this.notifyPropertyChange('listItems');
       this.set("isOpen", !!!this.$().is(".open"));
       if(this.get("isOpen")) {
         Ember.$(".open").removeClass("open");
@@ -42,7 +56,6 @@ var HbLabelSelectorComponent = Ember.Component.extend({
         action = "label";
         selected.pushObject(label);
       }
-      this.set("values", selected);
       this.sendAction("labelsChanged", label, action);
     }
   },

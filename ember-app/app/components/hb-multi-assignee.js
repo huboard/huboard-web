@@ -16,6 +16,30 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
       var term = this.get("filterPeople") || "";
       return item.login.toLowerCase().indexOf(term.toLowerCase()|| item.login.toLowerCase()) !== -1;
     }.bind(this))
+    .sort(function(a, b){
+      // always put current user on top
+      if(a.login === this.get('currentUser.login')) {
+        return -1;
+      }
+      if(b.login === this.get('currentUser.login')) {
+        return 1;
+      }
+
+      // selected items next
+      var selectedA = this.get("selected").isAny("login", a.login) ? -1 : 1;
+      var selectedB = this.get("selected").isAny("login", b.login) ? -1 : 1;
+
+      if(selectedA < selectedB) { 
+        return -1; 
+      }
+      if(selectedA > selectedB) { 
+        return 1; 
+      }
+
+      // fall through to alphabetical
+      return a.login.localeCompare(b.login);
+
+    }.bind(this))
     .map(function(item) {
 
       return this.ListItem.create({
@@ -23,7 +47,7 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
         item: item
       });
     }.bind(this));
-  }.property("assignees.[]","selected.[]","filterPeople"),
+  }.property("assignees.[]", "filterPeople"),
 
   ListItem: Ember.Object.extend({
     selected: false,
@@ -33,6 +57,7 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
   actions: {
     toggleSelector: function(){
       this.set("isOpen", !!!this.$().is(".open"));
+      this.notifyPropertyChange('listItems');
       if(this.get("isOpen")) {
         this.$().addClass("open");
         this.$(':input:not(.close):not([type="checkbox"])').first().focus();
@@ -42,8 +67,10 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
         this.$().removeClass("open");
       }
     },
-    assignTo: function(assignee) {
+    assignTo: function(listItem) {
+      listItem.toggleProperty('selected');
       var action;
+      var assignee = listItem.get('item');
       var selected = this.get('selected');
       if(selected.isAny('login', assignee.login)){
         action = 'unassign';
@@ -63,7 +90,9 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
   },
   didInsertElement: function() {
     Ember.$('body').on('keyup.flyout', function(event) {
-      if (event.keyCode === 27){ this.set("isOpen", false); }
+      if (event.keyCode === 27){ 
+        this.trigger("toggleSelector");
+      }
     }.bind(this));
 
     this.$(".hb-flyout").on('click.flyout', function(event){
@@ -71,13 +100,13 @@ var HbMultiAssigneeComponent = Ember.Component.extend({
       if(Ember.$(event.target).parents("[data-ember-action],[data-toggle]").length){return;}
       event.preventDefault();
       event.stopPropagation();  
-      this.set("isOpen", false);
+      this.trigger("toggleSelector");
     }.bind(this));
 
     this.$(".close").on('click.flyout', function(event){
       if(Ember.$(event.target).is("[data-ember-action],[data-toggle]")){return;}
       if(Ember.$(event.target).parents("[data-ember-action],[data-toggle]").length){return;}
-      this.set("isOpen", false);
+      this.trigger("toggleSelector");
     }.bind(this));
     /* jshint ignore:end */
 
