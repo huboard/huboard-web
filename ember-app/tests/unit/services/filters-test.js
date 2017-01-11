@@ -133,6 +133,7 @@ test("Force Member and User Groups to Active", (assert)=> {
     forceLabelsToActive: null,
     forceBoardsToActive: null,
     forceMilestonesToActive: null,
+    forceColumnsToActive: null,
     forceOnlyOneActiveCard: null
   });
 
