@@ -11,7 +11,8 @@ var MilestonesController = Ember.Controller.extend({
     {"qps.assigneeParams": "assignee"},
     {"qps.milestoneParams": "milestone"},
     {"qps.labelParams": "label"},
-    {"qps.cardParams": "card"}
+    {"qps.cardParams": "card"},
+    {"qps.columnParams": "column"}
   ],
 
   filters: Ember.inject.service(),
