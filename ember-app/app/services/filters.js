@@ -30,7 +30,7 @@ var FiltersService = Ember.Service.extend({
     });
     this.set("filtersReady", true);
     return filters;
-  }.property("filterGroups.{board,milestone,label,user,member,search,card}.filters.@each.mode", "model"),
+  }.property("filterGroups.{board,milestone,label,user,member,search,card,column}.filters.@each.mode", "model"),
   groups: Ember.computed.alias("filterGroups.groups"),
   group: function(group_key){
     var group = this.get(`filterGroups.${group_key}`);
@@ -145,6 +145,13 @@ var FiltersService = Ember.Service.extend({
       });
     }
   }.observes("filterGroups.milestone.filters.@each.mode"),
+  forceColumnsToActive: function(){
+    if(this.groupActive(this.get("columnFilters"))){
+      this.get("columnFilters").forEach(function(f){
+        if (f.mode === 1){ Ember.set(f, "mode", 2); }
+      });
+    }
+  }.observes("filterGroups.column.filters.@each.mode"),
   forceOnlyOneActiveCard: function(){
     var filters = this.get("cardFilters");
     if (filters && filters.length){

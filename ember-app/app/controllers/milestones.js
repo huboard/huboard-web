@@ -36,6 +36,7 @@ var MilestonesController = Ember.Controller.extend({
   }.property(),
 
   milestone_columns: function() {
+    console.log(this.get("model"));
     return this.get('model.milestone_columns');
   }.property("model.milestone_columns.[]"),
 
