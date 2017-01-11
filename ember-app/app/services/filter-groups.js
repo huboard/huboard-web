@@ -8,8 +8,9 @@ var FilterGroups = Ember.Service.extend({
   member: Ember.inject.service("filter_groups/member"),
   search: Ember.inject.service("filter_groups/search"),
   card: Ember.inject.service("filter_groups/card"),
+  column: Ember.inject.service("filter_groups/column"),
 
-  groups: ["board", "milestone", "label", "user", "member", "search", "card"]
+  groups: ["board", "milestone", "label", "user", "member", "search", "card", "column"]
 });
 
 export default FilterGroups;
