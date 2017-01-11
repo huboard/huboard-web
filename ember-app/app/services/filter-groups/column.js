@@ -36,7 +36,7 @@ var LabelFilters = Ember.Service.extend({
         queryParam: "column",
         mode:0,
         condition: function(i){
-          return i.get("current_state.text") === c.data.text
+          return i.get("current_state.index") === c.data.index
         }
        });
     }));
