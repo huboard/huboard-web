@@ -90,6 +90,10 @@
 			));
 		}
 
+    .techstars {
+      padding-top: 50px;
+    }
+
 		// Breakpoints
 		@include media($tall) {
 
