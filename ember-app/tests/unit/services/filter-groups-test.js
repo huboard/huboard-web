@@ -12,11 +12,12 @@ moduleFor("service:filter-groups", {
     "service:filter_groups/label",
     "service:filter_groups/user",
     "service:filter_groups/member",
+    "service:filter_groups/column",
     "service:filter_groups/search"
   ],
   setup: function(){
     service = this.subject();
-    groups = ["board", "milestone", "label", "user", "member", "search"];
+    groups = ["board", "milestone", "label", "user", "member", "search", "column"];
   }
 });
 

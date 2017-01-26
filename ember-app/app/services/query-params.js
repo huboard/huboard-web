@@ -24,7 +24,8 @@ var queryParamsService = Ember.Service.extend({
   milestoneParams: [],
   labelParams: [],
   cardParams: [],
-  filterNames: ["repo", "assignee", "milestone", "label", "card"],
+  columnParams: [],
+  filterNames: ["repo", "assignee", "milestone", "label", "card", "column"],
   allFilterParams: function(){
     var self = this;
     var filters = {length: 0};
@@ -33,13 +34,13 @@ var queryParamsService = Ember.Service.extend({
       filters[param] = self.get(`${param}Params`);
     });
     return filters;
-  }.property("{repo,assignee,milestone,label,card}Params"),
+  }.property("{repo,assignee,milestone,label,card,column}Params"),
   anyParamsPresent: function(){
     var allFilterParams = this.get('allFilterParams');
     return this.get('filterNames').any((param)=>{
       return allFilterParams[param].length;
     });
-  }.property('allFilterParams.{repo,assignee,milestone,label,card}.length'),
+  }.property('allFilterParams.{repo,assignee,milestone,label,card,column}.length'),
 
   filtersReady: function(){
     if(this.get("filters.filtersReady")){
@@ -52,7 +53,7 @@ var queryParamsService = Ember.Service.extend({
   updateFilterParams: function(){
     var self = this;
     var filters = this.get("filters");
-    ["board", "label", "milestone", "card"].forEach(function(param){
+    ["board", "label", "milestone", "card", "column"].forEach(function(param){
       var hidden_filters = filters.get(`${param}Filters`).filter((f) => {
         return f.mode === 2;
       }).map(function(f){return f.name; });
@@ -102,6 +103,7 @@ var queryParamsService = Ember.Service.extend({
       this.set("milestoneParams", buffer.milestone);
       this.set("labelParams", buffer.label);
       this.set("cardParams", buffer.card);
+      this.set("columnParams", buffer.column);
       this.set("filterParamsBuffer", {});
     }
   },
