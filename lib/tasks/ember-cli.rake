@@ -1,5 +1,5 @@
 require "ember-cli-rails"
-namespace "heroku-ember-cli" do
+namespace "ember-cli" do
   task compile: :environment do
     EmberCLI.configure do |c|
       c.app :app, path: Rails.root.join('ember-app')
@@ -21,4 +21,4 @@ namespace "heroku-ember-cli" do
   end
 end
 
-task "assets:precompile" => "heroku-ember-cli:compile"
+task "assets:precompile" => "ember-cli:compile"
