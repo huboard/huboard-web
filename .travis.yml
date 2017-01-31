@@ -31,4 +31,5 @@ install:
 script: 
   - bundle exec rake
   - cd ember-app && ./node_modules/.bin/ember test && cd ..
+  - bundle exec rake assets:precompile
   - bundle exec rake cdn:push
