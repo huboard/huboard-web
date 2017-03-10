@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 var MilestoneSubscriptionMixin = Ember.Mixin.create({
   hbsubscriptions: {
-    channel: "{model.milestone.repo.data.repo.full_name}",
+    channel: "{model.board.repo.data.repo.full_name}",
     "milestones.{model.milestone.number}.milestone_reordered": "reordered"
   },
   hbsubscribers: {
