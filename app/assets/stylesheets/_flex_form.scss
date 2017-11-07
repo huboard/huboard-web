@@ -96,27 +96,22 @@
   }
 
   .markdown-editor {
-    @include flex(1);
+    @include flex(1 0 auto);
     @include display(flex);
     > div {
-      @include flex(1);
+      @include flex(1 0 auto);
       @include display(flex);
-      
     }
     .tabbable {
-      @include flex(1);
+      @include flex(1 0 auto);
       @include flex-direction(column);
       @include flex-wrap(nowrap);
       @include display(flex);
       .tab-content {
-       padding-bottom: 6px;
-       @include flex(1);
-       @include display(flex);
-      }
-      .tab-content {
+        padding-bottom: 6px;
         @include flex-direction(column);
         @include flex-wrap(nowrap);
-        @include flex(1);
+        @include flex(1 0 auto);
       }
     }
   }
