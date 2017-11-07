@@ -116,6 +116,7 @@
       .tab-content {
         @include flex-direction(column);
         @include flex-wrap(nowrap);
+        @include flex(1);
       }
     }
   }
