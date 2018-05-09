@@ -5,7 +5,8 @@ module Api
     end
     def details
       render json: { data: huboard.repo(params[:user], params[:repo]).details(params) }
-    rescue
+    rescue => e
+      ::Raygun.track_exception(e, custom_data: params)
       render json: { errors: [{status: "422", title: "Failed to load repository details"}]}, status: 422
     end
   end
