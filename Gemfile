@@ -54,6 +54,7 @@ gem 'faye_extensions','0.0.1', path: 'vendor/gems/faye_extensions'
 gem 'responders'
 gem 'stripe-rails', require: nil
 gem 'heroku-deflater', group: :production
+gem 'newrelic_rpm', group: :production
 
 group :development, :test do
   #gem 'byebug'

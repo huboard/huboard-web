@@ -291,6 +291,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.10.3)
+    newrelic_rpm (5.1.0.344)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     octokit (4.3.0)
@@ -469,6 +470,7 @@ DEPENDENCIES
   memcachier
   meta_request
   mocha
+  newrelic_rpm
   pdfkit
   private_pub (= 1.0.3)
   pry-byebug
@@ -496,4 +498,4 @@ DEPENDENCIES
   wkhtmltopdf-heroku
 
 BUNDLED WITH
-   1.12.5
+   1.16.1

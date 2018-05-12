@@ -74,7 +74,7 @@ package {
   }
 
   class { 'nodejs':
-    version => 'v0.10.25',
+    version => 'v4.9.1',
   }
 
 
