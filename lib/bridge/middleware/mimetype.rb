@@ -6,8 +6,8 @@ class Huboard
       end
 
       def call(env)
-        env[:request][:timeout] = 3
-        env[:request][:open_timeout] = Rails.env.production? ? 1.7 : 10
+        env[:request][:timeout] = 25
+        env[:request][:open_timeout] = Rails.env.production? ? 5 : 10
 
         @app.call env
       end
