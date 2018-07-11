@@ -5,7 +5,7 @@
 
 }
 .hb-selector-component {
-  
+
   margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid #ccc;
@@ -89,17 +89,11 @@
     overflow-y: auto;
     .hb-menu-item {
       padding: 6px 12px;
-
       &:hover {
         cursor: pointer;
         background: $hb-purple;
         color: #fff;
-        .ui-icon-checkmark {
-          opacity: 1;
-          color: #fff;
-        }
       }
-
     }
   }
 
