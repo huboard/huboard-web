@@ -1,0 +1,20 @@
+.gitter-open-chat-button {
+  background-color: $hb-purple;
+  font-size: 9px;
+  right: 16px;
+  padding: 0.5em 2em;
+  &:hover {
+    background-color: $hb-purple-dark;
+  }
+  &:focus {
+    background-color: $hb-purple-dark;
+  }
+
+  .ui-icon-x-thin {
+    position: relative;
+    margin-left: -4px;
+    font-size: 7px;
+    float: right;
+    left: 14px;
+  }
+}

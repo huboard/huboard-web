@@ -14,13 +14,12 @@
   </head>
   <body class="flex-body" id="application">
 
-     <%= render partial: "shared/analytics" %>
      <script>
       window.EMOJIS = <%= emojis.to_json.html_safe %>;
       window.HUBOARD_ENV = <%= Rails.application.config.client_environment.to_json.html_safe %>;
      </script>
      <%= content_for :javascripts %>
-
+     <%= render partial: "shared/gitter" %>
 
      <script>
         $(function() {
