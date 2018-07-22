@@ -63,6 +63,9 @@ var Issue = Model.extend(IssueFiltersMixin, Messaging, CardSubscriptions, {
     this.set("processing", true);
     return Ember.$.getJSON(`${this.get("apiUrl")}/details`)
     .success(function(details){
+      this.set("title", details.title);
+      this.set("body", details.body);
+      this.set("body_html", details.body_html);
       this.set("data.repo", details.repo);
       this.set("data.activities", details.activities);
       this.set("processing", false);
