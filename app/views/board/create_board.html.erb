@@ -1,21 +1,82 @@
-<div class="instructions drop-shadow">
-  <h2> We noticed your repository issue tracker is not yet configured for HuBoard</h2>
-  <% if @repo && @repo['permissions'] && @repo['permissions']['push'] %>
-  <p> No worries, HuBoard can automatically get you started with a default label configuration </p>
-  <p> HuBoard will create the following labels </p>
-  <ol start="0">
-    <li> Backlog </li>
-    <li> Ready </li>
-    <li> Working </li>
-    <li> Review </li>
-    <li> Done </li>
-  </ol>
-  <%= form_tag 'create' do %>
-    <input class="btn primary" type="submit" value="Yes, Do it for me!" data-analytics-path='/board/creating'/>
-    <a href="<%= @repo['html_url'] %>/issues" target="_blank" >No thanks, I want to do this manually</a>
-  <% end %>
-  <% else %>
-    <p> Unfortunately, HuBoard doesn't have permission to fix that for you.  </p>
-    <p> You'll need to head over to <a href="<%= @repo['html_url'] %>">GitHub</a> for that</p>
-  <% end %>
+<div class="instructions drop-shadow create-new-board">
+  <div class="create-new-board__container">
+    <% if @parameters['create_failed']%>
+      <h2> Oops! </h2>
+      <div class="create-new-board__message">
+        <h3> HuBoard is unable to create a board for you! </h3>
+        <ul class="create-new-board__list">
+          <li class="create-new-board__list__item create-new-board__list__item--error">
+            <p>
+            You will need write permissions to <b><%= @parameters['user'] %>/<%= @parameters['repo'] %></b>
+            </p>
+            <% if  @repo['owner'] && @repo['owner']['type'] == "Organization" %>
+            <p>
+            <b><%= @repo['owner']['login'] %></b> is a GitHub Organization: <a href="https://help.github.com/articles/disabling-third-party-application-restrictions-for-your-organization/" target="blank">Please ensure no access restrictions are present</a>
+            </p>
+            <% end %>
+            <p>
+              <a href="mailto:support@huboard.com">Talk to us!</a>
+            </p>
+          </li>
+        </ul>
+        <%= form_tag 'create', class: 'create-new-board__form' do %>
+          <input class="btn btn-large btn-primary" type="submit" value="Try again" data-analytics-path='/board/creating/retry'/>
+          <a href="/dashboard" class="btn btn-large primary" data-analytics-path='/board/creating/abandon'>
+            Go Home
+          </a>
+        <% end %>
+      </div>
+    <% elsif @repo && @repo['permissions'] && @repo['permissions']['push'] %>
+      <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet setup for HuBoard</h2>
+      <div class="create-new-board__message">
+        <h3> We can automatically get you started with a default label configuration: </h3>
+        <br/>
+        <div class="create-new-board__labels">
+          <div>
+            <p> Allow HuBoard to create the following labels? </p>
+          </div>
+          <div>
+            <ul class="create-new-board__list">
+              <li class="create-new-board__list__item"> 0 - Backlog </li>
+              <li class="create-new-board__list__item"> 1 - Ready </li>
+              <li class="create-new-board__list__item"> 2 - Working </li>
+              <li class="create-new-board__list__item"> 3 - Review </li>
+              <li class="create-new-board__list__item"> 4 - Done </li>
+            </ul>
+          </div>
+        </div>
+        <%= form_tag 'create', class: 'create-new-board__form' do %>
+          <input class="btn btn-large btn-primary" type="submit" value="Yes, Do it for me!" data-analytics-path='/board/creating'/>
+          <a href="<%= @repo['html_url'] %>/issues" target="_blank" data-analytics-path='/board/creating/manual' class='btn btn-large' >
+            Create columns manually
+          </a>
+        <% end %>
+      </div>
+    <% else %>
+      <h2> <%= @parameters['user'] %>/<%= @parameters['repo'] %> is not yet setup for HuBoard</h2>
+      <div class="create-new-board__message">
+        <ul class="create-new-board__list">
+          <li class="create-new-board__list__item create-new-board__list__item--error">
+            <p>
+            You will need write permissions to <b><%= @parameters['user'] %>/<%= @parameters['repo'] %></b>
+            </p>
+            <% if  @repo['owner'] && @repo['owner']['type'] == "Organization" %>
+            <p>
+            <b><%= @repo['owner']['login'] %></b> is a GitHub Organization: <a href="https://help.github.com/articles/disabling-third-party-application-restrictions-for-your-organization/" target="blank">Please ensure no access restrictions are present</a>
+            </p>
+            <% end %>
+            <p>
+              <a href="mailto:support@huboard.com">Talk to us!</a>
+            </p>
+          </li>
+        </ul>
+        <a href="/<%= @parameters['user'] %>/<%= @parameters['repo'] %>/board/create" class="btn btn-large btn-primary" data-analytics-path='/board/creating/retry'>
+          Try again
+        </a>
+        <a href="/dashboard" class="btn btn-large primary" data-analytics-path='/board/creating/abandon'>
+          Go Home
+        </a>
+      </div>
+    <% end %>
+  </div>
 </div>

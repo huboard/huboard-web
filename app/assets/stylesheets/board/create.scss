@@ -1,0 +1,34 @@
+.create-new-board__container {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 30px;
+  font-size: 15px;
+}
+
+.create-new-board__message {
+  margin: 0px auto;
+}
+
+.create-new-board__list {
+  list-style: none;
+  padding-left: 10px;
+  text-align: left;
+  &__item {
+    border-left-style: solid;
+    border-left-color: $lightGrey;
+    padding-left: 10px;
+    margin-bottom: 14px;
+    &--error {
+      border-left-color: $red;
+    }
+  }
+}
+
+.create-new-board__labels {
+  @include display(flex);
+  @include align-items(center);
+  @include justify-content(center);
+  padding-bottom: 10px;
+  font-size: 16px;
+}

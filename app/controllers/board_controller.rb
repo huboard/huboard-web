@@ -23,7 +23,7 @@ class BoardController < ApplicationController
 
     def create_board
       return not_found unless logged_in?
-      @parameters = params
+      @parameters = params || []
       @repo = gh.repos(params[:user],params[:repo])
 
       board = huboard.board(params[:user], params[:repo])
@@ -34,11 +34,13 @@ class BoardController < ApplicationController
 
     def create
       begin
-        huboard.board(params[:user], params[:repo]).create_board
-        @event = 'board_created'
+        board = huboard.board(params[:user], params[:repo])
+        board.create_board
       rescue Ghee::UnprocessableEntity
         redirect_to "/#{params[:user]}/#{params[:repo]}/"
       end
+
+      return redirect_to action: 'create_board', create_failed: true unless board.has_board?
       redirect_to "/#{params[:user]}/#{params[:repo]}/"
     end
   end
